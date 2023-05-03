@@ -8,6 +8,6 @@ public class InfluxDBClientTest
         var client = new InfluxDBClient();
         client.Dummy();
 
-        Assert.That(client, Is.Not.Null);
+        Assert.That(client, Is.Null);
     }
 }
