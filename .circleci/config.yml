@@ -17,7 +17,7 @@ jobs:
             mkdir -p /tmp/artifacts
       - run:
           name: Run tests
-          command: dotnet test Client.Test --collect "Xplat Code Coverage"
+          command: dotnet test Client.Test --collect "Xplat Code Coverage" --logger "junit;LogFilePath=report/test-result.xml"
       - run:
           name: Coverage Report
           command: |
@@ -40,3 +40,5 @@ jobs:
             ./codecov
       - store_artifacts:
           path: /tmp/artifacts
+      - store_test_results:
+          path: report
