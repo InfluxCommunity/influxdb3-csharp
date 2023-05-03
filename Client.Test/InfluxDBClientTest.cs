@@ -6,7 +6,7 @@ public class InfluxDBClientTest
     public void Test1()
     {
         var client = new InfluxDBClient();
-        
+
         Assert.That(client, Is.Not.Null);
     }
 }
