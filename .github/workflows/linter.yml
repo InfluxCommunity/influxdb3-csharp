@@ -33,3 +33,4 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_BASH: true
           VALIDATE_CSHARP: true
+          VALIDATE_GITHUB_ACTIONS: true
