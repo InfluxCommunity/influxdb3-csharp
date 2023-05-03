@@ -1,5 +1,5 @@
 <p align="center">
-    <span style="color: rgb(81, 43, 212); font-family: monospace; font-weight: 700; font-size: 3.25rem">.NET Standard</span>
+    <img src="net_logo.svg" alt=".NET Logo" width="150px">
 </p>
 <p align="center">
     <a href="https://www.nuget.org/packages/InfluxDB3.Client">

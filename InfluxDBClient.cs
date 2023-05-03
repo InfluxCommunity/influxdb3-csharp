@@ -2,8 +2,7 @@
 
 namespace InfluxDB3.Client
 {
-    public class InfluxDBClient
+    public class    InfluxDBClient
     {
-
     }
 }
