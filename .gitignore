@@ -11,4 +11,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-coverage.*
+
+# Test results
+report/
+reportgenerator/
+TestResults/
