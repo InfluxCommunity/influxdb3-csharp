@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+        <LangVersion>10</LangVersion>
+
+        <Description>
+            The C# .NET client that provides an easy and convenient way to interact with InfluxDB 3.
+            This package supports both writing data to InfluxDB and querying data using the FlightSQL client,
+            which allows you to execute SQL queries against InfluxDB IOx.
+        </Description>
+        <Authors>InfluxDB3.Client Contributors</Authors>
+        <AssemblyName>InfluxDB3.Client</AssemblyName>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionSuffix>dev</VersionSuffix>
+
+        <PackageId>InfluxDB3.Client</PackageId>
+        <PackageTags>influxdata;timeseries;influxdb</PackageTags>
+        <PackageIcon>influxdata.jpg</PackageIcon>
+        <PackageIconUrl>https://raw.githubusercontent.com/bonitoo-io/influxdb3-csharp/main/Assets/influxdata.jpg</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/bonitoo-io/influxdb3-csharp/tree/main/Client</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/bonitoo-io/influxdb3-csharp</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <PackageReleaseNotes>https://raw.githubusercontent.com/bonitoo-io/influxdb3-csharp/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RootNamespace>InfluxDB3.Client</RootNamespace>
+
+        <AssemblyOriginatorKeyFile>../Keys/Key.snk</AssemblyOriginatorKeyFile>
+        <SignAssembly>true</SignAssembly>
+
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\Assets\influxdata.jpg" Pack="true" PackagePath=""/>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+</Project>

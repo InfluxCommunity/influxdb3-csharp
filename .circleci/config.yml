@@ -1,0 +1,46 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: "mcr.microsoft.com/dotnet/sdk:7.0"
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            dotnet restore
+            dotnet build --no-restore
+      - run:
+          name: Create a temp directory for artifacts
+          command: |
+            mkdir -p /tmp/artifacts
+            mkdir test-results
+      - run:
+          name: Run tests
+          command: dotnet test Client.Test --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
+      - run:
+          name: Coverage Report
+          command: |
+            dotnet tool install --tool-path="./reportgenerator/" dotnet-reportgenerator-globaltool
+            ./reportgenerator/reportgenerator -reports:"Client.Test/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
+            mv report/summary.html /tmp/artifacts
+            cp test-results/test-result.xml /tmp/artifacts
+          when: always
+      - run:
+          name: Report test results to codecov
+          command: |
+            apt-get update
+            apt-get install gpg --yes
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+            curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+            gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+            shasum -a 256 -c codecov.SHA256SUM
+            chmod +x ./codecov
+            ./codecov
+      - store_artifacts:
+          path: /tmp/artifacts
+      - store_test_results:
+          path: test-results
