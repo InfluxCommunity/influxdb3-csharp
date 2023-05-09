@@ -8,7 +8,7 @@ using Grpc.Net.Client;
 
 namespace InfluxDB3.Client
 {
-    public interface IInfluxDBClient: IDisposable
+    public interface IInfluxDBClient : IDisposable
     {
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
