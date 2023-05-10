@@ -203,6 +203,7 @@ namespace InfluxDB3.Client
                 var lineProtocol = item switch
                 {
                     PointData pointData => pointData.ToLineProtocol(),
+                    string str => str,
                     _ => data.ToString()
                 };
 

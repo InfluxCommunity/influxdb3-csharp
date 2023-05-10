@@ -89,6 +89,30 @@ public class InfluxDBClientWriteTest
     }
 
     [Test]
+    public async Task Body()
+    {
+        _client = new InfluxDBClient(_mockServerUrl);
+        await WriteData();
+
+        var requests = _mockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
+    }
+    [Test]
+    public async Task BodyConcat()
+    {
+        _mockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(_mockServerUrl);
+
+        await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", "mem,tag=b field=2" });
+
+        var requests = _mockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1\nmem,tag=b field=2"));
+    }
+
+    [Test]
     public void AllowHttpRedirects()
     {
         _client = new InfluxDBClient(new InfluxDBClientConfigs(_mockServerUrl)
@@ -106,15 +130,6 @@ public class InfluxDBClientWriteTest
         {
             Timeout = TimeSpan.FromSeconds(45)
         });
-
-        Assert.Fail();
-    }
-
-    [Test]
-    public async Task Body()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-        await WriteData();
 
         Assert.Fail();
     }
