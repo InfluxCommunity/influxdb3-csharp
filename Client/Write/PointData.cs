@@ -583,9 +583,9 @@ namespace InfluxDB3.Client.Write
         /// </returns>
         public static bool operator ==(PointData? left, PointData? right)
         {
-            if (left == null && right == null)
+            if (left is null && right is null)
                 return true;
-            if (left == null || right == null)
+            if (left is null || right is null)
                 return false;
 
             return EqualityComparer<PointData>.Default.Equals(left, right);
