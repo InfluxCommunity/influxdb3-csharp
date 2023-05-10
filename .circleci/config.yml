@@ -1,9 +1,9 @@
 version: 2.1
 jobs:
-  build:
+  tests-dotnet:
     working_directory: ~/repo
     docker:
-      - image: "mcr.microsoft.com/dotnet/sdk:7.0"
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:7.0"
     steps:
       - checkout
       - run:
@@ -44,3 +44,21 @@ jobs:
           path: /tmp/artifacts
       - store_test_results:
           path: test-results
+          
+  check-compilation-warnings:
+    docker:
+      - image: *default-dotnet-image
+    steps:
+      - checkout
+      - run:
+          name: Check compilation warnings
+          command: |
+            dotnet clean --configuration Release
+            dotnet build --configuration Release
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - check-compilation-warnings
+      - tests-dotnet

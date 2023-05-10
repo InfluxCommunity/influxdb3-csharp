@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Apache.Arrow;
 using Apache.Arrow.Flight;
 using Apache.Arrow.Flight.Client;
 using Grpc.Core;
 using Grpc.Net.Client;
+using InfluxDB3.Client.Writes;
 
 namespace InfluxDB3.Client
 {
@@ -17,6 +20,34 @@ namespace InfluxDB3.Client
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<RecordBatch> Query(string query);
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit. </param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        Task WriteRecordAsync(string record, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        Task WriteRecordsAsync(IEnumerable<string> records, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        Task WritePointAsync(PointData point, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        Task WritePointsAsync(IEnumerable<PointData> points, CancellationToken cancellationToken = default);
     }
 
     public class InfluxDBClient : IInfluxDBClient
@@ -43,6 +74,56 @@ namespace InfluxDB3.Client
             }
 
             return _flightSqlClient.Execute(query);
+        }
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit.</param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        public Task WriteRecordAsync(string record, CancellationToken cancellationToken = default)
+        {
+            return WriteRecordsAsync(new[] { record }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        public Task WriteRecordsAsync(IEnumerable<string> records, CancellationToken cancellationToken = default)
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(FlightSqlClient));
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        public Task WritePointAsync(PointData point, CancellationToken cancellationToken = default)
+        {
+            return WritePointsAsync(new[] { point }, cancellationToken);
+        }
+
+        /// <summary>
+        /// Write data to InfluxDB.
+        /// </summary>
+        /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
+        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
+        public Task WritePointsAsync(IEnumerable<PointData> points, CancellationToken cancellationToken = default)
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(FlightSqlClient));
+            }
+
+            return Task.CompletedTask;
         }
 
         public void Dispose()
