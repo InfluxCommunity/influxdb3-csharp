@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using InfluxDB3.Client.Internal;
 
-namespace InfluxDB3.Client.Writes
+namespace InfluxDB3.Client.Write
 {
     /// <summary>
     /// Point defines the values that will be written to the database.

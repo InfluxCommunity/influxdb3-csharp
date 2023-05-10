@@ -1,7 +1,7 @@
 using System;
-using InfluxDB3.Client.Writes;
+using InfluxDB3.Client.Write;
 
-namespace InfluxDB3.Client.Test.Writes
+namespace InfluxDB3.Client.Test.Write
 {
     [TestFixture]
     public class PointDataBuilderTest

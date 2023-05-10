@@ -4,15 +4,15 @@ using System.Diagnostics;
 using System.Numerics;
 using InfluxDB3.Client.Internal;
 
-namespace InfluxDB3.Client.Writes
+namespace InfluxDB3.Client.Write
 {
     public partial class PointData
     {
         public sealed class Builder
         {
             private readonly string _measurementName;
-            private readonly Dictionary<string, string> _tags = new Dictionary<string, string>();
-            private readonly Dictionary<string, object> _fields = new Dictionary<string, object>();
+            private readonly Dictionary<string, string> _tags = new();
+            private readonly Dictionary<string, object> _fields = new();
 
             private BigInteger? _time;
 
@@ -202,7 +202,7 @@ namespace InfluxDB3.Client.Writes
             /// <returns></returns>
             public Builder Timestamp(DateTime timestamp)
             {
-                if (timestamp != null && timestamp.Kind != DateTimeKind.Utc)
+                if (timestamp.Kind != DateTimeKind.Utc)
                 {
                     throw new ArgumentException("Timestamps must be specified as UTC", nameof(timestamp));
                 }
