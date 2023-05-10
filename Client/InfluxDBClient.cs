@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow;
-using Apache.Arrow.Flight;
-using Apache.Arrow.Flight.Client;
-using Grpc.Core;
-using Grpc.Net.Client;
+using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Writes;
 
 namespace InfluxDB3.Client
@@ -55,9 +52,21 @@ namespace InfluxDB3.Client
         private bool _disposed;
         private readonly FlightSqlClient _flightSqlClient;
 
-        public InfluxDBClient()
+        /// <summary>
+        /// This class provides an interface for interacting with an InfluxDB server,
+        /// simplifying common operations such as writing, querying.
+        /// </summary>
+        /// <param name="host">The hostname or IP address of the InfluxDB server.</param>
+        /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        public InfluxDBClient(string host, string token = null, string database = null)
         {
-            _flightSqlClient = new FlightSqlClient("http://localhost:8086");
+            if (string.IsNullOrEmpty(host))
+            {
+                throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
+            }
+
+            _flightSqlClient = new FlightSqlClient(host: host);
         }
 
         /// <summary>
@@ -130,59 +139,6 @@ namespace InfluxDB3.Client
         {
             _flightSqlClient.Dispose();
             _disposed = true;
-        }
-    }
-
-    internal class FlightSqlClient : IDisposable
-    {
-        private readonly GrpcChannel _channel;
-        private readonly FlightClient _flightClient;
-
-        internal FlightSqlClient(string host)
-        {
-            _channel = GrpcChannel.ForAddress(host);
-            _flightClient = new FlightClient(_channel);
-        }
-
-        internal async IAsyncEnumerable<RecordBatch> Execute(string query, Metadata headers = null)
-        {
-            var descriptor = FlightDescriptor.CreateCommandDescriptor(query);
-            var info = await _flightClient.GetInfo(descriptor, headers).ResponseAsync.ConfigureAwait(false);
-
-            // var stream = _flightClient.GetStream(info.Endpoints[0].Ticket);
-            //
-            // while (await stream.ResponseStream.MoveNext())
-            // {
-            //     yield return stream.ResponseStream.Current;
-            // }
-
-            foreach (var endpoint in info.Endpoints)
-            {
-                var stream = _flightClient.GetStream(endpoint.Ticket);
-                while (await stream.ResponseStream.MoveNext())
-                {
-                    yield return stream.ResponseStream.Current;
-                }
-            }
-
-            // foreach (var endpoint in info.Endpoints)
-            // {
-            //     // We may have multiple locations to choose from. Here we choose the first.
-            //     var download_channel = GrpcChannel.ForAddress(endpoint.Locations.First().Uri);
-            //     var download_client = new FlightClient(download_channel);
-            //
-            //     var stream = download_client.GetStream(endpoint.Ticket);
-            //
-            //     while (await stream.ResponseStream.MoveNext())
-            //     { 
-            //         yield return stream.ResponseStream.Current;
-            //     }
-            // }
-        }
-
-        public void Dispose()
-        {
-            _channel.Dispose();
         }
     }
 }
