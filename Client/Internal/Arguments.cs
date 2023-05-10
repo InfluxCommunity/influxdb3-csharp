@@ -1,7 +1,12 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+[assembly: InternalsVisibleTo("InfluxDB3.Client.Test, PublicKey=0024000004800000940000000602000000240000" +
+                              "525341310004000001000100054b3efef02968d05c3dd8481e23fb40ade1fae377f18cf5fa48c67369414" +
+                              "0f7c00dc0b38d43be297256824dc8489c5224647e77f861ef600514607159b151cf71b094a0ef5736c420" +
+                              "cbaa14100acc3b3694e3815597a5e89cf8090ed22bfdad2d5eec49250d88da1345d670b5e131ed9611eed" +
+                              "141e04c31d79f166db39cb4a5")]
 namespace InfluxDB3.Client.Internal
 {
     /// <summary>
@@ -11,8 +16,7 @@ namespace InfluxDB3.Client.Internal
     /// Inspiration from InfluxDB java - <a href="https://github.com/influxdata/influxdb-java/">thanks</a>
     /// </para>
     /// </summary>
-    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Global")]
-    public static class Arguments
+    internal static class Arguments
     {
         private const string DurationPattern = @"([-+]?)([0-9]+(\\.[0-9]*)?[a-z]+)+|inf|-inf";
 
@@ -22,7 +26,7 @@ namespace InfluxDB3.Client.Internal
         /// <param name="value">the string to test</param>
         /// <param name="name">the variable name for reporting</param>
         /// <exception cref="ArgumentException">if the string is empty</exception>
-        public static void CheckNonEmptyString(string value, string name)
+        internal static void CheckNonEmptyString(string value, string name)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -36,7 +40,7 @@ namespace InfluxDB3.Client.Internal
         /// <param name="value">the string to test</param>
         /// <param name="name">the variable name for reporting</param>
         /// <exception cref="ArgumentException">if the string is not duration literal</exception>
-        public static void CheckDuration(string value, string name)
+        internal static void CheckDuration(string value, string name)
         {
             if (string.IsNullOrEmpty(value) || !Regex.Match(value, DurationPattern).Success)
             {
@@ -50,7 +54,7 @@ namespace InfluxDB3.Client.Internal
         /// <param name="number">the number to test</param>
         /// <param name="name">the variable name for reporting</param>
         /// <exception cref="ArgumentException">if the number is less or equal to 0</exception>
-        public static void CheckPositiveNumber(int number, string name)
+        internal static void CheckPositiveNumber(int number, string name)
         {
             if (number <= 0)
             {
@@ -64,7 +68,7 @@ namespace InfluxDB3.Client.Internal
         /// <param name="number">the number to test</param>
         /// <param name="name">the variable name for reporting</param>
         /// <exception cref="ArgumentException">if the number is less or equal to 0</exception>
-        public static void CheckNotNegativeNumber(int number, string name)
+        internal static void CheckNotNegativeNumber(int number, string name)
         {
             if (number < 0)
             {
@@ -78,7 +82,7 @@ namespace InfluxDB3.Client.Internal
         /// <param name="obj">the object to test</param>
         /// <param name="name">the variable name for reporting</param>
         /// <exception cref="NullReferenceException">if the object is null</exception>
-        public static void CheckNotNull(object obj, string name)
+        internal static void CheckNotNull(object obj, string name)
         {
             if (obj == null)
             {
