@@ -486,7 +486,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         ///   <c>true</c> if [is not defined] [the specified value]; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsNotDefined(object value)
+        private bool IsNotDefined(object? value)
         {
             return value == null
                    || value is double d && (double.IsInfinity(d) || double.IsNaN(d))
@@ -500,7 +500,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as PointData);
         }
@@ -512,7 +512,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         /// true if the current object is equal to the <paramref name="other">other</paramref> parameter; otherwise, false.
         /// </returns>
-        public bool Equals(PointData other)
+        public bool Equals(PointData? other)
         {
             if (other == null)
             {
@@ -581,8 +581,13 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(PointData left, PointData right)
+        public static bool operator ==(PointData? left, PointData? right)
         {
+            if (left == null && right == null)
+                return true;
+            if (left == null || right == null)
+                return false;
+
             return EqualityComparer<PointData>.Default.Equals(left, right);
         }
 

@@ -7,7 +7,7 @@ public class InfluxDBClientTest
     [Test]
     public void Create()
     {
-        var client = new InfluxDBClient("http://localhost:8086");
+        using var client = new InfluxDBClient("http://localhost:8086");
 
         Assert.That(client, Is.Not.Null);
     }
@@ -16,6 +16,7 @@ public class InfluxDBClientTest
     public void RequiredHost()
     {
         // ReSharper disable once ObjectCreationAsStatement
+        // ReSharper disable once AssignNullToNotNullAttribute
         var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(host: null); });
 
         Assert.That(ae, Is.Not.Null);

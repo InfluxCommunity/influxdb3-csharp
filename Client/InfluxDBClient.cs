@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow;
@@ -51,7 +54,9 @@ namespace InfluxDB3.Client
 
     public class InfluxDBClient : IInfluxDBClient
     {
+        private InfluxDBClientConfigs _configs;
         private bool _disposed;
+
         private readonly FlightSqlClient _flightSqlClient;
         private readonly HttpClient _httpClient;
 
@@ -62,10 +67,9 @@ namespace InfluxDB3.Client
         /// <param name="host">The hostname or IP address of the InfluxDB server.</param>
         /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        public InfluxDBClient(string host, string token = null, string database = null) : this(
-            new InfluxDBClientConfigs()
+        public InfluxDBClient(string host, string? token = null, string? database = null) : this(
+            new InfluxDBClientConfigs(host)
             {
-                Host = host,
                 Token = token,
                 Database = database
             })
@@ -79,28 +83,21 @@ namespace InfluxDB3.Client
         /// <param name="configs">The configuration of the client.</param>
         public InfluxDBClient(InfluxDBClientConfigs configs)
         {
-            if (configs == null)
-            {
-                throw new ArgumentException("The configuration of the client has to be defined.");
-            }
+            _configs = configs ??
+                       throw new ArgumentException("The configuration of the client has to be defined.");
 
-            if (string.IsNullOrEmpty(configs.Host))
-            {
-                throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
-            }
-
-            _flightSqlClient = new FlightSqlClient(host: configs.Host);
+            _flightSqlClient = new FlightSqlClient(host: _configs.Host);
             _httpClient = new HttpClient(new HttpClientHandler
             {
-                AllowAutoRedirect = configs.AllowHttpRedirects
+                AllowAutoRedirect = _configs.AllowHttpRedirects
             });
 
-            _httpClient.Timeout = configs.Timeout;
-            //_httpClient.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
-            // if (!string.IsNullOrEmpty(configs.Token))
-            // {
-            //     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.Token);
-            // }
+            _httpClient.Timeout = _configs.Timeout;
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
+            if (!string.IsNullOrEmpty(configs.Token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.Token);
+            }
         }
 
         /// <summary>
@@ -136,12 +133,7 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
         public Task WriteRecordsAsync(IEnumerable<string> records, CancellationToken cancellationToken = default)
         {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(FlightSqlClient));
-            }
-
-            return Task.CompletedTask;
+            return WriteData(records, cancellationToken);
         }
 
         /// <summary>
@@ -161,12 +153,38 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests</param>
         public Task WritePointsAsync(IEnumerable<PointData> points, CancellationToken cancellationToken = default)
         {
+            return WriteData(points, cancellationToken);
+        }
+
+        private async Task WriteData(IEnumerable<object> data, CancellationToken cancellationToken)
+        {
             if (_disposed)
             {
                 throw new ObjectDisposedException(nameof(FlightSqlClient));
             }
 
-            return Task.CompletedTask;
+            var sb = ToLineProtocolBody(data);
+            if (sb.Length == 0)
+            {
+                Trace.WriteLine($"The writes: {data} doesn't contains any Line Protocol, skipping");
+                return;
+            }
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri($"{_configs.Host}api/v2/write"),
+                Content = new StringContent(sb.ToString(), Encoding.UTF8, "text/plain")
+            };
+
+            request.Headers.Add("Accept", "application/json");
+
+            var result = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            if (!result.IsSuccessStatusCode)
+            {
+                // TODO detail message test
+                throw new InfluxDBApiException("Cannot write date due.", result);
+            }
         }
 
         public void Dispose()
@@ -174,6 +192,36 @@ namespace InfluxDB3.Client
             _flightSqlClient.Dispose();
             _httpClient.Dispose();
             _disposed = true;
+        }
+
+        private static StringBuilder ToLineProtocolBody(IEnumerable<object> data)
+        {
+            var sb = new StringBuilder("");
+
+            foreach (var item in data)
+            {
+                var lineProtocol = item switch
+                {
+                    PointData pointData => pointData.ToLineProtocol(),
+                    _ => data.ToString()
+                };
+
+                if (string.IsNullOrEmpty(lineProtocol))
+                {
+                    continue;
+                }
+
+                sb.Append(lineProtocol);
+                sb.Append("\n");
+            }
+
+            if (sb.Length != 0)
+            {
+                // remove last \n
+                sb.Remove(sb.Length - 1, 1);
+            }
+
+            return sb;
         }
     }
 }

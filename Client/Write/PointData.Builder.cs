@@ -202,7 +202,7 @@ namespace InfluxDB3.Client.Write
             /// <returns></returns>
             public Builder Timestamp(DateTime timestamp)
             {
-                if (timestamp.Kind != DateTimeKind.Utc)
+                if (timestamp != null && timestamp.Kind != DateTimeKind.Utc)
                 {
                     throw new ArgumentException("Timestamps must be specified as UTC", nameof(timestamp));
                 }

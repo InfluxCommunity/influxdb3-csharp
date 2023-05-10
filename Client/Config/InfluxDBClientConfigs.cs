@@ -7,8 +7,16 @@ public class InfluxDBClientConfigs
     /// <summary>
     /// The configuration of the client.
     /// </summary>
-    public InfluxDBClientConfigs()
+    public InfluxDBClientConfigs(string host)
     {
+        if (string.IsNullOrEmpty(host))
+        {
+            throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
+        }
+
+
+
+        Host = host.EndsWith("/") ? host : $"{host}/";
         Timeout = TimeSpan.FromSeconds(10);
         AllowHttpRedirects = false;
     }
@@ -16,17 +24,17 @@ public class InfluxDBClientConfigs
     /// <summary>
     /// The hostname or IP address of the InfluxDB server.
     /// </summary>
-    public string Host { get; set; }
+    public string Host { get; private set; }
 
     /// <summary>
     /// The authentication token for accessing the InfluxDB server.
     /// </summary>
-    public string Token { get; set; }
+    public string? Token { get; set; }
 
     /// <summary>
     /// The database to be used for InfluxDB operations.
     /// </summary>
-    public string Database { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.

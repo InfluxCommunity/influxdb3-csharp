@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
 
         <Description>
             The C# .NET client that provides an easy and convenient way to interact with InfluxDB 3.

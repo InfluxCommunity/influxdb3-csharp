@@ -19,7 +19,7 @@ internal class FlightSqlClient : IDisposable
         _flightClient = new FlightClient(_channel);
     }
 
-    internal async IAsyncEnumerable<RecordBatch> Execute(string query, Metadata headers = null)
+    internal async IAsyncEnumerable<RecordBatch> Execute(string query, Metadata? headers = null)
     {
         var descriptor = FlightDescriptor.CreateCommandDescriptor(query);
         var info = await _flightClient.GetInfo(descriptor, headers).ResponseAsync.ConfigureAwait(false);
