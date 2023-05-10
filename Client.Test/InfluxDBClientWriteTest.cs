@@ -116,7 +116,6 @@ public class InfluxDBClientWriteTest
         _client = new InfluxDBClient(_mockServerUrl);
         await WriteData();
 
-
         Assert.Fail();
     }
 
