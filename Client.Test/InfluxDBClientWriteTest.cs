@@ -112,7 +112,104 @@ public class InfluxDBClientWriteTest
         await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", "mem,tag=b field=2" });
 
         var requests = _mockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1\nmem,tag=b field=2"));
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString,
+            Is.EqualTo("mem,tag=a field=1\nmem,tag=b field=2"));
+    }
+
+    [Test]
+    public void ErrorHeader()
+    {
+        _client = new InfluxDBClient(_mockServerUrl);
+
+        _mockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("X-Influx-Error", "line protocol poorly formed and no points were written")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: line protocol poorly formed and no points were written"));
+        });
+    }
+
+    [Test]
+    public void ErrorBody()
+    {
+        _client = new InfluxDBClient(_mockServerUrl);
+
+        _mockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create()
+                .WithBody("no token was sent and they are required")
+                .WithStatusCode(403));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: no token was sent and they are required"));
+        });
+    }
+
+    [Test]
+    public void ErrorJsonBody()
+    {
+        _client = new InfluxDBClient(_mockServerUrl);
+
+        _mockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("X-Influx-Error", "not used")
+                .WithBody("{\"error\":\"token does not have sufficient permissions\"}")
+                .WithStatusCode(401));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: token does not have sufficient permissions"));
+        });
+    }
+
+    [Test]
+    public void ErrorReason()
+    {
+        _client = new InfluxDBClient(_mockServerUrl);
+
+        _mockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create()
+                .WithStatusCode(409));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: Conflict"));
+        });
     }
 
     [Test]
