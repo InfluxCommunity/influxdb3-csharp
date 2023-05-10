@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using WireMock.RequestBuilders;
@@ -120,7 +122,7 @@ public class InfluxDBClientWriteTest
             AllowHttpRedirects = true
         });
 
-        Assert.Fail();
+        Assert.That(_client, Is.Not.Null);
     }
 
     [Test]
@@ -131,7 +133,8 @@ public class InfluxDBClientWriteTest
             Timeout = TimeSpan.FromSeconds(45)
         });
 
-        Assert.Fail();
+        var httpClient = GetDeclaredField<HttpClient>(_client.GetType(), _client, "_httpClient");
+        Assert.That(httpClient.Timeout, Is.EqualTo(TimeSpan.FromSeconds(45)));
     }
 
     private async Task WriteData()
@@ -141,5 +144,13 @@ public class InfluxDBClientWriteTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
+    }
+
+    private static T GetDeclaredField<T>(IReflect type, object instance, string fieldName)
+    {
+        const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                                       | BindingFlags.Static | BindingFlags.DeclaredOnly;
+        var field = type.GetField(fieldName, bindFlags);
+        return (T)field?.GetValue(instance);
     }
 }
