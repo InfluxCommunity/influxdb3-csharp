@@ -99,6 +99,7 @@ public class InfluxDBClientWriteTest
         var requests = _mockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
+    
     [Test]
     public async Task BodyConcat()
     {
