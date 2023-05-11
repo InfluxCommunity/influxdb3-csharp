@@ -1,254 +1,52 @@
-using System;
 using System.Linq;
-using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
-using InfluxDB3.Client.Config;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
-using WireMock.Server;
-using WireMock.Settings;
 
 namespace InfluxDB3.Client.Test;
 
-public class InfluxDBClientWriteTest
+public class InfluxDBClientWriteTest : MockServerTest
 {
-    private WireMockServer _mockServer;
-    private string _mockServerUrl;
-
     private InfluxDBClient _client;
 
-    [SetUp]
-    public void SetUp()
-    {
-        if (_mockServer is { IsStarted: true })
-        {
-            return;
-        }
-
-        _mockServer = WireMockServer.Start(new WireMockServerSettings
-        {
-            UseSSL = false
-        });
-
-        _mockServerUrl = _mockServer.Urls[0];
-    }
-
     [TearDown]
-    public void ResetServer()
+    public new void TearDown()
     {
-        _mockServer.Reset();
         _client?.Dispose();
-    }
-
-    [OneTimeTearDown]
-    public void ShutdownServer()
-    {
-        _mockServer?.Stop();
-    }
-
-    [Test]
-    public async Task Authorization()
-    {
-        _client = new InfluxDBClient(_mockServerUrl, token: "my-token");
-        await WriteData();
-
-        var requests = _mockServer.LogEntries.ToList();
-
-        Assert.That(requests[0].RequestMessage.Headers?["Authorization"][0], Is.EqualTo("Token my-token"));
-    }
-
-    [Test]
-    public async Task UserAgent()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-        await WriteData();
-
-        var requests = _mockServer.LogEntries.ToList();
-
-        Assert.That(requests[0].RequestMessage.Headers?["User-Agent"][0], Does.StartWith("influxdb3-csharp/1."));
-        Assert.That(requests[0].RequestMessage.Headers?["User-Agent"][0], Does.EndWith(".0.0"));
-    }
-
-    [Test]
-    public async Task Url()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-        await WriteData();
-
-        var requests = _mockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Url, Is.EqualTo($"{_mockServerUrl}/api/v2/write"));
-    }
-
-    [Test]
-    public async Task UrlWithBackslash()
-    {
-        _client = new InfluxDBClient($"{_mockServerUrl}/");
-        await WriteData();
-
-        var requests = _mockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Url, Is.EqualTo($"{_mockServerUrl}/api/v2/write"));
     }
 
     [Test]
     public async Task Body()
     {
-        _client = new InfluxDBClient(_mockServerUrl);
+        _client = new InfluxDBClient(MockServerUrl);
         await WriteData();
 
-        var requests = _mockServer.LogEntries.ToList();
+        var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
     [Test]
     public async Task BodyConcat()
     {
-        _mockServer
+        MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(_mockServerUrl);
+        _client = new InfluxDBClient(MockServerUrl);
 
         await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", "mem,tag=b field=2" });
 
-        var requests = _mockServer.LogEntries.ToList();
+        var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString,
             Is.EqualTo("mem,tag=a field=1\nmem,tag=b field=2"));
     }
 
-    [Test]
-    public void ErrorHeader()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-
-        _mockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create()
-                .WithHeader("X-Influx-Error", "line protocol poorly formed and no points were written")
-                .WithStatusCode(400));
-
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: line protocol poorly formed and no points were written"));
-        });
-    }
-
-    [Test]
-    public void ErrorBody()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-
-        _mockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create()
-                .WithBody("no token was sent and they are required")
-                .WithStatusCode(403));
-
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: no token was sent and they are required"));
-        });
-    }
-
-    [Test]
-    public void ErrorJsonBody()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-
-        _mockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create()
-                .WithHeader("X-Influx-Error", "not used")
-                .WithBody("{\"error\":\"token does not have sufficient permissions\"}")
-                .WithStatusCode(401));
-
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: token does not have sufficient permissions"));
-        });
-    }
-
-    [Test]
-    public void ErrorReason()
-    {
-        _client = new InfluxDBClient(_mockServerUrl);
-
-        _mockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create()
-                .WithStatusCode(409));
-
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: Conflict"));
-        });
-    }
-
-    [Test]
-    public void AllowHttpRedirects()
-    {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs(_mockServerUrl)
-        {
-            AllowHttpRedirects = true
-        });
-
-        Assert.That(_client, Is.Not.Null);
-    }
-
-    [Test]
-    public void Timeout()
-    {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs(_mockServerUrl)
-        {
-            Timeout = TimeSpan.FromSeconds(45)
-        });
-
-        var httpClient = GetDeclaredField<HttpClient>(_client.GetType(), _client, "_httpClient");
-        Assert.That(httpClient.Timeout, Is.EqualTo(TimeSpan.FromSeconds(45)));
-    }
-
     private async Task WriteData()
     {
-        _mockServer
+        MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
-    }
-
-    private static T GetDeclaredField<T>(IReflect type, object instance, string fieldName)
-    {
-        const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                       | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        var field = type.GetField(fieldName, bindFlags);
-        return (T)field?.GetValue(instance);
     }
 }
