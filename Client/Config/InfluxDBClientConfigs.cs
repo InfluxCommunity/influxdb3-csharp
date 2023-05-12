@@ -20,7 +20,7 @@ public class InfluxDBClientConfigs
     public string Host
     {
         get => _host;
-        set => _host = value.EndsWith("/") ? value : $"{value}/";
+        set => _host = string.IsNullOrEmpty(value) ? value : value.EndsWith("/") ? value : $"{value}/";
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class InfluxDBClientConfigs
     /// <summary>
     /// Disable server SSL certificate validation. Default to 'false'.
     /// </summary>
-    public bool DisableServerCertificateValidation { get; set; } = false;
+    public bool DisableServerCertificateValidation { get; set; }
 
     /// <summary>
     /// Default headers to be sent with every request to FlightSQL server.

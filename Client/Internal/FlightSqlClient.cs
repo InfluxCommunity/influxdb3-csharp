@@ -28,7 +28,9 @@ internal class FlightSqlClient : IDisposable
             {
                 HttpClient = httpClient,
                 DisposeHttpClient = false,
-                Credentials = ChannelCredentials.SecureSsl,
+                Credentials = _configs.Host.StartsWith("https", StringComparison.OrdinalIgnoreCase)
+                    ? ChannelCredentials.SecureSsl
+                    : ChannelCredentials.Insecure,
             });
         _flightClient = new FlightClient(_channel);
     }
