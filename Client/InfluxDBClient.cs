@@ -233,7 +233,7 @@ namespace InfluxDB3.Client
             _disposed = true;
         }
 
-        private static StringBuilder ToLineProtocolBody(IEnumerable<object> data)
+        private static StringBuilder ToLineProtocolBody(IEnumerable<object?> data)
         {
             var sb = new StringBuilder("");
 
@@ -242,8 +242,7 @@ namespace InfluxDB3.Client
                 var lineProtocol = item switch
                 {
                     PointData pointData => pointData.ToLineProtocol(),
-                    string str => str,
-                    _ => null
+                    _ => item?.ToString()
                 };
 
                 if (string.IsNullOrEmpty(lineProtocol))
