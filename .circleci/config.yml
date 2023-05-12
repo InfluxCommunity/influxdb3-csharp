@@ -59,6 +59,8 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: *default-dotnet-image
+        environment:
+          FLIGHT_SQL_URL: "https://localhost:31337"
       - image: voltrondata/flight-sql:latest
         environment:
           FLIGHT_PASSWORD: "flight_password"

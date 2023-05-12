@@ -17,7 +17,7 @@ public class QueryTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly IContainer? _dbContainer = Environment.GetEnvironmentVariable("CI") is null ? new ContainerBuilder()
+    private readonly IContainer? _flightSqlContainer = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") is null ? new ContainerBuilder()
         .WithImage("voltrondata/flight-sql:latest")
         .WithAutoRemove(true)
         .WithPortBinding(31337, 31337)
@@ -38,9 +38,9 @@ public class QueryTest
             Trace.Listeners.Add(ConsoleOutListener);
         }
 
-        if (_dbContainer is not null)
+        if (_flightSqlContainer is not null)
         {
-            await _dbContainer.StartAsync();
+            await _flightSqlContainer.StartAsync();
             // wait to start
             await Task.Delay(TimeSpan.FromSeconds(5));
         }
@@ -49,9 +49,9 @@ public class QueryTest
     [OneTimeTearDown]
     public async Task StopContainer()
     {
-        if (_dbContainer is not null)
+        if (_flightSqlContainer is not null)
         {
-            await _dbContainer.StopAsync();
+            await _flightSqlContainer.StopAsync();
         }
     }
 
@@ -68,7 +68,7 @@ public class QueryTest
 
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            Host = "https://localhost:31337",
+            Host = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
             Database = "database",
             DisableServerCertificateValidation = true,
             Headers = headers
