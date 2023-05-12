@@ -38,7 +38,7 @@ public class InfluxDBClientConfigs
     /// The database to be used for InfluxDB operations.
     /// </summary>
     public string? Database { get; set; }
-    
+
     /// <summary>
     /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
     /// </summary>
