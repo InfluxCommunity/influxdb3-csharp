@@ -1,9 +1,10 @@
 version: 2.1
-jobs:
-  tests-dotnet:
-    working_directory: ~/repo
-    docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:7.0"
+commands:
+  client-test:
+    parameters:
+      project:
+        type: string
+        default: "Client.Test"
     steps:
       - checkout
       - run:
@@ -18,12 +19,12 @@ jobs:
             mkdir test-results
       - run:
           name: Run tests
-          command: dotnet test Client.Test --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
+          command: dotnet test << parameters.project >> --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
       - run:
           name: Coverage Report
           command: |
             dotnet tool install --tool-path="./reportgenerator/" dotnet-reportgenerator-globaltool
-            ./reportgenerator/reportgenerator -reports:"Client.Test/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
+            ./reportgenerator/reportgenerator -reports:"<< parameters.project >>/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
             mv report/summary.html /tmp/artifacts
             cp test-results/test-result.xml /tmp/artifacts
           when: always
@@ -44,6 +45,27 @@ jobs:
           path: /tmp/artifacts
       - store_test_results:
           path: test-results
+
+
+jobs:
+  tests-unit:
+    working_directory: ~/repo
+    docker:
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:7.0"
+    steps:
+      - client-test:
+          project: "Client.Test"
+  tests-integration:
+    working_directory: ~/repo
+    docker:
+      - image: *default-dotnet-image
+      - image: voltrondata/flight-sql:latest
+        environment:
+          FLIGHT_PASSWORD: "flight_password"
+          PRINT_QUERIES: "1"
+    steps:
+      - client-test:
+          project: "Client.Test.Integration"
           
   check-compilation-warnings:
     docker:
@@ -60,5 +82,11 @@ workflows:
   version: 2
   build:
     jobs:
-      - check-compilation-warnings
-      - tests-dotnet
+      - check-compilation-warnings:
+          name: "Check compilation warnings"
+      - tests-unit:
+          name: "Unit Tests"
+      - tests-integration:
+          name: "Integration Tests"
+          requires:
+            - "Unit Tests"

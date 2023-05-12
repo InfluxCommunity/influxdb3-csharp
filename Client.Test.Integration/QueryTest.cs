@@ -38,15 +38,21 @@ public class QueryTest
             Trace.Listeners.Add(ConsoleOutListener);
         }
 
-        await _dbContainer.StartAsync();
-        // wait to start
-        await Task.Delay(TimeSpan.FromSeconds(5));
+        if (Environment.GetEnvironmentVariable("CI") is null)
+        {
+            await _dbContainer.StartAsync();
+            // wait to start
+            await Task.Delay(TimeSpan.FromSeconds(5));
+        }
     }
 
     [OneTimeTearDown]
     public async Task StopContainer()
     {
-        await _dbContainer.StartAsync();
+        if (Environment.GetEnvironmentVariable("CI") is null)
+        {
+            await _dbContainer.StopAsync();
+        }
     }
 
     [Test]
