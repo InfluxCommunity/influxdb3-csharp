@@ -31,7 +31,7 @@ public class MockServerTest
     }
 
     [OneTimeTearDown]
-    public void ShutdownServer()
+    public void OneTimeTearDown()
     {
         MockServer?.Stop();
     }

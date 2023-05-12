@@ -50,7 +50,7 @@ public class QueryWriteTest
     };
 
     [OneTimeSetUp]
-    public async Task StartContainer()
+    public async Task OneTimeSetUp()
     {
         if (!Trace.Listeners.Contains(ConsoleOutListener))
         {
@@ -71,7 +71,7 @@ public class QueryWriteTest
     }
 
     [OneTimeTearDown]
-    public async Task StopContainer()
+    public async Task OneTimeTearDown()
     {
         foreach (var dockerContainer in _dockerContainers)
         {
