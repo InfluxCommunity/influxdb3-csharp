@@ -109,7 +109,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: line protocol poorly formed and no points were written"));
+            Assert.That(ae.Message, Is.EqualTo("line protocol poorly formed and no points were written"));
         });
     }
 
@@ -136,7 +136,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: no token was sent and they are required"));
+            Assert.That(ae.Message, Is.EqualTo("no token was sent and they are required"));
         });
     }
 
@@ -152,7 +152,7 @@ public class RestClientTest : MockServerTest
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
                 .WithHeader("X-Influx-Error", "not used")
-                .WithBody("{\"error\":\"token does not have sufficient permissions\"}")
+                .WithBody("{\"message\":\"token does not have sufficient permissions\"}")
                 .WithStatusCode(401));
 
         var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
@@ -164,7 +164,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: token does not have sufficient permissions"));
+            Assert.That(ae.Message, Is.EqualTo("token does not have sufficient permissions"));
         });
     }
 
@@ -190,7 +190,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("Cannot write data to InfluxDB due: Conflict"));
+            Assert.That(ae.Message, Is.EqualTo("Conflict"));
         });
     }
 

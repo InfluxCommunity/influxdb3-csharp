@@ -35,7 +35,7 @@ internal class FlightSqlClient : IDisposable
         _flightClient = new FlightClient(_channel);
     }
 
-    internal async IAsyncEnumerable<RecordBatch> Execute(string query)
+    internal async IAsyncEnumerable<RecordBatch> Execute(string query, string database)
     {
         var headers = new Metadata();
 
@@ -46,7 +46,7 @@ internal class FlightSqlClient : IDisposable
         }
 
         // database
-        headers.Add("database", _configs.Database);
+        headers.Add("database", database);
 
         // copy default headers
         if (_configs.Headers is not null)

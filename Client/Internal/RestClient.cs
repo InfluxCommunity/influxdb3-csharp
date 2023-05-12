@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using InfluxDB3.Client.Config;
 
 namespace InfluxDB3.Client.Internal;
@@ -26,13 +28,27 @@ internal class RestClient
         _httpClient = httpClient;
     }
 
-    internal async Task Request(string path, HttpMethod method, HttpContent? content = null, CancellationToken cancellationToken = default)
+    internal async Task Request(string path, HttpMethod method, HttpContent? content = null,
+        Dictionary<string, string?>? queryParams = null,
+        CancellationToken cancellationToken = default)
     {
+        var builder = new UriBuilder(new Uri($"{_configs.Host}{path}"));
+        if (queryParams is not null)
+        {
+            builder.Query = string.Join("&", queryParams.Select(param =>
+            {
+                var key = HttpUtility.UrlEncode(param.Key);
+                var value = HttpUtility.UrlEncode(param.Value ?? "");
+
+                return $"{key}={value}";
+            }));
+        }
+
         var request = new HttpRequestMessage
         {
             Method = method,
-            RequestUri = new Uri($"{_configs.Host}{path}"),
-            Content = content
+            RequestUri = builder.Uri,
+            Content = content,
         };
 
         var result = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
@@ -79,7 +95,7 @@ internal class RestClient
                 message = result.ReasonPhrase;
             }
 
-            throw new InfluxDBApiException($"Cannot write data to InfluxDB due: {message}", result);
+            throw new InfluxDBApiException(message ?? "Cannot write data to InfluxDB.", result);
         }
     }
 }
@@ -87,5 +103,5 @@ internal class RestClient
 [DataContract]
 internal class ErrorBody
 {
-    [DataMember(Name = "error")] public string? Message { get; set; }
+    [DataMember(Name = "message")] public string? Message { get; set; }
 }

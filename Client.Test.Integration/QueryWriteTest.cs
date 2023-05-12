@@ -111,4 +111,19 @@ public class QueryWriteTest
             Trace.Write(dataFrame.ToString());
         }
     }
+
+    [Test]
+    public async Task Write()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            Host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
+            Database = "my-bucket",
+            Org = "my-org",
+            Token = "my-token",
+            DisableServerCertificateValidation = true
+        });
+
+        await client.WriteRecordAsync("mem,type=used value=1.0");
+    }
 }

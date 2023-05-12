@@ -29,6 +29,11 @@ public class InfluxDBClientConfigs
     public string? Token { get; set; }
 
     /// <summary>
+    /// The organization to be used for operations.
+    /// </summary>
+    public string? Org { get; set; }
+
+    /// <summary>
     /// The database to be used for InfluxDB operations.
     /// </summary>
     public string? Database { get; set; }
@@ -60,9 +65,14 @@ public class InfluxDBClientConfigs
             throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
         }
 
-        if (string.IsNullOrEmpty(Database))
-        {
-            throw new ArgumentException("The database to be used for InfluxDB operations has to be defined.");
-        }
+        // if (string.IsNullOrEmpty(Database))
+        // {
+        //     throw new ArgumentException("The database for InfluxDB operations has to be defined.");
+        // }
+        //
+        // if (string.IsNullOrEmpty(Org))
+        // {
+        //     throw new ArgumentException("The organization for InfluxDB operations has to be defined.");
+        // }
     }
 }
