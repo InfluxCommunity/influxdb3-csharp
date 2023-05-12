@@ -1,5 +1,6 @@
 using System;
 using Grpc.Core;
+using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
 
@@ -37,6 +38,11 @@ public class InfluxDBClientConfigs
     /// The database to be used for InfluxDB operations.
     /// </summary>
     public string? Database { get; set; }
+    
+    /// <summary>
+    /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
+    /// </summary>
+    public WritePrecision? WritePrecision { get; set; }
 
     /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.
@@ -64,15 +70,5 @@ public class InfluxDBClientConfigs
         {
             throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
         }
-
-        // if (string.IsNullOrEmpty(Database))
-        // {
-        //     throw new ArgumentException("The database for InfluxDB operations has to be defined.");
-        // }
-        //
-        // if (string.IsNullOrEmpty(Org))
-        // {
-        //     throw new ArgumentException("The organization for InfluxDB operations has to be defined.");
-        // }
     }
 }
