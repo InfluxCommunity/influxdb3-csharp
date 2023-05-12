@@ -82,11 +82,8 @@ workflows:
   version: 2
   build:
     jobs:
-      - check-compilation-warnings:
-          name: "Check compilation warnings"
-      - tests-unit:
-          name: "Unit Tests"
+      - check-compilation-warnings
+      - tests-unit
       - tests-integration:
-          name: "Integration Tests"
           requires:
-            - "Unit Tests"
+            - "tests-unit"

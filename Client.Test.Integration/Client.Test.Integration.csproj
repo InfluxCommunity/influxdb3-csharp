@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
         <AssemblyName>InfluxDB3.Client.Test.Integration</AssemblyName>

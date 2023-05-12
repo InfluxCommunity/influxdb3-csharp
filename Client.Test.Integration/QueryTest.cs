@@ -17,7 +17,7 @@ public class QueryTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly IContainer _dbContainer = new ContainerBuilder()
+    private readonly IContainer? _dbContainer = Environment.GetEnvironmentVariable("CI") is null ? new ContainerBuilder()
         .WithImage("voltrondata/flight-sql:latest")
         .WithAutoRemove(true)
         .WithPortBinding(31337, 31337)
@@ -26,7 +26,7 @@ public class QueryTest
             { "FLIGHT_PASSWORD", "flight_password" },
             { "PRINT_QUERIES", "1" }
         })
-        .Build();
+        .Build() : null;
 
 
     [OneTimeSetUp]
@@ -38,7 +38,7 @@ public class QueryTest
             Trace.Listeners.Add(ConsoleOutListener);
         }
 
-        if (Environment.GetEnvironmentVariable("CI") is null)
+        if (_dbContainer is not null)
         {
             await _dbContainer.StartAsync();
             // wait to start
@@ -49,7 +49,7 @@ public class QueryTest
     [OneTimeTearDown]
     public async Task StopContainer()
     {
-        if (Environment.GetEnvironmentVariable("CI") is null)
+        if (_dbContainer is not null)
         {
             await _dbContainer.StopAsync();
         }
