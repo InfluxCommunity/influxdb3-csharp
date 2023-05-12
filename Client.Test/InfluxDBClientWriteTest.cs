@@ -18,7 +18,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task Body()
     {
-        _client = new InfluxDBClient(MockServerUrl);
+        _client = new InfluxDBClient(MockServerUrl, "database");
         await WriteData();
 
         var requests = MockServer.LogEntries.ToList();
@@ -32,7 +32,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl);
+        _client = new InfluxDBClient(MockServerUrl, "database");
 
         await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", "mem,tag=b field=2" });
 

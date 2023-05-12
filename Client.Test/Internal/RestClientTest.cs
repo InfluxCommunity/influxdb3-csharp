@@ -13,18 +13,20 @@ namespace InfluxDB3.Client.Test.Internal;
 public class RestClientTest : MockServerTest
 {
     private RestClient _client;
+    private HttpClient _httpClient;
 
     [TearDown]
     public new void TearDown()
     {
-        _client?.Dispose();
+        _httpClient?.Dispose();
     }
 
     [Test]
     public async Task Authorization()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl)
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
+            Host = MockServerUrl,
             Token = "my-token"
         });
         await DoRequest();
@@ -37,7 +39,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task UserAgent()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
         await DoRequest();
 
         var requests = MockServer.LogEntries.ToList();
@@ -49,7 +54,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task Url()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
         await DoRequest();
 
         var requests = MockServer.LogEntries.ToList();
@@ -59,7 +67,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task UrlWithBackslash()
     {
-        _client = new RestClient(new InfluxDBClientConfigs($"{MockServerUrl}/"));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = $"{MockServerUrl}/",
+        });
         await DoRequest();
 
         var requests = MockServer.LogEntries.ToList();
@@ -78,7 +89,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorHeader()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
 
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
@@ -102,7 +116,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorBody()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
 
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
@@ -126,7 +143,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorJsonBody()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
 
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
@@ -151,7 +171,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorReason()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl));
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        {
+            Host = MockServerUrl,
+        });
 
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
@@ -174,8 +197,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void AllowHttpRedirects()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl)
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
+            Host = MockServerUrl,
             AllowHttpRedirects = true
         });
 
@@ -185,13 +209,20 @@ public class RestClientTest : MockServerTest
     [Test]
     public void Timeout()
     {
-        _client = new RestClient(new InfluxDBClientConfigs(MockServerUrl)
+        CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
+            Host = MockServerUrl,
             Timeout = TimeSpan.FromSeconds(45)
         });
 
         var httpClient = GetDeclaredField<HttpClient>(_client.GetType(), _client, "_httpClient");
         Assert.That(httpClient.Timeout, Is.EqualTo(TimeSpan.FromSeconds(45)));
+    }
+
+    private void CreateAndConfigureRestClient(InfluxDBClientConfigs configs)
+    {
+        _httpClient = InfluxDBClient.CreateAndConfigureHttpClient(configs);
+        _client = new RestClient(configs, _httpClient);
     }
 
     private static T GetDeclaredField<T>(IReflect type, object instance, string fieldName)

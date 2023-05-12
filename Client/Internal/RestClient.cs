@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -13,7 +12,7 @@ using InfluxDB3.Client.Config;
 
 namespace InfluxDB3.Client.Internal;
 
-internal class RestClient : IDisposable
+internal class RestClient
 {
     private static readonly string[] ErrorHeaders =
         { "X-Platform-Error-Code", "X-Influx-Error", "X-InfluxDb-Error" };
@@ -21,21 +20,10 @@ internal class RestClient : IDisposable
     private readonly InfluxDBClientConfigs _configs;
     private readonly HttpClient _httpClient;
 
-    internal RestClient(InfluxDBClientConfigs configs)
+    internal RestClient(InfluxDBClientConfigs configs, HttpClient httpClient)
     {
         _configs = configs;
-
-        _httpClient = new HttpClient(new HttpClientHandler
-        {
-            AllowAutoRedirect = _configs.AllowHttpRedirects
-        });
-
-        _httpClient.Timeout = _configs.Timeout;
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
-        if (!string.IsNullOrEmpty(configs.Token))
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.Token);
-        }
+        _httpClient = httpClient;
     }
 
     internal async Task Request(string path, HttpMethod method, HttpContent? content = null, CancellationToken cancellationToken = default)
@@ -93,11 +81,6 @@ internal class RestClient : IDisposable
 
             throw new InfluxDBApiException($"Cannot write data to InfluxDB due: {message}", result);
         }
-    }
-
-    public void Dispose()
-    {
-        _httpClient.Dispose();
     }
 }
 

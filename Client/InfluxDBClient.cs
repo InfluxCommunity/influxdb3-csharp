@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace InfluxDB3.Client
     {
         private bool _disposed;
 
+        private readonly HttpClient _httpClient;
         private readonly FlightSqlClient _flightSqlClient;
         private readonly RestClient _restClient;
 
@@ -63,11 +65,12 @@ namespace InfluxDB3.Client
         /// simplifying common operations such as writing, querying.
         /// </summary>
         /// <param name="host">The hostname or IP address of the InfluxDB server.</param>
-        /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        public InfluxDBClient(string host, string? token = null, string? database = null) : this(
-            new InfluxDBClientConfigs(host)
+        /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
+        public InfluxDBClient(string host, string database, string? token = null) : this(
+            new InfluxDBClientConfigs
             {
+                Host = host,
                 Token = token,
                 Database = database
             })
@@ -86,8 +89,11 @@ namespace InfluxDB3.Client
                 throw new ArgumentException("The configuration of the client has to be defined.");
             }
 
-            _flightSqlClient = new FlightSqlClient(host: configs.Host);
-            _restClient = new RestClient(configs: configs);
+            configs.Validate();
+
+            _httpClient = CreateAndConfigureHttpClient(configs);
+            _flightSqlClient = new FlightSqlClient(configs: configs, httpClient: _httpClient);
+            _restClient = new RestClient(configs: configs, httpClient: _httpClient);
         }
 
         /// <summary>
@@ -167,8 +173,8 @@ namespace InfluxDB3.Client
 
         public void Dispose()
         {
+            _httpClient.Dispose();
             _flightSqlClient.Dispose();
-            _restClient.Dispose();
             _disposed = true;
         }
 
@@ -201,6 +207,30 @@ namespace InfluxDB3.Client
             }
 
             return sb;
+        }
+
+        internal static HttpClient CreateAndConfigureHttpClient(InfluxDBClientConfigs configs)
+        {
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = configs.AllowHttpRedirects
+            };
+
+            if (configs.DisableServerCertificateValidation)
+            {
+                handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+            }
+
+            var client = new HttpClient(handler);
+
+            client.Timeout = configs.Timeout;
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
+            if (!string.IsNullOrEmpty(configs.Token))
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.Token);
+            }
+
+            return client;
         }
     }
 }

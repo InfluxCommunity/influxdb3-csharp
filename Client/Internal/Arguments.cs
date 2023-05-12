@@ -1,12 +1,6 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-[assembly: InternalsVisibleTo("InfluxDB3.Client.Test, PublicKey=0024000004800000940000000602000000240000" +
-                              "525341310004000001000100054b3efef02968d05c3dd8481e23fb40ade1fae377f18cf5fa48c67369414" +
-                              "0f7c00dc0b38d43be297256824dc8489c5224647e77f861ef600514607159b151cf71b094a0ef5736c420" +
-                              "cbaa14100acc3b3694e3815597a5e89cf8090ed22bfdad2d5eec49250d88da1345d670b5e131ed9611eed" +
-                              "141e04c31d79f166db39cb4a5")]
 namespace InfluxDB3.Client.Internal
 {
     /// <summary>
