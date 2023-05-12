@@ -23,4 +23,13 @@ public class InfluxDBClientTest
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae.Message, Is.EqualTo("The hostname or IP address of the InfluxDB server has to be defined."));
     }
+
+    [Test]
+    public void RequiredConfigs()
+    {
+        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(null); });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message, Is.EqualTo("The configuration of the client has to be defined."));
+    }
 }

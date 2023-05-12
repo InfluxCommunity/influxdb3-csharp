@@ -8,6 +8,7 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using Grpc.Core;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Write;
 using Microsoft.Data.Analysis;
 using NUnit.Framework;
 
@@ -125,5 +126,20 @@ public class QueryWriteTest
         });
 
         await client.WriteRecordAsync("mem,type=used value=1.0");
+    }
+
+    [Test]
+    public async Task DontFailForEmptyData()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            Host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
+            Database = "my-bucket",
+            Org = "my-org",
+            Token = "my-token",
+            DisableServerCertificateValidation = true
+        });
+
+        await client.WritePointAsync(PointData.Measurement("cpu").Tag("tag", "c"));
     }
 }

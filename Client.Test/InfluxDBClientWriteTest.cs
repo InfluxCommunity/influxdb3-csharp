@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
@@ -44,6 +45,35 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
+    public async Task BodyPoint()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, org: "org", database: "database");
+
+        await _client.WritePointAsync(PointData.Measurement("cpu").Tag("tag", "c").Field("field", 1));
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("cpu,tag=c field=1i"));
+    }
+
+    [Test]
+    public void AlreadyDisposed()
+    {
+        _client = new InfluxDBClient(MockServerUrl);
+        _client.Dispose();
+        var ae = Assert.ThrowsAsync<ObjectDisposedException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message, Is.EqualTo("Cannot access a disposed object.\nObject name: 'InfluxDBClient'."));
+    }
+
+    [Test]
     public async Task OrgCustom()
     {
         _client = new InfluxDBClient(MockServerUrl, org: "org", database: "database");
@@ -58,6 +88,21 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
+    public void NotSpecifiedOrg()
+    {
+        _client = new InfluxDBClient(MockServerUrl, database: "database");
+        var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message,
+            Is.EqualTo(
+                "Please specify the 'org' as a method parameter or use default configuration at 'InfluxDBClientConfigs.Org'."));
+    }
+
+    [Test]
     public async Task DatabaseCustom()
     {
         _client = new InfluxDBClient(MockServerUrl, org: "org", database: "database");
@@ -69,6 +114,21 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.Query?["bucket"].First(), Is.EqualTo("my-database"));
+    }
+
+    [Test]
+    public void NotSpecifiedDatabase()
+    {
+        _client = new InfluxDBClient(MockServerUrl, org: "org");
+        var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message,
+            Is.EqualTo(
+                "Please specify the 'database' as a method parameter or use default configuration at 'InfluxDBClientConfigs.Database'."));
     }
 
     [Test]

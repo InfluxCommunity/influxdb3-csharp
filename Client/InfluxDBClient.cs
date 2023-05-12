@@ -128,7 +128,7 @@ namespace InfluxDB3.Client
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(nameof(FlightSqlClient));
+                throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
             return _flightSqlClient.Execute(query,
@@ -196,7 +196,7 @@ namespace InfluxDB3.Client
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(nameof(FlightSqlClient));
+                throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
             var sb = ToLineProtocolBody(data);
