@@ -13,21 +13,41 @@ using NUnit.Framework;
 
 namespace InfluxDB3.Client.Test.Integration;
 
-public class QueryTest
+public class QueryWriteTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly IContainer? _flightSqlContainer = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") is null ? new ContainerBuilder()
-        .WithImage("voltrondata/flight-sql:latest")
-        .WithAutoRemove(true)
-        .WithPortBinding(31337, 31337)
-        .WithEnvironment(new Dictionary<string, string>()
-        {
-            { "FLIGHT_PASSWORD", "flight_password" },
-            { "PRINT_QUERIES", "1" }
-        })
-        .Build() : null;
-
+    private readonly IContainer?[] _dockerContainers =
+    {
+        Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") is null
+            ? new ContainerBuilder()
+                .WithImage("voltrondata/flight-sql:latest")
+                .WithAutoRemove(true)
+                .WithPortBinding(31337, 31337)
+                .WithEnvironment(new Dictionary<string, string>()
+                {
+                    { "FLIGHT_PASSWORD", "flight_password" },
+                    { "PRINT_QUERIES", "1" }
+                })
+                .Build()
+            : null,
+        Environment.GetEnvironmentVariable("INFLUXDB_URL") is null
+            ? new ContainerBuilder()
+                .WithImage("influxdb:latest")
+                .WithAutoRemove(true)
+                .WithPortBinding(8086, 8086)
+                .WithEnvironment(new Dictionary<string, string>()
+                {
+                    { "DOCKER_INFLUXDB_INIT_MODE", "setup" },
+                    { "DOCKER_INFLUXDB_INIT_USERNAME", "my-user" },
+                    { "DOCKER_INFLUXDB_INIT_PASSWORD", "my-password" },
+                    { "DOCKER_INFLUXDB_INIT_ORG", "my-org" },
+                    { "DOCKER_INFLUXDB_INIT_BUCKET", "my-bucket" },
+                    { "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN", "my-token" },
+                })
+                .Build()
+            : null
+    };
 
     [OneTimeSetUp]
     public async Task StartContainer()
@@ -38,9 +58,13 @@ public class QueryTest
             Trace.Listeners.Add(ConsoleOutListener);
         }
 
-        if (_flightSqlContainer is not null)
+        foreach (var dockerContainer in _dockerContainers)
         {
-            await _flightSqlContainer.StartAsync();
+            if (dockerContainer is not null)
+            {
+                await dockerContainer.StartAsync();
+            }
+
             // wait to start
             await Task.Delay(TimeSpan.FromSeconds(5));
         }
@@ -49,14 +73,17 @@ public class QueryTest
     [OneTimeTearDown]
     public async Task StopContainer()
     {
-        if (_flightSqlContainer is not null)
+        foreach (var dockerContainer in _dockerContainers)
         {
-            await _flightSqlContainer.StopAsync();
+            if (dockerContainer is not null)
+            {
+                await dockerContainer.DisposeAsync();
+            }
         }
     }
 
     [Test]
-    public async Task SimpleQuery()
+    public async Task Query()
     {
         var headers = new Metadata
         {
