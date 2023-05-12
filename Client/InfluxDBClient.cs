@@ -243,7 +243,7 @@ namespace InfluxDB3.Client
                 {
                     PointData pointData => pointData.ToLineProtocol(),
                     string str => str,
-                    _ => data.ToString()
+                    _ => null
                 };
 
                 if (string.IsNullOrEmpty(lineProtocol))

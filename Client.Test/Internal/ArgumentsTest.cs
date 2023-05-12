@@ -1,6 +1,5 @@
 using System;
 using InfluxDB3.Client.Internal;
-using NUnit.Framework;
 
 namespace InfluxDB3.Client.Test.Internal
 {
@@ -23,7 +22,7 @@ namespace InfluxDB3.Client.Test.Internal
         {
             try
             {
-                Arguments.CheckNotNull(null, "property");
+                Arguments.CheckNotNull(null!, "property");
 
                 Assert.Fail();
             }
@@ -44,7 +43,7 @@ namespace InfluxDB3.Client.Test.Internal
         {
             try
             {
-                Arguments.CheckNonEmptyString(null, "property");
+                Arguments.CheckNonEmptyString(null!, "property");
 
                 Assert.Fail();
             }
@@ -116,13 +115,13 @@ namespace InfluxDB3.Client.Test.Internal
         {
             try
             {
-                Arguments.CheckPositiveNumber(-12, "property");
+                Arguments.CheckNotNegativeNumber(-12, "property");
 
                 Assert.Fail();
             }
             catch (ArgumentException e)
             {
-                Assert.That(e.Message.Equals("Expecting a positive number for property"));
+                Assert.That(e.Message.Equals("Expecting a positive or zero number for property"));
             }
         }
     }

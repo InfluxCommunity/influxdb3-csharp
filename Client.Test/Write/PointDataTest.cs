@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Test.Write
@@ -42,6 +43,8 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
+        [SuppressMessage("Assertion", "NUnit2010:Use EqualConstraint for better assertion messages in case of failure")]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
         public void Immutability()
         {
             var point = PointData.Measurement("h2 o")
@@ -64,6 +67,11 @@ namespace InfluxDB3.Client.Test.Write
                 Assert.That(point2, Is.EqualTo(point1));
                 Assert.That(point1, Is.Not.EqualTo(point));
                 Assert.That(ReferenceEquals(point1, point2), Is.False);
+                Assert.That(point1 == point3, Is.False);
+                Assert.That(point1 != point3, Is.True);
+                Assert.That(point1.Equals(null), Is.False);
+                Assert.That(point1.Equals(10), Is.False);
+                Assert.That(point1.GetHashCode(), Is.Not.EqualTo(point3.GetHashCode()));
                 Assert.That(point1, Is.Not.EqualTo(point3));
             });
         }
@@ -175,7 +183,7 @@ namespace InfluxDB3.Client.Test.Write
             var point = PointData.Measurement("h2o")
                 .Tag("location", "europe")
                 .Field("level", 2)
-                .Field("warning", null);
+                .Field("warning", null!);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
