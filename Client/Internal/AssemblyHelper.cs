@@ -7,18 +7,11 @@ namespace InfluxDB3.Client.Internal
     {
         internal static string GetVersion()
         {
-            try
-            {
-                return typeof(InfluxDBClient)
-                    .GetTypeInfo()
-                    .Assembly
-                    .GetCustomAttribute<AssemblyFileVersionAttribute>()
-                    .Version;
-            }
-            catch (Exception)
-            {
-                return "unknown";
-            }
+            return typeof(InfluxDBClient)
+                .GetTypeInfo()
+                .Assembly
+                .GetCustomAttribute<AssemblyFileVersionAttribute>()
+                .Version;
         }
     }
 }

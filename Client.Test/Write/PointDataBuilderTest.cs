@@ -122,7 +122,7 @@ namespace InfluxDB3.Client.Test.Write
             var builder = PointData.Builder.Measurement("h2o")
                 .Tag("location", "europe")
                 .Field("level", 2)
-                .Field("warning", null);
+                .Field("warning", null!);
 
             var point = builder.ToPointData();
 
@@ -138,8 +138,24 @@ namespace InfluxDB3.Client.Test.Write
                 .Timestamp(123L);
 
             var point = builder.ToPointData();
-
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123"));
+
+            var dateTime = new DateTime(2015, 10, 15, 8, 20, 15, DateTimeKind.Utc);
+            builder = PointData.Builder.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(dateTime);
+
+            point = builder.ToPointData();
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 1444897215000000000"));
+
+            builder = PointData.Builder.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(TimeSpan.FromDays(1));
+
+            point = builder.ToPointData();
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 86400000000000"));
         }
 
         [Test]
@@ -163,8 +179,36 @@ namespace InfluxDB3.Client.Test.Write
                 Assert.That(PointData.Builder.Measurement("h2o").Tag("location", "europe").HasFields(), Is.False);
                 Assert.That(PointData.Builder.Measurement("h2o").Field("level", "2").HasFields(), Is.True);
                 Assert.That(
-                    PointData.Builder.Measurement("h2o").Tag("location", "europe").Field("level", "2").HasFields(), Is.True);
+                    PointData.Builder.Measurement("h2o").Tag("location", "europe").Field("level", "2").HasFields(),
+                    Is.True);
             });
+        }
+
+        [Test]
+        public void FieldTypes()
+        {
+            var point = PointData.Builder.Measurement("h2o").Tag("location", "europe")
+                .Field("long", 1L)
+                .Field("double", 250.69D)
+                .Field("float", 35.0F)
+                .Field("integer", 7)
+                .Field("short", (short)8)
+                // ReSharper disable once RedundantCast
+                .Field("byte", (byte)9)
+                .Field("ulong", (ulong)10)
+                .Field("uint", (uint)11)
+                .Field("sbyte", (sbyte)12)
+                .Field("ushort", (ushort)13)
+                .Field("point", 13.3)
+                .Field("decimal", (decimal)25.6)
+                .Field("boolean", false)
+                .Field("string", "string value");
+
+            const string expected =
+                "h2o,location=europe boolean=false,byte=9i,decimal=25.6,double=250.69,float=35,integer=7i,long=1i," +
+                "point=13.300000000000001,sbyte=12i,short=8i,string=\"string value\",uint=11u,ulong=10u,ushort=13u";
+
+            Assert.That(point.ToPointData().ToLineProtocol(), Is.EqualTo(expected));
         }
 
         [Test]
@@ -174,7 +218,8 @@ namespace InfluxDB3.Client.Test.Write
                 .Tag("location", "europe")
                 .Field("custom-object", new GenericObject { Value1 = "test", Value2 = 10 });
 
-            Assert.That(point.ToPointData().ToLineProtocol(), Is.EqualTo("h2o,location=europe custom-object=\"test-10\""));
+            Assert.That(point.ToPointData().ToLineProtocol(),
+                Is.EqualTo("h2o,location=europe custom-object=\"test-10\""));
         }
     }
 }
