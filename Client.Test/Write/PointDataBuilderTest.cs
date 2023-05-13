@@ -156,6 +156,15 @@ namespace InfluxDB3.Client.Test.Write
 
             point = builder.ToPointData();
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 86400000000000"));
+
+            var offset = DateTimeOffset.FromUnixTimeSeconds(15678);
+            builder = PointData.Builder.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(offset);
+
+            point = builder.ToPointData();
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 15678000000000"));
         }
 
         [Test]

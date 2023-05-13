@@ -114,6 +114,28 @@ public class QueryWriteTest
     }
 
     [Test]
+    public void QueryNotAuthorized()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            Host = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
+            Database = "database",
+            DisableServerCertificateValidation = true,
+            Token = "my-token"
+        });
+
+        var ae = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.Query("SELECT 1"))
+            {
+            }
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae?.Message, Contains.Substring("Invalid bearer token"));
+    }
+
+    [Test]
     public async Task Write()
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
@@ -129,7 +151,7 @@ public class QueryWriteTest
     }
 
     [Test]
-    public async Task DontFailForEmptyData()
+    public async Task WriteDontFailForEmptyData()
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
