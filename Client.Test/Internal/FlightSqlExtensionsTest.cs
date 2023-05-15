@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Apache.Arrow;
 using Apache.Arrow.Types;
 using InfluxDB3.Client.Internal;
+using Array = Apache.Arrow.Array;
 
 namespace InfluxDB3.Client.Test.Internal;
 
@@ -187,5 +189,25 @@ public class FlightSqlExtensionsTest
 
         Assert.That(array.Length, Is.EqualTo(1));
         Assert.That(array.GetObjectValue(0), Is.EqualTo(1551));
+    }
+
+    [Test]
+    public void NotSupported()
+    {
+        var array = new StructArray(
+            new StructType(
+                new List<Field>
+                {
+                    new Field.Builder().Name("Strings").DataType(StringType.Default).Nullable(false).Build()
+                }),
+            0,
+            new List<Array>(),
+            new ArrowBuffer.BitmapBuilder().Append(false).Build(), 0
+        );
+
+        var ae = Assert.Throws<NotSupportedException>(() => { array.GetObjectValue(0); });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message, Is.EqualTo("The datatype Apache.Arrow.Types.StructType is not supported."));
     }
 }
