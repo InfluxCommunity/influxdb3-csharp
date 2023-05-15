@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
@@ -9,7 +8,6 @@ using DotNet.Testcontainers.Containers;
 using Grpc.Core;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
-using Microsoft.Data.Analysis;
 using NUnit.Framework;
 
 namespace InfluxDB3.Client.Test.Integration;
@@ -102,14 +100,17 @@ public class QueryWriteTest
             Headers = headers
         });
 
-        await foreach (var recordBatch in client.Query("SELECT * FROM nation"))
+        var index = 0;
+        await foreach (var row in client.Query("SELECT * FROM nation"))
         {
-            var dataFrame = DataFrame.FromArrowRecordBatch(recordBatch);
+            var nation = row[1];
+            if (index == 0)
+            {
+                Assert.That(nation, Is.EqualTo("ALGERIA"));
+            }
 
-            var nation = dataFrame.Rows.First()[1];
-            Assert.That(nation, Is.EqualTo("ALGERIA"));
-
-            Trace.Write(dataFrame.ToString());
+            Trace.WriteLine(nation);
+            index++;
         }
     }
 

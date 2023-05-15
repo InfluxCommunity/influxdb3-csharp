@@ -10,6 +10,7 @@ using Apache.Arrow;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Write;
+using ArrowArray = Apache.Arrow.Array;
 
 namespace InfluxDB3.Client
 {
@@ -22,7 +23,16 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<RecordBatch> Query(string query, string? database = null);
+        IAsyncEnumerable<object?[]> Query(string query, string? database = null);
+
+        /// <summary>
+        /// Query data from InfluxDB IOx using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        IAsyncEnumerable<RecordBatch> QueryEnumerable(string query, string? database = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -124,7 +134,40 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        public IAsyncEnumerable<RecordBatch> Query(string query, string? database = null)
+        public async IAsyncEnumerable<object?[]> Query(string query, string? database = null)
+        {
+            await foreach (var batch in QueryEnumerable(query, database).ConfigureAwait(false))
+            {
+                if (batch.ColumnCount == 0)
+                {
+                    continue;
+                }
+
+                var rowCount = batch.Column(0).Length;
+                for (var i = 0; i < rowCount; i++)
+                {
+                    var row = new List<object?>();
+                    for (var j = 0; j < batch.ColumnCount; j++)
+                    {
+                        if (batch.Column(j) is ArrowArray array)
+                        {
+                            row.Add(array.GetObjectValue(i));
+                        }
+                    }
+
+                    yield return row.ToArray();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Query data from InfluxDB IOx using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        public IAsyncEnumerable<RecordBatch> QueryEnumerable(string query, string? database = null)
         {
             if (_disposed)
             {

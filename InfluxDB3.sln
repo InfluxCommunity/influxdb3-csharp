@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Test", "Client.Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Test.Integration", "Client.Test.Integration\Client.Test.Integration.csproj", "{4BE03DEE-47BF-4F7B-8474-4214E643D72E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{EFBEAA10-411F-4BDB-A96B-B54632FAE99D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.IOx", "Examples\IOx\Examples.IOx.csproj", "{B2DA69ED-C21D-4531-A32A-E537DC511785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{4BE03DEE-47BF-4F7B-8474-4214E643D72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BE03DEE-47BF-4F7B-8474-4214E643D72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BE03DEE-47BF-4F7B-8474-4214E643D72E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2DA69ED-C21D-4531-A32A-E537DC511785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2DA69ED-C21D-4531-A32A-E537DC511785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2DA69ED-C21D-4531-A32A-E537DC511785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2DA69ED-C21D-4531-A32A-E537DC511785}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2DA69ED-C21D-4531-A32A-E537DC511785} = {EFBEAA10-411F-4BDB-A96B-B54632FAE99D}
 	EndGlobalSection
 EndGlobal
