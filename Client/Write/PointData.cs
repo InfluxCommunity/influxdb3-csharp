@@ -24,6 +24,10 @@ namespace InfluxDB3.Client.Write
 
         private readonly BigInteger? _time;
 
+        private const long C1000 = 1000L;
+        private const long C1000000 = C1000 * 1000L;
+        private const long C1000000000 = C1000000 * 1000L;
+
         private PointData(string measurementName)
         {
             Arguments.CheckNonEmptyString(measurementName, "Measurement name");
@@ -201,11 +205,12 @@ namespace InfluxDB3.Client.Write
         /// Updates the timestamp for the point.
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
+        /// <param name="timeUnit">the timestamp precision. Default is 'nanoseconds'.</param>
         /// <returns></returns>
-        public PointData Timestamp(long timestamp)
+        public PointData Timestamp(long timestamp, WritePrecision? timeUnit = null)
         {
             return new PointData(_measurementName,
-                timestamp,
+                LongToBigInteger(timestamp, timeUnit),
                 _tags,
                 _fields);
         }
@@ -235,7 +240,7 @@ namespace InfluxDB3.Client.Write
             {
                 DateTimeKind.Local => timestamp.ToUniversalTime(),
                 DateTimeKind.Unspecified => DateTime.SpecifyKind(timestamp, DateTimeKind.Utc),
-                var _ => timestamp
+                _ => timestamp
             };
 
             var timeSpan = utcTimestamp.Subtract(EpochStart);
@@ -265,8 +270,9 @@ namespace InfluxDB3.Client.Write
         /// <summary>
         /// Transform to Line Protocol..
         /// </summary>
+        /// <param name="timeUnit">the timestamp precision</param>
         /// <returns>Line Protocol</returns>
-        public string ToLineProtocol()
+        public string ToLineProtocol(WritePrecision? timeUnit = null)
         {
             var sb = new StringBuilder();
 
@@ -278,7 +284,7 @@ namespace InfluxDB3.Client.Write
                 return "";
             }
 
-            AppendTime(sb);
+            AppendTime(sb, timeUnit);
 
             return sb.ToString();
         }
@@ -304,6 +310,22 @@ namespace InfluxDB3.Client.Write
         private static BigInteger TimeSpanToBigInteger(TimeSpan timestamp)
         {
             return timestamp.Ticks * 100;
+        }
+
+        private static BigInteger LongToBigInteger(long timestamp, WritePrecision? timeUnit = null)
+        {
+            switch (timeUnit ?? WritePrecision.Ns)
+            {
+                case WritePrecision.Us:
+                    return timestamp * C1000;
+                case WritePrecision.Ms:
+                    return timestamp * C1000000;
+                case WritePrecision.S:
+                    return timestamp * C1000000000;
+                case WritePrecision.Ns:
+                default:
+                    return timestamp;
+            }
         }
 
         /// <summary>
@@ -409,15 +431,33 @@ namespace InfluxDB3.Client.Write
         /// Appends the time.
         /// </summary>
         /// <param name="sb">The sb.</param>
-        private void AppendTime(StringBuilder sb)
+        /// <param name="writePrecision"></param>
+        private void AppendTime(StringBuilder sb, WritePrecision? writePrecision)
         {
             if (_time == null)
             {
                 return;
             }
 
+            var timestamp = (BigInteger)_time;
+            switch (writePrecision ?? WritePrecision.Ns)
+            {
+                case WritePrecision.Us:
+                    timestamp /= C1000;
+                    break;
+                case WritePrecision.Ms:
+                    timestamp /= C1000000;
+                    break;
+                case WritePrecision.S:
+                    timestamp /= C1000000000;
+                    break;
+                case WritePrecision.Ns:
+                default:
+                    break;
+            }
+
             sb.Append(' ');
-            sb.Append(((BigInteger)_time).ToString(CultureInfo.InvariantCulture));
+            sb.Append(timestamp.ToString(CultureInfo.InvariantCulture));
         }
 
         /// <summary>

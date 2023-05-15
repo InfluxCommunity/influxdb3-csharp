@@ -194,6 +194,25 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("s"));
     }
 
+    [Test]
+    public async Task PrecisionBody()
+    {
+        _client = new InfluxDBClient(MockServerUrl, org: "org", database: "database");
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var point = PointData.Measurement("h2o")
+            .Tag("location", "europe")
+            .Field("level", 2)
+            .Timestamp(123_000_000_000L);
+
+        await _client.WritePointAsync(point, precision: WritePrecision.S);
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123"));
+    }
+
     private async Task WriteData()
     {
         MockServer

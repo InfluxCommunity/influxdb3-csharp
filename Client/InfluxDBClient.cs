@@ -237,7 +237,8 @@ namespace InfluxDB3.Client
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
-            var sb = ToLineProtocolBody(data);
+            var precisionNotNull = precision ?? _configs.WritePrecision ?? WritePrecision.Ns;
+            var sb = ToLineProtocolBody(data, precisionNotNull);
             if (sb.Length == 0)
             {
                 Trace.WriteLine($"The writes: {data} doesn't contains any Line Protocol, skipping");
@@ -254,7 +255,7 @@ namespace InfluxDB3.Client
                 { "org", (org ?? _configs.Org) ?? throw new InvalidOperationException(OptionMessage("org")) },
                 {
                     "precision",
-                    Enum.GetName(typeof(WritePrecision), (precision ?? _configs.WritePrecision) ?? WritePrecision.Ns)
+                    Enum.GetName(typeof(WritePrecision), precisionNotNull)
                         ?.ToLowerInvariant()
                 }
             };
@@ -271,7 +272,7 @@ namespace InfluxDB3.Client
             _disposed = true;
         }
 
-        private static StringBuilder ToLineProtocolBody(IEnumerable<object?> data)
+        private static StringBuilder ToLineProtocolBody(IEnumerable<object?> data, WritePrecision precision)
         {
             var sb = new StringBuilder("");
 
@@ -279,7 +280,7 @@ namespace InfluxDB3.Client
             {
                 var lineProtocol = item switch
                 {
-                    PointData pointData => pointData.ToLineProtocol(),
+                    PointData pointData => pointData.ToLineProtocol(precision),
                     _ => item?.ToString()
                 };
 

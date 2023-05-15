@@ -216,6 +216,56 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
+        public void TimePrecision()
+        {
+            var point = PointData.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(123_000_000_000L);
+
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+
+            point = PointData.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(123_000_000L, WritePrecision.Us);
+
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+
+            point = PointData.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(123_000L, WritePrecision.Ms);
+
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+
+            point = PointData.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(123L, WritePrecision.S);
+
+            Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+        }
+
+        [Test]
+        public void LineProtocolTimePrecision()
+        {
+            var point = PointData.Measurement("h2o")
+                .Tag("location", "europe")
+                .Field("level", 2)
+                .Timestamp(123_000_000_000L);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.Ns), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.Us), Is.EqualTo("h2o,location=europe level=2i 123000000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.Ms), Is.EqualTo("h2o,location=europe level=2i 123000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.S), Is.EqualTo("h2o,location=europe level=2i 123"));
+            });
+        }
+
+        [Test]
         public void TimeSpanFormatting()
         {
             var point = PointData.Measurement("h2o")

@@ -177,10 +177,11 @@ namespace InfluxDB3.Client.Write
             /// Updates the timestamp for the point.
             /// </summary>
             /// <param name="timestamp">the timestamp</param>
+            /// <param name="timeUnit">the timestamp precision. Default is 'nanoseconds'.</param>
             /// <returns></returns>
-            public Builder Timestamp(long timestamp)
+            public Builder Timestamp(long timestamp, WritePrecision? timeUnit = null)
             {
-                _time = timestamp;
+                _time = LongToBigInteger(timestamp, timeUnit);
                 return this;
             }
 
