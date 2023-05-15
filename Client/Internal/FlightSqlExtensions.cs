@@ -39,8 +39,6 @@ internal static class FlightSqlExtensions
             Time64Array time64Array => time64Array.GetValue(index),
             Decimal128Array decimal128Array => decimal128Array.GetValue(index),
             Decimal256Array decimal256Array => decimal256Array.GetValue(index),
-            DictionaryArray dictionaryArray => dictionaryArray.Dictionary,
-            FixedSizeBinaryArray fixedSizeBinaryArray => fixedSizeBinaryArray.GetBytes(index).ToArray(),
             _ => throw new NotSupportedException($"The datatype {array.Data.DataType} is not supported.")
         };
     }
