@@ -43,6 +43,7 @@ To start with the client, import the `InfluxDB3.Client` package and create a `In
 ```csharp
 using System.Threading.Tasks;
 using InfluxDB3.Client;
+using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Examples.IOx;
 

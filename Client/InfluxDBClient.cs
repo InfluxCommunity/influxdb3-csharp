@@ -138,11 +138,6 @@ namespace InfluxDB3.Client
         {
             await foreach (var batch in QueryEnumerable(query, database).ConfigureAwait(false))
             {
-                if (batch.ColumnCount == 0)
-                {
-                    continue;
-                }
-
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
                 {
