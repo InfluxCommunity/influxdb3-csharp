@@ -23,12 +23,12 @@ internal class FlightSqlClient : IDisposable
     {
         _configs = configs;
         _channel = GrpcChannel.ForAddress(
-            _configs.Host,
+            _configs.HostUrl,
             new GrpcChannelOptions
             {
                 HttpClient = httpClient,
                 DisposeHttpClient = false,
-                Credentials = _configs.Host.StartsWith("https", StringComparison.OrdinalIgnoreCase)
+                Credentials = _configs.HostUrl.StartsWith("https", StringComparison.OrdinalIgnoreCase)
                     ? ChannelCredentials.SecureSsl
                     : ChannelCredentials.Insecure,
             });
@@ -40,9 +40,9 @@ internal class FlightSqlClient : IDisposable
         var headers = new Metadata();
 
         // authorization by token
-        if (!string.IsNullOrEmpty(_configs.Token))
+        if (!string.IsNullOrEmpty(_configs.AuthToken))
         {
-            headers.Add("Authorization", $"Bearer {_configs.Token}");
+            headers.Add("Authorization", $"Bearer {_configs.AuthToken}");
         }
 
         // database

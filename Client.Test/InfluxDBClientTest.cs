@@ -10,7 +10,7 @@ public class InfluxDBClientTest
     [Test]
     public void Create()
     {
-        using var client = new InfluxDBClient("http://localhost:8086", org: "org", database: "database");
+        using var client = new InfluxDBClient("http://localhost:8086", organization: "org", database: "database");
 
         Assert.That(client, Is.Not.Null);
     }
@@ -18,7 +18,7 @@ public class InfluxDBClientTest
     [Test]
     public void RequiredHost()
     {
-        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(host: null); });
+        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(hostUrl: null); });
 
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae.Message, Is.EqualTo("The hostname or IP address of the InfluxDB server has to be defined."));

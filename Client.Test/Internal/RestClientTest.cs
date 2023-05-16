@@ -26,8 +26,8 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
-            Token = "my-token"
+            HostUrl = MockServerUrl,
+            AuthToken = "my-token"
         });
         await DoRequest();
 
@@ -41,7 +41,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
         await DoRequest();
 
@@ -56,7 +56,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
         await DoRequest();
 
@@ -69,7 +69,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = $"{MockServerUrl}/",
+            HostUrl = $"{MockServerUrl}/",
         });
         await DoRequest();
 
@@ -91,7 +91,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
 
         MockServer
@@ -118,7 +118,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
 
         MockServer
@@ -145,7 +145,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
 
         MockServer
@@ -173,7 +173,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
         });
 
         MockServer
@@ -199,7 +199,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
             AllowHttpRedirects = true
         });
 
@@ -211,7 +211,7 @@ public class RestClientTest : MockServerTest
     {
         CreateAndConfigureRestClient(new InfluxDBClientConfigs
         {
-            Host = MockServerUrl,
+            HostUrl = MockServerUrl,
             Timeout = TimeSpan.FromSeconds(45)
         });
 

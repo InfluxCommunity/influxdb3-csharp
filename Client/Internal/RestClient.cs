@@ -32,16 +32,24 @@ internal class RestClient
         Dictionary<string, string?>? queryParams = null,
         CancellationToken cancellationToken = default)
     {
-        var builder = new UriBuilder(new Uri($"{_configs.Host}{path}"));
+        var builder = new UriBuilder(new Uri($"{_configs.HostUrl}{path}"));
         if (queryParams is not null)
         {
-            builder.Query = string.Join("&", queryParams.Select(param =>
-            {
-                var key = HttpUtility.UrlEncode(param.Key);
-                var value = HttpUtility.UrlEncode(param.Value ?? "");
+            var query = queryParams
+                .Select(param =>
+                {
+                    if (string.IsNullOrEmpty(param.Key) || string.IsNullOrEmpty(param.Value))
+                    {
+                        return "";
+                    }
+                    
+                    var key = HttpUtility.UrlEncode(param.Key);
+                    var value = HttpUtility.UrlEncode(param.Value ?? "");
 
-                return $"{key}={value}";
-            }));
+                    return $"{key}={value}";
+                })
+                .Where(part => !string.IsNullOrEmpty(part));
+            builder.Query = string.Join("&", query);
         }
 
         var request = new HttpRequestMessage

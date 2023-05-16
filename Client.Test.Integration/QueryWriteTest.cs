@@ -94,7 +94,7 @@ public class QueryWriteTest
 
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            Host = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
+            HostUrl = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
             Database = "database",
             DisableServerCertificateValidation = true,
             Headers = headers
@@ -119,10 +119,10 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            Host = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
+            HostUrl = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
             Database = "database",
             DisableServerCertificateValidation = true,
-            Token = "my-token"
+            AuthToken = "my-token"
         });
 
         var ae = Assert.ThrowsAsync<RpcException>(async () =>
@@ -141,10 +141,10 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            Host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
+            HostUrl = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
             Database = "my-bucket",
-            Org = "my-org",
-            Token = "my-token",
+            Organization = "my-org",
+            AuthToken = "my-token",
             DisableServerCertificateValidation = true
         });
 
@@ -156,10 +156,10 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            Host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
+            HostUrl = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
             Database = "my-bucket",
-            Org = "my-org",
-            Token = "my-token",
+            Organization = "my-org",
+            AuthToken = "my-token",
             DisableServerCertificateValidation = true
         });
 

@@ -92,17 +92,17 @@ namespace InfluxDB3.Client
         /// This class provides an interface for interacting with an InfluxDB server,
         /// simplifying common operations such as writing, querying.
         /// </summary>
-        /// <param name="host">The hostname or IP address of the InfluxDB server.</param>
-        /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
-        /// <param name="org">The organization name to be used for operations.</param>
+        /// <param name="hostUrl">The hostname or IP address of the InfluxDB server.</param>
+        /// <param name="authToken">The authentication token for accessing the InfluxDB server.</param>
+        /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        public InfluxDBClient(string host, string? token = null, string? org = null, string? database = null) : this(
+        public InfluxDBClient(string hostUrl, string? authToken = null, string? organization = null, string? database = null) : this(
             new InfluxDBClientConfigs
             {
-                Host = host,
-                Org = org,
+                HostUrl = hostUrl,
+                Organization = organization,
                 Database = database,
-                Token = token,
+                AuthToken = authToken,
             })
         {
         }
@@ -252,7 +252,7 @@ namespace InfluxDB3.Client
                     "bucket",
                     (database ?? _configs.Database) ?? throw new InvalidOperationException(OptionMessage("database"))
                 },
-                { "org", (org ?? _configs.Org) ?? throw new InvalidOperationException(OptionMessage("org")) },
+                { "org", org ?? _configs.Organization },
                 {
                     "precision",
                     Enum.GetName(typeof(WritePrecision), precisionNotNull)
@@ -318,9 +318,9 @@ namespace InfluxDB3.Client
 
             client.Timeout = configs.Timeout;
             client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
-            if (!string.IsNullOrEmpty(configs.Token))
+            if (!string.IsNullOrEmpty(configs.AuthToken))
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.Token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", configs.AuthToken);
             }
 
             return client;
