@@ -108,7 +108,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
-        
+
         _client = new InfluxDBClient(MockServerUrl, database: "database");
         await _client.WriteRecordAsync("mem,tag=a field=1");
 

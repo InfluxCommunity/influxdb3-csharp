@@ -42,7 +42,7 @@ internal class RestClient
                     {
                         return "";
                     }
-                    
+
                     var key = HttpUtility.UrlEncode(param.Key);
                     var value = HttpUtility.UrlEncode(param.Value ?? "");
 
