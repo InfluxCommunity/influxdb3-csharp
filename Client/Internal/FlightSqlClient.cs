@@ -47,6 +47,8 @@ internal class FlightSqlClient : IDisposable
 
         // database
         headers.Add("database", database);
+        // compatibility with older IOx versions
+        headers.Add("bucket-name", database);
 
         // copy default headers
         if (_configs.Headers is not null)
