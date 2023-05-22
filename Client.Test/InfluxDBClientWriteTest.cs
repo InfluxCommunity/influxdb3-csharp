@@ -96,7 +96,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        await _client.WriteRecordAsync("mem,tag=a field=1", org: "my-org");
+        await _client.WriteRecordAsync("mem,tag=a field=1", organization: "my-org");
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.Query?["org"].First(), Is.EqualTo("my-org"));

@@ -268,7 +268,7 @@ namespace InfluxDB3.Client.Write
         }
 
         /// <summary>
-        /// Transform to Line Protocol..
+        /// Transform to Line Protocol.
         /// </summary>
         /// <param name="timeUnit">the timestamp precision</param>
         /// <returns>Line Protocol</returns>

@@ -38,44 +38,44 @@ namespace InfluxDB3.Client
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit. </param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordAsync(string record, string? org = null, string? database = null,
+        Task WriteRecordAsync(string record, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordsAsync(IEnumerable<string> records, string? org = null, string? database = null,
+        Task WriteRecordsAsync(IEnumerable<string> records, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WritePointAsync(PointData point, string? org = null, string? database = null,
+        Task WritePointAsync(PointData point, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WritePointsAsync(IEnumerable<PointData> points, string? org = null, string? database = null,
+        Task WritePointsAsync(IEnumerable<PointData> points, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default);
     }
 
@@ -177,59 +177,59 @@ namespace InfluxDB3.Client
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit.</param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WriteRecordAsync(string record, string? org = null, string? database = null,
+        public Task WriteRecordAsync(string record, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
-            return WriteRecordsAsync(new[] { record }, org, database, precision, cancellationToken);
+            return WriteRecordsAsync(new[] { record }, organization, database, precision, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WriteRecordsAsync(IEnumerable<string> records, string? org = null, string? database = null,
+        public Task WriteRecordsAsync(IEnumerable<string> records, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
-            return WriteData(records, org, database, precision, cancellationToken);
+            return WriteData(records, organization, database, precision, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WritePointAsync(PointData point, string? org = null, string? database = null,
+        public Task WritePointAsync(PointData point, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
-            return WritePointsAsync(new[] { point }, org, database, precision, cancellationToken);
+            return WritePointsAsync(new[] { point }, organization, database, precision, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
-        /// <param name="org">The organization to be used for operations.</param>
+        /// <param name="organization">The organization to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WritePointsAsync(IEnumerable<PointData> points, string? org = null, string? database = null,
+        public Task WritePointsAsync(IEnumerable<PointData> points, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
-            return WriteData(points, org, database, precision, cancellationToken);
+            return WriteData(points, organization, database, precision, cancellationToken);
         }
 
-        private async Task WriteData(IEnumerable<object> data, string? org = null, string? database = null,
+        private async Task WriteData(IEnumerable<object> data, string? organization = null, string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
             if (_disposed)
@@ -252,7 +252,7 @@ namespace InfluxDB3.Client
                     "bucket",
                     (database ?? _configs.Database) ?? throw new InvalidOperationException(OptionMessage("database"))
                 },
-                { "org", org ?? _configs.Organization },
+                { "org", organization ?? _configs.Organization },
                 {
                     "precision",
                     Enum.GetName(typeof(WritePrecision), precisionNotNull)
