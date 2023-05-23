@@ -20,7 +20,7 @@ public class QueryWriteTest
     {
         Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") is null
             ? new ContainerBuilder()
-                .WithImage("voltrondata/flight-sql:latest")
+                .WithImage("voltrondata/flight-sql:arrow-11.0.0")
                 .WithAutoRemove(true)
                 .WithPortBinding(31337, 31337)
                 .WithEnvironment(new Dictionary<string, string>()

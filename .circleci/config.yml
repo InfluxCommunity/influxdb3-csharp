@@ -62,7 +62,7 @@ jobs:
         environment:
           FLIGHT_SQL_URL: "https://localhost:31337"
           INFLUXDB_URL: "http://localhost:8086"
-      - image: voltrondata/flight-sql:latest
+      - image: voltrondata/flight-sql:arrow-11.0.0
         environment:
           FLIGHT_PASSWORD: "flight_password"
           PRINT_QUERIES: "1"
