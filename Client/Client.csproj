@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
 
         <Description>
             The C# .NET client that provides an easy and convenient way to interact with InfluxDB 3.
@@ -34,8 +35,29 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\Assets\influxdata.jpg" Pack="true" PackagePath=""/>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+        <None Include="..\Assets\influxdata.jpg" Pack="true" PackagePath="" />
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Apache.Arrow.Flight" Version="12.0.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.54.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\sql.proto" GrpcServices="Client" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>InfluxDB3.Client.Test, PublicKey=0024000004800000940000000602000000240000525341310004000001000100054b3efef02968d05c3dd8481e23fb40ade1fae377f18cf5fa48c673694140f7c00dc0b38d43be297256824dc8489c5224647e77f861ef600514607159b151cf71b094a0ef5736c420cbaa14100acc3b3694e3815597a5e89cf8090ed22bfdad2d5eec49250d88da1345d670b5e131ed9611eed141e04c31d79f166db39cb4a5</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>InfluxDB3.Client.Test.Integration, PublicKey=0024000004800000940000000602000000240000525341310004000001000100054b3efef02968d05c3dd8481e23fb40ade1fae377f18cf5fa48c673694140f7c00dc0b38d43be297256824dc8489c5224647e77f861ef600514607159b151cf71b094a0ef5736c420cbaa14100acc3b3694e3815597a5e89cf8090ed22bfdad2d5eec49250d88da1345d670b5e131ed9611eed141e04c31d79f166db39cb4a5</_Parameter1>
+        </AssemblyAttribute>
     </ItemGroup>
 
 </Project>
