@@ -39,7 +39,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the tag name</param>
             /// <param name="value">the tag value</param>
             /// <returns>this</returns>
-            public Builder Tag(string name, string value)
+            public Builder AddTag(string name, string value)
             {
                 var isEmptyValue = string.IsNullOrEmpty(value);
                 if (isEmptyValue)
@@ -69,7 +69,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, byte value)
+            public Builder AddField(string name, byte value)
             {
                 return PutField(name, value);
             }
@@ -80,7 +80,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, float value)
+            public Builder AddField(string name, float value)
             {
                 return PutField(name, value);
             }
@@ -91,7 +91,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, double value)
+            public Builder AddField(string name, double value)
             {
                 return PutField(name, value);
             }
@@ -102,7 +102,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, decimal value)
+            public Builder AddField(string name, decimal value)
             {
                 return PutField(name, value);
             }
@@ -113,7 +113,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, long value)
+            public Builder AddField(string name, long value)
             {
                 return PutField(name, value);
             }
@@ -124,7 +124,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, ulong value)
+            public Builder AddField(string name, ulong value)
             {
                 return PutField(name, value);
             }
@@ -135,7 +135,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, uint value)
+            public Builder AddField(string name, uint value)
             {
                 return PutField(name, value);
             }
@@ -146,7 +146,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, string value)
+            public Builder AddField(string name, string value)
             {
                 return PutField(name, value);
             }
@@ -157,7 +157,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, bool value)
+            public Builder AddField(string name, bool value)
             {
                 return PutField(name, value);
             }
@@ -168,7 +168,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="name">the field name</param>
             /// <param name="value">the field value</param>
             /// <returns>this</returns>
-            public Builder Field(string name, object value)
+            public Builder AddField(string name, object value)
             {
                 return PutField(name, value);
             }
@@ -179,7 +179,7 @@ namespace InfluxDB3.Client.Write
             /// <param name="timestamp">the timestamp</param>
             /// <param name="timeUnit">the timestamp precision. Default is 'nanoseconds'.</param>
             /// <returns></returns>
-            public Builder Timestamp(long timestamp, WritePrecision? timeUnit = null)
+            public Builder SetTimestamp(long timestamp, WritePrecision? timeUnit = null)
             {
                 _time = LongToBigInteger(timestamp, timeUnit);
                 return this;
@@ -190,7 +190,7 @@ namespace InfluxDB3.Client.Write
             /// </summary>
             /// <param name="timestamp">the timestamp</param>
             /// <returns></returns>
-            public Builder Timestamp(TimeSpan timestamp)
+            public Builder SetTimestamp(TimeSpan timestamp)
             {
                 _time = TimeSpanToBigInteger(timestamp);
                 return this;
@@ -201,7 +201,7 @@ namespace InfluxDB3.Client.Write
             /// </summary>
             /// <param name="timestamp">the timestamp</param>
             /// <returns></returns>
-            public Builder Timestamp(DateTime timestamp)
+            public Builder SetTimestamp(DateTime timestamp)
             {
                 if (timestamp != null && timestamp.Kind != DateTimeKind.Utc)
                 {
@@ -210,7 +210,7 @@ namespace InfluxDB3.Client.Write
 
                 var timeSpan = timestamp.Subtract(EpochStart);
 
-                return Timestamp(timeSpan);
+                return SetTimestamp(timeSpan);
             }
 
             /// <summary>
@@ -218,9 +218,9 @@ namespace InfluxDB3.Client.Write
             /// </summary>
             /// <param name="timestamp">the timestamp</param>
             /// <returns></returns>
-            public Builder Timestamp(DateTimeOffset timestamp)
+            public Builder SetTimestamp(DateTimeOffset timestamp)
             {
-                return Timestamp(timestamp.UtcDateTime);
+                return SetTimestamp(timestamp.UtcDateTime);
             }
 
             /// <summary>

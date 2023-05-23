@@ -11,10 +11,10 @@ namespace InfluxDB3.Client.Test.Write
         public void TagEmptyTagValue()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Tag("log", "to_delete")
-                .Tag("log", "")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("log", "to_delete")
+                .AddTag("log", "")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
@@ -23,10 +23,10 @@ namespace InfluxDB3.Client.Test.Write
         public void TagEscapingKeyAndValue()
         {
             var point = PointData.Measurement("h\n2\ro\t_data")
-                .Tag("new\nline", "new\nline")
-                .Tag("carriage\rreturn", "carriage\rreturn")
-                .Tag("t\tab", "t\tab")
-                .Field("level", 2);
+                .AddTag("new\nline", "new\nline")
+                .AddTag("carriage\rreturn", "carriage\rreturn")
+                .AddTag("t\tab", "t\tab")
+                .AddField("level", 2);
 
             Assert.That(
                 point.ToLineProtocol(), Is.EqualTo("h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\rreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i"));
@@ -36,8 +36,8 @@ namespace InfluxDB3.Client.Test.Write
         public void EqualSignEscaping()
         {
             var point = PointData.Measurement("h=2o")
-                .Tag("l=ocation", "e=urope")
-                .Field("l=evel", 2);
+                .AddTag("l=ocation", "e=urope")
+                .AddField("l=evel", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h=2o,l\\=ocation=e\\=urope l\\=evel=2i"));
         }
@@ -48,19 +48,19 @@ namespace InfluxDB3.Client.Test.Write
         public void Immutability()
         {
             var point = PointData.Measurement("h2 o")
-                .Tag("location", "europe");
+                .AddTag("location", "europe");
 
             var point1 = point
-                .Tag("TAG", "VALX")
-                .Field("level", 2);
+                .AddTag("TAG", "VALX")
+                .AddField("level", 2);
 
             var point2 = point
-                .Tag("TAG", "VALX")
-                .Field("level", 2);
+                .AddTag("TAG", "VALX")
+                .AddField("level", 2);
 
             var point3 = point
-                .Tag("TAG", "VALY")
-                .Field("level", 2);
+                .AddTag("TAG", "VALY")
+                .AddField("level", 2);
 
             Assert.Multiple(() =>
             {
@@ -80,23 +80,23 @@ namespace InfluxDB3.Client.Test.Write
         public void MeasurementEscape()
         {
             var point = PointData.Measurement("h2 o")
-                .Tag("location", "europe")
-                .Tag("", "warn")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("", "warn")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2\\ o,location=europe level=2i"));
 
             point = PointData.Measurement("h2=o")
-                .Tag("location", "europe")
-                .Tag("", "warn")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("", "warn")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2=o,location=europe level=2i"));
 
             point = PointData.Measurement("h2,o")
-                .Tag("location", "europe")
-                .Tag("", "warn")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("", "warn")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2\\,o,location=europe level=2i"));
         }
@@ -105,9 +105,9 @@ namespace InfluxDB3.Client.Test.Write
         public void TagEmptyKey()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Tag("", "warn")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("", "warn")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
@@ -116,9 +116,9 @@ namespace InfluxDB3.Client.Test.Write
         public void TagEmptyValue()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Tag("log", "")
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddTag("log", "")
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
@@ -127,10 +127,10 @@ namespace InfluxDB3.Client.Test.Write
         public void OverrideTagField()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Tag("location", "europe2")
-                .Field("level", 2)
-                .Field("level", 3);
+                .AddTag("location", "europe")
+                .AddTag("location", "europe2")
+                .AddField("level", 2)
+                .AddField("level", 3);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe2 level=3i"));
         }
@@ -138,22 +138,22 @@ namespace InfluxDB3.Client.Test.Write
         [Test]
         public void FieldTypes()
         {
-            var point = PointData.Measurement("h2o").Tag("location", "europe")
-                .Field("long", 1L)
-                .Field("double", 250.69D)
-                .Field("float", 35.0F)
-                .Field("integer", 7)
-                .Field("short", (short)8)
+            var point = PointData.Measurement("h2o").AddTag("location", "europe")
+                .AddField("long", 1L)
+                .AddField("double", 250.69D)
+                .AddField("float", 35.0F)
+                .AddField("integer", 7)
+                .AddField("short", (short)8)
                 // ReSharper disable once RedundantCast
-                .Field("byte", (byte)9)
-                .Field("ulong", (ulong)10)
-                .Field("uint", (uint)11)
-                .Field("sbyte", (sbyte)12)
-                .Field("ushort", (ushort)13)
-                .Field("point", 13.3)
-                .Field("decimal", (decimal)25.6)
-                .Field("boolean", false)
-                .Field("string", "string value");
+                .AddField("byte", (byte)9)
+                .AddField("ulong", (ulong)10)
+                .AddField("uint", (uint)11)
+                .AddField("sbyte", (sbyte)12)
+                .AddField("ushort", (ushort)13)
+                .AddField("point", 13.3)
+                .AddField("decimal", (decimal)25.6)
+                .AddField("boolean", false)
+                .AddField("string", "string value");
 
             const string expected = "h2o,location=europe boolean=false,byte=9i,decimal=25.6,double=250.69,float=35,integer=7i,long=1i," +
                                     "point=13.300000000000001,sbyte=12i,short=8i,string=\"string value\",uint=11u,ulong=10u,ushort=13u";
@@ -165,11 +165,11 @@ namespace InfluxDB3.Client.Test.Write
         public void DoubleFormat()
         {
             var point = PointData.Measurement("sensor")
-                .Field("double", 250.69D)
-                .Field("double15", 15.333333333333333D)
-                .Field("double16", 16.3333333333333333D)
-                .Field("double17", 17.33333333333333333D)
-                .Field("example", 459.29587181322927);
+                .AddField("double", 250.69D)
+                .AddField("double15", 15.333333333333333D)
+                .AddField("double16", 16.3333333333333333D)
+                .AddField("double17", 17.33333333333333333D)
+                .AddField("example", 459.29587181322927);
 
             const string expected = "sensor double=250.69,double15=15.333333333333332,double16=16.333333333333332," +
                                     "double17=17.333333333333332,example=459.29587181322927";
@@ -181,9 +181,9 @@ namespace InfluxDB3.Client.Test.Write
         public void FieldNullValue()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Field("warning", null!);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .AddField("warning", null!);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
@@ -192,14 +192,14 @@ namespace InfluxDB3.Client.Test.Write
         public void FieldEscape()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", "string esc\\ape value");
+                .AddTag("location", "europe")
+                .AddField("level", "string esc\\ape value");
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=\"string esc\\\\ape value\""));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", "string esc\"ape value");
+                .AddTag("location", "europe")
+                .AddField("level", "string esc\"ape value");
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=\"string esc\\\"ape value\""));
         }
@@ -208,9 +208,9 @@ namespace InfluxDB3.Client.Test.Write
         public void Time()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123L);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123L);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123"));
         }
@@ -219,30 +219,30 @@ namespace InfluxDB3.Client.Test.Write
         public void TimePrecision()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123_000_000_000L);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123_000_000_000L);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123_000_000L, WritePrecision.Us);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123_000_000L, WritePrecision.Us);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123_000L, WritePrecision.Ms);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123_000L, WritePrecision.Ms);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123L, WritePrecision.S);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123L, WritePrecision.S);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
         }
@@ -251,9 +251,9 @@ namespace InfluxDB3.Client.Test.Write
         public void LineProtocolTimePrecision()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(123_000_000_000L);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(123_000_000_000L);
 
             Assert.Multiple(() =>
             {
@@ -269,23 +269,23 @@ namespace InfluxDB3.Client.Test.Write
         public void TimeSpanFormatting()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(TimeSpan.FromDays(1));
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(TimeSpan.FromDays(1));
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 86400000000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(TimeSpan.FromHours(356));
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(TimeSpan.FromHours(356));
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 1281600000000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(TimeSpan.FromSeconds(156));
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(TimeSpan.FromSeconds(156));
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 156000000000"));
         }
@@ -296,33 +296,33 @@ namespace InfluxDB3.Client.Test.Write
             var dateTime = new DateTime(2015, 10, 15, 8, 20, 15, DateTimeKind.Utc);
 
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(dateTime);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(dateTime);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 1444897215000000000"));
 
             dateTime = new DateTime(2015, 10, 15, 8, 20, 15, 750, DateTimeKind.Utc);
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", false)
-                .Timestamp(dateTime);
+                .AddTag("location", "europe")
+                .AddField("level", false)
+                .SetTimestamp(dateTime);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=false 1444897215750000000"));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", true)
-                .Timestamp(DateTime.UtcNow);
+                .AddTag("location", "europe")
+                .AddField("level", true)
+                .SetTimestamp(DateTime.UtcNow);
 
             var lineProtocol = point.ToLineProtocol();
             Assert.That(lineProtocol, Does.Not.Contain("."));
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", true)
-                .Timestamp(DateTime.UtcNow);
+                .AddTag("location", "europe")
+                .AddField("level", true)
+                .SetTimestamp(DateTime.UtcNow);
 
             lineProtocol = point.ToLineProtocol();
             Assert.That(lineProtocol.Contains("."), Is.False);
@@ -334,9 +334,9 @@ namespace InfluxDB3.Client.Test.Write
             var dateTime = new DateTime(2015, 10, 15, 8, 20, 15, DateTimeKind.Unspecified);
 
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(dateTime);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(dateTime);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 1444897215000000000"));
         }
@@ -347,16 +347,16 @@ namespace InfluxDB3.Client.Test.Write
             var dateTime = new DateTime(2015, 10, 15, 8, 20, 15, DateTimeKind.Local);
 
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(dateTime);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(dateTime);
 
             var lineProtocolLocal = point.ToLineProtocol();
 
             point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(TimeZoneInfo.ConvertTimeToUtc(dateTime));
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(TimeZoneInfo.ConvertTimeToUtc(dateTime));
             var lineProtocolUtc = point.ToLineProtocol();
 
             Assert.That(lineProtocolLocal, Is.EqualTo(lineProtocolUtc));
@@ -368,9 +368,9 @@ namespace InfluxDB3.Client.Test.Write
             var offset = DateTimeOffset.FromUnixTimeSeconds(15678);
 
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("level", 2)
-                .Timestamp(offset);
+                .AddTag("location", "europe")
+                .AddField("level", 2)
+                .SetTimestamp(offset);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 15678000000000"));
         }
@@ -381,9 +381,9 @@ namespace InfluxDB3.Client.Test.Write
             Assert.Multiple(() =>
             {
                 Assert.That(PointData.Measurement("h2o").HasFields(), Is.False);
-                Assert.That(PointData.Measurement("h2o").Tag("location", "europe").HasFields(), Is.False);
-                Assert.That(PointData.Measurement("h2o").Field("level", "2").HasFields(), Is.True);
-                Assert.That(PointData.Measurement("h2o").Tag("location", "europe").Field("level", "2").HasFields(), Is.True);
+                Assert.That(PointData.Measurement("h2o").AddTag("location", "europe").HasFields(), Is.False);
+                Assert.That(PointData.Measurement("h2o").AddField("level", "2").HasFields(), Is.True);
+                Assert.That(PointData.Measurement("h2o").AddTag("location", "europe").AddField("level", "2").HasFields(), Is.True);
             });
         }
 
@@ -391,14 +391,14 @@ namespace InfluxDB3.Client.Test.Write
         public void InfinityValues()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("double-infinity-positive", double.PositiveInfinity)
-                .Field("double-infinity-negative", double.NegativeInfinity)
-                .Field("double-nan", double.NaN)
-                .Field("flout-infinity-positive", float.PositiveInfinity)
-                .Field("flout-infinity-negative", float.NegativeInfinity)
-                .Field("flout-nan", float.NaN)
-                .Field("level", 2);
+                .AddTag("location", "europe")
+                .AddField("double-infinity-positive", double.PositiveInfinity)
+                .AddField("double-infinity-negative", double.NegativeInfinity)
+                .AddField("double-nan", double.NaN)
+                .AddField("flout-infinity-positive", float.PositiveInfinity)
+                .AddField("flout-infinity-negative", float.NegativeInfinity)
+                .AddField("flout-nan", float.NaN)
+                .AddField("level", 2);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i"));
         }
@@ -407,13 +407,13 @@ namespace InfluxDB3.Client.Test.Write
         public void OnlyInfinityValues()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("double-infinity-positive", double.PositiveInfinity)
-                .Field("double-infinity-negative", double.NegativeInfinity)
-                .Field("double-nan", double.NaN)
-                .Field("flout-infinity-positive", float.PositiveInfinity)
-                .Field("flout-infinity-negative", float.NegativeInfinity)
-                .Field("flout-nan", float.NaN);
+                .AddTag("location", "europe")
+                .AddField("double-infinity-positive", double.PositiveInfinity)
+                .AddField("double-infinity-negative", double.NegativeInfinity)
+                .AddField("double-nan", double.NaN)
+                .AddField("flout-infinity-positive", float.PositiveInfinity)
+                .AddField("flout-infinity-negative", float.NegativeInfinity)
+                .AddField("flout-nan", float.NaN);
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo(""));
         }
@@ -422,8 +422,8 @@ namespace InfluxDB3.Client.Test.Write
         public void UseGenericObjectAsFieldValue()
         {
             var point = PointData.Measurement("h2o")
-                .Tag("location", "europe")
-                .Field("custom-object", new GenericObject { Value1 = "test", Value2 = 10 });
+                .AddTag("location", "europe")
+                .AddField("custom-object", new GenericObject { Value1 = "test", Value2 = 10 });
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe custom-object=\"test-10\""));
         }

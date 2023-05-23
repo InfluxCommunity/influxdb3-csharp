@@ -163,6 +163,6 @@ public class QueryWriteTest
             DisableServerCertificateValidation = true
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").Tag("tag", "c"));
+        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
     }
 }

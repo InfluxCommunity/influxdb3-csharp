@@ -67,9 +67,9 @@ to insert data, you can use code like this:
 // Write by Point
 //
 var point = PointData.Measurement("temperature")
-    .Tag("location", "west")
-    .Field("value", 55.15)
-    .Timestamp(DateTime.UtcNow.AddSeconds(-10));
+    .AddTag("location", "west")
+    .AddField("value", 55.15)
+    .SetTimestamp(DateTime.UtcNow.AddSeconds(-10));
 await client.WritePointAsync(point);
 
 //

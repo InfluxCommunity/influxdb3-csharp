@@ -60,7 +60,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the tag name</param>
         /// <param name="value">the tag value</param>
         /// <returns>this</returns>
-        public PointData Tag(string name, string value)
+        public PointData AddTag(string name, string value)
         {
             var isEmptyValue = string.IsNullOrEmpty(value);
             var tags = new SortedDictionary<string, string>(_tags);
@@ -97,7 +97,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, byte value)
+        public PointData AddField(string name, byte value)
         {
             return PutField(name, value);
         }
@@ -108,7 +108,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, float value)
+        public PointData AddField(string name, float value)
         {
             return PutField(name, value);
         }
@@ -119,7 +119,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, double value)
+        public PointData AddField(string name, double value)
         {
             return PutField(name, value);
         }
@@ -130,7 +130,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, decimal value)
+        public PointData AddField(string name, decimal value)
         {
             return PutField(name, value);
         }
@@ -141,7 +141,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, long value)
+        public PointData AddField(string name, long value)
         {
             return PutField(name, value);
         }
@@ -152,7 +152,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, ulong value)
+        public PointData AddField(string name, ulong value)
         {
             return PutField(name, value);
         }
@@ -163,7 +163,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, uint value)
+        public PointData AddField(string name, uint value)
         {
             return PutField(name, value);
         }
@@ -174,7 +174,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, string value)
+        public PointData AddField(string name, string value)
         {
             return PutField(name, value);
         }
@@ -185,7 +185,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, bool value)
+        public PointData AddField(string name, bool value)
         {
             return PutField(name, value);
         }
@@ -196,7 +196,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData Field(string name, object value)
+        public PointData AddField(string name, object value)
         {
             return PutField(name, value);
         }
@@ -207,7 +207,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="timestamp">the timestamp</param>
         /// <param name="timeUnit">the timestamp precision. Default is 'nanoseconds'.</param>
         /// <returns></returns>
-        public PointData Timestamp(long timestamp, WritePrecision? timeUnit = null)
+        public PointData SetTimestamp(long timestamp, WritePrecision? timeUnit = null)
         {
             return new PointData(_measurementName,
                 LongToBigInteger(timestamp, timeUnit),
@@ -220,7 +220,7 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData Timestamp(TimeSpan timestamp)
+        public PointData SetTimestamp(TimeSpan timestamp)
         {
             var time = TimeSpanToBigInteger(timestamp);
             return new PointData(_measurementName,
@@ -234,7 +234,7 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData Timestamp(DateTime timestamp)
+        public PointData SetTimestamp(DateTime timestamp)
         {
             var utcTimestamp = timestamp.Kind switch
             {
@@ -245,7 +245,7 @@ namespace InfluxDB3.Client.Write
 
             var timeSpan = utcTimestamp.Subtract(EpochStart);
 
-            return Timestamp(timeSpan);
+            return SetTimestamp(timeSpan);
         }
 
         /// <summary>
@@ -253,9 +253,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData Timestamp(DateTimeOffset timestamp)
+        public PointData SetTimestamp(DateTimeOffset timestamp)
         {
-            return Timestamp(timestamp.UtcDateTime);
+            return SetTimestamp(timestamp.UtcDateTime);
         }
 
         /// <summary>
