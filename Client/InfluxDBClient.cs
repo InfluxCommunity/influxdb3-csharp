@@ -32,7 +32,7 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<RecordBatch> QueryEnumerable(string query, string? database = null);
+        IAsyncEnumerable<RecordBatch> QueryBatches(string query, string? database = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -136,7 +136,7 @@ namespace InfluxDB3.Client
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, string? database = null)
         {
-            await foreach (var batch in QueryEnumerable(query, database).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, database).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -162,7 +162,7 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        public IAsyncEnumerable<RecordBatch> QueryEnumerable(string query, string? database = null)
+        public IAsyncEnumerable<RecordBatch> QueryBatches(string query, string? database = null)
         {
             if (_disposed)
             {
