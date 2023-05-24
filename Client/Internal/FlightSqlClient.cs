@@ -65,7 +65,7 @@ internal class FlightSqlClient : IDisposable
         var info = await _flightClient.GetInfo(descriptor, headers).ResponseAsync.ConfigureAwait(false);
         foreach (var endpoint in info.Endpoints)
         {
-            var stream = _flightClient.GetStream(endpoint.Ticket, headers);
+            using var stream = _flightClient.GetStream(endpoint.Ticket, headers);
             while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
             {
                 yield return stream.ResponseStream.Current;
