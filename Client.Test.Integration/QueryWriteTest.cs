@@ -92,4 +92,18 @@ public class QueryWriteTest
 
         await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
     }
+
+    [Test]
+    public async Task CanDisableCertificateValidation()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            HostUrl = _hostUrl,
+            Database = _database,
+            AuthToken = _authToken,
+            DisableServerCertificateValidation = true
+        });
+
+        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+    }
 }
