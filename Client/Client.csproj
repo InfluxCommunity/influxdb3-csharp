@@ -41,14 +41,6 @@
 
     <ItemGroup>
         <PackageReference Include="Apache.Arrow.Flight" Version="12.0.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.54.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Protobuf Include="Protos\sql.proto" GrpcServices="Client" />
     </ItemGroup>
 
     <ItemGroup>

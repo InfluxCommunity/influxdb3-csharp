@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
 using Grpc.Core;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Query;
 using InfluxDB3.Client.Write;
 using NUnit.Framework;
 
@@ -16,102 +14,50 @@ public class QueryWriteTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly IContainer?[] _dockerContainers =
-    {
-        Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") is null
-            ? new ContainerBuilder()
-                .WithImage("voltrondata/flight-sql:arrow-11.0.0")
-                .WithAutoRemove(true)
-                .WithPortBinding(31337, 31337)
-                .WithEnvironment(new Dictionary<string, string>()
-                {
-                    { "FLIGHT_PASSWORD", "flight_password" },
-                    { "PRINT_QUERIES", "1" }
-                })
-                .Build()
-            : null,
-        Environment.GetEnvironmentVariable("INFLUXDB_URL") is null
-            ? new ContainerBuilder()
-                .WithImage("influxdb:latest")
-                .WithAutoRemove(true)
-                .WithPortBinding(8086, 8086)
-                .WithEnvironment(new Dictionary<string, string>()
-                {
-                    { "DOCKER_INFLUXDB_INIT_MODE", "setup" },
-                    { "DOCKER_INFLUXDB_INIT_USERNAME", "my-user" },
-                    { "DOCKER_INFLUXDB_INIT_PASSWORD", "my-password" },
-                    { "DOCKER_INFLUXDB_INIT_ORG", "my-org" },
-                    { "DOCKER_INFLUXDB_INIT_BUCKET", "my-bucket" },
-                    { "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN", "my-token" },
-                })
-                .Build()
-            : null
-    };
+    private readonly string _hostUrl = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
+                                       throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
+    private readonly string _authToken = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
+                                         throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
+    private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
+                                        throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
 
     [OneTimeSetUp]
-    public async Task OneTimeSetUp()
+    public void OneTimeSetUp()
     {
         if (!Trace.Listeners.Contains(ConsoleOutListener))
         {
             Console.SetOut(TestContext.Progress);
             Trace.Listeners.Add(ConsoleOutListener);
         }
-
-        foreach (var dockerContainer in _dockerContainers)
-        {
-            if (dockerContainer is not null)
-            {
-                await dockerContainer.StartAsync();
-            }
-
-            // wait to start
-            await Task.Delay(TimeSpan.FromSeconds(5));
-        }
-    }
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDown()
-    {
-        foreach (var dockerContainer in _dockerContainers)
-        {
-            if (dockerContainer is not null)
-            {
-                await dockerContainer.DisposeAsync();
-            }
-        }
     }
 
     [Test]
-    public async Task Query()
+    public async Task QueryWrite()
     {
-        var headers = new Metadata
-        {
-            {
-                "Authorization",
-                "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes("flight_username:flight_password"))
-            }
-        };
-
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            HostUrl = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
-            Database = "database",
-            DisableServerCertificateValidation = true,
-            Headers = headers
+            HostUrl = _hostUrl,
+            Database = _database,
+            AuthToken = _authToken
         });
 
-        var index = 0;
-        await foreach (var row in client.Query("SELECT * FROM nation"))
-        {
-            var nation = row[1];
-            if (index == 0)
-            {
-                Assert.That(nation, Is.EqualTo("ALGERIA"));
-            }
+        const string measurement = "integration_test";
+        var testId = DateTime.UtcNow.Millisecond;
+        await client.WriteRecordAsync($"{measurement},type=used value=123.0,testId={testId}");
 
-            Trace.WriteLine(nation);
-            index++;
+        var sql = $"SELECT value FROM {measurement} where \"testId\" = {testId}";
+        await foreach (var row in client.Query(sql))
+        {
+            Assert.That(row, Has.Length.EqualTo(1));
+            Assert.That(row[0], Is.EqualTo(123.0));
         }
+
+        var results = await client.Query(sql).ToListAsync();
+        Assert.That(results, Has.Count.EqualTo(1));
+
+        var influxQL = $"select MEAN(value) from {measurement} where \"testId\" = {testId} group by time(1s) fill(none) order by time desc limit 1";
+        results = await client.Query(influxQL, queryType: QueryType.InfluxQL).ToListAsync();
+        Assert.That(results, Has.Count.EqualTo(1));
     }
 
     [Test]
@@ -119,10 +65,8 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            HostUrl = Environment.GetEnvironmentVariable("FLIGHT_SQL_URL") ?? "https://localhost:31337",
-            Database = "database",
-            DisableServerCertificateValidation = true,
-            AuthToken = "my-token"
+            HostUrl = _hostUrl,
+            Database = _database,
         });
 
         var ae = Assert.ThrowsAsync<RpcException>(async () =>
@@ -133,22 +77,7 @@ public class QueryWriteTest
         });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae?.Message, Contains.Substring("Invalid bearer token"));
-    }
-
-    [Test]
-    public async Task Write()
-    {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
-        {
-            HostUrl = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
-            Database = "my-bucket",
-            Organization = "my-org",
-            AuthToken = "my-token",
-            DisableServerCertificateValidation = true
-        });
-
-        await client.WriteRecordAsync("mem,type=used value=1.0");
+        Assert.That(ae?.Message, Contains.Substring("Unauthenticated"));
     }
 
     [Test]
@@ -156,10 +85,22 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new InfluxDBClientConfigs
         {
-            HostUrl = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "http://localhost:8086",
-            Database = "my-bucket",
-            Organization = "my-org",
-            AuthToken = "my-token",
+            HostUrl = _hostUrl,
+            Database = _database,
+            AuthToken = _authToken
+        });
+
+        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+    }
+
+    [Test]
+    public async Task CanDisableCertificateValidation()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            HostUrl = _hostUrl,
+            Database = _database,
+            AuthToken = _authToken,
             DisableServerCertificateValidation = true
         });
 
