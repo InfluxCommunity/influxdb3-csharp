@@ -14,10 +14,13 @@ public class QueryWriteTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly string _hostUrl = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ?? throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
-    private readonly string _authToken = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ?? throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
-    private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ?? throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
-    
+    private readonly string _hostUrl = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
+                                       throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
+    private readonly string _authToken = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
+                                         throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
+    private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
+                                        throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
+
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
