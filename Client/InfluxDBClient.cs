@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Apache.Arrow;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
+using InfluxDB3.Client.Query;
 using InfluxDB3.Client.Write;
 using ArrowArray = Apache.Arrow.Array;
 
@@ -20,19 +21,21 @@ namespace InfluxDB3.Client
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<object?[]> Query(string query, string? database = null);
+        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<RecordBatch> QueryBatches(string query, string? database = null);
+        IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -96,7 +99,8 @@ namespace InfluxDB3.Client
         /// <param name="authToken">The authentication token for accessing the InfluxDB server.</param>
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        public InfluxDBClient(string hostUrl, string? authToken = null, string? organization = null, string? database = null) : this(
+        public InfluxDBClient(string hostUrl, string? authToken = null, string? organization = null,
+            string? database = null) : this(
             new InfluxDBClientConfigs
             {
                 HostUrl = hostUrl,
@@ -131,12 +135,14 @@ namespace InfluxDB3.Client
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        public async IAsyncEnumerable<object?[]> Query(string query, string? database = null)
+        public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
+            string? database = null)
         {
-            await foreach (var batch in QueryBatches(query, database).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -159,10 +165,12 @@ namespace InfluxDB3.Client
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        public IAsyncEnumerable<RecordBatch> QueryBatches(string query, string? database = null)
+        public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
+            string? database = null)
         {
             if (_disposed)
             {
@@ -170,7 +178,8 @@ namespace InfluxDB3.Client
             }
 
             return _flightSqlClient.Execute(query,
-                (database ?? _configs.Database) ?? throw new InvalidOperationException(OptionMessage("database")));
+                (database ?? _configs.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
+                queryType ?? QueryType.SQL);
         }
 
         /// <summary>
@@ -223,7 +232,8 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WritePointsAsync(IEnumerable<PointData> points, string? organization = null, string? database = null,
+        public Task WritePointsAsync(IEnumerable<PointData> points, string? organization = null,
+            string? database = null,
             WritePrecision? precision = null, CancellationToken cancellationToken = default)
         {
             return WriteData(points, organization, database, precision, cancellationToken);

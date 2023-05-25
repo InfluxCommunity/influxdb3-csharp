@@ -1,5 +1,4 @@
 using System;
-using Grpc.Core;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
@@ -58,11 +57,6 @@ public class InfluxDBClientConfigs
     /// Disable server SSL certificate validation. Default to 'false'.
     /// </summary>
     public bool DisableServerCertificateValidation { get; set; }
-
-    /// <summary>
-    /// Default headers to be sent with every request to FlightSQL server.
-    /// </summary>
-    internal Metadata? Headers { get; set; }
 
     internal void Validate()
     {
