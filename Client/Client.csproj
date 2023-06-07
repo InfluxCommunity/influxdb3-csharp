@@ -18,13 +18,13 @@
         <PackageId>InfluxDB3.Client</PackageId>
         <PackageTags>influxdata;timeseries;influxdb</PackageTags>
         <PackageIcon>influxdata.jpg</PackageIcon>
-        <PackageIconUrl>https://raw.githubusercontent.com/bonitoo-io/influxdb3-csharp/main/Assets/influxdata.jpg</PackageIconUrl>
-        <PackageProjectUrl>https://github.com/bonitoo-io/influxdb3-csharp/tree/main/Client</PackageProjectUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/InfluxCommunity/influxdb3-csharp/main/Assets/influxdata.jpg</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/InfluxCommunity/influxdb3-csharp/tree/main/Client</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/bonitoo-io/influxdb3-csharp</RepositoryUrl>
+        <RepositoryUrl>https://github.com/InfluxCommunity/influxdb3-csharp</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
 
-        <PackageReleaseNotes>https://raw.githubusercontent.com/bonitoo-io/influxdb3-csharp/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageReleaseNotes>https://raw.githubusercontent.com/InfluxCommunity/influxdb3-csharp/main/CHANGELOG.md</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RootNamespace>InfluxDB3.Client</RootNamespace>

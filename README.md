@@ -5,17 +5,17 @@
     <a href="https://www.nuget.org/packages/InfluxDB3.Client">
         <img src="https://buildstats.info/nuget/InfluxDB3.Client" alt="NuGet Badge">
     </a>
-    <a href="https://github.com/bonitoo-io/influxdb3-csharp/actions/workflows/codeql-analysis.yml">
-        <img src="https://github.com/bonitoo-io/influxdb3-csharp/actions/workflows/codeql-analysis.yml/badge.svg?branch=main" alt="CodeQL analysis">
+    <a href="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/codeql-analysis.yml">
+        <img src="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/codeql-analysis.yml/badge.svg?branch=main" alt="CodeQL analysis">
     </a>
-    <a href="https://github.com/bonitoo-io/influxdb3-csharp/actions/workflows/linter.yml">
-        <img src="https://github.com/bonitoo-io/influxdb3-csharp/actions/workflows/linter.yml/badge.svg" alt="Lint Code Base">
+    <a href="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/linter.yml">
+        <img src="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/linter.yml/badge.svg" alt="Lint Code Base">
     </a>
-    <a href="https://dl.circleci.com/status-badge/redirect/gh/bonitoo-io/influxdb3-csharp/tree/main">
-        <img src="https://dl.circleci.com/status-badge/img/gh/bonitoo-io/influxdb3-csharp/tree/main.svg?style=svg" alt="CircleCI">
+    <a href="https://dl.circleci.com/status-badge/redirect/gh/InfluxCommunity/influxdb3-csharp/tree/main">
+        <img src="https://dl.circleci.com/status-badge/img/gh/InfluxCommunity/influxdb3-csharp/tree/main.svg?style=svg" alt="CircleCI">
     </a>
-    <a href="https://codecov.io/gh/bonitoo-io/influxdb3-csharp">
-        <img src="https://codecov.io/gh/bonitoo-io/influxdb3-csharp/branch/main/graph/badge.svg" alt="Code Cov"/>
+    <a href="https://codecov.io/gh/InfluxCommunity/influxdb3-csharp">
+        <img src="https://codecov.io/gh/InfluxCommunity/influxdb3-csharp/branch/main/graph/badge.svg" alt="Code Cov"/>
     </a>
     <a href="https://app.slack.com/huddle/TH8RGQX5Z/C02UDUPLQKA">
         <img src="https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social" alt="Community Slack">
@@ -110,7 +110,7 @@ await foreach (var row in client.Query(query: influxQL, queryType: QueryType.Inf
 If you need help, please use our [Community Slack](https://app.slack.com/huddle/TH8RGQX5Z/C02UDUPLQKA)
 or [Community Page](https://community.influxdata.com/).
 
-New features and bugs can be reported on GitHub: <https://github.com/bonitoo-io/influxdb3-csharp>
+New features and bugs can be reported on GitHub: <https://github.com/InfluxCommunity/influxdb3-csharp>
 
 ## Contribution
 
