@@ -59,21 +59,6 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: *default-dotnet-image
-        environment:
-          FLIGHT_SQL_URL: "https://localhost:31337"
-          INFLUXDB_URL: "http://localhost:8086"
-      - image: voltrondata/flight-sql:arrow-11.0.0
-        environment:
-          FLIGHT_PASSWORD: "flight_password"
-          PRINT_QUERIES: "1"
-      - image: influxdb:latest
-        environment:
-          DOCKER_INFLUXDB_INIT_MODE: "setup"
-          DOCKER_INFLUXDB_INIT_USERNAME: "my-user"
-          DOCKER_INFLUXDB_INIT_PASSWORD: "my-password"
-          DOCKER_INFLUXDB_INIT_ORG: "my-org"
-          DOCKER_INFLUXDB_INIT_BUCKET: "my-bucket"
-          DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "my-token"
     steps:
       - client-test:
           project: "Client.Test.Integration"
@@ -105,7 +90,7 @@ jobs:
           name: Deploying To Preview Repository
           command: |
             dotnet pack Client --version-suffix=dev.$CIRCLE_BUILD_NUM
-#            dotnet nuget push ./Client/bin/Debug/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
+            dotnet nuget push ./Client/bin/Debug/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 workflows:
   version: 2
