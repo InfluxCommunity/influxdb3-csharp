@@ -104,6 +104,6 @@ workflows:
       - deploy-preview:
           requires:
             - tests-integration
-#          filters:
-#            branches:
-#              only: main
+          filters:
+            branches:
+              only: main
