@@ -104,7 +104,7 @@ jobs:
       - run:
           name: Deploying To Preview Repository
           command: |
-            dotnet pack Client.Core --version-suffix=dev.$CIRCLE_BUILD_NUM
+            dotnet pack Client --version-suffix=dev.$CIRCLE_BUILD_NUM
 #            dotnet nuget push ./Client/bin/Debug/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 workflows:
