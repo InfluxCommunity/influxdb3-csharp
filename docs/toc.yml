@@ -1,0 +1,3 @@
+- name: InfluxDB3.Client API
+  href: api/
+  homepage: api/InfluxDB3.Client.yml

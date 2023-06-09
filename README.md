@@ -5,6 +5,9 @@
     <a href="https://www.nuget.org/packages/InfluxDB3.Client">
         <img src="https://buildstats.info/nuget/InfluxDB3.Client" alt="NuGet Badge">
     </a>
+    <a href="https://influxcommunity.github.io/influxdb3-csharp/">
+        <img src="https://img.shields.io/badge/-docfx-blue?logo=csharp&logoColor=white" alt="docfx">
+    </a>
     <a href="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/codeql-analysis.yml">
         <img src="https://github.com/InfluxCommunity/influxdb3-csharp/actions/workflows/codeql-analysis.yml/badge.svg?branch=main" alt="CodeQL analysis">
     </a>
