@@ -1,0 +1,993 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PointData.Builder
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PointData.Builder
+   ">
+    <meta name="generator" content="docfx 2.59.3.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc">
+    <meta property="docfx:tocrel" content="toc">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/influxdata-logo--symbol--white.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+                
+                <ul class="nav level1 navbar-nav">
+                      <li>
+                          <a href="../api/InfluxDB.Client.yml" title="InfluxDB.Client API">InfluxDB.Client API</a>
+                      </li>
+                </ul>    </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div>
+              <div class="sidefilter">
+                <form class="toc-filter">
+                  <span class="glyphicon glyphicon-filter filter-icon"></span>
+                  <input type="text" id="toc_filter_input" placeholder="Enter here to filter..." onkeypress="if(event.keyCode==13) {return false;}">
+                </form>
+              </div>
+              <div class="sidetoc">
+                <div class="toc" id="toc">
+                  
+                  <ul class="nav level1">
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="InfluxDB3.Client.html" title="InfluxDB3.Client" class="">InfluxDB3.Client</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="InfluxDB3.Client.IInfluxDBClient.html" title="IInfluxDBClient" class="">IInfluxDBClient</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBApiException.html" title="InfluxDBApiException" class="">InfluxDBApiException</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBClient.html" title="InfluxDBClient" class="">InfluxDBClient</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="InfluxDB3.Client.Config.html" title="InfluxDB3.Client.Config" class="">InfluxDB3.Client.Config</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html" title="InfluxDBClientConfigs" class="">InfluxDBClientConfigs</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="InfluxDB3.Client.Query.html" title="InfluxDB3.Client.Query" class="">InfluxDB3.Client.Query</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="InfluxDB3.Client.Query.QueryType.html" title="QueryType" class="">QueryType</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="InfluxDB3.Client.Write.html" title="InfluxDB3.Client.Write" class="">InfluxDB3.Client.Write</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.PointData.html" title="PointData" class="">PointData</a>
+                          </li>
+                          <li class="active">
+                            <a href="InfluxDB3.Client.Write.PointData.Builder.html" title="PointData.Builder" class="active">PointData.Builder</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
+                          </li>
+                        </ul>  </li>
+                  </ul>        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Write.PointData.Builder">
+  
+  
+  <h1 id="InfluxDB3_Client_Write_PointData_Builder" data-uid="InfluxDB3.Client.Write.PointData.Builder" class="text-break">Class PointData.Builder
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">PointData.Builder</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.Client.Write.html">InfluxDB3.Client.Write</a></h6>
+  <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
+  <h5 id="InfluxDB3_Client_Write_PointData_Builder_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class Builder : object</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Boolean_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Boolean)">AddField(String, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Boolean"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, bool value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Byte_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Byte)">AddField(String, Byte)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Byte"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, byte value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Decimal_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Decimal)">AddField(String, Decimal)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Decimal"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, decimal value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Decimal</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Double_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Double)">AddField(String, Double)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Double"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, double value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Double</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Int64_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Int64)">AddField(String, Int64)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Int64"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, long value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Object_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Object)">AddField(String, Object)</h4>
+  <div class="markdown level1 summary"><p>Add a field with an <see cref="!:System.Object"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Single_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Single)">AddField(String, Single)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.Single"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, float value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.String)">AddField(String, String)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.String"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, string value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_UInt32_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt32)">AddField(String, UInt32)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.UInt32"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, uint value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddField_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_UInt64_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt64)">AddField(String, UInt64)</h4>
+  <div class="markdown level1 summary"><p>Add a field with a <see cref="!:System.UInt64"></see> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddField(string name, ulong value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the field name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the field value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_AddTag_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddTag*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_AddTag_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointData.Builder.AddTag(System.String,System.String)">AddTag(String, String)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a tag value for a point.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder AddTag(string name, string value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>the tag name</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>the tag value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>this</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_HasFields_" data-uid="InfluxDB3.Client.Write.PointData.Builder.HasFields*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_HasFields" data-uid="InfluxDB3.Client.Write.PointData.Builder.HasFields">HasFields()</h4>
+  <div class="markdown level1 summary"><p>Has point any fields?</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasFields()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>true, if the point contains any fields, false otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_Measurement_" data-uid="InfluxDB3.Client.Write.PointData.Builder.Measurement*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_Measurement_System_String_" data-uid="InfluxDB3.Client.Write.PointData.Builder.Measurement(System.String)">Measurement(String)</h4>
+  <div class="markdown level1 summary"><p>Create a new Point withe specified a measurement name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static PointData.Builder Measurement(string measurementName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">measurementName</span></td>
+        <td><p>the measurement name</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td><p>the new Point</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_DateTime_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTime)">SetTimestamp(DateTime)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:DateTime"></see>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder SetTimestamp(DateTime timestamp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTime</span></td>
+        <td><span class="parametername">timestamp</span></td>
+        <td><p>the timestamp</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_DateTimeOffset_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTimeOffset)">SetTimestamp(DateTimeOffset)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:DateTime"></see>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder SetTimestamp(DateTimeOffset timestamp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DateTimeOffset</span></td>
+        <td><span class="parametername">timestamp</span></td>
+        <td><p>the timestamp</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_System_Int64_System_Nullable_InfluxDB3_Client_Write_WritePrecision__" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})">SetTimestamp(Int64, Nullable&lt;WritePrecision&gt;)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder SetTimestamp(long timestamp, WritePrecision? timeUnit = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">timestamp</span></td>
+        <td><p>the timestamp</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a>&gt;</td>
+        <td><span class="parametername">timeUnit</span></td>
+        <td><p>the timestamp precision. Default is 'nanoseconds'.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_TimeSpan_" data-uid="InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(TimeSpan)">SetTimestamp(TimeSpan)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:TimeSpan"></see>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData.Builder SetTimestamp(TimeSpan timestamp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TimeSpan</span></td>
+        <td><span class="parametername">timestamp</span></td>
+        <td><p>the timestamp</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.Builder.html">PointData.Builder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointData_Builder_ToPointData_" data-uid="InfluxDB3.Client.Write.PointData.Builder.ToPointData*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointData_Builder_ToPointData" data-uid="InfluxDB3.Client.Write.PointData.Builder.ToPointData">ToPointData()</h4>
+  <div class="markdown level1 summary"><p>The PointData</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointData ToPointData()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointData.html">PointData</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

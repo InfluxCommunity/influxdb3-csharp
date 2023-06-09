@@ -1,0 +1,838 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: InfluxDB3.Client
+  name: InfluxDB3.Client
+  href: api/InfluxDB3.Client.html
+  commentId: N:InfluxDB3.Client
+  fullName: InfluxDB3.Client
+  nameWithType: InfluxDB3.Client
+- uid: InfluxDB3.Client.Config
+  name: InfluxDB3.Client.Config
+  href: api/InfluxDB3.Client.Config.html
+  commentId: N:InfluxDB3.Client.Config
+  fullName: InfluxDB3.Client.Config
+  nameWithType: InfluxDB3.Client.Config
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs
+  name: InfluxDBClientConfigs
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html
+  commentId: T:InfluxDB3.Client.Config.InfluxDBClientConfigs
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs
+  nameWithType: InfluxDBClientConfigs
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor
+  name: InfluxDBClientConfigs()
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs__ctor
+  commentId: M:InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.InfluxDBClientConfigs()
+  nameWithType: InfluxDBClientConfigs.InfluxDBClientConfigs()
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor*
+  name: InfluxDBClientConfigs
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs__ctor_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.InfluxDBClientConfigs
+  nameWithType: InfluxDBClientConfigs.InfluxDBClientConfigs
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects
+  name: AllowHttpRedirects
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_AllowHttpRedirects
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects
+  nameWithType: InfluxDBClientConfigs.AllowHttpRedirects
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects*
+  name: AllowHttpRedirects
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_AllowHttpRedirects_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects
+  nameWithType: InfluxDBClientConfigs.AllowHttpRedirects
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken
+  name: AuthToken
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_AuthToken
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken
+  nameWithType: InfluxDBClientConfigs.AuthToken
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken*
+  name: AuthToken
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_AuthToken_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken
+  nameWithType: InfluxDBClientConfigs.AuthToken
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Database
+  name: Database
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Database
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.Database
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Database
+  nameWithType: InfluxDBClientConfigs.Database
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Database*
+  name: Database
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Database_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.Database
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Database
+  nameWithType: InfluxDBClientConfigs.Database
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation
+  name: DisableServerCertificateValidation
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_DisableServerCertificateValidation
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation
+  nameWithType: InfluxDBClientConfigs.DisableServerCertificateValidation
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation*
+  name: DisableServerCertificateValidation
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_DisableServerCertificateValidation_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation
+  nameWithType: InfluxDBClientConfigs.DisableServerCertificateValidation
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl
+  name: HostUrl
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_HostUrl
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl
+  nameWithType: InfluxDBClientConfigs.HostUrl
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl*
+  name: HostUrl
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_HostUrl_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl
+  nameWithType: InfluxDBClientConfigs.HostUrl
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization
+  name: Organization
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Organization
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization
+  nameWithType: InfluxDBClientConfigs.Organization
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization*
+  name: Organization
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Organization_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization
+  nameWithType: InfluxDBClientConfigs.Organization
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout
+  name: Timeout
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Timeout
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout
+  nameWithType: InfluxDBClientConfigs.Timeout
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout*
+  name: Timeout
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_Timeout_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout
+  nameWithType: InfluxDBClientConfigs.Timeout
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision
+  name: WritePrecision
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_WritePrecision
+  commentId: P:InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision
+  nameWithType: InfluxDBClientConfigs.WritePrecision
+- uid: InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision*
+  name: WritePrecision
+  href: api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html#InfluxDB3_Client_Config_InfluxDBClientConfigs_WritePrecision_
+  commentId: Overload:InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision
+  nameWithType: InfluxDBClientConfigs.WritePrecision
+- uid: InfluxDB3.Client.IInfluxDBClient
+  name: IInfluxDBClient
+  href: api/InfluxDB3.Client.IInfluxDBClient.html
+  commentId: T:InfluxDB3.Client.IInfluxDBClient
+  fullName: InfluxDB3.Client.IInfluxDBClient
+  nameWithType: IInfluxDBClient
+- uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name: Query(String, Nullable<QueryType>, Nullable<String>)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String))
+  fullName: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
+  nameWithType: IInfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>)
+  nameWithType.vb: IInfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.IInfluxDBClient.Query*
+  name: Query
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.Query
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.Query
+  nameWithType: IInfluxDBClient.Query
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
+  nameWithType: IInfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>)
+  nameWithType.vb: IInfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches*
+  name: QueryBatches
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.QueryBatches
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches
+  nameWithType: IInfluxDBClient.QueryBatches
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WritePointAsync(PointData, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WritePointAsync(PointData, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: IInfluxDBClient.WritePointAsync(PointData, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: IInfluxDBClient.WritePointAsync(PointData, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointAsync*
+  name: WritePointAsync
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointAsync_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.WritePointAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointAsync
+  nameWithType: IInfluxDBClient.WritePointAsync
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WritePointsAsync(IEnumerable<PointData>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WritePointsAsync(IEnumerable(Of PointData), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable<InfluxDB3.Client.Write.PointData>, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable(Of InfluxDB3.Client.Write.PointData), System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: IInfluxDBClient.WritePointsAsync(IEnumerable<PointData>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: IInfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync*
+  name: WritePointsAsync
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.WritePointsAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync
+  nameWithType: IInfluxDBClient.WritePointsAsync
+- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WriteRecordAsync(String, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WriteRecordAsync(String, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: IInfluxDBClient.WriteRecordAsync(String, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: IInfluxDBClient.WriteRecordAsync(String, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync*
+  name: WriteRecordAsync
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync
+  nameWithType: IInfluxDBClient.WriteRecordAsync
+- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WriteRecordsAsync(IEnumerable<String>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WriteRecordsAsync(IEnumerable(Of String), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable<System.String>, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: IInfluxDBClient.WriteRecordsAsync(IEnumerable<String>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: IInfluxDBClient.WriteRecordsAsync(IEnumerable(Of String), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync*
+  name: WriteRecordsAsync
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync
+  nameWithType: IInfluxDBClient.WriteRecordsAsync
+- uid: InfluxDB3.Client.InfluxDBApiException
+  name: InfluxDBApiException
+  href: api/InfluxDB3.Client.InfluxDBApiException.html
+  commentId: T:InfluxDB3.Client.InfluxDBApiException
+  fullName: InfluxDB3.Client.InfluxDBApiException
+  nameWithType: InfluxDBApiException
+- uid: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
+  name: HttpResponseMessage
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_HttpResponseMessage
+  commentId: P:InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
+  fullName: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
+  nameWithType: InfluxDBApiException.HttpResponseMessage
+- uid: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage*
+  name: HttpResponseMessage
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_HttpResponseMessage_
+  commentId: Overload:InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
+  nameWithType: InfluxDBApiException.HttpResponseMessage
+- uid: InfluxDB3.Client.InfluxDBClient
+  name: InfluxDBClient
+  href: api/InfluxDB3.Client.InfluxDBClient.html
+  commentId: T:InfluxDB3.Client.InfluxDBClient
+  fullName: InfluxDB3.Client.InfluxDBClient
+  nameWithType: InfluxDBClient
+- uid: InfluxDB3.Client.InfluxDBClient.#ctor(InfluxDB3.Client.Config.InfluxDBClientConfigs)
+  name: InfluxDBClient(InfluxDBClientConfigs)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_InfluxDB3_Client_Config_InfluxDBClientConfigs_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.#ctor(InfluxDB3.Client.Config.InfluxDBClientConfigs)
+  fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(InfluxDB3.Client.Config.InfluxDBClientConfigs)
+  nameWithType: InfluxDBClient.InfluxDBClient(InfluxDBClientConfigs)
+- uid: InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})
+  name: InfluxDBClient(String, Nullable<String>, Nullable<String>, Nullable<String>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})
+  name.vb: InfluxDBClient(String, Nullable(Of String), Nullable(Of String), Nullable(Of String))
+  fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of System.String))
+  nameWithType: InfluxDBClient.InfluxDBClient(String, Nullable<String>, Nullable<String>, Nullable<String>)
+  nameWithType.vb: InfluxDBClient.InfluxDBClient(String, Nullable(Of String), Nullable(Of String), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.#ctor*
+  name: InfluxDBClient
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.#ctor
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient
+  nameWithType: InfluxDBClient.InfluxDBClient
+- uid: InfluxDB3.Client.InfluxDBClient.Dispose
+  name: Dispose()
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Dispose
+  commentId: M:InfluxDB3.Client.InfluxDBClient.Dispose
+  fullName: InfluxDB3.Client.InfluxDBClient.Dispose()
+  nameWithType: InfluxDBClient.Dispose()
+- uid: InfluxDB3.Client.InfluxDBClient.Dispose*
+  name: Dispose
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Dispose_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.Dispose
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.Dispose
+  nameWithType: InfluxDBClient.Dispose
+- uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name: Query(String, Nullable<QueryType>, Nullable<String>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String))
+  fullName: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
+  nameWithType: InfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>)
+  nameWithType.vb: InfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.Query*
+  name: Query
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.Query
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.Query
+  nameWithType: InfluxDBClient.Query
+- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
+  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
+  nameWithType: InfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>)
+  nameWithType.vb: InfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches*
+  name: QueryBatches
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.QueryBatches
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches
+  nameWithType: InfluxDBClient.QueryBatches
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WritePointAsync(PointData, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WritePointAsync(PointData, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: InfluxDBClient.WritePointAsync(PointData, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: InfluxDBClient.WritePointAsync(PointData, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointAsync*
+  name: WritePointAsync
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointAsync_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.WritePointAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointAsync
+  nameWithType: InfluxDBClient.WritePointAsync
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WritePointsAsync(IEnumerable<PointData>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WritePointsAsync(IEnumerable(Of PointData), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable<InfluxDB3.Client.Write.PointData>, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable(Of InfluxDB3.Client.Write.PointData), System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: InfluxDBClient.WritePointsAsync(IEnumerable<PointData>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: InfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointsAsync*
+  name: WritePointsAsync
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointsAsync_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.WritePointsAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointsAsync
+  nameWithType: InfluxDBClient.WritePointsAsync
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WriteRecordAsync(String, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WriteRecordAsync(String, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: InfluxDBClient.WriteRecordAsync(String, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: InfluxDBClient.WriteRecordAsync(String, Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync*
+  name: WriteRecordAsync
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.WriteRecordAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync
+  nameWithType: InfluxDBClient.WriteRecordAsync
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name: WriteRecordsAsync(IEnumerable<String>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)
+  name.vb: WriteRecordsAsync(IEnumerable(Of String), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable<System.String>, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<InfluxDB3.Client.Write.WritePrecision>, CancellationToken)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), CancellationToken)
+  nameWithType: InfluxDBClient.WriteRecordsAsync(IEnumerable<String>, Nullable<String>, Nullable<String>, Nullable<WritePrecision>, CancellationToken)
+  nameWithType.vb: InfluxDBClient.WriteRecordsAsync(IEnumerable(Of String), Nullable(Of String), Nullable(Of String), Nullable(Of WritePrecision), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync*
+  name: WriteRecordsAsync
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync
+  nameWithType: InfluxDBClient.WriteRecordsAsync
+- uid: InfluxDB3.Client.Query
+  name: InfluxDB3.Client.Query
+  href: api/InfluxDB3.Client.Query.html
+  commentId: N:InfluxDB3.Client.Query
+  fullName: InfluxDB3.Client.Query
+  nameWithType: InfluxDB3.Client.Query
+- uid: InfluxDB3.Client.Query.QueryType
+  name: QueryType
+  href: api/InfluxDB3.Client.Query.QueryType.html
+  commentId: T:InfluxDB3.Client.Query.QueryType
+  fullName: InfluxDB3.Client.Query.QueryType
+  nameWithType: QueryType
+- uid: InfluxDB3.Client.Query.QueryType.InfluxQL
+  name: InfluxQL
+  href: api/InfluxDB3.Client.Query.QueryType.html#InfluxDB3_Client_Query_QueryType_InfluxQL
+  commentId: F:InfluxDB3.Client.Query.QueryType.InfluxQL
+  fullName: InfluxDB3.Client.Query.QueryType.InfluxQL
+  nameWithType: QueryType.InfluxQL
+- uid: InfluxDB3.Client.Query.QueryType.SQL
+  name: SQL
+  href: api/InfluxDB3.Client.Query.QueryType.html#InfluxDB3_Client_Query_QueryType_SQL
+  commentId: F:InfluxDB3.Client.Query.QueryType.SQL
+  fullName: InfluxDB3.Client.Query.QueryType.SQL
+  nameWithType: QueryType.SQL
+- uid: InfluxDB3.Client.Write
+  name: InfluxDB3.Client.Write
+  href: api/InfluxDB3.Client.Write.html
+  commentId: N:InfluxDB3.Client.Write
+  fullName: InfluxDB3.Client.Write
+  nameWithType: InfluxDB3.Client.Write
+- uid: InfluxDB3.Client.Write.PointData
+  name: PointData
+  href: api/InfluxDB3.Client.Write.PointData.html
+  commentId: T:InfluxDB3.Client.Write.PointData
+  fullName: InfluxDB3.Client.Write.PointData
+  nameWithType: PointData
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Boolean)
+  name: AddField(String, Boolean)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Boolean_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Boolean)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Boolean)
+  nameWithType: PointData.AddField(String, Boolean)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Byte)
+  name: AddField(String, Byte)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Byte_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Byte)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Byte)
+  nameWithType: PointData.AddField(String, Byte)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Decimal)
+  name: AddField(String, Decimal)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Decimal_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Decimal)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Decimal)
+  nameWithType: PointData.AddField(String, Decimal)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Double)
+  name: AddField(String, Double)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Double_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Double)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Double)
+  nameWithType: PointData.AddField(String, Double)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Int64)
+  name: AddField(String, Int64)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Int64_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Int64)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Int64)
+  nameWithType: PointData.AddField(String, Int64)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Object)
+  name: AddField(String, Object)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Object_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Object)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Object)
+  nameWithType: PointData.AddField(String, Object)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.Single)
+  name: AddField(String, Single)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_Single_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.Single)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.Single)
+  nameWithType: PointData.AddField(String, Single)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.String)
+  name: AddField(String, String)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.String)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.String)
+  nameWithType: PointData.AddField(String, String)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.UInt32)
+  name: AddField(String, UInt32)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_UInt32_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.UInt32)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.UInt32)
+  nameWithType: PointData.AddField(String, UInt32)
+- uid: InfluxDB3.Client.Write.PointData.AddField(System.String,System.UInt64)
+  name: AddField(String, UInt64)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_System_String_System_UInt64_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddField(System.String,System.UInt64)
+  fullName: InfluxDB3.Client.Write.PointData.AddField(System.String, System.UInt64)
+  nameWithType: PointData.AddField(String, UInt64)
+- uid: InfluxDB3.Client.Write.PointData.AddField*
+  name: AddField
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddField_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.AddField
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.AddField
+  nameWithType: PointData.AddField
+- uid: InfluxDB3.Client.Write.PointData.AddTag(System.String,System.String)
+  name: AddTag(String, String)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddTag_System_String_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.AddTag(System.String,System.String)
+  fullName: InfluxDB3.Client.Write.PointData.AddTag(System.String, System.String)
+  nameWithType: PointData.AddTag(String, String)
+- uid: InfluxDB3.Client.Write.PointData.AddTag*
+  name: AddTag
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_AddTag_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.AddTag
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.AddTag
+  nameWithType: PointData.AddTag
+- uid: InfluxDB3.Client.Write.PointData.Builder
+  name: PointData.Builder
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html
+  commentId: T:InfluxDB3.Client.Write.PointData.Builder
+  fullName: InfluxDB3.Client.Write.PointData.Builder
+  nameWithType: PointData.Builder
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Boolean)
+  name: AddField(String, Boolean)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Boolean_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Boolean)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Boolean)
+  nameWithType: PointData.Builder.AddField(String, Boolean)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Byte)
+  name: AddField(String, Byte)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Byte_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Byte)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Byte)
+  nameWithType: PointData.Builder.AddField(String, Byte)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Decimal)
+  name: AddField(String, Decimal)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Decimal_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Decimal)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Decimal)
+  nameWithType: PointData.Builder.AddField(String, Decimal)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Double)
+  name: AddField(String, Double)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Double_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Double)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Double)
+  nameWithType: PointData.Builder.AddField(String, Double)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Int64)
+  name: AddField(String, Int64)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Int64_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Int64)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Int64)
+  nameWithType: PointData.Builder.AddField(String, Int64)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Object)
+  name: AddField(String, Object)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Object_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Object)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Object)
+  nameWithType: PointData.Builder.AddField(String, Object)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Single)
+  name: AddField(String, Single)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_Single_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.Single)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.Single)
+  nameWithType: PointData.Builder.AddField(String, Single)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.String)
+  name: AddField(String, String)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.String)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.String)
+  nameWithType: PointData.Builder.AddField(String, String)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt32)
+  name: AddField(String, UInt32)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_UInt32_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt32)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.UInt32)
+  nameWithType: PointData.Builder.AddField(String, UInt32)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt64)
+  name: AddField(String, UInt64)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_System_String_System_UInt64_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddField(System.String,System.UInt64)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField(System.String, System.UInt64)
+  nameWithType: PointData.Builder.AddField(String, UInt64)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddField*
+  name: AddField
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddField_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.AddField
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddField
+  nameWithType: PointData.Builder.AddField
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddTag(System.String,System.String)
+  name: AddTag(String, String)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddTag_System_String_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.AddTag(System.String,System.String)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddTag(System.String, System.String)
+  nameWithType: PointData.Builder.AddTag(String, String)
+- uid: InfluxDB3.Client.Write.PointData.Builder.AddTag*
+  name: AddTag
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_AddTag_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.AddTag
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.AddTag
+  nameWithType: PointData.Builder.AddTag
+- uid: InfluxDB3.Client.Write.PointData.Builder.HasFields
+  name: HasFields()
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_HasFields
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.HasFields
+  fullName: InfluxDB3.Client.Write.PointData.Builder.HasFields()
+  nameWithType: PointData.Builder.HasFields()
+- uid: InfluxDB3.Client.Write.PointData.Builder.HasFields*
+  name: HasFields
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_HasFields_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.HasFields
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.HasFields
+  nameWithType: PointData.Builder.HasFields
+- uid: InfluxDB3.Client.Write.PointData.Builder.Measurement(System.String)
+  name: Measurement(String)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_Measurement_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.Measurement(System.String)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.Measurement(System.String)
+  nameWithType: PointData.Builder.Measurement(String)
+- uid: InfluxDB3.Client.Write.PointData.Builder.Measurement*
+  name: Measurement
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_Measurement_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.Measurement
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.Measurement
+  nameWithType: PointData.Builder.Measurement
+- uid: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTime)
+  name: SetTimestamp(DateTime)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_DateTime_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTime)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTime)
+  nameWithType: PointData.Builder.SetTimestamp(DateTime)
+- uid: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTimeOffset)
+  name: SetTimestamp(DateTimeOffset)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_DateTimeOffset_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTimeOffset)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(DateTimeOffset)
+  nameWithType: PointData.Builder.SetTimestamp(DateTimeOffset)
+- uid: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name: SetTimestamp(Int64, Nullable<WritePrecision>)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_System_Int64_System_Nullable_InfluxDB3_Client_Write_WritePrecision__
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name.vb: SetTimestamp(Int64, Nullable(Of WritePrecision))
+  fullName: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(System.Int64, System.Nullable<InfluxDB3.Client.Write.WritePrecision>)
+  fullName.vb: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(System.Int64, System.Nullable(Of InfluxDB3.Client.Write.WritePrecision))
+  nameWithType: PointData.Builder.SetTimestamp(Int64, Nullable<WritePrecision>)
+  nameWithType.vb: PointData.Builder.SetTimestamp(Int64, Nullable(Of WritePrecision))
+- uid: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(TimeSpan)
+  name: SetTimestamp(TimeSpan)
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_TimeSpan_
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(TimeSpan)
+  fullName: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp(TimeSpan)
+  nameWithType: PointData.Builder.SetTimestamp(TimeSpan)
+- uid: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp*
+  name: SetTimestamp
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_SetTimestamp_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.SetTimestamp
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.SetTimestamp
+  nameWithType: PointData.Builder.SetTimestamp
+- uid: InfluxDB3.Client.Write.PointData.Builder.ToPointData
+  name: ToPointData()
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_ToPointData
+  commentId: M:InfluxDB3.Client.Write.PointData.Builder.ToPointData
+  fullName: InfluxDB3.Client.Write.PointData.Builder.ToPointData()
+  nameWithType: PointData.Builder.ToPointData()
+- uid: InfluxDB3.Client.Write.PointData.Builder.ToPointData*
+  name: ToPointData
+  href: api/InfluxDB3.Client.Write.PointData.Builder.html#InfluxDB3_Client_Write_PointData_Builder_ToPointData_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Builder.ToPointData
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Builder.ToPointData
+  nameWithType: PointData.Builder.ToPointData
+- uid: InfluxDB3.Client.Write.PointData.Equals(InfluxDB3.Client.Write.PointData)
+  name: Equals(PointData)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_Equals_InfluxDB3_Client_Write_PointData_
+  commentId: M:InfluxDB3.Client.Write.PointData.Equals(InfluxDB3.Client.Write.PointData)
+  fullName: InfluxDB3.Client.Write.PointData.Equals(InfluxDB3.Client.Write.PointData)
+  nameWithType: PointData.Equals(PointData)
+- uid: InfluxDB3.Client.Write.PointData.Equals(System.Nullable{System.Object})
+  name: Equals(Nullable<Object>)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_Equals_System_Nullable_System_Object__
+  commentId: M:InfluxDB3.Client.Write.PointData.Equals(System.Nullable{System.Object})
+  name.vb: Equals(Nullable(Of Object))
+  fullName: InfluxDB3.Client.Write.PointData.Equals(System.Nullable<System.Object>)
+  fullName.vb: InfluxDB3.Client.Write.PointData.Equals(System.Nullable(Of System.Object))
+  nameWithType: PointData.Equals(Nullable<Object>)
+  nameWithType.vb: PointData.Equals(Nullable(Of Object))
+- uid: InfluxDB3.Client.Write.PointData.Equals*
+  name: Equals
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_Equals_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Equals
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Equals
+  nameWithType: PointData.Equals
+- uid: InfluxDB3.Client.Write.PointData.GetHashCode
+  name: GetHashCode()
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_GetHashCode
+  commentId: M:InfluxDB3.Client.Write.PointData.GetHashCode
+  fullName: InfluxDB3.Client.Write.PointData.GetHashCode()
+  nameWithType: PointData.GetHashCode()
+- uid: InfluxDB3.Client.Write.PointData.GetHashCode*
+  name: GetHashCode
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_GetHashCode_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.GetHashCode
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.GetHashCode
+  nameWithType: PointData.GetHashCode
+- uid: InfluxDB3.Client.Write.PointData.HasFields
+  name: HasFields()
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_HasFields
+  commentId: M:InfluxDB3.Client.Write.PointData.HasFields
+  fullName: InfluxDB3.Client.Write.PointData.HasFields()
+  nameWithType: PointData.HasFields()
+- uid: InfluxDB3.Client.Write.PointData.HasFields*
+  name: HasFields
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_HasFields_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.HasFields
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.HasFields
+  nameWithType: PointData.HasFields
+- uid: InfluxDB3.Client.Write.PointData.Measurement(System.String)
+  name: Measurement(String)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_Measurement_System_String_
+  commentId: M:InfluxDB3.Client.Write.PointData.Measurement(System.String)
+  fullName: InfluxDB3.Client.Write.PointData.Measurement(System.String)
+  nameWithType: PointData.Measurement(String)
+- uid: InfluxDB3.Client.Write.PointData.Measurement*
+  name: Measurement
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_Measurement_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.Measurement
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Measurement
+  nameWithType: PointData.Measurement
+- uid: InfluxDB3.Client.Write.PointData.op_Equality(InfluxDB3.Client.Write.PointData,InfluxDB3.Client.Write.PointData)
+  name: Equality(PointData, PointData)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_op_Equality_InfluxDB3_Client_Write_PointData_InfluxDB3_Client_Write_PointData_
+  commentId: M:InfluxDB3.Client.Write.PointData.op_Equality(InfluxDB3.Client.Write.PointData,InfluxDB3.Client.Write.PointData)
+  fullName: InfluxDB3.Client.Write.PointData.Equality(InfluxDB3.Client.Write.PointData, InfluxDB3.Client.Write.PointData)
+  nameWithType: PointData.Equality(PointData, PointData)
+- uid: InfluxDB3.Client.Write.PointData.op_Equality*
+  name: Equality
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_op_Equality_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.op_Equality
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Equality
+  nameWithType: PointData.Equality
+- uid: InfluxDB3.Client.Write.PointData.op_Inequality(InfluxDB3.Client.Write.PointData,InfluxDB3.Client.Write.PointData)
+  name: Inequality(PointData, PointData)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_op_Inequality_InfluxDB3_Client_Write_PointData_InfluxDB3_Client_Write_PointData_
+  commentId: M:InfluxDB3.Client.Write.PointData.op_Inequality(InfluxDB3.Client.Write.PointData,InfluxDB3.Client.Write.PointData)
+  fullName: InfluxDB3.Client.Write.PointData.Inequality(InfluxDB3.Client.Write.PointData, InfluxDB3.Client.Write.PointData)
+  nameWithType: PointData.Inequality(PointData, PointData)
+- uid: InfluxDB3.Client.Write.PointData.op_Inequality*
+  name: Inequality
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_op_Inequality_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.op_Inequality
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.Inequality
+  nameWithType: PointData.Inequality
+- uid: InfluxDB3.Client.Write.PointData.SetTimestamp(DateTime)
+  name: SetTimestamp(DateTime)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_SetTimestamp_DateTime_
+  commentId: M:InfluxDB3.Client.Write.PointData.SetTimestamp(DateTime)
+  fullName: InfluxDB3.Client.Write.PointData.SetTimestamp(DateTime)
+  nameWithType: PointData.SetTimestamp(DateTime)
+- uid: InfluxDB3.Client.Write.PointData.SetTimestamp(DateTimeOffset)
+  name: SetTimestamp(DateTimeOffset)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_SetTimestamp_DateTimeOffset_
+  commentId: M:InfluxDB3.Client.Write.PointData.SetTimestamp(DateTimeOffset)
+  fullName: InfluxDB3.Client.Write.PointData.SetTimestamp(DateTimeOffset)
+  nameWithType: PointData.SetTimestamp(DateTimeOffset)
+- uid: InfluxDB3.Client.Write.PointData.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name: SetTimestamp(Int64, Nullable<WritePrecision>)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_SetTimestamp_System_Int64_System_Nullable_InfluxDB3_Client_Write_WritePrecision__
+  commentId: M:InfluxDB3.Client.Write.PointData.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name.vb: SetTimestamp(Int64, Nullable(Of WritePrecision))
+  fullName: InfluxDB3.Client.Write.PointData.SetTimestamp(System.Int64, System.Nullable<InfluxDB3.Client.Write.WritePrecision>)
+  fullName.vb: InfluxDB3.Client.Write.PointData.SetTimestamp(System.Int64, System.Nullable(Of InfluxDB3.Client.Write.WritePrecision))
+  nameWithType: PointData.SetTimestamp(Int64, Nullable<WritePrecision>)
+  nameWithType.vb: PointData.SetTimestamp(Int64, Nullable(Of WritePrecision))
+- uid: InfluxDB3.Client.Write.PointData.SetTimestamp(TimeSpan)
+  name: SetTimestamp(TimeSpan)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_SetTimestamp_TimeSpan_
+  commentId: M:InfluxDB3.Client.Write.PointData.SetTimestamp(TimeSpan)
+  fullName: InfluxDB3.Client.Write.PointData.SetTimestamp(TimeSpan)
+  nameWithType: PointData.SetTimestamp(TimeSpan)
+- uid: InfluxDB3.Client.Write.PointData.SetTimestamp*
+  name: SetTimestamp
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_SetTimestamp_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.SetTimestamp
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.SetTimestamp
+  nameWithType: PointData.SetTimestamp
+- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name: ToLineProtocol(Nullable<WritePrecision>)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__
+  commentId: M:InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision})
+  name.vb: ToLineProtocol(Nullable(Of WritePrecision))
+  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable<InfluxDB3.Client.Write.WritePrecision>)
+  fullName.vb: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable(Of InfluxDB3.Client.Write.WritePrecision))
+  nameWithType: PointData.ToLineProtocol(Nullable<WritePrecision>)
+  nameWithType.vb: PointData.ToLineProtocol(Nullable(Of WritePrecision))
+- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol*
+  name: ToLineProtocol
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_
+  commentId: Overload:InfluxDB3.Client.Write.PointData.ToLineProtocol
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol
+  nameWithType: PointData.ToLineProtocol
+- uid: InfluxDB3.Client.Write.WritePrecision
+  name: WritePrecision
+  href: api/InfluxDB3.Client.Write.WritePrecision.html
+  commentId: T:InfluxDB3.Client.Write.WritePrecision
+  fullName: InfluxDB3.Client.Write.WritePrecision
+  nameWithType: WritePrecision
+- uid: InfluxDB3.Client.Write.WritePrecision.Ms
+  name: Ms
+  href: api/InfluxDB3.Client.Write.WritePrecision.html#InfluxDB3_Client_Write_WritePrecision_Ms
+  commentId: F:InfluxDB3.Client.Write.WritePrecision.Ms
+  fullName: InfluxDB3.Client.Write.WritePrecision.Ms
+  nameWithType: WritePrecision.Ms
+- uid: InfluxDB3.Client.Write.WritePrecision.Ns
+  name: Ns
+  href: api/InfluxDB3.Client.Write.WritePrecision.html#InfluxDB3_Client_Write_WritePrecision_Ns
+  commentId: F:InfluxDB3.Client.Write.WritePrecision.Ns
+  fullName: InfluxDB3.Client.Write.WritePrecision.Ns
+  nameWithType: WritePrecision.Ns
+- uid: InfluxDB3.Client.Write.WritePrecision.S
+  name: S
+  href: api/InfluxDB3.Client.Write.WritePrecision.html#InfluxDB3_Client_Write_WritePrecision_S
+  commentId: F:InfluxDB3.Client.Write.WritePrecision.S
+  fullName: InfluxDB3.Client.Write.WritePrecision.S
+  nameWithType: WritePrecision.S
+- uid: InfluxDB3.Client.Write.WritePrecision.Us
+  name: Us
+  href: api/InfluxDB3.Client.Write.WritePrecision.html#InfluxDB3_Client_Write_WritePrecision_Us
+  commentId: F:InfluxDB3.Client.Write.WritePrecision.Us
+  fullName: InfluxDB3.Client.Write.WritePrecision.Us
+  nameWithType: WritePrecision.Us

@@ -1,0 +1,239 @@
+{
+  "homepages": [],
+  "source_base_path": "/source/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Config.InfluxDBClientConfigs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html",
+          "hash": "w5eBVHC6Psb2E/PlVnRn2CvQsmmG8aHJpdD+zD0VMhY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Config.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Config.html",
+          "hash": "nLVnqjKBPausGZwq1P/k6dTsE4RPmiuPbnEhb+IMjSs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.IInfluxDBClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.IInfluxDBClient.html",
+          "hash": "4mbB9cLByVZz0oOQYT5DftUzX8cxkbNk+91/PmGS4yY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.InfluxDBApiException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.InfluxDBApiException.html",
+          "hash": "DpQQvOQJtuSJV/ZeCLu3Eq9v8PKOSRz9gdR6yCXLAiA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.InfluxDBClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.InfluxDBClient.html",
+          "hash": "GmRTMMtnd2Ap0OGGq8rPjYyqRQZbiP22beUI03hbXDs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Query.QueryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Query.QueryType.html",
+          "hash": "EeiuhA9gW+gptWtW6djNOXU/rU9us0w2Tl++XrpyVbk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Query.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Query.html",
+          "hash": "wE4GnRyH0mHDnNgnFVSMCbY0pUZGyo/xpv+eXdDmiX0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Write.PointData.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Write.PointData.Builder.html",
+          "hash": "xDNAQT6yfRb4wQZe2b7y4FRZuMEGswvzCEardE20STQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Write.PointData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Write.PointData.html",
+          "hash": "ySJ8WJlXumGM5f9Oiwj4DMENrIkJlRqXOCfuEQ9i640="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Write.WritePrecision.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Write.WritePrecision.html",
+          "hash": "Z/tLfBZgRDFHBlOVRFfpGxF/PcLUt8KNjI/09eUbPEM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Write.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Write.html",
+          "hash": "pvjEJjbj2DQM3rzHOoaJjzBO3MlLtMar8zgo7ihFUsw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.html",
+          "hash": "gvjC8UjnLumbNVrA3GdsivGFc1yjO+yVFqt9OZZprPU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/influxdata-logo--symbol--white.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/influxdata-logo--symbol--white.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "kfcnfAPWI6t8TSibnNWrqjlQxgMGti+B5HrJHpogkBQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 1,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 12,
+          "skipped_file_count": 12
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
