@@ -18,5 +18,5 @@ public class WriteOptions
     {
         Precision = WritePrecision.Ns,
         GzipThreshold = 1000
-    };    
+    };
 }
