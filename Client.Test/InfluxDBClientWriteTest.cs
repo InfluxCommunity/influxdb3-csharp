@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
+using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 
@@ -74,7 +75,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
-   [Test]
+    [Test]
     public async Task BodyNonDefaultGzipped()
     {
         MockServer
@@ -93,10 +94,22 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
-        foreach (var entry in MockServer.LogEntries.ToList())
-        {
-            Console.WriteLine(entry);
-        }
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
+    }
+
+    [Test]
+    public async Task BodyDefaultNotGzipped()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", ".*", MatchBehaviour.RejectOnMatch).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+         _client = new InfluxDBClient(MockServerUrl, null, "org", "database");
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
     [Test]
