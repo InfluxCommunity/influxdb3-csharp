@@ -74,6 +74,31 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
+   [Test]
+    public async Task BodyNonDefaultGzipped()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", "gzip").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+         _client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            HostUrl = MockServerUrl,
+            Organization = "org",
+            Database = "database",
+            WriteOptions = new WriteOptions
+            {
+                GzipThreshold = 1
+            }
+        });
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+        foreach (var entry in MockServer.LogEntries.ToList())
+        {
+            Console.WriteLine(entry);
+        }
+    }
+
     [Test]
     public void AlreadyDisposed()
     {
@@ -167,7 +192,10 @@ public class InfluxDBClientWriteTest : MockServerTest
             HostUrl = MockServerUrl,
             Organization = "org",
             Database = "database",
-            WritePrecision = WritePrecision.Ms
+            WriteOptions = new WriteOptions
+            {
+                Precision = WritePrecision.Ms
+            }
         });
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())

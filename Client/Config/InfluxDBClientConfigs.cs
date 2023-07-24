@@ -39,11 +39,6 @@ public class InfluxDBClientConfigs
     public string? Database { get; set; }
 
     /// <summary>
-    /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
-    /// </summary>
-    public WritePrecision? WritePrecision { get; set; }
-
-    /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.
     /// </summary>
     public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(10);
@@ -58,11 +53,21 @@ public class InfluxDBClientConfigs
     /// </summary>
     public bool DisableServerCertificateValidation { get; set; }
 
+    /// <summary>
+    /// Write options.
+    /// </summary>
+    public WriteOptions? WriteOptions { get; set; }
+
     internal void Validate()
     {
         if (string.IsNullOrEmpty(HostUrl))
         {
             throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
         }
+    }
+
+    internal WritePrecision WritePrecision
+    {
+        get => WriteOptions != null ? WriteOptions.Precision ?? WritePrecision.Ns : WritePrecision.Ns;
     }
 }
