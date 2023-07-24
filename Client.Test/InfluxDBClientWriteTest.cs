@@ -82,7 +82,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", "gzip").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-         _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new InfluxDBClientConfigs
         {
             HostUrl = MockServerUrl,
             Organization = "org",
@@ -105,7 +105,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", ".*", MatchBehaviour.RejectOnMatch).UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-         _client = new InfluxDBClient(MockServerUrl, null, "org", "database");
+        _client = new InfluxDBClient(MockServerUrl, null, "org", "database");
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
         var requests = MockServer.LogEntries.ToList();
