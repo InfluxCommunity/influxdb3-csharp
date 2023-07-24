@@ -90,6 +90,7 @@ namespace InfluxDB3.Client
         private readonly HttpClient _httpClient;
         private readonly FlightSqlClient _flightSqlClient;
         private readonly RestClient _restClient;
+        private readonly GzipHandler _gzipHandler;
 
         /// <summary>
         /// This class provides an interface for interacting with an InfluxDB server,
@@ -107,6 +108,7 @@ namespace InfluxDB3.Client
                 Organization = organization,
                 Database = database,
                 AuthToken = authToken,
+                WriteOptions = WriteOptions.DefaultOptions
             })
         {
         }
@@ -129,6 +131,7 @@ namespace InfluxDB3.Client
             _httpClient = CreateAndConfigureHttpClient(_configs);
             _flightSqlClient = new FlightSqlClient(configs: _configs, httpClient: _httpClient);
             _restClient = new RestClient(configs: _configs, httpClient: _httpClient);
+            _gzipHandler = new GzipHandler(configs.WriteOptions != null ? configs.WriteOptions.GzipThreshold : 0);
         }
 
         /// <summary>
@@ -247,7 +250,7 @@ namespace InfluxDB3.Client
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
-            var precisionNotNull = precision ?? _configs.WritePrecision ?? WritePrecision.Ns;
+            var precisionNotNull = precision ?? _configs.WritePrecision;
             var sb = ToLineProtocolBody(data, precisionNotNull);
             if (sb.Length == 0)
             {
@@ -255,7 +258,8 @@ namespace InfluxDB3.Client
                 return;
             }
 
-            var content = new StringContent(sb.ToString(), Encoding.UTF8, "text/plain");
+            var body = sb.ToString();
+            var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
             var queryParams = new Dictionary<string, string?>()
             {
                 {
@@ -314,19 +318,24 @@ namespace InfluxDB3.Client
 
         internal static HttpClient CreateAndConfigureHttpClient(InfluxDBClientConfigs configs)
         {
-            var handler = new HttpClientHandler
+            var handler = new HttpClientHandler();
+            if (handler.SupportsRedirectConfiguration)
             {
-                AllowAutoRedirect = configs.AllowHttpRedirects
-            };
-
+                handler.AllowAutoRedirect = configs.AllowHttpRedirects;
+            }
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            }
             if (configs.DisableServerCertificateValidation)
             {
                 handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
             }
 
-            var client = new HttpClient(handler);
-
-            client.Timeout = configs.Timeout;
+            var client = new HttpClient(handler)
+            {
+                Timeout = configs.Timeout
+            };
             client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
             if (!string.IsNullOrEmpty(configs.AuthToken))
             {

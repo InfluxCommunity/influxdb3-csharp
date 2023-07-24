@@ -8,6 +8,8 @@ using InfluxDB3.Client.Query;
 using InfluxDB3.Client.Write;
 using NUnit.Framework;
 
+using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
+
 namespace InfluxDB3.Client.Test.Integration;
 
 public class QueryWriteTest
@@ -105,5 +107,23 @@ public class QueryWriteTest
         });
 
         await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+    }
+
+
+    [Test]
+    public async Task WriteDataGzipped()
+    {
+        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        {
+            HostUrl = _hostUrl,
+            Database = _database,
+            AuthToken = _authToken,
+            WriteOptions = new WriteOptions
+            {
+                GzipThreshold = 1
+            }
+        });
+
+        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c").AddField("user", 14.34));
     }
 }
