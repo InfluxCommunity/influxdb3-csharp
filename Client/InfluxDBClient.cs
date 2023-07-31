@@ -327,6 +327,10 @@ namespace InfluxDB3.Client
             {
                 handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
             }
+            if (handler.SupportsProxy && configs.Proxy != null)
+            {
+                handler.Proxy = configs.Proxy;
+            }
             if (configs.DisableServerCertificateValidation)
             {
                 handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
@@ -336,6 +340,13 @@ namespace InfluxDB3.Client
             {
                 Timeout = configs.Timeout
             };
+            if (configs.Headers != null)
+            {
+                foreach (var header in configs.Headers)
+                {
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
+                }
+            }
             client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
             if (!string.IsNullOrEmpty(configs.AuthToken))
             {
