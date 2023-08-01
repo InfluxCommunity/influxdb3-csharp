@@ -24,10 +24,10 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task Authorization()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
-            AuthToken = "my-token"
+            Host = MockServerUrl,
+            Token = "my-token"
         });
         await DoRequest();
 
@@ -39,9 +39,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task UserAgent()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
         await DoRequest();
 
@@ -54,9 +54,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task Url()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
         await DoRequest();
 
@@ -67,9 +67,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public async Task UrlWithBackslash()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = $"{MockServerUrl}/",
+            Host = $"{MockServerUrl}/",
         });
         await DoRequest();
 
@@ -89,9 +89,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorHeader()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
 
         MockServer
@@ -116,9 +116,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorBody()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
 
         MockServer
@@ -143,9 +143,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorJsonBody()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
 
         MockServer
@@ -171,9 +171,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void ErrorReason()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
         });
 
         MockServer
@@ -197,9 +197,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void AllowHttpRedirects()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             AllowHttpRedirects = true
         });
 
@@ -209,9 +209,9 @@ public class RestClientTest : MockServerTest
     [Test]
     public void Timeout()
     {
-        CreateAndConfigureRestClient(new InfluxDBClientConfigs
+        CreateAndConfigureRestClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Timeout = TimeSpan.FromSeconds(45)
         });
 
@@ -219,10 +219,10 @@ public class RestClientTest : MockServerTest
         Assert.That(httpClient.Timeout, Is.EqualTo(TimeSpan.FromSeconds(45)));
     }
 
-    private void CreateAndConfigureRestClient(InfluxDBClientConfigs configs)
+    private void CreateAndConfigureRestClient(ClientConfig config)
     {
-        _httpClient = InfluxDBClient.CreateAndConfigureHttpClient(configs);
-        _client = new RestClient(configs, _httpClient);
+        _httpClient = InfluxDBClient.CreateAndConfigureHttpClient(config);
+        _client = new RestClient(config, _httpClient);
     }
 
     private static T GetDeclaredField<T>(IReflect type, object instance, string fieldName)
