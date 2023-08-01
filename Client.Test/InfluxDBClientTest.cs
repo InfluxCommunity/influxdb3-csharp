@@ -10,7 +10,7 @@ public class InfluxDBClientTest
     [Test]
     public void Create()
     {
-        using var client = new InfluxDBClient("http://localhost:8086", organization: "org", bucket: "database");
+        using var client = new InfluxDBClient("http://localhost:8086", organization: "org", database: "database");
 
         Assert.That(client, Is.Not.Null);
     }

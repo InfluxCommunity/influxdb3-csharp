@@ -20,7 +20,7 @@ public class QueryWriteTest
                                        throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
     private readonly string _token = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
                                          throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
-    private readonly string _bucket = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
+    private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
                                         throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
 
     [OneTimeSetUp]
@@ -40,7 +40,7 @@ public class QueryWriteTest
         {
             Host = _host,
             Token = _token,
-            Bucket = _bucket
+            Database = _database
         });
 
         const string measurement = "integration_test";
@@ -68,7 +68,7 @@ public class QueryWriteTest
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = _host,
-            Bucket = _bucket,
+            Database = _database
         });
 
         var ae = Assert.ThrowsAsync<RpcException>(async () =>
@@ -88,7 +88,7 @@ public class QueryWriteTest
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = _host,
-            Bucket = _bucket,
+            Database = _database,
             Token = _token
         });
 
@@ -101,7 +101,7 @@ public class QueryWriteTest
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = _host,
-            Bucket = _bucket,
+            Database = _database,
             Token = _token,
             DisableServerCertificateValidation = true
         });
@@ -116,7 +116,7 @@ public class QueryWriteTest
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = _host,
-            Bucket = _bucket,
+            Database = _database,
             Token = _token,
             WriteOptions = new WriteOptions
             {

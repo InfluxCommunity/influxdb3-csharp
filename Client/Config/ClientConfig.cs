@@ -68,9 +68,9 @@ public class InfluxDBClientConfigs
     public string? Organization { get; set; }
 
     /// <summary>
-    /// The bucket to be used for InfluxDB operations.
+    /// The database to be used for InfluxDB operations.
     /// </summary>
-    public string? Bucket { get; set; }
+    public string? Database { get; set; }
 
     /// <summary>
     /// The set of HTTP headers to be included in requests.
