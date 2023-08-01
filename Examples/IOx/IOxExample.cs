@@ -12,9 +12,9 @@ public class IOxExample
     {
         const string host = "https://us-east-1-1.aws.cloud2.influxdata.com";
         const string token = "my-token";
-        const string bucket = "my-bucket";
+        const string database = "my-database";
 
-        using var client = new InfluxDBClient(host: host, token: token, bucket: bucket);
+        using var client = new InfluxDBClient(host: host, token: token, database: database);
 
         //
         // Write by Point
