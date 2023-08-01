@@ -43,7 +43,7 @@ public class InfluxDBClientConfigs
     /// <summary>
     /// The set of HTTP headers to be included in requests.
     /// </summary>
-    public List<KeyValuePair<String, String>>? Headers { get; set; }
+    public Dictionary<String, String>? Headers { get; set; }
 
     /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.
@@ -61,7 +61,7 @@ public class InfluxDBClientConfigs
     public bool DisableServerCertificateValidation { get; set; }
 
     /// <summary>
-    /// The web proxy for HTTP communication.
+    /// The HTTP proxy URL. Default is not set.
     /// </summary>
     public WebProxy? Proxy { get; set; }
 

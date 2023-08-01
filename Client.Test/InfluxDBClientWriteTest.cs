@@ -291,9 +291,9 @@ public class InfluxDBClientWriteTest : MockServerTest
             HostUrl = MockServerUrl,
             Organization = "org",
             Database = "database",
-            Headers = new List<KeyValuePair<String, String>>
+            Headers = new Dictionary<string, string>
             {
-                new KeyValuePair<string, string>("X-device", "ab-01"),
+                { "X-device", "ab-01" },
             }
         });
         MockServer
