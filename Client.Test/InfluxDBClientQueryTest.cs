@@ -35,6 +35,6 @@ public class InfluxDBClientQueryTest : MockServerTest
         var ae = Assert.Throws<InvalidOperationException>(() => { _client.QueryBatches("SELECT 1"); });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("Please specify the 'database' as a method parameter or use default configuration at 'InfluxDBClientConfigs.Database'."));
+        Assert.That(ae.Message, Is.EqualTo("Please specify the 'database' as a method parameter or use default configuration at 'ClientConfig.Database'."));
     }
 }

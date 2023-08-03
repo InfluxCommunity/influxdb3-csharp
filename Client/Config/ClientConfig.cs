@@ -37,30 +37,30 @@ namespace InfluxDB3.Client.Config;
 /// </code>
 /// </summary>
 
-public class InfluxDBClientConfigs
+public class ClientConfig
 {
-    private string _hostUrl = "";
+    private string _host = "";
 
     /// <summary>
     /// The configuration of the client.
     /// </summary>
-    public InfluxDBClientConfigs()
+    public ClientConfig()
     {
     }
 
     /// <summary>
-    /// The hostname or IP address of the InfluxDB server.
+    /// The URL of the InfluxDB server.
     /// </summary>
-    public string HostUrl
+    public string Host
     {
-        get => _hostUrl;
-        set => _hostUrl = string.IsNullOrEmpty(value) ? value : value.EndsWith("/") ? value : $"{value}/";
+        get => _host;
+        set => _host = string.IsNullOrEmpty(value) ? value : value.EndsWith("/") ? value : $"{value}/";
     }
 
     /// <summary>
     /// The authentication token for accessing the InfluxDB server.
     /// </summary>
-    public string? AuthToken { get; set; }
+    public string? Token { get; set; }
 
     /// <summary>
     /// The organization to be used for operations.
@@ -104,9 +104,9 @@ public class InfluxDBClientConfigs
 
     internal void Validate()
     {
-        if (string.IsNullOrEmpty(HostUrl))
+        if (string.IsNullOrEmpty(Host))
         {
-            throw new ArgumentException("The hostname or IP address of the InfluxDB server has to be defined.");
+            throw new ArgumentException("The URL of the InfluxDB server has to be defined.");
         }
     }
 

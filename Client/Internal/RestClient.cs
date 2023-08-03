@@ -19,12 +19,12 @@ internal class RestClient
     private static readonly string[] ErrorHeaders =
         { "X-Platform-Error-Code", "X-Influx-Error", "X-InfluxDb-Error" };
 
-    private readonly InfluxDBClientConfigs _configs;
+    private readonly ClientConfig _config;
     private readonly HttpClient _httpClient;
 
-    internal RestClient(InfluxDBClientConfigs configs, HttpClient httpClient)
+    internal RestClient(ClientConfig config, HttpClient httpClient)
     {
-        _configs = configs;
+        _config = config;
         _httpClient = httpClient;
     }
 
@@ -32,7 +32,7 @@ internal class RestClient
         Dictionary<string, string?>? queryParams = null,
         CancellationToken cancellationToken = default)
     {
-        var builder = new UriBuilder(new Uri($"{_configs.HostUrl}{path}"));
+        var builder = new UriBuilder(new Uri($"{_config.Host}{path}"));
         if (queryParams is not null)
         {
             var query = queryParams

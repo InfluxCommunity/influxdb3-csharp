@@ -19,19 +19,19 @@ internal class FlightSqlClient : IDisposable
     private readonly GrpcChannel _channel;
     private readonly FlightClient _flightClient;
 
-    private readonly InfluxDBClientConfigs _configs;
+    private readonly ClientConfig _config;
     private readonly DataContractJsonSerializer _serializer;
 
-    internal FlightSqlClient(InfluxDBClientConfigs configs, HttpClient httpClient)
+    internal FlightSqlClient(ClientConfig config, HttpClient httpClient)
     {
-        _configs = configs;
+        _config = config;
         _channel = GrpcChannel.ForAddress(
-            _configs.HostUrl,
+            _config.Host,
             new GrpcChannelOptions
             {
                 HttpClient = httpClient,
                 DisposeHttpClient = false,
-                Credentials = _configs.HostUrl.StartsWith("https", StringComparison.OrdinalIgnoreCase)
+                Credentials = _config.Host.StartsWith("https", StringComparison.OrdinalIgnoreCase)
                     ? ChannelCredentials.SecureSsl
                     : ChannelCredentials.Insecure,
             });
@@ -48,9 +48,9 @@ internal class FlightSqlClient : IDisposable
         var headers = new Metadata();
 
         // authorization by token
-        if (!string.IsNullOrEmpty(_configs.AuthToken))
+        if (!string.IsNullOrEmpty(_config.Token))
         {
-            headers.Add("Authorization", $"Bearer {_configs.AuthToken}");
+            headers.Add("Authorization", $"Bearer {_config.Token}");
         }
 
         // set query parameters

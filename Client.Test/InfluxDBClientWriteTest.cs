@@ -83,9 +83,9 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", "gzip").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             WriteOptions = new WriteOptions
@@ -128,20 +128,6 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public async Task OrgCustom()
-    {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
-        MockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(204));
-
-        await _client.WriteRecordAsync("mem,tag=a field=1", organization: "my-org");
-
-        var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["org"].First(), Is.EqualTo("my-org"));
-    }
-
-    [Test]
     public async Task NotSpecifiedOrg()
     {
         MockServer
@@ -181,7 +167,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae.Message,
             Is.EqualTo(
-                "Please specify the 'database' as a method parameter or use default configuration at 'InfluxDBClientConfigs.Database'."));
+                "Please specify the 'database' as a method parameter or use default configuration at 'ClientConfig.Database'."));
     }
 
     [Test]
@@ -201,9 +187,9 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task PrecisionOptions()
     {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             WriteOptions = new WriteOptions
@@ -257,9 +243,9 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task Proxy()
     {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             Proxy = new System.Net.WebProxy
@@ -286,9 +272,9 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task CustomHeader()
     {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             Headers = new Dictionary<string, string>

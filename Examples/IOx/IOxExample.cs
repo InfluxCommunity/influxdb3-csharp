@@ -10,11 +10,11 @@ public class IOxExample
 {
     static async Task Main(string[] args)
     {
-        const string hostUrl = "https://us-east-1-1.aws.cloud2.influxdata.com";
+        const string host = "https://us-east-1-1.aws.cloud2.influxdata.com";
+        const string token = "my-token";
         const string database = "my-database";
-        const string authToken = "my-token";
 
-        using var client = new InfluxDBClient(hostUrl, authToken: authToken, database: database);
+        using var client = new InfluxDBClient(host: host, token: token, database: database);
 
         //
         // Write by Point
