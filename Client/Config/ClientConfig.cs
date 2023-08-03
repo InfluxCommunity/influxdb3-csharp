@@ -37,7 +37,7 @@ namespace InfluxDB3.Client.Config;
 /// </code>
 /// </summary>
 
-public class InfluxDBClientConfigs
+public class ClientConfig
 {
     private string _host = "";
 
