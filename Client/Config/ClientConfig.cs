@@ -6,11 +6,11 @@ using InfluxDB3.Client.Write;
 namespace InfluxDB3.Client.Config;
 
 /// <summary>
-/// The InfluxDBClientConfigs class holds the configuration for the InfluxDB client.
+/// The ClientConfig class holds the configuration for the InfluxDB client.
 ///
 /// You can configure following options:
-/// - HostUrl: The hostname or IP address of the InfluxDB server.
-/// - AuthToken: The authentication token for accessing the InfluxDB server.
+/// - Host: The URL of the InfluxDB server.
+/// - Token: The authentication token for accessing the InfluxDB server.
 /// - Organization: The organization to be used for operations.
 /// - Database: The database to be used for InfluxDB operations.
 /// - Headers: The set of HTTP headers to be included in requests.
@@ -22,8 +22,9 @@ namespace InfluxDB3.Client.Config;
 ///
 /// If you want create client with custom options, you can use the following code:
 /// <code>
-/// using var client = new InfluxDBClient(new InfluxDBClientConfigs{
-///     HostUrl = "https://us-east-1-1.aws.cloud2.influxdata.com",
+/// using var client = new InfluxDBClient(new ClientConfig{
+///     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
+///     Token = "my-token",
 ///     Organization = "my-org",
 ///     Database = "my-database",
 ///     AllowHttpRedirects = true,
