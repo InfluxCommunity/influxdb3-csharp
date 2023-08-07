@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
@@ -82,9 +83,9 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", "gzip").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             WriteOptions = new WriteOptions
@@ -127,20 +128,6 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public async Task OrgCustom()
-    {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
-        MockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(204));
-
-        await _client.WriteRecordAsync("mem,tag=a field=1", organization: "my-org");
-
-        var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["org"].First(), Is.EqualTo("my-org"));
-    }
-
-    [Test]
     public async Task NotSpecifiedOrg()
     {
         MockServer
@@ -180,7 +167,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae.Message,
             Is.EqualTo(
-                "Please specify the 'database' as a method parameter or use default configuration at 'InfluxDBClientConfigs.Database'."));
+                "Please specify the 'database' as a method parameter or use default configuration at 'ClientConfig.Database'."));
     }
 
     [Test]
@@ -200,9 +187,9 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task PrecisionOptions()
     {
-        _client = new InfluxDBClient(new InfluxDBClientConfigs
+        _client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = MockServerUrl,
+            Host = MockServerUrl,
             Organization = "org",
             Database = "database",
             WriteOptions = new WriteOptions
@@ -251,6 +238,63 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123"));
+    }
+
+    [Test]
+    public async Task Proxy()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Organization = "org",
+            Database = "database",
+            Proxy = new System.Net.WebProxy
+            {
+                Address = new Uri(MockProxyUrl),
+                BypassProxyOnLocal = false
+            }
+        });
+        MockProxy
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var point = PointData.Measurement("h2o")
+            .AddTag("location", "europe")
+            .AddField("level", 2)
+            .SetTimestamp(123_000_000_000L);
+
+        await _client.WritePointAsync(point);
+
+        var requests = MockProxy.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+    }
+
+    [Test]
+    public async Task CustomHeader()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Organization = "org",
+            Database = "database",
+            Headers = new Dictionary<string, string>
+            {
+                { "X-device", "ab-01" },
+            }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-device", "ab-01").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var point = PointData.Measurement("h2o")
+            .AddTag("location", "europe")
+            .AddField("level", 2)
+            .SetTimestamp(123_000_000_000L);
+
+        await _client.WritePointAsync(point);
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123000000000"));
     }
 
     private async Task WriteData()

@@ -16,9 +16,9 @@ public class QueryWriteTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    private readonly string _hostUrl = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
+    private readonly string _host = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
                                        throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
-    private readonly string _authToken = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
+    private readonly string _token = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
                                          throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
     private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
                                         throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
@@ -36,11 +36,11 @@ public class QueryWriteTest
     [Test]
     public async Task QueryWrite()
     {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        using var client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = _hostUrl,
-            Database = _database,
-            AuthToken = _authToken
+            Host = _host,
+            Token = _token,
+            Database = _database
         });
 
         const string measurement = "integration_test";
@@ -65,10 +65,10 @@ public class QueryWriteTest
     [Test]
     public void QueryNotAuthorized()
     {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        using var client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = _hostUrl,
-            Database = _database,
+            Host = _host,
+            Database = _database
         });
 
         var ae = Assert.ThrowsAsync<RpcException>(async () =>
@@ -85,11 +85,11 @@ public class QueryWriteTest
     [Test]
     public async Task WriteDontFailForEmptyData()
     {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        using var client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = _hostUrl,
+            Host = _host,
             Database = _database,
-            AuthToken = _authToken
+            Token = _token
         });
 
         await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
@@ -98,11 +98,11 @@ public class QueryWriteTest
     [Test]
     public async Task CanDisableCertificateValidation()
     {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        using var client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = _hostUrl,
+            Host = _host,
             Database = _database,
-            AuthToken = _authToken,
+            Token = _token,
             DisableServerCertificateValidation = true
         });
 
@@ -113,11 +113,11 @@ public class QueryWriteTest
     [Test]
     public async Task WriteDataGzipped()
     {
-        using var client = new InfluxDBClient(new InfluxDBClientConfigs
+        using var client = new InfluxDBClient(new ClientConfig
         {
-            HostUrl = _hostUrl,
+            Host = _host,
             Database = _database,
-            AuthToken = _authToken,
+            Token = _token,
             WriteOptions = new WriteOptions
             {
                 GzipThreshold = 1

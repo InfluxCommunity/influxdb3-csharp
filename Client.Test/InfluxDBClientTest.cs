@@ -18,10 +18,10 @@ public class InfluxDBClientTest
     [Test]
     public void RequiredHost()
     {
-        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(hostUrl: null); });
+        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(host: null); });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("The hostname or IP address of the InfluxDB server has to be defined."));
+        Assert.That(ae.Message, Is.EqualTo("The URL of the InfluxDB server has to be defined."));
     }
 
     [Test]
