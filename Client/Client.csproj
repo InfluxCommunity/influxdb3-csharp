@@ -12,8 +12,8 @@
         </Description>
         <Authors>InfluxDB3.Client Contributors</Authors>
         <AssemblyName>InfluxDB3.Client</AssemblyName>
-        <VersionPrefix>0.2.0</VersionPrefix>
-        <VersionSuffix></VersionSuffix>
+        <VersionPrefix>0.3.0</VersionPrefix>
+        <VersionSuffix>dev</VersionSuffix>
 
         <PackageId>InfluxDB3.Client</PackageId>
         <PackageTags>influxdata;timeseries;influxdb</PackageTags>
