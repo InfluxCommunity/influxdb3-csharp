@@ -5,14 +5,26 @@
   "files": [
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/InfluxDB3.Client.Config.InfluxDBClientConfigs.yml",
+      "source_relative_path": "api/InfluxDB3.Client.Config.ClientConfig.yml",
       "output": {
         ".html": {
-          "relative_path": "api/InfluxDB3.Client.Config.InfluxDBClientConfigs.html",
-          "hash": "w5eBVHC6Psb2E/PlVnRn2CvQsmmG8aHJpdD+zD0VMhY="
+          "relative_path": "api/InfluxDB3.Client.Config.ClientConfig.html",
+          "hash": "bKKBuYWYjTfkckv1glymgKjm2iV0bmoaHU4nFZ1PO48="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Config.WriteOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Config.WriteOptions.html",
+          "hash": "KhQn4uzrTkrsdTxsWuLVxmKPrvTNAqb3KEmCaDSMFxI="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Config.html",
-          "hash": "nLVnqjKBPausGZwq1P/k6dTsE4RPmiuPbnEhb+IMjSs="
+          "hash": "nVn39teQMuDFlfxZ4S7tAbmhsGGi7LLv5e8eoT6vQsI="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +45,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.IInfluxDBClient.html",
-          "hash": "4mbB9cLByVZz0oOQYT5DftUzX8cxkbNk+91/PmGS4yY="
+          "hash": "vLWIaTs6zqv/uwnPDCzgvuDxUMAu9HYGEvYhOjG5oVA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.InfluxDBApiException.html",
-          "hash": "DpQQvOQJtuSJV/ZeCLu3Eq9v8PKOSRz9gdR6yCXLAiA="
+          "hash": "Ulb7Rxj6q+rF2bhHyoX9nJcW7UfOBpzN2W6aXvoGRXc="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.InfluxDBClient.html",
-          "hash": "GmRTMMtnd2Ap0OGGq8rPjYyqRQZbiP22beUI03hbXDs="
+          "hash": "3F/XHQOBfnMLSEhtHKqIijSHRTO2dksc3CXmS3Qe/a8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -69,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Query.QueryType.html",
-          "hash": "EeiuhA9gW+gptWtW6djNOXU/rU9us0w2Tl++XrpyVbk="
+          "hash": "OzjoVhzW67mo8b5yEn4M+iFAGfiRYCxWS6ASgTtB3gQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Query.html",
-          "hash": "wE4GnRyH0mHDnNgnFVSMCbY0pUZGyo/xpv+eXdDmiX0="
+          "hash": "UyFzntHaza/S8wVp8rcTWVSyzxa7t95SSX3tTGmwrfg="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.PointData.Builder.html",
-          "hash": "xDNAQT6yfRb4wQZe2b7y4FRZuMEGswvzCEardE20STQ="
+          "hash": "UEhH0EdKTBlg14Fa2y4WOXTs6ilqLSUEaDTdBSf7Vow="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.PointData.html",
-          "hash": "ySJ8WJlXumGM5f9Oiwj4DMENrIkJlRqXOCfuEQ9i640="
+          "hash": "Gs7wvzWQmSe9LNBQGELMN3DUseTpeRDeYrpQ6ZfsWGw="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.WritePrecision.html",
-          "hash": "Z/tLfBZgRDFHBlOVRFfpGxF/PcLUt8KNjI/09eUbPEM="
+          "hash": "He2TI01/H5CFwYuJsuD7JtWyjDBFlA6jMAwq8jjQClQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.html",
-          "hash": "pvjEJjbj2DQM3rzHOoaJjzBO3MlLtMar8zgo7ihFUsw="
+          "hash": "7Q2AtL2pDYmQfZITGAvVzeMijRqkmhnDKhP73vsumL8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -141,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.html",
-          "hash": "gvjC8UjnLumbNVrA3GdsivGFc1yjO+yVFqt9OZZprPU="
+          "hash": "9lG3Gvda+MeFYi8bPT4kcR8RahY9fVP1Xvtcdz/ibkE="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -185,23 +197,25 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 1,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 12,
-          "skipped_file_count": 12
+          "total_file_count": 13,
+          "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
@@ -221,8 +235,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

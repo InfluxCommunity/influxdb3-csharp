@@ -49,7 +49,7 @@
                 
                 <ul class="nav level1 navbar-nav">
                       <li>
-                          <a href="../api/InfluxDB.Client.yml" title="InfluxDB.Client API">InfluxDB.Client API</a>
+                          <a href="../api/InfluxDB3.Client.html" title="InfluxDB3.Client API">InfluxDB3.Client API</a>
                       </li>
                 </ul>    </div>
           </div>
@@ -99,7 +99,10 @@
                         
                         <ul class="nav level2">
                           <li class="">
-                            <a href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html" title="InfluxDBClientConfigs" class="">InfluxDBClientConfigs</a>
+                            <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
                         </ul>  </li>
                     <li class="">
@@ -159,14 +162,14 @@
   <h3 id="constructors">Constructors
   </h3>
   <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_InfluxDB3_Client_Config_InfluxDBClientConfigs_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(InfluxDB3.Client.Config.InfluxDBClientConfigs)">InfluxDBClient(InfluxDBClientConfigs)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_InfluxDB3_Client_Config_ClientConfig_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(InfluxDB3.Client.Config.ClientConfig)">InfluxDBClient(ClientConfig)</h4>
   <div class="markdown level1 summary"><p>This class provides an interface for interacting with an InfluxDB server,
 simplifying common operations such as writing, querying.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public InfluxDBClient(InfluxDBClientConfigs configs)</code></pre>
+    <pre><code class="lang-csharp hljs">public InfluxDBClient(ClientConfig config)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -179,8 +182,8 @@ simplifying common operations such as writing, querying.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html">InfluxDBClientConfigs</a></td>
-        <td><span class="parametername">configs</span></td>
+        <td><a class="xref" href="InfluxDB3.Client.Config.ClientConfig.html">ClientConfig</a></td>
+        <td><span class="parametername">config</span></td>
         <td><p>The configuration of the client.</p>
 </td>
       </tr>
@@ -194,7 +197,7 @@ simplifying common operations such as writing, querying.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public InfluxDBClient(string hostUrl, string? authToken = null, string? organization = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public InfluxDBClient(string host, string? token = null, string? organization = null, string? database = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -208,13 +211,13 @@ simplifying common operations such as writing, querying.</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">hostUrl</span></td>
-        <td><p>The hostname or IP address of the InfluxDB server.</p>
+        <td><span class="parametername">host</span></td>
+        <td><p>The URL of the InfluxDB server.</p>
 </td>
       </tr>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">authToken</span></td>
+        <td><span class="parametername">token</span></td>
         <td><p>The authentication token for accessing the InfluxDB server.</p>
 </td>
       </tr>
@@ -353,13 +356,13 @@ simplifying common operations such as writing, querying.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointAsync*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointAsync(PointData, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointAsync(PointData, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WritePointAsync(PointData point, string? organization = null, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -375,12 +378,6 @@ simplifying common operations such as writing, querying.</p>
         <td><a class="xref" href="InfluxDB3.Client.Write.PointData.html">PointData</a></td>
         <td><span class="parametername">point</span></td>
         <td><p>Specifies the Data point to write into InfluxDB. The <see cref="!:point"></see> is considered as one batch unit.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">organization</span></td>
-        <td><p>The organization to be used for operations.</p>
 </td>
       </tr>
       <tr>
@@ -419,13 +416,13 @@ simplifying common operations such as writing, querying.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_WritePointsAsync_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointsAsync*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointsAsync(IEnumerable&lt;PointData&gt;, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointsAsync(IEnumerable&lt;PointData&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? organization = null, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -441,12 +438,6 @@ simplifying common operations such as writing, querying.</p>
         <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.PointData.html">PointData</a>&gt;</td>
         <td><span class="parametername">points</span></td>
         <td><p>Specifies the Data points to write into InfluxDB. The <see cref="!:points"></see> is considered as one batch unit.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">organization</span></td>
-        <td><p>The organization to be used for operations.</p>
 </td>
       </tr>
       <tr>
@@ -485,13 +476,13 @@ simplifying common operations such as writing, querying.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordAsync*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordAsync(String, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordAsync(String, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteRecordAsync(string record, string? organization = null, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -507,12 +498,6 @@ simplifying common operations such as writing, querying.</p>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">record</span></td>
         <td><p>Specifies the record in InfluxDB Line Protocol. The <see cref="!:record"></see> is considered as one batch unit.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">organization</span></td>
-        <td><p>The organization to be used for operations.</p>
 </td>
       </tr>
       <tr>
@@ -551,13 +536,13 @@ simplifying common operations such as writing, querying.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordsAsync(IEnumerable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordsAsync(IEnumerable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task WriteRecordsAsync(IEnumerable&lt;string&gt; records, string? organization = null, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task WriteRecordsAsync(IEnumerable&lt;string&gt; records, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -573,12 +558,6 @@ simplifying common operations such as writing, querying.</p>
         <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">records</span></td>
         <td><p>Specifies the records in InfluxDB Line Protocol. The <see cref="!:records"></see> is considered as one batch unit.</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">organization</span></td>
-        <td><p>The organization to be used for operations.</p>
 </td>
       </tr>
       <tr>

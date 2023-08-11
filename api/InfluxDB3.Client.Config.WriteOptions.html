@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>PLACEHOLDER </title>
+    <title>Class WriteOptions
+   </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="PLACEHOLDER ">
+    <meta name="title" content="Class WriteOptions
+   ">
     <meta name="generator" content="docfx 2.59.3.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -47,7 +49,7 @@
                 
                 <ul class="nav level1 navbar-nav">
                       <li>
-                          <a href="../api/InfluxDB.Client.yml" title="InfluxDB.Client API">InfluxDB.Client API</a>
+                          <a href="../api/InfluxDB3.Client.html" title="InfluxDB3.Client API">InfluxDB3.Client API</a>
                       </li>
                 </ul>    </div>
           </div>
@@ -97,7 +99,10 @@
                         
                         <ul class="nav level2">
                           <li class="">
-                            <a href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html" title="InfluxDBClientConfigs" class="">InfluxDBClientConfigs</a>
+                            <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
+                          </li>
+                          <li class="active">
+                            <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="active">WriteOptions</a>
                           </li>
                         </ul>  </li>
                     <li class="">
@@ -131,10 +136,93 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="">
-<h1 id="placeholder">PLACEHOLDER</h1>
-
-<p>TODO: Add .NET projects to the <em>src</em> folder and run <code>docfx</code> to generate <strong>REAL</strong> <em>API Documentation</em>!</p>
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Config.WriteOptions">
+  
+  
+  <h1 id="InfluxDB3_Client_Config_WriteOptions" data-uid="InfluxDB3.Client.Config.WriteOptions" class="text-break">Class WriteOptions
+  </h1>
+  <div class="markdown level0 summary"><p>The WriteOptions class holds the configuration for writing data to InfluxDB.</p>
+<p>You can configure following options:</p>
+<ul>
+<li>Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.</li>
+<li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
+</ul>
+<p>If you want create client with custom options, you can use the following code:</p>
+<pre><code>using var client = new InfluxDBClient(new ClientConfig
+{
+    HostUrl = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+    Token = &quot;my-token&quot;,
+    Organization = &quot;my-org&quot;,
+    Database = &quot;my-database&quot;,
+    WriteOptions = new WriteOptions
+   {
+       Precision = WritePrecision.S,
+       GzipThreshold = 4096
+   }
+}); </code></pre>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">WriteOptions</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.Client.Config.html">InfluxDB3.Client.Config</a></h6>
+  <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
+  <h5 id="InfluxDB3_Client_Config_WriteOptions_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class WriteOptions : object</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <a id="InfluxDB3_Client_Config_WriteOptions_GzipThreshold_" data-uid="InfluxDB3.Client.Config.WriteOptions.GzipThreshold*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_GzipThreshold" data-uid="InfluxDB3.Client.Config.WriteOptions.GzipThreshold">GzipThreshold</h4>
+  <div class="markdown level1 summary"><p>The threshold in bytes for gzipping the body.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int GzipThreshold { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_WriteOptions_Precision_" data-uid="InfluxDB3.Client.Config.WriteOptions.Precision*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_Precision" data-uid="InfluxDB3.Client.Config.WriteOptions.Precision">Precision</h4>
+  <div class="markdown level1 summary"><p>The default precision to use for the timestamp of points if no precision is specified in the write API call.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WritePrecision? Precision { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           

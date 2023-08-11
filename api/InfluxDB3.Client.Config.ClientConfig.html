@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class InfluxDBClientConfigs
+    <title>Class ClientConfig
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class InfluxDBClientConfigs
+    <meta name="title" content="Class ClientConfig
    ">
     <meta name="generator" content="docfx 2.59.3.0">
     
@@ -49,7 +49,7 @@
                 
                 <ul class="nav level1 navbar-nav">
                       <li>
-                          <a href="../api/InfluxDB.Client.yml" title="InfluxDB.Client API">InfluxDB.Client API</a>
+                          <a href="../api/InfluxDB3.Client.html" title="InfluxDB3.Client API">InfluxDB3.Client API</a>
                       </li>
                 </ul>    </div>
           </div>
@@ -99,7 +99,10 @@
                         
                         <ul class="nav level2">
                           <li class="active">
-                            <a href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html" title="InfluxDBClientConfigs" class="active">InfluxDBClientConfigs</a>
+                            <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="active">ClientConfig</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
                         </ul>  </li>
                     <li class="">
@@ -133,39 +136,67 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs">
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Config.ClientConfig">
   
   
-  <h1 id="InfluxDB3_Client_Config_InfluxDBClientConfigs" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs" class="text-break">Class InfluxDBClientConfigs
+  <h1 id="InfluxDB3_Client_Config_ClientConfig" data-uid="InfluxDB3.Client.Config.ClientConfig" class="text-break">Class ClientConfig
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>The ClientConfig class holds the configuration for the InfluxDB client.</p>
+<p>You can configure following options:</p>
+<ul>
+<li>Host: The URL of the InfluxDB server.</li>
+<li>Token: The authentication token for accessing the InfluxDB server.</li>
+<li>Organization: The organization to be used for operations.</li>
+<li>Database: The database to be used for InfluxDB operations.</li>
+<li>Headers: The set of HTTP headers to be included in requests.</li>
+<li>Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</li>
+<li>AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</li>
+<li>DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</li>
+<li>Proxy: The HTTP proxy URL. Default is not set.</li>
+<li>WriteOptions: Write options.</li>
+</ul>
+<p>If you want create client with custom options, you can use the following code:</p>
+<pre><code>using var client = new InfluxDBClient(new ClientConfig{
+    Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+    Token = &quot;my-token&quot;,
+    Organization = &quot;my-org&quot;,
+    Database = &quot;my-database&quot;,
+    AllowHttpRedirects = true,
+    DisableServerCertificateValidation = true,
+    WriteOptions = new WriteOptions
+   {
+       Precision = WritePrecision.S,
+       GzipThreshold = 4096
+   }
+}); </code></pre>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">InfluxDBClientConfigs</span></div>
+    <div class="level1"><span class="xref">ClientConfig</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.Client.Config.html">InfluxDB3.Client.Config</a></h6>
   <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
-  <h5 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_syntax">Syntax</h5>
+  <h5 id="InfluxDB3_Client_Config_ClientConfig_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class InfluxDBClientConfigs : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class ClientConfig : object</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs__ctor_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs__ctor" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.#ctor">InfluxDBClientConfigs()</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig__ctor_" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig__ctor" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor">ClientConfig()</h4>
   <div class="markdown level1 summary"><p>The configuration of the client.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public InfluxDBClientConfigs()</code></pre>
+    <pre><code class="lang-csharp hljs">public ClientConfig()</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_AllowHttpRedirects_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_AllowHttpRedirects" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.AllowHttpRedirects">AllowHttpRedirects</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig_AllowHttpRedirects_" data-uid="InfluxDB3.Client.Config.ClientConfig.AllowHttpRedirects*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_AllowHttpRedirects" data-uid="InfluxDB3.Client.Config.ClientConfig.AllowHttpRedirects">AllowHttpRedirects</h4>
   <div class="markdown level1 summary"><p>Automatically following HTTP 3xx redirects. Default to 'false'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -188,32 +219,8 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_AuthToken_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_AuthToken" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.AuthToken">AuthToken</h4>
-  <div class="markdown level1 summary"><p>The authentication token for accessing the InfluxDB server.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string? AuthToken { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Database_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Database*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Database" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Database">Database</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Database_" data-uid="InfluxDB3.Client.Config.ClientConfig.Database*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Database" data-uid="InfluxDB3.Client.Config.ClientConfig.Database">Database</h4>
   <div class="markdown level1 summary"><p>The database to be used for InfluxDB operations.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -236,8 +243,8 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_DisableServerCertificateValidation_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_DisableServerCertificateValidation" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.DisableServerCertificateValidation">DisableServerCertificateValidation</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig_DisableServerCertificateValidation_" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableServerCertificateValidation*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_DisableServerCertificateValidation" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableServerCertificateValidation">DisableServerCertificateValidation</h4>
   <div class="markdown level1 summary"><p>Disable server SSL certificate validation. Default to 'false'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -260,14 +267,38 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_HostUrl_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_HostUrl" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.HostUrl">HostUrl</h4>
-  <div class="markdown level1 summary"><p>The hostname or IP address of the InfluxDB server.</p>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Headers_" data-uid="InfluxDB3.Client.Config.ClientConfig.Headers*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Headers" data-uid="InfluxDB3.Client.Config.ClientConfig.Headers">Headers</h4>
+  <div class="markdown level1 summary"><p>The set of HTTP headers to be included in requests.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string HostUrl { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;String, String&gt;? Headers { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">String</span>, <span class="xref">String</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Host_" data-uid="InfluxDB3.Client.Config.ClientConfig.Host*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Host" data-uid="InfluxDB3.Client.Config.ClientConfig.Host">Host</h4>
+  <div class="markdown level1 summary"><p>The URL of the InfluxDB server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Host { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -284,8 +315,8 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Organization_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Organization" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Organization">Organization</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Organization_" data-uid="InfluxDB3.Client.Config.ClientConfig.Organization*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Organization" data-uid="InfluxDB3.Client.Config.ClientConfig.Organization">Organization</h4>
   <div class="markdown level1 summary"><p>The organization to be used for operations.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -308,8 +339,32 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Timeout_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_Timeout" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.Timeout">Timeout</h4>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Proxy_" data-uid="InfluxDB3.Client.Config.ClientConfig.Proxy*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Proxy" data-uid="InfluxDB3.Client.Config.ClientConfig.Proxy">Proxy</h4>
+  <div class="markdown level1 summary"><p>The HTTP proxy URL. Default is not set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WebProxy? Proxy { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">WebProxy</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Timeout_" data-uid="InfluxDB3.Client.Config.ClientConfig.Timeout*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Timeout" data-uid="InfluxDB3.Client.Config.ClientConfig.Timeout">Timeout</h4>
   <div class="markdown level1 summary"><p>Timeout to wait before the HTTP request times out. Default to '10 seconds'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -332,14 +387,14 @@
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Config_InfluxDBClientConfigs_WritePrecision_" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision*"></a>
-  <h4 id="InfluxDB3_Client_Config_InfluxDBClientConfigs_WritePrecision" data-uid="InfluxDB3.Client.Config.InfluxDBClientConfigs.WritePrecision">WritePrecision</h4>
-  <div class="markdown level1 summary"><p>The default precision to use for the timestamp of points if no precision is specified in the write API call.</p>
+  <a id="InfluxDB3_Client_Config_ClientConfig_Token_" data-uid="InfluxDB3.Client.Config.ClientConfig.Token*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_Token" data-uid="InfluxDB3.Client.Config.ClientConfig.Token">Token</h4>
+  <div class="markdown level1 summary"><p>The authentication token for accessing the InfluxDB server.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public WritePrecision? WritePrecision { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? Token { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -351,7 +406,31 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_WriteOptions_" data-uid="InfluxDB3.Client.Config.ClientConfig.WriteOptions*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_WriteOptions" data-uid="InfluxDB3.Client.Config.ClientConfig.WriteOptions">WriteOptions</h4>
+  <div class="markdown level1 summary"><p>Write options.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WriteOptions WriteOptions { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></td>
         <td></td>
       </tr>
     </tbody>

@@ -49,7 +49,7 @@
                 
                 <ul class="nav level1 navbar-nav">
                       <li>
-                          <a href="../api/InfluxDB.Client.yml" title="InfluxDB.Client API">InfluxDB.Client API</a>
+                          <a href="../api/InfluxDB3.Client.html" title="InfluxDB3.Client API">InfluxDB3.Client API</a>
                       </li>
                 </ul>    </div>
           </div>
@@ -99,7 +99,10 @@
                         
                         <ul class="nav level2">
                           <li class="">
-                            <a href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html" title="InfluxDBClientConfigs" class="">InfluxDBClientConfigs</a>
+                            <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
                         </ul>  </li>
                     <li class="">
@@ -142,8 +145,57 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
-      <h4><a class="xref" href="InfluxDB3.Client.Config.InfluxDBClientConfigs.html">InfluxDBClientConfigs</a></h4>
-      <section></section>
+      <h4><a class="xref" href="InfluxDB3.Client.Config.ClientConfig.html">ClientConfig</a></h4>
+      <section><p>The ClientConfig class holds the configuration for the InfluxDB client.</p>
+<p>You can configure following options:</p>
+<ul>
+<li>Host: The URL of the InfluxDB server.</li>
+<li>Token: The authentication token for accessing the InfluxDB server.</li>
+<li>Organization: The organization to be used for operations.</li>
+<li>Database: The database to be used for InfluxDB operations.</li>
+<li>Headers: The set of HTTP headers to be included in requests.</li>
+<li>Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</li>
+<li>AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</li>
+<li>DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</li>
+<li>Proxy: The HTTP proxy URL. Default is not set.</li>
+<li>WriteOptions: Write options.</li>
+</ul>
+<p>If you want create client with custom options, you can use the following code:</p>
+<pre><code>using var client = new InfluxDBClient(new ClientConfig{
+    Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+    Token = &quot;my-token&quot;,
+    Organization = &quot;my-org&quot;,
+    Database = &quot;my-database&quot;,
+    AllowHttpRedirects = true,
+    DisableServerCertificateValidation = true,
+    WriteOptions = new WriteOptions
+   {
+       Precision = WritePrecision.S,
+       GzipThreshold = 4096
+   }
+}); </code></pre>
+</section>
+      <h4><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></h4>
+      <section><p>The WriteOptions class holds the configuration for writing data to InfluxDB.</p>
+<p>You can configure following options:</p>
+<ul>
+<li>Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.</li>
+<li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
+</ul>
+<p>If you want create client with custom options, you can use the following code:</p>
+<pre><code>using var client = new InfluxDBClient(new ClientConfig
+{
+    HostUrl = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+    Token = &quot;my-token&quot;,
+    Organization = &quot;my-org&quot;,
+    Database = &quot;my-database&quot;,
+    WriteOptions = new WriteOptions
+   {
+       Precision = WritePrecision.S,
+       GzipThreshold = 4096
+   }
+}); </code></pre>
+</section>
 </article>
           </div>
           
