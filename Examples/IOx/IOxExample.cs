@@ -53,5 +53,12 @@ public class IOxExample
         {
             Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
         }
+
+        const string sql2 = "select * from temperature order by time desc limit 10";
+
+        await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
+        {
+            // Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
+        }
     }
 }

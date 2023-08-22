@@ -162,6 +162,61 @@ namespace InfluxDB3.Client
         }
 
         /// <summary>
+        /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        public async IAsyncEnumerable<PointData> QueryPoints(string query, QueryType? queryType = null,
+            string? database = null)
+        {
+            await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
+            {
+                var rowCount = batch.Column(0).Length;
+                for (var i = 0; i < rowCount; i++)
+                {
+                    // TODO: measurement
+                    var point = PointData.Measurement("blah");
+                    for (var j = 0; j < batch.ColumnCount; j++)
+                    {
+                        var schema = batch.Schema.FieldsList[j];
+                        var fullName = schema.Name;
+                        // TODO: don't have to be present
+                        string type = schema.Metadata["iox::column::type"];
+                        string[] parts = type.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        string valueType = parts[2];
+                        string fieldType = parts.Length > 3 ? parts[3] : "";
+
+                        if (batch.Column(j) is not ArrowArray array)
+                            continue;
+
+                        var objectValue = array.GetObjectValue(i);
+                        if (objectValue is null)
+                            continue;
+
+                        if (valueType == "field")
+                        {
+                            point = point.AddField(fullName, objectValue);
+                        }
+                        else if (valueType == "tag")
+                        {
+                            point = point.AddTag(fullName, (string)objectValue);
+                                    }
+                        else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
+                        {
+                            point = point.SetTimestamp(timestamp);
+                        }
+
+                    }
+
+                    yield return point;
+                }
+            }
+        }
+
+        /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>

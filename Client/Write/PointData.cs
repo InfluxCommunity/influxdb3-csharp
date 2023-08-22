@@ -289,6 +289,14 @@ namespace InfluxDB3.Client.Write
             return sb.ToString();
         }
 
+        // public object? GetField(string name) {
+        //     return _fields.TryGetValue(name, out object value) ? value : null;
+        // }
+
+        public T? GetField<T>(string name) where T : struct {
+            return _fields.TryGetValue(name, out object value) ? (T)value : null;
+        }
+
         private PointData PutField(string name, object value)
         {
             Arguments.CheckNonEmptyString(name, "Field name");
