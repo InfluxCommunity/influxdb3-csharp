@@ -178,16 +178,11 @@ namespace InfluxDB3.Client
                 for (var i = 0; i < rowCount; i++)
                 {
                     // TODO: measurement
-                    var point = PointData.Measurement("blah");
+                    var point = PointData.Measurement("__empty__");
                     for (var j = 0; j < batch.ColumnCount; j++)
                     {
                         var schema = batch.Schema.FieldsList[j];
                         var fullName = schema.Name;
-                        // TODO: don't have to be present
-                        string type = schema.Metadata["iox::column::type"];
-                        string[] parts = type.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                        string valueType = parts[2];
-                        string fieldType = parts.Length > 3 ? parts[3] : "";
 
                         if (batch.Column(j) is not ArrowArray array)
                             continue;
@@ -196,14 +191,40 @@ namespace InfluxDB3.Client
                         if (objectValue is null)
                             continue;
 
-                        if (valueType == "field")
+                        if (!schema.HasMetadata)
+                        {
+                            if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
+                            {
+                                point = point.SetMeasurement((string)objectValue);
+                            }
+                            else if (fullName == "time" && objectValue is DateTimeOffset timestamp)
+                            {
+                                point = point.SetTimestamp(timestamp);
+                            }
+                            else
+                                // just push as field If you don't know what type is it
+                                point = point.AddField(fullName, objectValue);
+
+                            continue;
+                        }
+
+                        string type = schema.Metadata["iox::column::type"];
+                        string[] parts = type.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        string valueType = parts[2];
+                        // string fieldType = parts.Length > 3 ? parts[3] : "";
+
+                        if (fullName == "measurement" && objectValue is string measurement)
+                        {
+                            point = point.SetMeasurement(measurement);
+                        }
+                        else if (valueType == "field")
                         {
                             point = point.AddField(fullName, objectValue);
                         }
                         else if (valueType == "tag")
                         {
                             point = point.AddTag(fullName, (string)objectValue);
-                                    }
+                        }
                         else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
                         {
                             point = point.SetTimestamp(timestamp);

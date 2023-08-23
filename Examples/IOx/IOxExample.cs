@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using InfluxDB3.Client;
 using InfluxDB3.Client.Query;
@@ -43,6 +44,10 @@ public class IOxExample
 
         Console.WriteLine();
 
+        Console.WriteLine(point.GetField<bool>("bb")?.ToString());
+
+        Thread.Sleep(2000);
+
         //
         // Query by InfluxQL
         //
@@ -54,11 +59,40 @@ public class IOxExample
             Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
         }
 
-        const string sql2 = "select * from temperature order by time desc limit 10";
+        const string sql2 = "select *, 'temperature' as measurement from temperature order by time desc limit 5";
 
+        Console.WriteLine();
+        Console.WriteLine("simple query to poins with measurement manualy specified");
         await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
         {
-            // Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
+            Console.WriteLine(row.ToLineProtocol());
+        }
+
+        const string sql3 = @"
+            SELECT
+            date_bin('5 minutes', ""time"") as time,
+            AVG(""value"") as avgvalue
+            FROM ""temperature""
+            WHERE
+            ""time"" >= now() - interval '1 hour'
+            GROUP BY time
+            ORDER BY time DESC
+            limit 3
+            ;
+        ";
+
+        Console.WriteLine();
+        Console.WriteLine("more complex query to poins WITHOUT measurement manualy specified");
+        await foreach (var row in client.QueryPoints(query: sql3, queryType: QueryType.SQL))
+        {
+            Console.WriteLine(row.ToLineProtocol());
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("simple InfluxQL query to points. InfluxQL sends measurement in query");
+        await foreach (var row in client.QueryPoints(query: influxQL, queryType: QueryType.InfluxQL))
+        {
+            Console.WriteLine(row.ToLineProtocol());
         }
     }
 }

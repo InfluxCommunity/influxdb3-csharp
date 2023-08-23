@@ -54,6 +54,21 @@ namespace InfluxDB3.Client.Write
             _fields = fields;
         }
 
+        public string GetMeasurement()
+        {
+            return _measurementName;
+        }
+
+        public BigInteger? GetTime()
+        {
+            return _time;
+        }
+
+        public string? GetTag(string name)
+        {
+            return _tags.TryGetValue(name, out string value) ? value : null;
+        }
+
         /// <summary>
         /// Adds or replaces a tag value for a point.
         /// </summary>
@@ -201,6 +216,17 @@ namespace InfluxDB3.Client.Write
             return PutField(name, value);
         }
 
+
+        public PointData SetMeasurement(string measurementName)
+        {
+            return new PointData(
+                measurementName,
+                _time,
+                _tags,
+                _fields
+            );
+        }
+
         /// <summary>
         /// Updates the timestamp for the point.
         /// </summary>
@@ -293,7 +319,8 @@ namespace InfluxDB3.Client.Write
         //     return _fields.TryGetValue(name, out object value) ? value : null;
         // }
 
-        public T? GetField<T>(string name) where T : struct {
+        public T? GetField<T>(string name) where T : struct
+        {
             return _fields.TryGetValue(name, out object value) ? (T)value : null;
         }
 
