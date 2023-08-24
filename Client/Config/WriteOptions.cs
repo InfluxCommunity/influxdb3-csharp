@@ -13,7 +13,7 @@ namespace InfluxDB3.Client.Config;
 /// <code>
 /// using var client = new InfluxDBClient(new ClientConfig
 /// {
-///     HostUrl = "https://us-east-1-1.aws.cloud2.influxdata.com",
+///     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
 ///     Token = "my-token",
 ///     Organization = "my-org",
 ///     Database = "my-database",
