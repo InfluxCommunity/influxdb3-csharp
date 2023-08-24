@@ -1,5 +1,7 @@
 ## 0.3.0 [unreleased]
 
+1. [#43](https://github.com/InfluxCommunity/influxdb3-csharp/issues/43): Respect DNS changes in HttpClient
+
 ## 0.2.0 [2023-08-11]
 
 ### Features

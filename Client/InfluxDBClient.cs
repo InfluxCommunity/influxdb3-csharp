@@ -309,7 +309,9 @@ namespace InfluxDB3.Client
 
         internal static HttpClient CreateAndConfigureHttpClient(ClientConfig config)
         {
-            var handler = new HttpClientHandler();
+            var handler = new HttpClientHandler {
+                PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+            };
             if (handler.SupportsRedirectConfiguration)
             {
                 handler.AllowAutoRedirect = config.AllowHttpRedirects;
