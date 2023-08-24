@@ -54,11 +54,19 @@ namespace InfluxDB3.Client.Write
             _fields = fields;
         }
 
+        /// <summary>
+        /// Get measurement name.
+        /// </summary>
+        /// <returns>Measurement name</returns>
         public string GetMeasurement()
         {
             return _measurementName;
         }
 
+        /// <summary>
+        /// Get time as BigInteger. Can be null.
+        /// </summary>
+        /// <returns>Time as BigInteger</returns>
         public BigInteger? GetTime()
         {
             return _time;
@@ -216,7 +224,11 @@ namespace InfluxDB3.Client.Write
             return PutField(name, value);
         }
 
-
+        /// <summary>
+        /// Create new Point with this values and provided measurement.
+        /// </summary>
+        /// <param name="measurementName">the measurement name</param>
+        /// <returns>copy of this Point with given measurement name</returns>
         public PointData SetMeasurement(string measurementName)
         {
             return new PointData(
@@ -315,10 +327,19 @@ namespace InfluxDB3.Client.Write
             return sb.ToString();
         }
 
-        // public object? GetField(string name) {
-        //     return _fields.TryGetValue(name, out object value) ? value : null;
-        // }
+        /// <summary>
+        /// Get field of given name. Can be null if field doesn't exist.
+        /// </summary>
+        /// <returns>Field as object</returns>
+        public object? GetField(string name) {
+            return _fields.TryGetValue(name, out object value) ? value : null;
+        }
 
+        /// <summary>
+        /// Get field of given name as type. Can be null if field doesn't exist.
+        /// </summary>
+        /// <returns>Field as given type</returns>
+        /// <exception cref="InvalidCastException">Field doesn't match given type</exception>
         public T? GetField<T>(string name) where T : struct
         {
             return _fields.TryGetValue(name, out object value) ? (T)value : null;
