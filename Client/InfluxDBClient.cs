@@ -191,13 +191,15 @@ namespace InfluxDB3.Client
                         if (objectValue is null)
                             continue;
 
+                        if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
+                        {
+                            point = point.SetMeasurement((string)objectValue);
+                            continue;
+                        }
+
                         if (!schema.HasMetadata)
                         {
-                            if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
-                            {
-                                point = point.SetMeasurement((string)objectValue);
-                            }
-                            else if (fullName == "time" && objectValue is DateTimeOffset timestamp)
+                            if (fullName == "time" && objectValue is DateTimeOffset timestamp)
                             {
                                 point = point.SetTimestamp(timestamp);
                             }
@@ -213,11 +215,7 @@ namespace InfluxDB3.Client
                         string valueType = parts[2];
                         // string fieldType = parts.Length > 3 ? parts[3] : "";
 
-                        if (fullName == "measurement" && objectValue is string measurement)
-                        {
-                            point = point.SetMeasurement(measurement);
-                        }
-                        else if (valueType == "field")
+                        if (valueType == "field")
                         {
                             point = point.AddField(fullName, objectValue);
                         }
