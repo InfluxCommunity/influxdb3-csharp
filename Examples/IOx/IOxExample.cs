@@ -42,12 +42,6 @@ public class IOxExample
             Console.WriteLine("{0,-30}{1,-15}{2,-15}", row[0], row[1], row[2]);
         }
 
-        Console.WriteLine();
-
-        Console.WriteLine(point.GetField<bool>("bb")?.ToString());
-
-        Thread.Sleep(2000);
-
         //
         // Query by InfluxQL
         //
@@ -59,8 +53,10 @@ public class IOxExample
             Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
         }
 
+        //
+        // SQL Query all with explicit measurement for Point structure
+        //
         const string sql2 = "select *, 'temperature' as measurement from temperature order by time desc limit 5";
-
         Console.WriteLine();
         Console.WriteLine("simple query to poins with measurement manualy specified");
         await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
@@ -68,6 +64,9 @@ public class IOxExample
             Console.WriteLine(row.ToLineProtocol());
         }
 
+        //
+        // SQL Query windows
+        //
         const string sql3 = @"
             SELECT
             date_bin('5 minutes', ""time"") as time,
@@ -80,7 +79,6 @@ public class IOxExample
             limit 3
             ;
         ";
-
         Console.WriteLine();
         Console.WriteLine("more complex query to poins WITHOUT measurement manualy specified");
         await foreach (var row in client.QueryPoints(query: sql3, queryType: QueryType.SQL))

@@ -331,7 +331,8 @@ namespace InfluxDB3.Client.Write
         /// Get field of given name. Can be null if field doesn't exist.
         /// </summary>
         /// <returns>Field as object</returns>
-        public object? GetField(string name) {
+        public object? GetField(string name)
+        {
             return _fields.TryGetValue(name, out object value) ? value : null;
         }
 
