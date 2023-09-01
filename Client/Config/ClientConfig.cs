@@ -163,7 +163,7 @@ public class ClientConfig
                 "us" => WritePrecision.Us,
                 "ms" => WritePrecision.Ms,
                 "s" => WritePrecision.S,
-                _ => throw new ArgumentException($"Unsuppported precision '{precision}'"),
+                _ => throw new ArgumentException($"Unsupported precision '{precision}'"),
             };
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
             WriteOptions.Precision = writePrecision;

@@ -89,6 +89,15 @@ public class ClientConfigTest
     }
 
     [Test]
+    public void CreateFromConnectionStringInvalidPrecision()
+    {
+        var ae = Assert.Throws<ArgumentException>(() => { new ClientConfig("http://localhost:8086?token=my-token&precision=xs"); });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message, Is.EqualTo("Unsupported precision 'xs'"));
+    }
+
+    [Test]
     public void CreateFromEnvMinimal()
     {
         var env = new Dictionary<String, String>
