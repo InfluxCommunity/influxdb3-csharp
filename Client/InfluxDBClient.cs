@@ -130,7 +130,7 @@ namespace InfluxDB3.Client
         {
             if (config is null)
             {
-                throw new ArgumentException("The configuration of the client has to be defined.");
+                throw new ArgumentNullException("config");
             }
 
             config.Validate();

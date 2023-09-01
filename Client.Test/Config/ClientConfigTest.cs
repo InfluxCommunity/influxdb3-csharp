@@ -7,6 +7,15 @@ namespace InfluxDB3.Client.Config.Test;
 public class ClientConfigTest
 {
     [Test]
+    public void RequiredConfig()
+    {
+        var ae = Assert.Throws<ArgumentNullException>(() => { new InfluxDBClient((ClientConfig)null); });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message, Is.EqualTo("Value cannot be null. (Parameter 'config')"));
+    }
+
+    [Test]
     public void CreateFromConnectionStringMinimal()
     {
         var cfg = new ClientConfig("http://localhost:8086?token=my-token");
@@ -23,7 +32,7 @@ public class ClientConfigTest
     }
 
     [Test]
-    public void CreateeFromConnectionStringBasic()
+    public void CreateFromConnectionStringBasic()
     {
         var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database");
         Assert.That(cfg, Is.Not.Null);
@@ -53,6 +62,30 @@ public class ClientConfigTest
             Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WritePrecision.S));
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(64));
         });
+    }
+
+    [Test]
+    public void CreateFromConnectionStringPrecisions()
+    {
+        var precisions = new []
+        {
+            ("ns", WritePrecision.Ns),
+            ("us", WritePrecision.Us),
+            ("ms", WritePrecision.Ms),
+            ("s", WritePrecision.S),
+        };
+        foreach (var precision in precisions)
+        {
+        var cfg = new ClientConfig($"http://localhost:8086?token=my-token&precision={precision.Item1}");
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(precision.Item2));
+        });
+        }
     }
 
     [Test]
