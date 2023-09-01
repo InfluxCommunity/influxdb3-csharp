@@ -23,7 +23,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task Body()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         await WriteData();
 
         var requests = MockServer.LogEntries.ToList();
@@ -37,7 +37,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
 
         await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", "mem,tag=b field=2" });
 
@@ -53,7 +53,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
 
         await _client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c").AddField("field", 1));
 
@@ -68,7 +68,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
 
         await _client.WriteRecordsAsync(new[] { "mem,tag=a field=1", null });
 
@@ -86,8 +86,9 @@ public class InfluxDBClientWriteTest : MockServerTest
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
-            Organization = "org",
-            Database = "database",
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database",
             WriteOptions = new WriteOptions
             {
                 GzipThreshold = 1
@@ -106,7 +107,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", ".*", MatchBehaviour.RejectOnMatch).UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl, null, "org", "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
         var requests = MockServer.LogEntries.ToList();
@@ -116,7 +117,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public void AlreadyDisposed()
     {
-        _client = new InfluxDBClient(MockServerUrl);
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token");
         _client.Dispose();
         var ae = Assert.ThrowsAsync<ObjectDisposedException>(async () =>
         {
@@ -134,7 +135,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        _client = new InfluxDBClient(MockServerUrl, database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: null, database: "my-database");
         await _client.WriteRecordAsync("mem,tag=a field=1");
 
         var requests = MockServer.LogEntries.ToList();
@@ -144,21 +145,21 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task DatabaseCustom()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl,  token: "my-token", organization: "my-org", database: "my-database");
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        await _client.WriteRecordAsync("mem,tag=a field=1", database: "my-database");
+        await _client.WriteRecordAsync("mem,tag=a field=1", database: "x-database");
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["bucket"].First(), Is.EqualTo("my-database"));
+        Assert.That(requests[0].RequestMessage.Query?["bucket"].First(), Is.EqualTo("x-database"));
     }
 
     [Test]
     public void NotSpecifiedDatabase()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org");
+        _client = new InfluxDBClient(MockServerUrl,  token: "my-token", organization: "my-org");
         var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
             await _client.WriteRecordAsync("mem,tag=a field=1");
@@ -173,7 +174,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task PrecisionDefault()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
@@ -190,8 +191,9 @@ public class InfluxDBClientWriteTest : MockServerTest
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
-            Organization = "org",
-            Database = "database",
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database",
             WriteOptions = new WriteOptions
             {
                 Precision = WritePrecision.Ms
@@ -201,7 +203,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        await _client.WriteRecordAsync("mem,tag=a field=1", database: "my-database");
+        await _client.WriteRecordAsync("mem,tag=a field=1");
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("ms"));
@@ -210,12 +212,12 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task PrecisionCustom()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
-        await _client.WriteRecordAsync("mem,tag=a field=1", database: "my-database", precision: WritePrecision.S);
+        await _client.WriteRecordAsync("mem,tag=a field=1", precision: WritePrecision.S);
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("s"));
@@ -224,7 +226,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task PrecisionBody()
     {
-        _client = new InfluxDBClient(MockServerUrl, organization: "org", database: "database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
@@ -246,8 +248,9 @@ public class InfluxDBClientWriteTest : MockServerTest
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
-            Organization = "org",
-            Database = "database",
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database",
             Proxy = new System.Net.WebProxy
             {
                 Address = new Uri(MockProxyUrl),
@@ -275,8 +278,9 @@ public class InfluxDBClientWriteTest : MockServerTest
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
-            Organization = "org",
-            Database = "database",
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database",
             Headers = new Dictionary<string, string>
             {
                 { "X-device", "ab-01" },

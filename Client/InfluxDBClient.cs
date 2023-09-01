@@ -89,14 +89,16 @@ namespace InfluxDB3.Client
         private readonly GzipHandler _gzipHandler;
 
         /// <summary>
-        /// This class provides an interface for interacting with an InfluxDB server,
-        /// simplifying common operations such as writing, querying.
+        /// Initializes a new instance of the client with provided configuration options.
         /// </summary>
         /// <param name="host">The URL of the InfluxDB server.</param>
         /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        public InfluxDBClient(string host, string? token = null, string? organization = null,
+        /// <example>
+        /// var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com", "my-token", "my-org", "my-database");
+        /// </example>
+        public InfluxDBClient(string host, string token, string? organization = null,
             string? database = null) : this(
             new ClientConfig
             {
@@ -110,10 +112,20 @@ namespace InfluxDB3.Client
         }
 
         /// <summary>
-        /// This class provides an interface for interacting with an InfluxDB server,
-        /// simplifying common operations such as writing, querying.
+        /// Initializes a new instance of the client with provided configuration.
         /// </summary>
         /// <param name="config">The configuration of the client.</param>
+        /// <example>
+        /// var client = new InfluxDBClient(
+        ///    new ClientConfig
+        ///    {
+        ///        Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
+        ///        Token = "my-token",
+        ///        Organization = "my-org",
+        ///        Database = "my-database"
+        ///    }
+        ///  );
+        /// </example>
         public InfluxDBClient(ClientConfig config)
         {
             if (config is null)
@@ -128,6 +140,70 @@ namespace InfluxDB3.Client
             _flightSqlClient = new FlightSqlClient(config: _config, httpClient: _httpClient);
             _restClient = new RestClient(config: _config, httpClient: _httpClient);
             _gzipHandler = new GzipHandler(config.WriteOptions != null ? config.WriteOptions.GzipThreshold : 0);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the client using connection string.
+        /// <para>
+        /// Supported parameters are:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>token - authentication token (required)</description>
+        /// </item>
+        /// <item>
+        /// <description>org - organization name</description>
+        /// </item>
+        /// <item>
+        /// <description>database - database (bucket) name</description>
+        /// </item>
+        /// <item>
+        /// <description>precision - timestamp precision when writing data (<c>ns</> (default), <c>us</>, <c>ms</>, <c>s</>)</description>
+        /// </item>
+        /// <item>
+        /// <description>gzipThreshold - threshold for gzipping data when writing (default is <c>1000</c>)</description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="connectionString">Connection string in URL format.</param>
+        /// <example>
+        /// var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&database=my-db");
+        /// </examples>
+        public InfluxDBClient(string connectionString) : this(new ClientConfig(connectionString))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the client using connection string.
+        /// <para>
+        /// Supported parameters are:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>INFLUX_HOST - authentication token (required)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_TOKEN - authentication token (required)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_ORG - organization name</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_DATABASE - database (bucket) name</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_PRECISION - timestamp precision when writing data (<c>ns</> (default), <c>us</>, <c>ms</>, <c>s</>)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
+        /// </item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <example>
+        /// var client = new InfluxDBClient();
+        /// </examples>
+        public InfluxDBClient() : this(new ClientConfig(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process)))
+        {
         }
 
         /// <summary>

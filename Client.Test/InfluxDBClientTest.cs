@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 // ReSharper disable ObjectCreationAsStatement
 // ReSharper disable AssignNullToNotNullAttribute
@@ -10,7 +11,32 @@ public class InfluxDBClientTest
     [Test]
     public void Create()
     {
-        using var client = new InfluxDBClient("http://localhost:8086", organization: "org", database: "database");
+        using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+
+        Assert.That(client, Is.Not.Null);
+    }
+
+    [Test]
+    public void CreateFromConnectionString()
+    {
+        using var client = new InfluxDBClient("http://localhost:8086?token=my-token&org=my-org&database=my-db");
+
+        Assert.That(client, Is.Not.Null);
+    }
+
+    [Test]
+    public void CreateFromEnv()
+    {
+        var env = new Dictionary<String, String>
+        {
+            {"INFLUX_HOST", "http://localhost:8086"},
+            {"INFLUX_TOKEN", "my-token"},
+            {"INFLUX_ORG", "my-org"},
+            {"INFLUX_DATABASE", "my-database"},
+        };
+        SetEnv(env);
+
+        using var client = new InfluxDBClient();
 
         Assert.That(client, Is.Not.Null);
     }
@@ -18,18 +44,30 @@ public class InfluxDBClientTest
     [Test]
     public void RequiredHost()
     {
-        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(host: null); });
+        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(host: null, token: ""); });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("The URL of the InfluxDB server has to be defined."));
+        Assert.That(ae.Message, Is.EqualTo("The URL of the InfluxDB server has to be defined"));
     }
 
-    [Test]
-    public void RequiredConfigs()
+    private static void SetEnv(IDictionary<String, String> dict)
     {
-        var ae = Assert.Throws<ArgumentException>(() => { new InfluxDBClient(null); });
+        foreach (var entry in dict)
+        {
+            Environment.SetEnvironmentVariable(entry.Key, entry.Value, EnvironmentVariableTarget.Process);
+        }
+    }
 
-        Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("The configuration of the client has to be defined."));
+    [TearDown]
+    public void Cleanup()
+    {
+        var env = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
+        foreach (var key in env.Keys)
+        {
+            if (((string)key).StartsWith("INFLUX_"))
+            {
+                Environment.SetEnvironmentVariable((string)key, null, EnvironmentVariableTarget.Process);
+            }
+        }
     }
 }
