@@ -67,7 +67,7 @@ public class ClientConfigTest
     [Test]
     public void CreateFromConnectionStringPrecisions()
     {
-        var precisions = new []
+        var precisions = new[]
         {
             ("ns", WritePrecision.Ns),
             ("us", WritePrecision.Us),
@@ -76,22 +76,22 @@ public class ClientConfigTest
         };
         foreach (var precision in precisions)
         {
-        var cfg = new ClientConfig($"http://localhost:8086?token=my-token&precision={precision.Item1}");
-        Assert.That(cfg, Is.Not.Null);
-        cfg.Validate();
-        Assert.Multiple(() =>
-        {
-            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
-            Assert.That(cfg.Token, Is.EqualTo("my-token"));
-            Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(precision.Item2));
-        });
+            var cfg = new ClientConfig($"http://localhost:8086?token=my-token&precision={precision.Item1}");
+            Assert.That(cfg, Is.Not.Null);
+            cfg.Validate();
+            Assert.Multiple(() =>
+            {
+                Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+                Assert.That(cfg.Token, Is.EqualTo("my-token"));
+                Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(precision.Item2));
+            });
         }
     }
 
     [Test]
     public void CreateFromEnvMinimal()
     {
-        var env = new Dictionary<String,String>
+        var env = new Dictionary<String, String>
         {
             {"INFLUX_HOST", "http://localhost:8086"},
             {"INFLUX_TOKEN", "my-token"},
@@ -113,7 +113,7 @@ public class ClientConfigTest
     [Test]
     public void CreateFromEnvBasic()
     {
-        var env = new Dictionary<String,String>
+        var env = new Dictionary<String, String>
         {
             {"INFLUX_HOST", "http://localhost:8086"},
             {"INFLUX_TOKEN", "my-token"},
@@ -137,7 +137,7 @@ public class ClientConfigTest
     [Test]
     public void CreateFromEnvWithWriteOptions()
     {
-        var env = new Dictionary<String,String>
+        var env = new Dictionary<String, String>
         {
             {"INFLUX_HOST", "http://localhost:8086"},
             {"INFLUX_TOKEN", "my-token"},
@@ -161,7 +161,7 @@ public class ClientConfigTest
         });
     }
 
-    private static void SetEnv(IDictionary<String,String> dict)
+    private static void SetEnv(IDictionary<String, String> dict)
     {
         foreach (var entry in dict)
         {

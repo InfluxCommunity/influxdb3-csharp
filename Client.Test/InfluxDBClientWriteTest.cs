@@ -145,7 +145,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public async Task DatabaseCustom()
     {
-        _client = new InfluxDBClient(MockServerUrl,  token: "my-token", organization: "my-org", database: "my-database");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
@@ -159,7 +159,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public void NotSpecifiedDatabase()
     {
-        _client = new InfluxDBClient(MockServerUrl,  token: "my-token", organization: "my-org");
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org");
         var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
         {
             await _client.WriteRecordAsync("mem,tag=a field=1");
