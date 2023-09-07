@@ -15,25 +15,14 @@ namespace InfluxDB3.Client.Write
     /// </summary>
     public partial class PointData : IEquatable<PointData>
     {
-        private static readonly DateTime EpochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        private readonly string _measurementName;
-
-        private readonly SortedDictionary<string, string> _tags = new();
-        private readonly SortedDictionary<string, object> _fields = new();
-
-        private readonly BigInteger? _time;
-
         private const long C1000 = 1000L;
         private const long C1000000 = C1000 * 1000L;
         private const long C1000000000 = C1000000 * 1000L;
 
-        private PointData(string measurementName)
-        {
-            Arguments.CheckNonEmptyString(measurementName, "Measurement name");
+        private PointDataValues _values;
 
-            _measurementName = measurementName;
-        }
+
+        public PointData(PointDataValues values) { _values = values; }
 
         /// <summary>
         /// Create a new Point withe specified a measurement name.
@@ -42,186 +31,16 @@ namespace InfluxDB3.Client.Write
         /// <returns>the new Point</returns>
         public static PointData Measurement(string measurementName)
         {
-            return new PointData(measurementName);
-        }
-
-        private PointData(string measurementName, BigInteger? time, SortedDictionary<string, string> tags,
-            SortedDictionary<string, object> fields)
-        {
-            _measurementName = measurementName;
-            _time = time;
-            _tags = tags;
-            _fields = fields;
+            return new PointData(new PointDataValues()).SetMeasurement(measurementName);
         }
 
         /// <summary>
         /// Get measurement name.
         /// </summary>
         /// <returns>Measurement name</returns>
-        public string GetMeasurement()
+        public string? GetMeasurement()
         {
-            return _measurementName;
-        }
-
-        /// <summary>
-        /// Get time as BigInteger. Can be null.
-        /// </summary>
-        /// <returns>Time as BigInteger</returns>
-        public BigInteger? GetTime()
-        {
-            return _time;
-        }
-
-        public string? GetTag(string name)
-        {
-            return _tags.TryGetValue(name, out string value) ? value : null;
-        }
-
-        /// <summary>
-        /// Adds or replaces a tag value for a point.
-        /// </summary>
-        /// <param name="name">the tag name</param>
-        /// <param name="value">the tag value</param>
-        /// <returns>this</returns>
-        public PointData AddTag(string name, string value)
-        {
-            var isEmptyValue = string.IsNullOrEmpty(value);
-            var tags = new SortedDictionary<string, string>(_tags);
-            if (isEmptyValue)
-            {
-                if (tags.ContainsKey(name))
-                {
-                    Trace.TraceWarning(
-                        $"Empty tags will cause deletion of, tag [{name}], measurement [{_measurementName}]");
-                }
-                else
-                {
-                    Trace.TraceWarning($"Empty tags has no effect, tag [{name}], measurement [{_measurementName}]");
-                    return this;
-                }
-            }
-
-            if (tags.ContainsKey(name))
-            {
-                tags.Remove(name);
-            }
-
-            if (!isEmptyValue)
-            {
-                tags.Add(name, value);
-            }
-
-            return new PointData(_measurementName, _time, tags, _fields);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="byte"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, byte value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="float"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, float value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="double"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, double value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="decimal"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, decimal value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="long"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, long value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="ulong"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, ulong value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="uint"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, uint value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="string"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, string value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with a <see cref="bool"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, bool value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Add a field with an <see cref="object"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointData AddField(string name, object value)
-        {
-            return PutField(name, value);
+            return _values.GetMeasurement();
         }
 
         /// <summary>
@@ -231,12 +50,13 @@ namespace InfluxDB3.Client.Write
         /// <returns>copy of this Point with given measurement name</returns>
         public PointData SetMeasurement(string measurementName)
         {
-            return new PointData(
-                measurementName,
-                _time,
-                _tags,
-                _fields
-            );
+            _values.SetMeasurement(measurementName);
+            return this;
+        }
+
+        public BigInteger? GetTimestamp()
+        {
+            return _values.GetTimestamp();
         }
 
         /// <summary>
@@ -247,10 +67,8 @@ namespace InfluxDB3.Client.Write
         /// <returns></returns>
         public PointData SetTimestamp(long timestamp, WritePrecision? timeUnit = null)
         {
-            return new PointData(_measurementName,
-                LongToBigInteger(timestamp, timeUnit),
-                _tags,
-                _fields);
+            _values.SetTimestamp(timestamp, timeUnit);
+            return this;
         }
 
         /// <summary>
@@ -260,11 +78,8 @@ namespace InfluxDB3.Client.Write
         /// <returns></returns>
         public PointData SetTimestamp(TimeSpan timestamp)
         {
-            var time = TimeSpanToBigInteger(timestamp);
-            return new PointData(_measurementName,
-                time,
-                _tags,
-                _fields);
+            _values.SetTimestamp(timestamp);
+            return this;
         }
 
         /// <summary>
@@ -274,16 +89,8 @@ namespace InfluxDB3.Client.Write
         /// <returns></returns>
         public PointData SetTimestamp(DateTime timestamp)
         {
-            var utcTimestamp = timestamp.Kind switch
-            {
-                DateTimeKind.Local => timestamp.ToUniversalTime(),
-                DateTimeKind.Unspecified => DateTime.SpecifyKind(timestamp, DateTimeKind.Utc),
-                _ => timestamp
-            };
-
-            var timeSpan = utcTimestamp.Subtract(EpochStart);
-
-            return SetTimestamp(timeSpan);
+            _values.SetTimestamp(timestamp);
+            return this;
         }
 
         /// <summary>
@@ -296,36 +103,137 @@ namespace InfluxDB3.Client.Write
             return SetTimestamp(timestamp.UtcDateTime);
         }
 
-        /// <summary>
-        /// Has point any fields?
-        /// </summary>
-        /// <returns>true, if the point contains any fields, false otherwise.</returns>
-        public bool HasFields()
+        public string? GetTag(string name)
         {
-            return _fields.Count > 0;
+            return _values.GetTag(name);
         }
 
         /// <summary>
-        /// Transform to Line Protocol.
+        /// Adds or replaces a tag value for a point.
         /// </summary>
-        /// <param name="timeUnit">the timestamp precision</param>
-        /// <returns>Line Protocol</returns>
-        public string ToLineProtocol(WritePrecision? timeUnit = null)
+        /// <param name="name">the tag name</param>
+        /// <param name="value">the tag value</param>
+        /// <returns>this</returns>
+        public PointData SetTag(string name, string value)
         {
-            var sb = new StringBuilder();
-
-            EscapeKey(sb, _measurementName, false);
-            AppendTags(sb);
-            var appendedFields = AppendFields(sb);
-            if (!appendedFields)
-            {
-                return "";
-            }
-
-            AppendTime(sb, timeUnit);
-
-            return sb.ToString();
+            _values.SetTag(name, value);
+            return this;
         }
+
+        public PointData RemoveTag(string name)
+        {
+            _values.RemoveTag(name);
+            return this;
+        }
+
+        public string[] GetTagNames()
+        {
+            return _values.GetTagNames();
+        }
+
+
+
+        public double? GetFloatField(string name)
+        {
+            return _values.GetFloatField(name);
+        }
+
+        public PointData SetFloatField(string name, float value)
+        {
+            _values.SetFloatField(name, value);
+            return this;
+        }
+
+        public PointData SetFloatField(string name, double value)
+        {
+            _values.SetFloatField(name, value);
+            return this;
+        }
+
+
+        public int? GetIntegerField(string name)
+        {
+            return _values.GetIntegerField(name);
+        }
+
+        public PointData SetIntegerField(string name, byte value)
+        {
+            _values.SetIntegerField(name, value);
+            return this;
+        }
+
+        public PointData SetIntegerField(string name, int value)
+        {
+            _values.SetIntegerField(name, value);
+            return this;
+        }
+
+        public PointData SetIntegerField(string name, long value)
+        {
+            _values.SetIntegerField(name, value);
+            return this;
+        }
+
+        public PointData SetIntegerField(string name, sbyte value)
+        {
+            _values.SetIntegerField(name, value);
+            return this;
+        }
+
+        public PointData SetIntegerField(string name, short value)
+        {
+            _values.SetIntegerField(name, value);
+            return this;
+        }
+
+
+        public uint? GetUintegerField(string name)
+        {
+            return _values.GetUintegerField(name);
+        }
+
+        public PointData SetUintegerField(string name, uint value)
+        {
+            _values.SetUintegerField(name, value);
+            return this;
+        }
+
+        public PointData SetUintegerField(string name, ulong value)
+        {
+            _values.SetUintegerField(name, value);
+            return this;
+        }
+
+        public PointData SetUintegerField(string name, ushort value)
+        {
+            _values.SetUintegerField(name, value);
+            return this;
+        }
+
+
+        public string? GetStringField(string name)
+        {
+            return _values.GetStringField(name);
+        }
+
+        public PointData SetStringField(string name, string value)
+        {
+            _values.SetStringField(name, value);
+            return this;
+        }
+
+
+        public bool? GetBooleanField(string name)
+        {
+            return _values.GetBooleanField(name);
+        }
+
+        public PointData SetBooleanField(string name, bool value)
+        {
+            _values.SetBooleanField(name, value);
+            return this;
+        }
+
 
         /// <summary>
         /// Get field of given name. Can be null if field doesn't exist.
@@ -333,7 +241,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>Field as object</returns>
         public object? GetField(string name)
         {
-            return _fields.TryGetValue(name, out object value) ? value : null;
+            return _values.GetField(name);
         }
 
         /// <summary>
@@ -343,26 +251,160 @@ namespace InfluxDB3.Client.Write
         /// <exception cref="InvalidCastException">Field doesn't match given type</exception>
         public T? GetField<T>(string name) where T : struct
         {
-            return _fields.TryGetValue(name, out object value) ? (T)value : null;
+            return _values.GetField<T>(name);
         }
 
-        private PointData PutField(string name, object value)
+        public Type? GetFieldType(string name) {
+            return _values.GetFieldType(name);
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="byte"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, byte value)
         {
-            Arguments.CheckNonEmptyString(name, "Field name");
-
-            var fields = new SortedDictionary<string, object>(_fields);
-            if (fields.ContainsKey(name))
-            {
-                fields.Remove(name);
-            }
-
-            fields.Add(name, value);
-
-            return new PointData(_measurementName,
-                _time,
-                _tags,
-                fields);
+            _values.SetField(name, value);
+            return this;
         }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="float"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, float value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="double"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, double value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="decimal"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, decimal value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="long"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, long value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="ulong"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, ulong value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="uint"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, uint value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="string"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, string value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with a <see cref="bool"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, bool value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds or replaces a field with an <see cref="object"/> value.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
+        public PointData SetField(string name, object value)
+        {
+            _values.SetField(name, value);
+            return this;
+        }
+
+        public PointData SetFields(Dictionary<string, object> fields) {
+            _values.SetFields(fields);
+            return this;
+        }
+
+        public PointData RemoveField(string name) {
+            _values.RemoveField(name);
+            return this;
+        }
+
+        public string[] GetFieldNames() {
+            return _values.GetFieldNames();
+        }
+
+        /// <summary>
+        /// Has point any fields?
+        /// </summary>
+        /// <returns>true, if the point contains any fields, false otherwise.</returns>
+        public bool HasFields()
+        {
+            return _values.HasFields();
+        }
+
+        public PointData Copy() {
+            return new PointData(_values.Copy());
+        }
+
 
         private static BigInteger TimeSpanToBigInteger(TimeSpan timestamp)
         {
@@ -391,20 +433,19 @@ namespace InfluxDB3.Client.Write
         /// <param name="writer">The writer.</param>
         private void AppendTags(StringBuilder writer)
         {
-            foreach (var keyValue in _tags)
+            foreach (var name in _values.GetTagNames())
             {
-                var key = keyValue.Key;
-                var value = keyValue.Value;
+                var value = _values.GetTag(name);
 
-                if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
                 {
                     continue;
                 }
 
                 writer.Append(',');
-                EscapeKey(writer, key);
+                EscapeKey(writer, name);
                 writer.Append('=');
-                EscapeKey(writer, value);
+                EscapeKey(writer, value!);
             }
 
             writer.Append(' ');
@@ -419,17 +460,16 @@ namespace InfluxDB3.Client.Write
         {
             var appended = false;
 
-            foreach (var keyValue in _fields)
+            foreach (var name in _values.GetFieldNames())
             {
-                var key = keyValue.Key;
-                var value = keyValue.Value;
+                var value = _values.GetField(name)!;
 
                 if (IsNotDefined(value))
                 {
                     continue;
                 }
 
-                EscapeKey(sb, key);
+                EscapeKey(sb, name);
                 sb.Append('=');
 
                 if (value is float)
@@ -491,12 +531,13 @@ namespace InfluxDB3.Client.Write
         /// <param name="writePrecision"></param>
         private void AppendTime(StringBuilder sb, WritePrecision? writePrecision)
         {
-            if (_time == null)
+            var time = _values.GetTimestamp();
+            if (time == null)
             {
                 return;
             }
 
-            var timestamp = (BigInteger)_time;
+            var timestamp = (BigInteger)time;
             switch (writePrecision ?? WritePrecision.Ns)
             {
                 case WritePrecision.Us:
@@ -616,31 +657,7 @@ namespace InfluxDB3.Client.Write
                 return false;
             }
 
-            var otherTags = other._tags;
-
-            var result = _tags.Count == otherTags.Count &&
-                         _tags.All(pair =>
-                         {
-                             var key = pair.Key;
-                             var value = pair.Value;
-                             return otherTags.ContainsKey(key) &&
-                                    otherTags[key] == value;
-                         });
-            var otherFields = other._fields;
-            result = result && _fields.Count == otherFields.Count &&
-                     _fields.All(pair =>
-                     {
-                         var key = pair.Key;
-                         var value = pair.Value;
-                         return otherFields.ContainsKey(key) &&
-                                Equals(otherFields[key], value);
-                     });
-
-            result = result &&
-                     _measurementName == other._measurementName &&
-                     EqualityComparer<BigInteger?>.Default.Equals(_time, other._time);
-
-            return result;
+            return _values.Equals(other._values);
         }
 
         /// <summary>
@@ -651,23 +668,7 @@ namespace InfluxDB3.Client.Write
         /// </returns>
         public override int GetHashCode()
         {
-            var hashCode = 318335609;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_measurementName);
-            hashCode = hashCode * -1521134295 + _time.GetHashCode();
-
-            foreach (var pair in _tags)
-            {
-                hashCode = hashCode * -1521134295 + pair.Key?.GetHashCode() ?? 0;
-                hashCode = hashCode * -1521134295 + pair.Value?.GetHashCode() ?? 0;
-            }
-
-            foreach (var pair in _fields)
-            {
-                hashCode = hashCode * -1521134295 + pair.Key?.GetHashCode() ?? 0;
-                hashCode = hashCode * -1521134295 + pair.Value?.GetHashCode() ?? 0;
-            }
-
-            return hashCode;
+            return _values.GetHashCode();
         }
 
         /// <summary>

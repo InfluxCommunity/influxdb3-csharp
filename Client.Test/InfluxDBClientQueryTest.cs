@@ -25,7 +25,7 @@ public class InfluxDBClientQueryTest : MockServerTest
         });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("Cannot access a disposed object.\nObject name: 'InfluxDBClient'."));
+        Assert.That(ae.Message, Is.EqualTo($"Cannot access a disposed object.{Environment.NewLine}Object name: 'InfluxDBClient'."));
     }
 
     [Test]

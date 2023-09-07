@@ -43,40 +43,6 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
-        [SuppressMessage("Assertion", "NUnit2010:Use EqualConstraint for better assertion messages in case of failure")]
-        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
-        public void Immutability()
-        {
-            var point = PointData.Measurement("h2 o")
-                .AddTag("location", "europe");
-
-            var point1 = point
-                .AddTag("TAG", "VALX")
-                .AddField("level", 2);
-
-            var point2 = point
-                .AddTag("TAG", "VALX")
-                .AddField("level", 2);
-
-            var point3 = point
-                .AddTag("TAG", "VALY")
-                .AddField("level", 2);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(point2, Is.EqualTo(point1));
-                Assert.That(point1, Is.Not.EqualTo(point));
-                Assert.That(ReferenceEquals(point1, point2), Is.False);
-                Assert.That(point1 == point3, Is.False);
-                Assert.That(point1 != point3, Is.True);
-                Assert.That(point1.Equals(null), Is.False);
-                Assert.That(point1.Equals(10), Is.False);
-                Assert.That(point1.GetHashCode(), Is.Not.EqualTo(point3.GetHashCode()));
-                Assert.That(point1, Is.Not.EqualTo(point3));
-            });
-        }
-
-        [Test]
         public void MeasurementEscape()
         {
             var point = PointData.Measurement("h2 o")
