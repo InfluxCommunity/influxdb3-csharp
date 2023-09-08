@@ -90,7 +90,7 @@ public class QueryWriteTest
             AuthToken = _authToken
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
     }
 
     [Test]
@@ -104,6 +104,6 @@ public class QueryWriteTest
             DisableServerCertificateValidation = true
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
     }
 }

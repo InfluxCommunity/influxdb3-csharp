@@ -21,8 +21,8 @@ public class IOxExample
         // Write by Point
         //
         var point = PointData.Measurement("temperature")
-            .AddTag("location", "west")
-            .AddField("value", 55.15)
+            .SetTag("location", "west")
+            .SetField("value", 55.15)
             .SetTimestamp(DateTime.UtcNow.AddSeconds(-10));
         await client.WritePointAsync(point: point);
 
@@ -54,14 +54,15 @@ public class IOxExample
         }
 
         //
-        // SQL Query all with explicit measurement for Point structure
+        // SQL Query all PointDataValues
         //
         const string sql2 = "select *, 'temperature' as measurement from temperature order by time desc limit 5";
         Console.WriteLine();
         Console.WriteLine("simple query to poins with measurement manualy specified");
         await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
         {
-            Console.WriteLine(row.ToLineProtocol());
+            // Console.WriteLine(row.ToLineProtocol());
+            continue;
         }
 
         //
@@ -83,14 +84,14 @@ public class IOxExample
         Console.WriteLine("more complex query to poins WITHOUT measurement manualy specified");
         await foreach (var row in client.QueryPoints(query: sql3, queryType: QueryType.SQL))
         {
-            Console.WriteLine(row.ToLineProtocol());
+            // Console.WriteLine(row.ToLineProtocol());
         }
 
         Console.WriteLine();
         Console.WriteLine("simple InfluxQL query to points. InfluxQL sends measurement in query");
         await foreach (var row in client.QueryPoints(query: influxQL, queryType: QueryType.InfluxQL))
         {
-            Console.WriteLine(row.ToLineProtocol());
+            // Console.WriteLine(row.ToLineProtocol());
         }
     }
 }

@@ -405,6 +405,27 @@ namespace InfluxDB3.Client.Write
             return new PointData(_values.Copy());
         }
 
+        /// <summary>
+        /// Transform to Line Protocol.
+        /// </summary>
+        /// <param name="timeUnit">the timestamp precision</param>
+        /// <returns>Line Protocol</returns>
+        public string ToLineProtocol(WritePrecision? timeUnit = null)
+        {
+            var sb = new StringBuilder();
+
+            EscapeKey(sb, _values.GetMeasurement()!, false);
+            AppendTags(sb);
+            var appendedFields = AppendFields(sb);
+            if (!appendedFields)
+            {
+                return "";
+            }
+
+            AppendTime(sb, timeUnit);
+
+            return sb.ToString();
+        }
 
         private static BigInteger TimeSpanToBigInteger(TimeSpan timestamp)
         {

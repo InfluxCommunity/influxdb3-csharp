@@ -205,7 +205,7 @@ namespace InfluxDB3.Client
                             }
                             else
                                 // just push as field If you don't know what type is it
-                                point = point.AddField(fullName, objectValue);
+                                point = point.SetField(fullName, objectValue);
 
                             continue;
                         }
@@ -217,11 +217,11 @@ namespace InfluxDB3.Client
 
                         if (valueType == "field")
                         {
-                            point = point.AddField(fullName, objectValue);
+                            point = point.SetField(fullName, objectValue);
                         }
                         else if (valueType == "tag")
                         {
-                            point = point.AddTag(fullName, (string)objectValue);
+                            point = point.SetTag(fullName, (string)objectValue);
                         }
                         else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
                         {
