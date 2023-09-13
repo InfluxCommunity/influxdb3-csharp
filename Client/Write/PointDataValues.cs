@@ -405,8 +405,13 @@ namespace InfluxDB3.Client.Write
             };
         }
 
+        public PointData AsPoint(string measurement) {
+            SetMeasurement(measurement);
+            return AsPoint();
+        }
+
         public PointData AsPoint() {
-            throw new NotImplementedException();
+            return PointData.fromValues(this);
         }
 
         public PointData AsPointData() {

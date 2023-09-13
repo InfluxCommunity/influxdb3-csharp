@@ -34,6 +34,13 @@ namespace InfluxDB3.Client.Write
             return new PointData(new PointDataValues()).SetMeasurement(measurementName);
         }
 
+        public static PointData fromValues(PointDataValues values) {
+            if (values.GetMeasurement() is null) {
+                throw new Exception("Missing measurement!");
+            }
+            return new PointData(values);
+        }
+
         /// <summary>
         /// Get measurement name.
         /// </summary>
