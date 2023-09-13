@@ -169,7 +169,7 @@ namespace InfluxDB3.Client
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        public async IAsyncEnumerable<PointData> QueryPoints(string query, QueryType? queryType = null,
+        public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
             string? database = null)
         {
             await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
@@ -177,8 +177,7 @@ namespace InfluxDB3.Client
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
                 {
-                    // TODO: measurement
-                    var point = PointData.Measurement("__empty__");
+                    var point = new PointDataValues();
                     for (var j = 0; j < batch.ColumnCount; j++)
                     {
                         var schema = batch.Schema.FieldsList[j];
