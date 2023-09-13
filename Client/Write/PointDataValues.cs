@@ -115,6 +115,12 @@ namespace InfluxDB3.Client.Write
             return SetTimestamp(timestamp.UtcDateTime);
         }
 
+        /// <summary>
+        /// Gets value of tag with given name. Returns null if tag not found.
+        /// </summary>
+        ///
+        /// <param name="name">the tag name</param>
+        /// <returns>tag value or null</returns>
         public string? GetTag(string name)
         {
             return _tags.TryGetValue(name, out string value) ? value : null;
@@ -168,12 +174,6 @@ namespace InfluxDB3.Client.Write
             return _fields.TryGetValue(name, out object result) ? (double)result : null;
         }
 
-        public PointDataValues SetFloatField(string name, float value)
-        {
-            PutField(name, value);
-            return this;
-        }
-
         public PointDataValues SetFloatField(string name, double value)
         {
             PutField(name, value);
@@ -181,21 +181,9 @@ namespace InfluxDB3.Client.Write
         }
 
 
-        public int? GetIntegerField(string name)
+        public long? GetIntegerField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (int)result : null;
-        }
-
-        public PointDataValues SetIntegerField(string name, byte value)
-        {
-            PutField(name, value);
-            return this;
-        }
-
-        public PointDataValues SetIntegerField(string name, int value)
-        {
-            PutField(name, value);
-            return this;
+            return _fields.TryGetValue(name, out object result) ? (long)result : null;
         }
 
         public PointDataValues SetIntegerField(string name, long value)
@@ -204,28 +192,9 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
-        public PointDataValues SetIntegerField(string name, sbyte value)
+        public ulong? GetUintegerField(string name)
         {
-            PutField(name, value);
-            return this;
-        }
-
-        public PointDataValues SetIntegerField(string name, short value)
-        {
-            PutField(name, value);
-            return this;
-        }
-
-
-        public uint? GetUintegerField(string name)
-        {
-            return _fields.TryGetValue(name, out object result) ? (uint)result : null;
-        }
-
-        public PointDataValues SetUintegerField(string name, uint value)
-        {
-            PutField(name, value);
-            return this;
+            return _fields.TryGetValue(name, out object result) ? (ulong)result : null;
         }
 
         public PointDataValues SetUintegerField(string name, ulong value)
@@ -233,13 +202,6 @@ namespace InfluxDB3.Client.Write
             PutField(name, value);
             return this;
         }
-
-        public PointDataValues SetUintegerField(string name, ushort value)
-        {
-            PutField(name, value);
-            return this;
-        }
-
 
         public string? GetStringField(string name)
         {
@@ -400,6 +362,7 @@ namespace InfluxDB3.Client.Write
 
         private PointDataValues PutField(string name, object value)
         {
+            // TODO: move to setfield
             Arguments.CheckNonEmptyString(name, "Field name");
 
             _fields[name] = value;

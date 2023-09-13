@@ -38,9 +38,9 @@ namespace InfluxDB3.Client.Write
         /// Get measurement name.
         /// </summary>
         /// <returns>Measurement name</returns>
-        public string? GetMeasurement()
+        public string GetMeasurement()
         {
-            return _values.GetMeasurement();
+            return _values.GetMeasurement() ?? throw new Exception("Missing measurement!");
         }
 
         /// <summary>
@@ -138,12 +138,6 @@ namespace InfluxDB3.Client.Write
             return _values.GetFloatField(name);
         }
 
-        public PointData SetFloatField(string name, float value)
-        {
-            _values.SetFloatField(name, value);
-            return this;
-        }
-
         public PointData SetFloatField(string name, double value)
         {
             _values.SetFloatField(name, value);
@@ -151,21 +145,9 @@ namespace InfluxDB3.Client.Write
         }
 
 
-        public int? GetIntegerField(string name)
+        public long? GetIntegerField(string name)
         {
             return _values.GetIntegerField(name);
-        }
-
-        public PointData SetIntegerField(string name, byte value)
-        {
-            _values.SetIntegerField(name, value);
-            return this;
-        }
-
-        public PointData SetIntegerField(string name, int value)
-        {
-            _values.SetIntegerField(name, value);
-            return this;
         }
 
         public PointData SetIntegerField(string name, long value)
@@ -174,28 +156,9 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
-        public PointData SetIntegerField(string name, sbyte value)
-        {
-            _values.SetIntegerField(name, value);
-            return this;
-        }
-
-        public PointData SetIntegerField(string name, short value)
-        {
-            _values.SetIntegerField(name, value);
-            return this;
-        }
-
-
-        public uint? GetUintegerField(string name)
+        public ulong? GetUintegerField(string name)
         {
             return _values.GetUintegerField(name);
-        }
-
-        public PointData SetUintegerField(string name, uint value)
-        {
-            _values.SetUintegerField(name, value);
-            return this;
         }
 
         public PointData SetUintegerField(string name, ulong value)
@@ -203,13 +166,6 @@ namespace InfluxDB3.Client.Write
             _values.SetUintegerField(name, value);
             return this;
         }
-
-        public PointData SetUintegerField(string name, ushort value)
-        {
-            _values.SetUintegerField(name, value);
-            return this;
-        }
-
 
         public string? GetStringField(string name)
         {
