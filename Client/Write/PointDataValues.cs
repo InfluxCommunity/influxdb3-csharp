@@ -58,6 +58,10 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
+        /// <summary>
+        /// Get timestamp. Can be null if not set.
+        /// </summary>
+        /// <returns>timestamp or null</returns>
         public BigInteger? GetTimestamp()
         {
             return _time;
@@ -156,73 +160,138 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
+        /// <summary>
+        /// Removes a tag with the specified name if it exists; otherwise, it does nothing.
+        /// </summary>
+        /// <param name="name">the tag name</param>
+        /// <returns>this</returns>
         public PointDataValues RemoveTag(string name)
         {
             _tags.Remove(name);
             return this;
         }
 
+        /// <summary>
+        /// Gets an array of tag names.
+        /// </summary>
+        /// <returns>An array of tag names</returns>
         public string[] GetTagNames()
         {
             return _tags.Keys.ToArray();
         }
 
-
-
+        /// <summary>
+        /// Gets the float field value associated with the specified name.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The float field value or null</returns>
         public double? GetFloatField(string name)
         {
             return _fields.TryGetValue(name, out object result) ? (double)result : null;
         }
 
+        /// <summary>
+        /// Adds or replaces a float field.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
         public PointDataValues SetFloatField(string name, double value)
         {
-            PutField(name, value);
+            SetField(name, value);
             return this;
         }
 
-
+        /// <summary>
+        /// Gets the integer field value associated with the specified name.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The integer field value or null</returns>
         public long? GetIntegerField(string name)
         {
             return _fields.TryGetValue(name, out object result) ? (long)result : null;
         }
 
+        /// <summary>
+        /// Adds or replaces a integer field.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
         public PointDataValues SetIntegerField(string name, long value)
         {
-            PutField(name, value);
+            SetField(name, value);
             return this;
         }
 
+        /// <summary>
+        /// Gets the uinteger field value associated with the specified name.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The uinteger field value or null</returns>
         public ulong? GetUintegerField(string name)
         {
             return _fields.TryGetValue(name, out object result) ? (ulong)result : null;
         }
 
+        /// <summary>
+        /// Adds or replaces a uinteger field.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
         public PointDataValues SetUintegerField(string name, ulong value)
         {
-            PutField(name, value);
+            SetField(name, value);
             return this;
         }
 
+        /// <summary>
+        /// Gets the string field value associated with the specified name.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The string field value or null</returns>
         public string? GetStringField(string name)
         {
             return _fields.TryGetValue(name, out object result) ? (string)result : null;
         }
 
+        /// <summary>
+        /// Adds or replaces a string field.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
         public PointDataValues SetStringField(string name, string value)
         {
-            PutField(name, value);
+            SetField(name, value);
             return this;
         }
 
-
+        /// <summary>
+        /// Gets the bool field value associated with the specified name.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The bool field value or null</returns>
         public bool? GetBooleanField(string name)
         {
             return _fields.TryGetValue(name, out object result) ? (bool)result : null;
         }
 
+        /// <summary>
+        /// Adds or replaces a bool field.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <param name="value">the field value</param>
+        /// <returns>this</returns>
         public PointDataValues SetBooleanField(string name, bool value)
         {
-            PutField(name, value);
+            SetField(name, value);
             return this;
         }
 
@@ -246,30 +315,14 @@ namespace InfluxDB3.Client.Write
             return _fields.TryGetValue(name, out object value) ? (T)value : null;
         }
 
+        /// <summary>
+        /// Gets the type of field with given name, if it exists.
+        /// If the field is not present, returns null.
+        /// </summary>
+        /// <param name="name">the field name</param>
+        /// <returns>The field type or null.</returns>
         public Type? GetFieldType(string name) {
             return _fields.TryGetValue(name, out object value) ? value.GetType() : null;
-        }
-
-        /// <summary>
-        /// Adds or replaces a field with a <see cref="byte"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointDataValues SetField(string name, byte value)
-        {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Adds or replaces a field with a <see cref="float"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointDataValues SetField(string name, float value)
-        {
-            return PutField(name, value);
         }
 
         /// <summary>
@@ -280,18 +333,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, double value)
         {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Adds or replaces a field with a <see cref="decimal"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointDataValues SetField(string name, decimal value)
-        {
-            return PutField(name, value);
+            return SetField(name, value);
         }
 
         /// <summary>
@@ -302,7 +344,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, long value)
         {
-            return PutField(name, value);
+            return SetField(name, value);
         }
 
         /// <summary>
@@ -313,18 +355,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, ulong value)
         {
-            return PutField(name, value);
-        }
-
-        /// <summary>
-        /// Adds or replaces a field with a <see cref="uint"/> value.
-        /// </summary>
-        /// <param name="name">the field name</param>
-        /// <param name="value">the field value</param>
-        /// <returns>this</returns>
-        public PointDataValues SetField(string name, uint value)
-        {
-            return PutField(name, value);
+            return SetField(name, value);
         }
 
         /// <summary>
@@ -335,7 +366,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, string value)
         {
-            return PutField(name, value);
+            return SetField(name, value);
         }
 
         /// <summary>
@@ -346,7 +377,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, bool value)
         {
-            return PutField(name, value);
+            return SetField(name, value);
         }
 
         /// <summary>
@@ -357,18 +388,17 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, object value)
         {
-            return PutField(name, value);
-        }
-
-        private PointDataValues PutField(string name, object value)
-        {
-            // TODO: move to setfield
             Arguments.CheckNonEmptyString(name, "Field name");
 
             _fields[name] = value;
             return this;
         }
 
+        /// <summary>
+        /// Add fields according to their type.
+        /// </summary>
+        /// <param name="fields">the name-value dictionary</param>
+        /// <returns>this</returns>
         public PointDataValues SetFields(Dictionary<string, object> fields) {
             foreach (var item in fields)
             {
@@ -377,11 +407,20 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
+        /// <summary>
+        /// Removes a field with the specified name if it exists; otherwise, it does nothing.
+        /// </summary>
+        /// <param name="name">The name of the field to be removed.</param>
+        /// <returns>this</returns>
         public PointDataValues RemoveField(string name) {
             _fields.Remove(name);
             return this;
         }
 
+        /// <summary>
+        /// Gets an array of field names associated with this object.
+        /// </summary>
+        /// <returns>An array of field names.</returns>
         public string[] GetFieldNames() {
             return _fields.Keys.ToArray();
         }
@@ -395,6 +434,10 @@ namespace InfluxDB3.Client.Write
             return _fields.Count > 0;
         }
 
+        /// <summary>
+        /// Creates a copy of this object.
+        /// </summary>
+        /// <returns>A new instance with same values.</returns>
         public PointDataValues Copy() {
             return new PointDataValues
             {
@@ -405,15 +448,38 @@ namespace InfluxDB3.Client.Write
             };
         }
 
+        /// <summary>
+        /// Creates new Point with this as values with given measurement.
+        /// </summary>
+        /// <param name="measurement">the point measurement</param>
+        /// <returns>Point from this values with given measurement.</returns>
         public PointData AsPoint(string measurement) {
             SetMeasurement(measurement);
             return AsPoint();
         }
 
+        /// <summary>
+        /// Creates new Point with this as values.
+        /// </summary>
+        /// <returns>Point from this values.</returns>
         public PointData AsPoint() {
             return PointData.fromValues(this);
         }
 
+        /// <summary>
+        /// Creates new Point with this as values with given measurement.
+        /// </summary>
+        /// <param name="measurement">the point measurement</param>
+        /// <returns>Point from this values with given measurement.</returns>
+        public PointData AsPointData(string measurement) {
+            return AsPoint(measurement);
+        }
+
+
+        /// <summary>
+        /// Creates new Point with this as values.
+        /// </summary>
+        /// <returns>Point from this values.</returns>
         public PointData AsPointData() {
             return AsPoint();
         }
