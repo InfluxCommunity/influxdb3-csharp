@@ -8,8 +8,8 @@ public class MockServerTest
     internal WireMockServer MockServer, MockProxy;
     internal string MockServerUrl, MockProxyUrl;
 
-    [SetUp]
-    public void SetUp()
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
         if (MockServer is { IsStarted: true })
         {
@@ -34,6 +34,13 @@ public class MockServerTest
         });
 
         MockProxyUrl = MockProxy.Urls[0];
+    }
+    
+    [OneTimeTearDownAttribute]
+    public void OneTimeTearDownAttribute()
+    {
+        MockServer.Dispose();
+        MockProxy.Dispose();
     }
 
     [TearDown]

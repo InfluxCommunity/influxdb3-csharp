@@ -33,6 +33,12 @@ public class QueryWriteTest
         }
     }
 
+    [OneTimeTearDownAttribute]
+    public void OneTimeTearDownAttribute()
+    {
+        ConsoleOutListener.Dispose();
+    }
+
     [Test]
     public async Task QueryWrite()
     {
