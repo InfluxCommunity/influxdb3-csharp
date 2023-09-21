@@ -7,7 +7,6 @@ using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Query;
 using InfluxDB3.Client.Write;
 using NUnit.Framework;
-
 using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test.Integration;

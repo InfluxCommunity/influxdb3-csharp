@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Test.Write
@@ -113,9 +112,9 @@ namespace InfluxDB3.Client.Test.Write
                 // ReSharper disable once RedundantCast
                 .SetField("byte", (byte)9)
                 .SetField("ulong", (ulong)10)
-                .SetField("uint", (uint)11)
+                .SetUintegerField("uint", (uint)11)
                 .SetField("sbyte", (sbyte)12)
-                .SetField("ushort", (ushort)13)
+                .SetUintegerField("ushort", (ushort)13)
                 .SetField("point", 13.3)
                 .SetField("decimal", (decimal)25.6)
                 .SetField("boolean", false)

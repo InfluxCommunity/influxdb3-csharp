@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
@@ -248,7 +249,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Host = MockServerUrl,
             Organization = "org",
             Database = "database",
-            Proxy = new System.Net.WebProxy
+            Proxy = new WebProxy
             {
                 Address = new Uri(MockProxyUrl),
                 BypassProxyOnLocal = false
