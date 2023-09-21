@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Test.Write
@@ -101,6 +103,7 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public void FieldTypes()
         {
             var point = PointData.Measurement("h2o").SetTag("location", "europe")
@@ -109,7 +112,6 @@ namespace InfluxDB3.Client.Test.Write
                 .SetField("float", 35.0F)
                 .SetField("integer", 7)
                 .SetField("short", (short)8)
-                // ReSharper disable once RedundantCast
                 .SetField("byte", (byte)9)
                 .SetField("ulong", (ulong)10)
                 .SetUintegerField("uint", (uint)11)
@@ -391,6 +393,20 @@ namespace InfluxDB3.Client.Test.Write
                 .SetField("custom-object", new GenericObject { Value1 = "test", Value2 = 10 });
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe custom-object=\"test-10\""));
+        }
+        
+        [Test]
+        public void GetMeasurementTagFieldTimestamp()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetField("a", 1)
+                .SetTimestamp(123L);
+
+            Assert.That(point.GetMeasurement(), Is.EqualTo("h2o"));
+            Assert.That(point.GetTag("location"), Is.EqualTo("europe"));
+            Assert.That(point.GetField("a"), Is.EqualTo(1));
+            Assert.That(point.GetTimestamp(), Is.EqualTo(new BigInteger(123)));
         }
     }
 
