@@ -13,7 +13,7 @@ namespace InfluxDB3.Client.Write
     /// </summary>
     public class PointDataValues : IEquatable<PointDataValues>
     {
-        private static readonly DateTime EpochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime EpochStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         private string? _measurementName;
 
@@ -25,8 +25,6 @@ namespace InfluxDB3.Client.Write
         private const long C1000 = 1000L;
         private const long C1000000 = C1000 * 1000L;
         private const long C1000000000 = C1000000 * 1000L;
-
-        public PointDataValues() { }
 
         /// <summary>
         /// Create a new Point withe specified a measurement name.
@@ -334,7 +332,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, double value)
         {
-            return SetField(name, value);
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -345,7 +343,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, long value)
         {
-            return SetField(name, value);
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -356,7 +354,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, ulong value)
         {
-            return SetField(name, value);
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -367,7 +365,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, string value)
         {
-            return SetField(name, value);
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -378,7 +376,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>this</returns>
         public PointDataValues SetField(string name, bool value)
         {
-            return SetField(name, value);
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -470,7 +468,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>Point from this values.</returns>
         public PointData AsPoint()
         {
-            return PointData.fromValues(this);
+            return PointData.FromValues(this);
         }
 
         /// <summary>
@@ -576,7 +574,7 @@ namespace InfluxDB3.Client.Write
         public override int GetHashCode()
         {
             var hashCode = 318335609;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_measurementName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_measurementName ?? string.Empty);
             hashCode = hashCode * -1521134295 + _time.GetHashCode();
 
             foreach (var pair in _tags)

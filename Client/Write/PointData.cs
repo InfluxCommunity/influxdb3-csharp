@@ -10,13 +10,13 @@ namespace InfluxDB3.Client.Write
     /// Point defines the values that will be written to the database.
     /// <a href="http://bit.ly/influxdata-point">See Go Implementation</a>.
     /// </summary>
-    public partial class PointData : IEquatable<PointData>
+    public class PointData : IEquatable<PointData>
     {
         private const long C1000 = 1000L;
         private const long C1000000 = C1000 * 1000L;
         private const long C1000000000 = C1000000 * 1000L;
 
-        private PointDataValues _values;
+        private readonly PointDataValues _values;
 
 
         public PointData(PointDataValues values) { _values = values; }
@@ -36,7 +36,7 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="values">the point values</param>
         /// <returns>the new Point</returns>
-        public static PointData fromValues(PointDataValues values)
+        public static PointData FromValues(PointDataValues values)
         {
             if (values.GetMeasurement() is null)
             {
@@ -219,6 +219,7 @@ namespace InfluxDB3.Client.Write
             return _values.GetUintegerField(name);
         }
 
+        /// <summary>
         /// Adds or replaces a uinteger field.
         /// </summary>
         /// <param name="name">the field name</param>
@@ -379,6 +380,7 @@ namespace InfluxDB3.Client.Write
             return this;
         }
 
+        /// <summary>
         /// Add fields according to their type.
         /// </summary>
         /// <param name="fields">the name-value dictionary</param>
@@ -447,27 +449,6 @@ namespace InfluxDB3.Client.Write
             AppendTime(sb, timeUnit);
 
             return sb.ToString();
-        }
-
-        private static BigInteger TimeSpanToBigInteger(TimeSpan timestamp)
-        {
-            return timestamp.Ticks * 100;
-        }
-
-        private static BigInteger LongToBigInteger(long timestamp, WritePrecision? timeUnit = null)
-        {
-            switch (timeUnit ?? WritePrecision.Ns)
-            {
-                case WritePrecision.Us:
-                    return timestamp * C1000;
-                case WritePrecision.Ms:
-                    return timestamp * C1000000;
-                case WritePrecision.S:
-                    return timestamp * C1000000000;
-                case WritePrecision.Ns:
-                default:
-                    return timestamp;
-            }
         }
 
         /// <summary>

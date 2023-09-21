@@ -210,7 +210,7 @@ namespace InfluxDB3.Client
                         }
 
                         var type = schema.Metadata["iox::column::type"];
-                        var parts = type.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                         var valueType = parts[2];
                         // string fieldType = parts.Length > 3 ? parts[3] : "";
 
