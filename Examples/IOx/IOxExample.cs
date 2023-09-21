@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using InfluxDB3.Client;
 using InfluxDB3.Client.Query;
@@ -20,8 +21,8 @@ public class IOxExample
         // Write by Point
         //
         var point = PointData.Measurement("temperature")
-            .AddTag("location", "west")
-            .AddField("value", 55.15)
+            .SetTag("location", "west")
+            .SetField("value", 55.15)
             .SetTimestamp(DateTime.UtcNow.AddSeconds(-10));
         await client.WritePointAsync(point: point);
 
@@ -41,8 +42,6 @@ public class IOxExample
             Console.WriteLine("{0,-30}{1,-15}{2,-15}", row[0], row[1], row[2]);
         }
 
-        Console.WriteLine();
-
         //
         // Query by InfluxQL
         //
@@ -52,6 +51,47 @@ public class IOxExample
         await foreach (var row in client.Query(query: influxQL, queryType: QueryType.InfluxQL))
         {
             Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
+        }
+
+        //
+        // SQL Query all PointDataValues
+        //
+        const string sql2 = "select *, 'temperature' as measurement from temperature order by time desc limit 5";
+        Console.WriteLine();
+        Console.WriteLine("simple query to poins with measurement manualy specified");
+        await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
+        {
+            // Console.WriteLine(row.ToLineProtocol());
+            continue;
+        }
+
+        //
+        // SQL Query windows
+        //
+        const string sql3 = @"
+            SELECT
+            date_bin('5 minutes', ""time"") as time,
+            AVG(""value"") as avgvalue
+            FROM ""temperature""
+            WHERE
+            ""time"" >= now() - interval '1 hour'
+            GROUP BY time
+            ORDER BY time DESC
+            limit 3
+            ;
+        ";
+        Console.WriteLine();
+        Console.WriteLine("more complex query to poins WITHOUT measurement manualy specified");
+        await foreach (var row in client.QueryPoints(query: sql3, queryType: QueryType.SQL))
+        {
+            // Console.WriteLine(row.ToLineProtocol());
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("simple InfluxQL query to points. InfluxQL sends measurement in query");
+        await foreach (var row in client.QueryPoints(query: influxQL, queryType: QueryType.InfluxQL))
+        {
+            // Console.WriteLine(row.ToLineProtocol());
         }
     }
 }

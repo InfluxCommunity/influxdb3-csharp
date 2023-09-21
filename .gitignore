@@ -1,4 +1,6 @@
 /.idea/
+/.vscode/
+/.vs/
 
 # Build results
 [Dd]ebug/

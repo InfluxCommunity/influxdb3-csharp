@@ -1,4 +1,3 @@
-using System;
 using System.Reflection;
 
 namespace InfluxDB3.Client.Internal
