@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
 using System.Text;
-using InfluxDB3.Client.Internal;
 
 namespace InfluxDB3.Client.Write
 {
@@ -39,8 +36,10 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="values">the point values</param>
         /// <returns>the new Point</returns>
-        public static PointData fromValues(PointDataValues values) {
-            if (values.GetMeasurement() is null) {
+        public static PointData fromValues(PointDataValues values)
+        {
+            if (values.GetMeasurement() is null)
+            {
                 throw new Exception("Missing measurement!");
             }
             return new PointData(values);
@@ -303,7 +302,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">the field name</param>
         /// <returns>The field type or null.</returns>
-        public Type? GetFieldType(string name) {
+        public Type? GetFieldType(string name)
+        {
             return _values.GetFieldType(name);
         }
 
@@ -383,7 +383,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="fields">the name-value dictionary</param>
         /// <returns>this</returns>
-        public PointData SetFields(Dictionary<string, object> fields) {
+        public PointData SetFields(Dictionary<string, object> fields)
+        {
             _values.SetFields(fields);
             return this;
         }
@@ -393,7 +394,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">The name of the field to be removed.</param>
         /// <returns>this</returns>
-        public PointData RemoveField(string name) {
+        public PointData RemoveField(string name)
+        {
             _values.RemoveField(name);
             return this;
         }
@@ -402,7 +404,8 @@ namespace InfluxDB3.Client.Write
         /// Gets an array of field names associated with this object.
         /// </summary>
         /// <returns>An array of field names.</returns>
-        public string[] GetFieldNames() {
+        public string[] GetFieldNames()
+        {
             return _values.GetFieldNames();
         }
 
@@ -419,7 +422,8 @@ namespace InfluxDB3.Client.Write
         /// Creates a deep copy of this object.
         /// </summary>
         /// <returns>A new instance with copied values.</returns>
-        public PointData Copy() {
+        public PointData Copy()
+        {
             return new PointData(_values.Copy());
         }
 

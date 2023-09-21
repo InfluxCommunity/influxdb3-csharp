@@ -127,7 +127,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>tag value or null</returns>
         public string? GetTag(string name)
         {
-            return _tags.TryGetValue(name, out string value) ? value : null;
+            return _tags.TryGetValue(name, out var value) ? value : null;
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The float field value or null</returns>
         public double? GetFloatField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (double)result : null;
+            return _fields.TryGetValue(name, out var result) ? (double)result : null;
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The integer field value or null</returns>
         public long? GetIntegerField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (long)result : null;
+            return _fields.TryGetValue(name, out var result) ? (long)result : null;
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The uinteger field value or null</returns>
         public ulong? GetUintegerField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (ulong)result : null;
+            return _fields.TryGetValue(name, out var result) ? (ulong)result : null;
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The string field value or null</returns>
         public string? GetStringField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (string)result : null;
+            return _fields.TryGetValue(name, out var result) ? (string)result : null;
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The bool field value or null</returns>
         public bool? GetBooleanField(string name)
         {
-            return _fields.TryGetValue(name, out object result) ? (bool)result : null;
+            return _fields.TryGetValue(name, out var result) ? (bool)result : null;
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>Field as object</returns>
         public object? GetField(string name)
         {
-            return _fields.TryGetValue(name, out object value) ? value : null;
+            return _fields.TryGetValue(name, out var value) ? value : null;
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace InfluxDB3.Client.Write
         /// <exception cref="InvalidCastException">Field doesn't match given type</exception>
         public T? GetField<T>(string name) where T : struct
         {
-            return _fields.TryGetValue(name, out object value) ? (T)value : null;
+            return _fields.TryGetValue(name, out var value) ? (T)value : null;
         }
 
         /// <summary>
@@ -321,8 +321,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">the field name</param>
         /// <returns>The field type or null.</returns>
-        public Type? GetFieldType(string name) {
-            return _fields.TryGetValue(name, out object value) ? value.GetType() : null;
+        public Type? GetFieldType(string name)
+        {
+            return _fields.TryGetValue(name, out var value) ? value.GetType() : null;
         }
 
         /// <summary>
@@ -399,7 +400,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="fields">the name-value dictionary</param>
         /// <returns>this</returns>
-        public PointDataValues SetFields(Dictionary<string, object> fields) {
+        public PointDataValues SetFields(Dictionary<string, object> fields)
+        {
             foreach (var item in fields)
             {
                 SetField(item.Key, item.Value);
@@ -412,7 +414,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">The name of the field to be removed.</param>
         /// <returns>this</returns>
-        public PointDataValues RemoveField(string name) {
+        public PointDataValues RemoveField(string name)
+        {
             _fields.Remove(name);
             return this;
         }
@@ -421,7 +424,8 @@ namespace InfluxDB3.Client.Write
         /// Gets an array of field names associated with this object.
         /// </summary>
         /// <returns>An array of field names.</returns>
-        public string[] GetFieldNames() {
+        public string[] GetFieldNames()
+        {
             return _fields.Keys.ToArray();
         }
 
@@ -438,7 +442,8 @@ namespace InfluxDB3.Client.Write
         /// Creates a copy of this object.
         /// </summary>
         /// <returns>A new instance with same values.</returns>
-        public PointDataValues Copy() {
+        public PointDataValues Copy()
+        {
             return new PointDataValues
             {
                 _measurementName = _measurementName,
@@ -453,7 +458,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="measurement">the point measurement</param>
         /// <returns>Point from this values with given measurement.</returns>
-        public PointData AsPoint(string measurement) {
+        public PointData AsPoint(string measurement)
+        {
             SetMeasurement(measurement);
             return AsPoint();
         }
@@ -462,7 +468,8 @@ namespace InfluxDB3.Client.Write
         /// Creates new Point with this as values.
         /// </summary>
         /// <returns>Point from this values.</returns>
-        public PointData AsPoint() {
+        public PointData AsPoint()
+        {
             return PointData.fromValues(this);
         }
 
@@ -471,7 +478,8 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="measurement">the point measurement</param>
         /// <returns>Point from this values with given measurement.</returns>
-        public PointData AsPointData(string measurement) {
+        public PointData AsPointData(string measurement)
+        {
             return AsPoint(measurement);
         }
 
@@ -480,7 +488,8 @@ namespace InfluxDB3.Client.Write
         /// Creates new Point with this as values.
         /// </summary>
         /// <returns>Point from this values.</returns>
-        public PointData AsPointData() {
+        public PointData AsPointData()
+        {
             return AsPoint();
         }
 

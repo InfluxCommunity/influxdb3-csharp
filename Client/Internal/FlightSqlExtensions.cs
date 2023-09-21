@@ -1,6 +1,5 @@
 using System;
 using Apache.Arrow;
-using Apache.Arrow.Arrays;
 using Array = Apache.Arrow.Array;
 
 namespace InfluxDB3.Client.Internal;
@@ -14,7 +13,7 @@ internal static class FlightSqlExtensions
     /// <param name="array">Array</param>
     /// <param name="index">Row index</param>
     /// <returns></returns>
-    /// <exception cref="NotSupportedException">Type of array is not supported</exception>
+    /// <exception cref="System.NotSupportedException">Type of array is not supported</exception>
     internal static object? GetObjectValue(this Array array, int index)
     {
         return array switch
