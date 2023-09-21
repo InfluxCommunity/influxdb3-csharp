@@ -130,6 +130,6 @@ public class QueryWriteTest
             }
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c").AddField("user", 14.34));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c").SetField("user", 14.34));
     }
 }

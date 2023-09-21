@@ -259,8 +259,8 @@ public class InfluxDBClientWriteTest : MockServerTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
-            .AddTag("location", "europe")
-            .AddField("level", 2)
+            .SetTag("location", "europe")
+            .SetField("level", 2)
             .SetTimestamp(123_000_000_000L);
 
         await _client.WritePointAsync(point);
@@ -287,8 +287,8 @@ public class InfluxDBClientWriteTest : MockServerTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
-            .AddTag("location", "europe")
-            .AddField("level", 2)
+            .SetTag("location", "europe")
+            .SetField("level", 2)
             .SetTimestamp(123_000_000_000L);
 
         await _client.WritePointAsync(point);
