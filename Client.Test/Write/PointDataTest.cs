@@ -7,6 +7,7 @@ using InfluxDB3.Client.Write;
 namespace InfluxDB3.Client.Test.Write
 {
     [TestFixture]
+    [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
     public class PointDataTest
     {
         [Test]
@@ -213,11 +214,26 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.Multiple(() =>
             {
+                PointData value1 = null;
+                PointData value2 = null;
                 Assert.That(point, Is.EqualTo(pointCopy));
                 Assert.That(point.Equals((object)pointCopy), Is.EqualTo(true));
+                Assert.That(point.Equals(null), Is.EqualTo(false));
                 Assert.That(point == pointCopy, Is.EqualTo(true));
+                Assert.That(value1 == value2, Is.EqualTo(true));
                 Assert.That(point != pointCopy, Is.EqualTo(false));
             });
+        }
+
+        [Test]
+        public void HashCode()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetBooleanField("value", true);
+
+            Assert.That(point.GetHashCode(), Is.Not.NaN);
+            
         }
 
         [Test]
@@ -566,6 +582,19 @@ namespace InfluxDB3.Client.Test.Write
             Assert.That(point.GetTag("location"), Is.EqualTo("europe"));
             Assert.That(point.GetField("a"), Is.EqualTo(1));
             Assert.That(point.GetTimestamp(), Is.EqualTo(new BigInteger(123)));
+        }
+
+        [Test]
+        public void FromValues()
+        {
+            var values = PointDataValues
+                .Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetField("a", 1)
+                .SetFloatField("b", 1124.456f)
+                .SetTimestamp(123L);
+
+            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.4560546875 123"));
         }
     }
 
