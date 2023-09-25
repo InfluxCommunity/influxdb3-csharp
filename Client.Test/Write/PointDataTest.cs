@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using InfluxDB3.Client.Write;
@@ -30,7 +31,9 @@ namespace InfluxDB3.Client.Test.Write
                 .SetField("level", 2);
 
             Assert.That(
-                point.ToLineProtocol(), Is.EqualTo("h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\rreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i"));
+                point.ToLineProtocol(),
+                Is.EqualTo(
+                    "h\\n2\\ro\\t_data,carriage\\rreturn=carriage\\rreturn,new\\nline=new\\nline,t\\tab=t\\tab level=2i"));
         }
 
         [Test]
@@ -122,8 +125,9 @@ namespace InfluxDB3.Client.Test.Write
                 .SetField("boolean", false)
                 .SetField("string", "string value");
 
-            const string expected = "h2o,location=europe boolean=false,byte=9i,decimal=25.6,double=250.69,float=35,integer=7i,long=1i," +
-                                    "point=13.300000000000001,sbyte=12i,short=8i,string=\"string value\",uint=11u,ulong=10u,ushort=13u";
+            const string expected =
+                "h2o,location=europe boolean=false,byte=9i,decimal=25.6,double=250.69,float=35,integer=7i,long=1i," +
+                "point=13.300000000000001,sbyte=12i,short=8i,string=\"string value\",uint=11u,ulong=10u,ushort=13u";
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo(expected));
         }
@@ -225,8 +229,10 @@ namespace InfluxDB3.Client.Test.Write
             Assert.Multiple(() =>
             {
                 Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
-                Assert.That(point.ToLineProtocol(WritePrecision.Ns), Is.EqualTo("h2o,location=europe level=2i 123000000000"));
-                Assert.That(point.ToLineProtocol(WritePrecision.Us), Is.EqualTo("h2o,location=europe level=2i 123000000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.Ns),
+                    Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+                Assert.That(point.ToLineProtocol(WritePrecision.Us),
+                    Is.EqualTo("h2o,location=europe level=2i 123000000"));
                 Assert.That(point.ToLineProtocol(WritePrecision.Ms), Is.EqualTo("h2o,location=europe level=2i 123000"));
                 Assert.That(point.ToLineProtocol(WritePrecision.S), Is.EqualTo("h2o,location=europe level=2i 123"));
             });
@@ -350,8 +356,46 @@ namespace InfluxDB3.Client.Test.Write
                 Assert.That(PointData.Measurement("h2o").HasFields(), Is.False);
                 Assert.That(PointData.Measurement("h2o").SetTag("location", "europe").HasFields(), Is.False);
                 Assert.That(PointData.Measurement("h2o").SetField("level", "2").HasFields(), Is.True);
-                Assert.That(PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", "2").HasFields(), Is.True);
+                Assert.That(
+                    PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", "2").HasFields(),
+                    Is.True);
             });
+        }
+
+        [Test]
+        public void GetFieldNames()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(PointData.Measurement("h2o").GetFieldNames(), Is.EqualTo(Array.Empty<string>()));
+                Assert.That(PointData.Measurement("h2o").SetField("level", "2").GetFieldNames(),
+                    Is.EqualTo(new[] { "level" }));
+            });
+        }
+
+        [Test]
+        public void RemoveField()
+        {
+            Assert.Multiple(() =>
+            {
+                var pointData = PointData.Measurement("h2o").RemoveField("level");
+                Assert.That(pointData.GetFieldNames(), Is.EqualTo(Array.Empty<string>()));
+
+                pointData = pointData.SetField("level", "2");
+                Assert.That(pointData.GetFieldNames(), Is.EqualTo(new[] { "level" }));
+
+                pointData = pointData.RemoveField("level");
+                Assert.That(pointData.GetFieldNames(), Is.EqualTo(Array.Empty<string>()));
+            });
+        }
+
+        [Test]
+        public void SetFields()
+        {
+            Assert.That(PointData.Measurement("h2o").SetFields(new Dictionary<string, object>()
+            {
+                { "level", "2" }, { "size", 15 }
+            }).GetFieldNames(), Is.EqualTo(new[] { "level", "size" }));
         }
 
         [Test]
