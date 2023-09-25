@@ -394,7 +394,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo("h2o,location=europe custom-object=\"test-10\""));
         }
-        
+
         [Test]
         public void GetMeasurementTagFieldTimestamp()
         {
