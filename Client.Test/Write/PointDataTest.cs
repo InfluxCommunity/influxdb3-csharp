@@ -8,6 +8,9 @@ namespace InfluxDB3.Client.Test.Write
 {
     [TestFixture]
     [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
+    [SuppressMessage("ReSharper", "EqualExpressionComparison")]
+    [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
+    [SuppressMessage("Assertion", "NUnit2009:The same value has been provided as both the actual and the expected argument")]
     public class PointDataTest
     {
         [Test]
@@ -591,9 +594,9 @@ namespace InfluxDB3.Client.Test.Write
                 .SetTag("location", "europe")
                 .SetField("a", 1)
                 .SetFloatField("b", 1124.456f)
-                .SetTimestamp(123L);
+                .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
 
-            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 123"));
+            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 15678000000000"));
 
             var ae = Assert.Throws<Exception>(() =>
             {
@@ -604,7 +607,45 @@ namespace InfluxDB3.Client.Test.Write
 
                 PointData.FromValues(pointDataValues);
             });
+            Assert.That(ae, Is.Not.Null);
             Assert.That(ae.Message, Is.EqualTo("Missing measurement!"));
+        }
+
+        [Test]
+        public void PointDataValuesAsPoint()
+        {
+            var values = PointDataValues
+                .Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetField("a", 1)
+                .SetFloatField("b", 1124.456f)
+                .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(values.AsPointData().ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 15678000000000"));
+                Assert.That(values.AsPointData("xyz").ToLineProtocol(), Is.EqualTo("xyz,location=europe a=1i,b=1124.456 15678000000000"));
+            });
+        }
+
+        [Test]
+        public void PointDataValuesEquals()
+        {
+            var values = PointDataValues
+                .Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetField("a", 1)
+                .SetFloatField("b", 1124.456f)
+                .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(values, Is.EqualTo(values));
+                Assert.That(values.Equals((object)values), Is.EqualTo(true));
+                Assert.That(values.Equals(null), Is.EqualTo(false));
+                Assert.That(values != values, Is.EqualTo(false));
+                Assert.That(values == values, Is.EqualTo(true));
+            });
         }
     }
 
