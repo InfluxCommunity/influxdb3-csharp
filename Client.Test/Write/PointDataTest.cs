@@ -399,6 +399,33 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
+        public void GetTagNames()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(PointData.Measurement("h2o").GetTagNames(), Is.EqualTo(Array.Empty<string>()));
+                Assert.That(PointData.Measurement("h2o").SetTag("location", "europe").GetTagNames(),
+                    Is.EqualTo(new[] { "location" }));
+            });
+        }
+
+        [Test]
+        public void RemoveTag()
+        {
+            Assert.Multiple(() =>
+            {
+                var pointData = PointData.Measurement("h2o").RemoveTag("location");
+                Assert.That(pointData.GetTagNames(), Is.EqualTo(Array.Empty<string>()));
+
+                pointData = pointData.SetTag("location", "europe");
+                Assert.That(pointData.GetTagNames(), Is.EqualTo(new[] { "location" }));
+
+                pointData = pointData.RemoveTag("location");
+                Assert.That(pointData.GetTagNames(), Is.EqualTo(Array.Empty<string>()));
+            });
+        }
+
+        [Test]
         public void InfinityValues()
         {
             var point = PointData.Measurement("h2o")
