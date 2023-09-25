@@ -184,9 +184,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">the field name</param>
         /// <returns>The float field value or null</returns>
-        public double? GetFloatField(string name)
+        public float? GetFloatField(string name)
         {
-            return _fields.TryGetValue(name, out var result) ? (double)result : null;
+            return _fields.TryGetValue(name, out var result) ? (float)result : null;
         }
 
         /// <summary>
@@ -195,9 +195,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointDataValues SetFloatField(string name, double value)
+        public PointDataValues SetFloatField(string name, float value)
         {
-            SetField(name, value);
+            SetField(name, (object)value);
             return this;
         }
 

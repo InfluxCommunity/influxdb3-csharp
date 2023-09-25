@@ -168,7 +168,7 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">the field name</param>
         /// <returns>The float field value or null</returns>
-        public double? GetFloatField(string name)
+        public float? GetFloatField(string name)
         {
             return _values.GetFloatField(name);
         }
@@ -179,7 +179,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetFloatField(string name, double value)
+        public PointData SetFloatField(string name, float value)
         {
             _values.SetFloatField(name, value);
             return this;
@@ -496,21 +496,21 @@ namespace InfluxDB3.Client.Write
                 EscapeKey(sb, name);
                 sb.Append('=');
 
-                if (value is float)
+                if (value is float f)
                 {
-                    sb.Append(((IConvertible)value).ToString(CultureInfo.InvariantCulture));
+                    sb.Append(f.ToString(CultureInfo.InvariantCulture));
                 }
-                else if (value is double)
+                else if (value is double d)
                 {
-                    var valueStr = ((double)value).ToString("G17", CultureInfo.InvariantCulture);
+                    var valueStr = d.ToString("G17", CultureInfo.InvariantCulture);
                     sb.Append((IConvertible)valueStr);
                 }
-                else if (value is uint || value is ulong || value is ushort)
+                else if (value is uint or ulong or ushort)
                 {
                     sb.Append(((IConvertible)value).ToString(CultureInfo.InvariantCulture));
                     sb.Append('u');
                 }
-                else if (value is byte || value is int || value is long || value is sbyte || value is short)
+                else if (value is byte or int or long or sbyte or short)
                 {
                     sb.Append(((IConvertible)value).ToString(CultureInfo.InvariantCulture));
                     sb.Append('i');

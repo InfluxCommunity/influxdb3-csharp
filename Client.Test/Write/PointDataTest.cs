@@ -138,9 +138,9 @@ namespace InfluxDB3.Client.Test.Write
         {
             var point = PointData.Measurement("h2o")
                 .SetTag("location", "europe")
-                .SetFloatField("value", 189.756);
+                .SetFloatField("value", 189.756f);
 
-            Assert.That(point.GetFloatField("value"), Is.EqualTo(189.756));
+            Assert.That(point.GetFloatField("value"), Is.EqualTo(189.756f));
         }
 
         [Test]
@@ -593,7 +593,18 @@ namespace InfluxDB3.Client.Test.Write
                 .SetFloatField("b", 1124.456f)
                 .SetTimestamp(123L);
 
-            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.4560546875 123"));
+            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 123"));
+
+            var ae = Assert.Throws<Exception>(() =>
+            {
+                var pointDataValues = PointDataValues
+                    .Measurement(null)
+                    .SetTag("location", "europe")
+                    .SetField("a", 1);
+
+                PointData.FromValues(pointDataValues);
+            });
+            Assert.That(ae.Message, Is.EqualTo("Missing measurement!"));
         }
     }
 
