@@ -131,7 +131,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo(expected));
         }
-        
+
         [Test]
         public void FloatField()
         {
@@ -141,7 +141,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetFloatField("value"), Is.EqualTo(189.756));
         }
-        
+
         [Test]
         public void IntegerField()
         {
@@ -151,7 +151,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetIntegerField("value"), Is.EqualTo(189));
         }
-        
+
         [Test]
         public void UIntegerField()
         {
@@ -161,7 +161,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetUintegerField("value"), Is.EqualTo(189));
         }
-        
+
         [Test]
         public void StringField()
         {
@@ -171,7 +171,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetStringField("value"), Is.EqualTo("189"));
         }
-        
+
         [Test]
         public void BooleanField()
         {
@@ -181,7 +181,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetBooleanField("value"), Is.EqualTo(true));
         }
-        
+
         [Test]
         public void GetField()
         {
@@ -191,7 +191,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetField<bool>("value"), Is.EqualTo(true));
         }
-        
+
         [Test]
         public void GetFieldType()
         {
@@ -201,7 +201,7 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.GetFieldType("value"), Is.EqualTo(typeof(bool)));
         }
-        
+
         [Test]
         public void Copy()
         {
