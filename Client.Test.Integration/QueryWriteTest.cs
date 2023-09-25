@@ -65,6 +65,10 @@ public class QueryWriteTest
         var influxQL = $"select MEAN(value) from {measurement} where \"testId\" = {testId} group by time(1s) fill(none) order by time desc limit 1";
         results = await client.Query(influxQL, queryType: QueryType.InfluxQL).ToListAsync();
         Assert.That(results, Has.Count.EqualTo(1));
+
+        var points = await client.QueryPoints(sql).ToListAsync();
+        Assert.That(points, Has.Count.EqualTo(1));
+        Assert.That(points.First().GetField("value"), Is.EqualTo(123.0));
     }
 
     [Test]

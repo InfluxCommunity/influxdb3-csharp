@@ -38,6 +38,17 @@ namespace InfluxDB3.Client
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null);
 
         /// <summary>
+        /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
+            string? database = null);
+
+        /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit. </param>
