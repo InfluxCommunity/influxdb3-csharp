@@ -69,6 +69,11 @@ public class QueryWriteTest
         var points = await client.QueryPoints(sql).ToListAsync();
         Assert.That(points, Has.Count.EqualTo(1));
         Assert.That(points.First().GetField("value"), Is.EqualTo(123.0));
+        
+        points = await client.QueryPoints($"SELECT * FROM {measurement} where \"testId\" = {testId}").ToListAsync();
+        Assert.That(points, Has.Count.EqualTo(1));
+        Assert.That(points.First().GetField("value"), Is.EqualTo(123.0));
+        Assert.That(points.First().GetTag("type"), Is.EqualTo("used"));
     }
 
     [Test]
