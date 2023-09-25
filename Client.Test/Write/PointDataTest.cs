@@ -131,6 +131,94 @@ namespace InfluxDB3.Client.Test.Write
 
             Assert.That(point.ToLineProtocol(), Is.EqualTo(expected));
         }
+        
+        [Test]
+        public void FloatField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetFloatField("value", 189.756);
+
+            Assert.That(point.GetFloatField("value"), Is.EqualTo(189.756));
+        }
+        
+        [Test]
+        public void IntegerField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetIntegerField("value", 189);
+
+            Assert.That(point.GetIntegerField("value"), Is.EqualTo(189));
+        }
+        
+        [Test]
+        public void UIntegerField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetUintegerField("value", 189);
+
+            Assert.That(point.GetUintegerField("value"), Is.EqualTo(189));
+        }
+        
+        [Test]
+        public void StringField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetStringField("value", "189");
+
+            Assert.That(point.GetStringField("value"), Is.EqualTo("189"));
+        }
+        
+        [Test]
+        public void BooleanField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetBooleanField("value", true);
+
+            Assert.That(point.GetBooleanField("value"), Is.EqualTo(true));
+        }
+        
+        [Test]
+        public void GetField()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetBooleanField("value", true);
+
+            Assert.That(point.GetField<bool>("value"), Is.EqualTo(true));
+        }
+        
+        [Test]
+        public void GetFieldType()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetBooleanField("value", true);
+
+            Assert.That(point.GetFieldType("value"), Is.EqualTo(typeof(bool)));
+        }
+        
+        [Test]
+        public void Copy()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("location", "europe")
+                .SetBooleanField("value", true);
+
+            var pointCopy = point.Copy();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(point, Is.EqualTo(pointCopy));
+                Assert.That(point.Equals((object)pointCopy), Is.EqualTo(true));
+                Assert.That(point == pointCopy, Is.EqualTo(true));
+                Assert.That(point != pointCopy, Is.EqualTo(false));
+            });
+        }
 
         [Test]
         public void DoubleFormat()
