@@ -233,7 +233,6 @@ namespace InfluxDB3.Client.Test.Write
                 .SetBooleanField("value", true);
 
             Assert.That(point.GetHashCode(), Is.Not.NaN);
-            
         }
 
         [Test]
