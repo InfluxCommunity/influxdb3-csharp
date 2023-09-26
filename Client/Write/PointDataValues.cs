@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
-using System.Text;
+using InfluxDB3.Client.Internal;
 
 namespace InfluxDB3.Client.Write
 {
@@ -10,48 +11,38 @@ namespace InfluxDB3.Client.Write
     /// Point defines the values that will be written to the database.
     /// <a href="http://bit.ly/influxdata-point">See Go Implementation</a>.
     /// </summary>
-    public class PointData : IEquatable<PointData>
+    public class PointDataValues : IEquatable<PointDataValues>
     {
+        private static readonly DateTime EpochStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        private string? _measurementName;
+
+        private SortedDictionary<string, string> _tags = new();
+        private SortedDictionary<string, object> _fields = new();
+
+        private BigInteger? _time;
+
         private const long C1000 = 1000L;
         private const long C1000000 = C1000 * 1000L;
         private const long C1000000000 = C1000000 * 1000L;
 
-        private readonly PointDataValues _values;
-
-
-        public PointData(PointDataValues values) { _values = values; }
-
         /// <summary>
-        /// Create a new Point with specified a measurement name.
+        /// Create a new Point withe specified a measurement name.
         /// </summary>
         /// <param name="measurementName">the measurement name</param>
         /// <returns>the new Point</returns>
-        public static PointData Measurement(string measurementName)
+        public static PointDataValues Measurement(string measurementName)
         {
-            return new PointData(new PointDataValues()).SetMeasurement(measurementName);
-        }
-
-        /// <summary>
-        /// Create a new Point with given values.
-        /// </summary>
-        /// <param name="values">the point values</param>
-        /// <returns>the new Point</returns>
-        public static PointData FromValues(PointDataValues values)
-        {
-            if (values.GetMeasurement() is null)
-            {
-                throw new Exception("Missing measurement!");
-            }
-            return new PointData(values);
+            return new PointDataValues().SetMeasurement(measurementName);
         }
 
         /// <summary>
         /// Get measurement name.
         /// </summary>
         /// <returns>Measurement name</returns>
-        public string GetMeasurement()
+        public string? GetMeasurement()
         {
-            return _values.GetMeasurement() ?? throw new Exception("Missing measurement!");
+            return _measurementName;
         }
 
         /// <summary>
@@ -59,9 +50,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="measurementName">the measurement name</param>
         /// <returns>copy of this Point with given measurement name</returns>
-        public PointData SetMeasurement(string measurementName)
+        public PointDataValues SetMeasurement(string measurementName)
         {
-            _values.SetMeasurement(measurementName);
+            _measurementName = measurementName;
             return this;
         }
 
@@ -71,7 +62,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>timestamp or null</returns>
         public BigInteger? GetTimestamp()
         {
-            return _values.GetTimestamp();
+            return _time;
         }
 
         /// <summary>
@@ -80,9 +71,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="timestamp">the timestamp</param>
         /// <param name="timeUnit">the timestamp precision. Default is 'nanoseconds'.</param>
         /// <returns></returns>
-        public PointData SetTimestamp(long timestamp, WritePrecision? timeUnit = null)
+        public PointDataValues SetTimestamp(long timestamp, WritePrecision? timeUnit = null)
         {
-            _values.SetTimestamp(timestamp, timeUnit);
+            _time = LongToBigInteger(timestamp, timeUnit);
             return this;
         }
 
@@ -91,9 +82,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData SetTimestamp(TimeSpan timestamp)
+        public PointDataValues SetTimestamp(TimeSpan timestamp)
         {
-            _values.SetTimestamp(timestamp);
+            _time = TimeSpanToBigInteger(timestamp);
             return this;
         }
 
@@ -102,10 +93,18 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData SetTimestamp(DateTime timestamp)
+        public PointDataValues SetTimestamp(DateTime timestamp)
         {
-            _values.SetTimestamp(timestamp);
-            return this;
+            var utcTimestamp = timestamp.Kind switch
+            {
+                DateTimeKind.Local => timestamp.ToUniversalTime(),
+                DateTimeKind.Unspecified => DateTime.SpecifyKind(timestamp, DateTimeKind.Utc),
+                _ => timestamp
+            };
+
+            var timeSpan = utcTimestamp.Subtract(EpochStart);
+
+            return SetTimestamp(timeSpan);
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
         /// <returns></returns>
-        public PointData SetTimestamp(DateTimeOffset timestamp)
+        public PointDataValues SetTimestamp(DateTimeOffset timestamp)
         {
             return SetTimestamp(timestamp.UtcDateTime);
         }
@@ -126,7 +125,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>tag value or null</returns>
         public string? GetTag(string name)
         {
-            return _values.GetTag(name);
+            return _tags.TryGetValue(name, out var value) ? value : null;
         }
 
         /// <summary>
@@ -135,9 +134,27 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the tag name</param>
         /// <param name="value">the tag value</param>
         /// <returns>this</returns>
-        public PointData SetTag(string name, string value)
+        public PointDataValues SetTag(string name, string value)
         {
-            _values.SetTag(name, value);
+            var isEmptyValue = string.IsNullOrEmpty(value);
+            if (isEmptyValue)
+            {
+                if (_tags.ContainsKey(name))
+                {
+                    Trace.TraceWarning(
+                        $"Empty tags will cause deletion of, tag [{name}], measurement [{_measurementName}]");
+                    _tags.Remove(name);
+                }
+                else
+                {
+                    Trace.TraceWarning($"Empty tags has no effect, tag [{name}], measurement [{_measurementName}]");
+                }
+            }
+            else
+            {
+                _tags[name] = value;
+            }
+
             return this;
         }
 
@@ -146,9 +163,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">the tag name</param>
         /// <returns>this</returns>
-        public PointData RemoveTag(string name)
+        public PointDataValues RemoveTag(string name)
         {
-            _values.RemoveTag(name);
+            _tags.Remove(name);
             return this;
         }
 
@@ -158,9 +175,8 @@ namespace InfluxDB3.Client.Write
         /// <returns>An array of tag names</returns>
         public string[] GetTagNames()
         {
-            return _values.GetTagNames();
+            return _tags.Keys.ToArray();
         }
-
 
         /// <summary>
         /// Gets the double field value associated with the specified name.
@@ -170,7 +186,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The double field value or null</returns>
         public double? GetDoubleField(string name)
         {
-            return _values.GetDoubleField(name);
+            return _fields.TryGetValue(name, out var result) ? (double)result : null;
         }
 
         /// <summary>
@@ -179,9 +195,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetDoubleField(string name, double value)
+        public PointDataValues SetDoubleField(string name, double value)
         {
-            _values.SetDoubleField(name, value);
+            SetField(name, (object)value);
             return this;
         }
 
@@ -193,7 +209,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The integer field value or null</returns>
         public long? GetIntegerField(string name)
         {
-            return _values.GetIntegerField(name);
+            return _fields.TryGetValue(name, out var result) ? (long)result : null;
         }
 
         /// <summary>
@@ -202,9 +218,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetIntegerField(string name, long value)
+        public PointDataValues SetIntegerField(string name, long value)
         {
-            _values.SetIntegerField(name, value);
+            SetField(name, value);
             return this;
         }
 
@@ -216,7 +232,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The uinteger field value or null</returns>
         public ulong? GetUintegerField(string name)
         {
-            return _values.GetUintegerField(name);
+            return _fields.TryGetValue(name, out var result) ? (ulong)result : null;
         }
 
         /// <summary>
@@ -225,9 +241,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetUintegerField(string name, ulong value)
+        public PointDataValues SetUintegerField(string name, ulong value)
         {
-            _values.SetUintegerField(name, value);
+            SetField(name, value);
             return this;
         }
 
@@ -239,7 +255,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The string field value or null</returns>
         public string? GetStringField(string name)
         {
-            return _values.GetStringField(name);
+            return _fields.TryGetValue(name, out var result) ? (string)result : null;
         }
 
         /// <summary>
@@ -248,9 +264,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetStringField(string name, string value)
+        public PointDataValues SetStringField(string name, string value)
         {
-            _values.SetStringField(name, value);
+            SetField(name, value);
             return this;
         }
 
@@ -262,7 +278,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The bool field value or null</returns>
         public bool? GetBooleanField(string name)
         {
-            return _values.GetBooleanField(name);
+            return _fields.TryGetValue(name, out var result) ? (bool)result : null;
         }
 
         /// <summary>
@@ -271,9 +287,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetBooleanField(string name, bool value)
+        public PointDataValues SetBooleanField(string name, bool value)
         {
-            _values.SetBooleanField(name, value);
+            SetField(name, value);
             return this;
         }
 
@@ -284,7 +300,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>Field as object</returns>
         public object? GetField(string name)
         {
-            return _values.GetField(name);
+            return _fields.TryGetValue(name, out var value) ? value : null;
         }
 
         /// <summary>
@@ -294,7 +310,7 @@ namespace InfluxDB3.Client.Write
         /// <exception cref="InvalidCastException">Field doesn't match given type</exception>
         public T? GetField<T>(string name) where T : struct
         {
-            return _values.GetField<T>(name);
+            return _fields.TryGetValue(name, out var value) ? (T)value : null;
         }
 
         /// <summary>
@@ -305,7 +321,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>The field type or null.</returns>
         public Type? GetFieldType(string name)
         {
-            return _values.GetFieldType(name);
+            return _fields.TryGetValue(name, out var value) ? value.GetType() : null;
         }
 
         /// <summary>
@@ -314,10 +330,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, double value)
+        public PointDataValues SetField(string name, double value)
         {
-            _values.SetField(name, value);
-            return this;
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -326,10 +341,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, long value)
+        public PointDataValues SetField(string name, long value)
         {
-            _values.SetField(name, value);
-            return this;
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -338,10 +352,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, ulong value)
+        public PointDataValues SetField(string name, ulong value)
         {
-            _values.SetField(name, value);
-            return this;
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -350,10 +363,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, string value)
+        public PointDataValues SetField(string name, string value)
         {
-            _values.SetField(name, value);
-            return this;
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -362,10 +374,9 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, bool value)
+        public PointDataValues SetField(string name, bool value)
         {
-            _values.SetField(name, value);
-            return this;
+            return SetField(name, (object)value);
         }
 
         /// <summary>
@@ -374,9 +385,11 @@ namespace InfluxDB3.Client.Write
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointData SetField(string name, object value)
+        public PointDataValues SetField(string name, object value)
         {
-            _values.SetField(name, value);
+            Arguments.CheckNonEmptyString(name, "Field name");
+
+            _fields[name] = value;
             return this;
         }
 
@@ -385,9 +398,12 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="fields">the name-value dictionary</param>
         /// <returns>this</returns>
-        public PointData SetFields(Dictionary<string, object> fields)
+        public PointDataValues SetFields(Dictionary<string, object> fields)
         {
-            _values.SetFields(fields);
+            foreach (var item in fields)
+            {
+                SetField(item.Key, item.Value);
+            }
             return this;
         }
 
@@ -396,9 +412,9 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="name">The name of the field to be removed.</param>
         /// <returns>this</returns>
-        public PointData RemoveField(string name)
+        public PointDataValues RemoveField(string name)
         {
-            _values.RemoveField(name);
+            _fields.Remove(name);
             return this;
         }
 
@@ -408,7 +424,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>An array of field names.</returns>
         public string[] GetFieldNames()
         {
-            return _values.GetFieldNames();
+            return _fields.Keys.ToArray();
         }
 
         /// <summary>
@@ -417,242 +433,83 @@ namespace InfluxDB3.Client.Write
         /// <returns>true, if the point contains any fields, false otherwise.</returns>
         public bool HasFields()
         {
-            return _values.HasFields();
+            return _fields.Count > 0;
         }
 
         /// <summary>
-        /// Creates a deep copy of this object.
+        /// Creates a copy of this object.
         /// </summary>
-        /// <returns>A new instance with copied values.</returns>
-        public PointData Copy()
+        /// <returns>A new instance with same values.</returns>
+        public PointDataValues Copy()
         {
-            return new PointData(_values.Copy());
+            return new PointDataValues
+            {
+                _measurementName = _measurementName,
+                _tags = new SortedDictionary<string, string>(_tags),
+                _fields = new SortedDictionary<string, object>(_fields),
+                _time = _time,
+            };
         }
 
         /// <summary>
-        /// Transform to Line Protocol.
+        /// Creates new Point with this as values with given measurement.
         /// </summary>
-        /// <param name="timeUnit">the timestamp precision</param>
-        /// <returns>Line Protocol</returns>
-        public string ToLineProtocol(WritePrecision? timeUnit = null)
+        /// <param name="measurement">the point measurement</param>
+        /// <returns>Point from this values with given measurement.</returns>
+        public PointData AsPoint(string measurement)
         {
-            var sb = new StringBuilder();
-
-            EscapeKey(sb, _values.GetMeasurement()!, false);
-            AppendTags(sb);
-            var appendedFields = AppendFields(sb);
-            if (!appendedFields)
-            {
-                return "";
-            }
-
-            AppendTime(sb, timeUnit);
-
-            return sb.ToString();
+            SetMeasurement(measurement);
+            return AsPoint();
         }
 
         /// <summary>
-        /// Appends the tags.
+        /// Creates new Point with this as values.
         /// </summary>
-        /// <param name="writer">The writer.</param>
-        private void AppendTags(StringBuilder writer)
+        /// <returns>Point from this values.</returns>
+        public PointData AsPoint()
         {
-            foreach (var name in _values.GetTagNames())
-            {
-                var value = _values.GetTag(name);
-
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
-                {
-                    continue;
-                }
-
-                writer.Append(',');
-                EscapeKey(writer, name);
-                writer.Append('=');
-                EscapeKey(writer, value!);
-            }
-
-            writer.Append(' ');
+            return PointData.FromValues(this);
         }
 
         /// <summary>
-        /// Appends the fields.
+        /// Creates new Point with this as values with given measurement.
         /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <returns></returns>
-        private bool AppendFields(StringBuilder sb)
+        /// <param name="measurement">the point measurement</param>
+        /// <returns>Point from this values with given measurement.</returns>
+        public PointData AsPointData(string measurement)
         {
-            var appended = false;
-
-            foreach (var name in _values.GetFieldNames())
-            {
-                var value = _values.GetField(name)!;
-
-                if (IsNotDefined(value))
-                {
-                    continue;
-                }
-
-                EscapeKey(sb, name);
-                sb.Append('=');
-
-                if (value is float f)
-                {
-                    sb.Append(f.ToString(CultureInfo.InvariantCulture));
-                }
-                else if (value is double d)
-                {
-                    var valueStr = d.ToString("G17", CultureInfo.InvariantCulture);
-                    sb.Append((IConvertible)valueStr);
-                }
-                else if (value is uint or ulong or ushort)
-                {
-                    sb.Append(((IConvertible)value).ToString(CultureInfo.InvariantCulture));
-                    sb.Append('u');
-                }
-                else if (value is byte or int or long or sbyte or short)
-                {
-                    sb.Append(((IConvertible)value).ToString(CultureInfo.InvariantCulture));
-                    sb.Append('i');
-                }
-                else if (value is bool b)
-                {
-                    sb.Append(b ? "true" : "false");
-                }
-                else if (value is string s)
-                {
-                    sb.Append('"');
-                    EscapeValue(sb, s);
-                    sb.Append('"');
-                }
-                else if (value is IConvertible c)
-                {
-                    sb.Append(c.ToString(CultureInfo.InvariantCulture));
-                }
-                else
-                {
-                    sb.Append('"');
-                    EscapeValue(sb, value.ToString());
-                    sb.Append('"');
-                }
-
-                sb.Append(',');
-                appended = true;
-            }
-
-            if (appended)
-            {
-                sb.Remove(sb.Length - 1, 1);
-            }
-
-            return appended;
+            return AsPoint(measurement);
         }
 
-        /// <summary>
-        /// Appends the time.
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="writePrecision"></param>
-        private void AppendTime(StringBuilder sb, WritePrecision? writePrecision)
-        {
-            var time = _values.GetTimestamp();
-            if (time == null)
-            {
-                return;
-            }
 
-            var timestamp = (BigInteger)time;
-            switch (writePrecision ?? WritePrecision.Ns)
+        /// <summary>
+        /// Creates new Point with this as values.
+        /// </summary>
+        /// <returns>Point from this values.</returns>
+        public PointData AsPointData()
+        {
+            return AsPoint();
+        }
+
+        private static BigInteger TimeSpanToBigInteger(TimeSpan timestamp)
+        {
+            return timestamp.Ticks * 100;
+        }
+
+        private static BigInteger LongToBigInteger(long timestamp, WritePrecision? timeUnit = null)
+        {
+            switch (timeUnit ?? WritePrecision.Ns)
             {
                 case WritePrecision.Us:
-                    timestamp /= C1000;
-                    break;
+                    return timestamp * C1000;
                 case WritePrecision.Ms:
-                    timestamp /= C1000000;
-                    break;
+                    return timestamp * C1000000;
                 case WritePrecision.S:
-                    timestamp /= C1000000000;
-                    break;
+                    return timestamp * C1000000000;
                 case WritePrecision.Ns:
                 default:
-                    break;
+                    return timestamp;
             }
-
-            sb.Append(' ');
-            sb.Append(timestamp.ToString(CultureInfo.InvariantCulture));
-        }
-
-        /// <summary>
-        /// Escapes the key.
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="escapeEqual">Configure to escaping equal.</param>
-        private void EscapeKey(StringBuilder sb, string key, bool escapeEqual = true)
-        {
-            foreach (var c in key)
-            {
-                switch (c)
-                {
-                    case '\n':
-                        sb.Append("\\n");
-                        continue;
-                    case '\r':
-                        sb.Append("\\r");
-                        continue;
-                    case '\t':
-                        sb.Append("\\t");
-                        continue;
-                    case ' ':
-                    case ',':
-                        sb.Append("\\");
-                        break;
-                    case '=':
-                        if (escapeEqual)
-                        {
-                            sb.Append("\\");
-                        }
-
-                        break;
-                }
-
-                sb.Append(c);
-            }
-        }
-
-        /// <summary>
-        /// Escapes the value.
-        /// </summary>
-        /// <param name="sb">The sb.</param>
-        /// <param name="value">The value.</param>
-        private void EscapeValue(StringBuilder sb, string value)
-        {
-            foreach (var c in value)
-            {
-                switch (c)
-                {
-                    case '\\':
-                    case '\"':
-                        sb.Append("\\");
-                        break;
-                }
-
-                sb.Append(c);
-            }
-        }
-
-        /// <summary>
-        /// Determines whether [is not defined] [the specified value].
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>
-        ///   <c>true</c> if [is not defined] [the specified value]; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsNotDefined(object? value)
-        {
-            return value == null
-                   || value is double d && (double.IsInfinity(d) || double.IsNaN(d))
-                   || value is float f && (float.IsInfinity(f) || float.IsNaN(f));
         }
 
         /// <summary>
@@ -664,7 +521,7 @@ namespace InfluxDB3.Client.Write
         /// </returns>
         public override bool Equals(object? obj)
         {
-            return Equals(obj as PointData);
+            return Equals(obj as PointDataValues);
         }
 
         /// <summary>
@@ -674,14 +531,38 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         /// true if the current object is equal to the <paramref name="other">other</paramref> parameter; otherwise, false.
         /// </returns>
-        public bool Equals(PointData? other)
+        public bool Equals(PointDataValues? other)
         {
             if (other == null)
             {
                 return false;
             }
 
-            return _values.Equals(other._values);
+            var otherTags = other._tags;
+
+            var result = _tags.Count == otherTags.Count &&
+                         _tags.All(pair =>
+                         {
+                             var key = pair.Key;
+                             var value = pair.Value;
+                             return otherTags.ContainsKey(key) &&
+                                    otherTags[key] == value;
+                         });
+            var otherFields = other._fields;
+            result = result && _fields.Count == otherFields.Count &&
+                     _fields.All(pair =>
+                     {
+                         var key = pair.Key;
+                         var value = pair.Value;
+                         return otherFields.ContainsKey(key) &&
+                                Equals(otherFields[key], value);
+                     });
+
+            result = result &&
+                     _measurementName == other._measurementName &&
+                     EqualityComparer<BigInteger?>.Default.Equals(_time, other._time);
+
+            return result;
         }
 
         /// <summary>
@@ -692,7 +573,23 @@ namespace InfluxDB3.Client.Write
         /// </returns>
         public override int GetHashCode()
         {
-            return _values.GetHashCode();
+            var hashCode = 318335609;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_measurementName ?? string.Empty);
+            hashCode = hashCode * -1521134295 + _time.GetHashCode();
+
+            foreach (var pair in _tags)
+            {
+                hashCode = hashCode * -1521134295 + pair.Key?.GetHashCode() ?? 0;
+                hashCode = hashCode * -1521134295 + pair.Value?.GetHashCode() ?? 0;
+            }
+
+            foreach (var pair in _fields)
+            {
+                hashCode = hashCode * -1521134295 + pair.Key?.GetHashCode() ?? 0;
+                hashCode = hashCode * -1521134295 + pair.Value?.GetHashCode() ?? 0;
+            }
+
+            return hashCode;
         }
 
         /// <summary>
@@ -703,14 +600,14 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(PointData? left, PointData? right)
+        public static bool operator ==(PointDataValues? left, PointDataValues? right)
         {
             if (left is null && right is null)
                 return true;
             if (left is null || right is null)
                 return false;
 
-            return EqualityComparer<PointData>.Default.Equals(left, right);
+            return EqualityComparer<PointDataValues>.Default.Equals(left, right);
         }
 
         /// <summary>
@@ -721,7 +618,7 @@ namespace InfluxDB3.Client.Write
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator !=(PointData left, PointData right)
+        public static bool operator !=(PointDataValues left, PointDataValues right)
         {
             return !(left == right);
         }

@@ -11,8 +11,8 @@ public class IOxExample
     static async Task Main(string[] args)
     {
         const string host = "https://us-east-1-1.aws.cloud2.influxdata.com";
-        const string token = "my-token";
-        const string database = "my-database";
+        const string token = "pIKPXB_0XuG6bL1Nu959JUNvoHiXtZNANp4FMABnDFIVjOD-ZdJjaV7IrmiBPL4ARspL8Y4dWD0qVvUZfcApgg==";
+        const string database = "database";
 
         using var client = new InfluxDBClient(host: host, token: token, database: database);
 
@@ -20,8 +20,8 @@ public class IOxExample
         // Write by Point
         //
         var point = PointData.Measurement("temperature")
-            .AddTag("location", "west")
-            .AddField("value", 55.15)
+            .SetTag("location", "west")
+            .SetField("value", 55.15)
             .SetTimestamp(DateTime.UtcNow.AddSeconds(-10));
         await client.WritePointAsync(point: point);
 
@@ -41,8 +41,6 @@ public class IOxExample
             Console.WriteLine("{0,-30}{1,-15}{2,-15}", row[0], row[1], row[2]);
         }
 
-        Console.WriteLine();
-
         //
         // Query by InfluxQL
         //
@@ -52,6 +50,46 @@ public class IOxExample
         await foreach (var row in client.Query(query: influxQL, queryType: QueryType.InfluxQL))
         {
             Console.WriteLine("{0,-30}{1,-15}", row[1], row[2]);
+        }
+
+        //
+        // SQL Query all PointDataValues
+        //
+        const string sql2 = "select *, 'temperature' as measurement from temperature order by time desc limit 5";
+        Console.WriteLine();
+        Console.WriteLine("simple query to points with measurement manually specified");
+        await foreach (var row in client.QueryPoints(query: sql2, queryType: QueryType.SQL))
+        {
+            Console.WriteLine(row.AsPoint().ToLineProtocol());
+        }
+
+        //
+        // SQL Query windows
+        //
+        const string sql3 = @"
+            SELECT
+            date_bin('5 minutes', ""time"") as time,
+            AVG(""value"") as avgvalue
+            FROM ""temperature""
+            WHERE
+            ""time"" >= now() - interval '1 hour'
+            GROUP BY time
+            ORDER BY time DESC
+            limit 3
+            ;
+        ";
+        Console.WriteLine();
+        Console.WriteLine("more complex query to points WITHOUT measurement manually specified");
+        await foreach (var row in client.QueryPoints(query: sql3, queryType: QueryType.SQL))
+        {
+            Console.WriteLine(row.AsPoint("measurement").ToLineProtocol());
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("simple InfluxQL query to points. InfluxQL sends measurement in query");
+        await foreach (var row in client.QueryPoints(query: influxQL, queryType: QueryType.InfluxQL))
+        {
+            Console.WriteLine(row.AsPoint().ToLineProtocol());
         }
     }
 }

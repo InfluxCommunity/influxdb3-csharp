@@ -1,5 +1,13 @@
 ## 0.3.0 [unreleased]
 
+### Features
+
+1. [#52](https://github.com/InfluxCommunity/influxdb3-csharp/pull/52): Add structured query support
+
+### Docs
+
+1. [#52](https://github.com/InfluxCommunity/influxdb3-csharp/pull/52): Add downsampling example
+
 ## 0.2.0 [2023-08-11]
 
 ### Features
