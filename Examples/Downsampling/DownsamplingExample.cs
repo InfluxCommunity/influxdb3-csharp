@@ -10,8 +10,8 @@ public class DownsamplingExample
     static async Task Main(string[] args)
     {
         const string host = "https://us-east-1-1.aws.cloud2.influxdata.com";
-        const string token = "pIKPXB_0XuG6bL1Nu959JUNvoHiXtZNANp4FMABnDFIVjOD-ZdJjaV7IrmiBPL4ARspL8Y4dWD0qVvUZfcApgg==";
-        const string database = "database";
+        const string token = "my-token";
+        const string database = "my-database";
 
         using var client = new InfluxDBClient(host: host, token: token, database: database);
 
