@@ -179,23 +179,23 @@ namespace InfluxDB3.Client.Write
         }
 
         /// <summary>
-        /// Gets the float field value associated with the specified name.
+        /// Gets the double field value associated with the specified name.
         /// If the field is not present, returns null.
         /// </summary>
         /// <param name="name">the field name</param>
-        /// <returns>The float field value or null</returns>
-        public float? GetFloatField(string name)
+        /// <returns>The double field value or null</returns>
+        public double? GetDoubleField(string name)
         {
-            return _fields.TryGetValue(name, out var result) ? (float)result : null;
+            return _fields.TryGetValue(name, out var result) ? (double)result : null;
         }
 
         /// <summary>
-        /// Adds or replaces a float field.
+        /// Adds or replaces a double field.
         /// </summary>
         /// <param name="name">the field name</param>
         /// <param name="value">the field value</param>
         /// <returns>this</returns>
-        public PointDataValues SetFloatField(string name, float value)
+        public PointDataValues SetDoubleField(string name, double value)
         {
             SetField(name, (object)value);
             return this;

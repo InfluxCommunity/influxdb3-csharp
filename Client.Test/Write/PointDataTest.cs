@@ -137,13 +137,13 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
-        public void FloatField()
+        public void DoubleField()
         {
             var point = PointData.Measurement("h2o")
                 .SetTag("location", "europe")
-                .SetFloatField("value", 189.756f);
+                .SetDoubleField("value", 189.756f);
 
-            Assert.That(point.GetFloatField("value"), Is.EqualTo(189.756f));
+            Assert.That(point.GetDoubleField("value"), Is.EqualTo(189.756f));
         }
 
         [Test]
@@ -593,10 +593,10 @@ namespace InfluxDB3.Client.Test.Write
                 .Measurement("h2o")
                 .SetTag("location", "europe")
                 .SetField("a", 1)
-                .SetFloatField("b", 1124.456f)
+                .SetDoubleField("b", Math.Round(1124.452f, 2))
                 .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
 
-            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 15678000000000"));
+            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.45 15678000000000"));
 
             var ae = Assert.Throws<Exception>(() =>
             {
@@ -618,13 +618,13 @@ namespace InfluxDB3.Client.Test.Write
                 .Measurement("h2o")
                 .SetTag("location", "europe")
                 .SetField("a", 1)
-                .SetFloatField("b", 1124.456f)
+                .SetDoubleField("b", Math.Round(1124.4544, 2))
                 .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
 
             Assert.Multiple(() =>
             {
-                Assert.That(values.AsPointData().ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.456 15678000000000"));
-                Assert.That(values.AsPointData("xyz").ToLineProtocol(), Is.EqualTo("xyz,location=europe a=1i,b=1124.456 15678000000000"));
+                Assert.That(values.AsPointData().ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.45 15678000000000"));
+                Assert.That(values.AsPointData("xyz").ToLineProtocol(), Is.EqualTo("xyz,location=europe a=1i,b=1124.45 15678000000000"));
             });
         }
 
@@ -635,16 +635,18 @@ namespace InfluxDB3.Client.Test.Write
                 .Measurement("h2o")
                 .SetTag("location", "europe")
                 .SetField("a", 1)
-                .SetFloatField("b", 1124.456f)
+                .SetDoubleField("b", 1124.456f)
                 .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
+
+            var valuesCopy = values.Copy();
 
             Assert.Multiple(() =>
             {
                 Assert.That(values, Is.EqualTo(values));
                 Assert.That(values.Equals((object)values), Is.EqualTo(true));
                 Assert.That(values.Equals(null), Is.EqualTo(false));
-                Assert.That(values != values, Is.EqualTo(false));
-                Assert.That(values == values, Is.EqualTo(true));
+                Assert.That(values != valuesCopy, Is.EqualTo(false));
+                Assert.That(values == valuesCopy, Is.EqualTo(true));
             });
         }
     }
