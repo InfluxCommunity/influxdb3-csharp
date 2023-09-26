@@ -594,9 +594,10 @@ namespace InfluxDB3.Client.Test.Write
                 .SetTag("location", "europe")
                 .SetField("a", 1)
                 .SetDoubleField("b", Math.Round(1124.452f, 2))
+                .SetField("c", (object)(float)10.20)
                 .SetTimestamp(DateTimeOffset.FromUnixTimeSeconds(15678));
 
-            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.45 15678000000000"));
+            Assert.That(PointData.FromValues(values).ToLineProtocol(), Is.EqualTo("h2o,location=europe a=1i,b=1124.45,c=10.2 15678000000000"));
 
             var ae = Assert.Throws<Exception>(() =>
             {
