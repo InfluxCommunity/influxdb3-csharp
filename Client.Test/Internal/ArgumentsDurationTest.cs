@@ -1,6 +1,5 @@
 using System;
 using InfluxDB3.Client.Internal;
-using NUnit.Framework;
 
 namespace InfluxDB3.Client.Test.Internal
 {

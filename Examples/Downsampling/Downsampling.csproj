@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <AssemblyName>InfluxDB3.Examples.Downsampling</AssemblyName>
+    <RootNamespace>InfluxDB3.Examples.Downsampling</RootNamespace>
+
+    <AssemblyOriginatorKeyFile>../../Keys/Key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+
+    <OutputType>Exe</OutputType>
+    <StartupObject>InfluxDB3.Examples.Downsampling.DownsamplingExample</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Client\Client.csproj" />
+  </ItemGroup>
+
+</Project>

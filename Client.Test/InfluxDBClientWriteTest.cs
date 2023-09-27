@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
@@ -55,7 +56,7 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
 
-        await _client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c").AddField("field", 1));
+        await _client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c").SetField("field", 1));
 
         var requests = MockServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("cpu,tag=c field=1i"));
@@ -125,7 +126,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
 
         Assert.That(ae, Is.Not.Null);
-        Assert.That(ae.Message, Is.EqualTo("Cannot access a disposed object.\nObject name: 'InfluxDBClient'."));
+        Assert.That(ae.Message, Is.EqualTo($"Cannot access a disposed object.{Environment.NewLine}Object name: 'InfluxDBClient'."));
     }
 
     [Test]
@@ -232,8 +233,8 @@ public class InfluxDBClientWriteTest : MockServerTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
-            .AddTag("location", "europe")
-            .AddField("level", 2)
+            .SetTag("location", "europe")
+            .SetField("level", 2)
             .SetTimestamp(123_000_000_000L);
 
         await _client.WritePointAsync(point, precision: WritePrecision.S);
@@ -262,8 +263,8 @@ public class InfluxDBClientWriteTest : MockServerTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
-            .AddTag("location", "europe")
-            .AddField("level", 2)
+            .SetTag("location", "europe")
+            .SetField("level", 2)
             .SetTimestamp(123_000_000_000L);
 
         await _client.WritePointAsync(point);
@@ -291,8 +292,8 @@ public class InfluxDBClientWriteTest : MockServerTest
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
-            .AddTag("location", "europe")
-            .AddField("level", 2)
+            .SetTag("location", "europe")
+            .SetField("level", 2)
             .SetTimestamp(123_000_000_000L);
 
         await _client.WritePointAsync(point);

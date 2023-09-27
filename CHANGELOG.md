@@ -4,6 +4,11 @@
 
 1. [#36](https://github.com/InfluxCommunity/influxdb3-csharp/pull/46): Add client creation from connection string
 and environment variables.
+1. [#52](https://github.com/InfluxCommunity/influxdb3-csharp/pull/52): Add structured query support
+
+### Docs
+
+1. [#52](https://github.com/InfluxCommunity/influxdb3-csharp/pull/52): Add downsampling example
 
 ## 0.2.0 [2023-08-11]
 

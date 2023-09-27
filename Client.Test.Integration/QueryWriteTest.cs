@@ -7,7 +7,6 @@ using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Query;
 using InfluxDB3.Client.Write;
 using NUnit.Framework;
-
 using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test.Integration;
@@ -31,6 +30,12 @@ public class QueryWriteTest
             Console.SetOut(TestContext.Progress);
             Trace.Listeners.Add(ConsoleOutListener);
         }
+    }
+
+    [OneTimeTearDownAttribute]
+    public void OneTimeTearDownAttribute()
+    {
+        ConsoleOutListener.Dispose();
     }
 
     [Test]
@@ -60,6 +65,15 @@ public class QueryWriteTest
         var influxQL = $"select MEAN(value) from {measurement} where \"testId\" = {testId} group by time(1s) fill(none) order by time desc limit 1";
         results = await client.Query(influxQL, queryType: QueryType.InfluxQL).ToListAsync();
         Assert.That(results, Has.Count.EqualTo(1));
+
+        var points = await client.QueryPoints(sql).ToListAsync();
+        Assert.That(points, Has.Count.EqualTo(1));
+        Assert.That(points.First().GetField("value"), Is.EqualTo(123.0));
+
+        points = await client.QueryPoints($"SELECT * FROM {measurement} where \"testId\" = {testId}").ToListAsync();
+        Assert.That(points, Has.Count.EqualTo(1));
+        Assert.That(points.First().GetField("value"), Is.EqualTo(123.0));
+        Assert.That(points.First().GetTag("type"), Is.EqualTo("used"));
     }
 
     [Test]
@@ -92,7 +106,7 @@ public class QueryWriteTest
             Token = _token
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
     }
 
     [Test]
@@ -106,7 +120,7 @@ public class QueryWriteTest
             DisableServerCertificateValidation = true
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c"));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
     }
 
 
@@ -124,6 +138,6 @@ public class QueryWriteTest
             }
         });
 
-        await client.WritePointAsync(PointData.Measurement("cpu").AddTag("tag", "c").AddField("user", 14.34));
+        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c").SetField("user", 14.34));
     }
 }

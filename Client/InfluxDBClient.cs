@@ -38,6 +38,17 @@ namespace InfluxDB3.Client
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null);
 
         /// <summary>
+        /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
+            string? database = null);
+
+        /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit. </param>
@@ -232,6 +243,79 @@ namespace InfluxDB3.Client
                     }
 
                     yield return row.ToArray();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
+        /// </summary>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
+            string? database = null)
+        {
+            await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
+            {
+                var rowCount = batch.Column(0).Length;
+                for (var i = 0; i < rowCount; i++)
+                {
+                    var point = new PointDataValues();
+                    for (var j = 0; j < batch.ColumnCount; j++)
+                    {
+                        var schema = batch.Schema.FieldsList[j];
+                        var fullName = schema.Name;
+
+                        if (batch.Column(j) is not ArrowArray array)
+                            continue;
+
+                        var objectValue = array.GetObjectValue(i);
+                        if (objectValue is null)
+                            continue;
+
+                        if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
+                        {
+                            point = point.SetMeasurement((string)objectValue);
+                            continue;
+                        }
+
+                        if (!schema.HasMetadata)
+                        {
+                            if (fullName == "time" && objectValue is DateTimeOffset timestamp)
+                            {
+                                point = point.SetTimestamp(timestamp);
+                            }
+                            else
+                                // just push as field If you don't know what type is it
+                                point = point.SetField(fullName, objectValue);
+
+                            continue;
+                        }
+
+                        var type = schema.Metadata["iox::column::type"];
+                        var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                        var valueType = parts[2];
+                        // string fieldType = parts.Length > 3 ? parts[3] : "";
+
+                        if (valueType == "field")
+                        {
+                            point = point.SetField(fullName, objectValue);
+                        }
+                        else if (valueType == "tag")
+                        {
+                            point = point.SetTag(fullName, (string)objectValue);
+                        }
+                        else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
+                        {
+                            point = point.SetTimestamp(timestamp);
+                        }
+
+                    }
+
+                    yield return point;
                 }
             }
         }
