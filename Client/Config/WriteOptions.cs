@@ -1,3 +1,4 @@
+using System;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
@@ -18,14 +19,14 @@ namespace InfluxDB3.Client.Config;
 ///     Organization = "my-org",
 ///     Database = "my-database",
 ///     WriteOptions = new WriteOptions
-///    {
-///        Precision = WritePrecision.S,
-///        GzipThreshold = 4096
-///    }
+///     {
+///         Precision = WritePrecision.S,
+///         GzipThreshold = 4096
+///     }
 /// }); 
 /// </code>
 /// </summary>
-public class WriteOptions
+public class WriteOptions : ICloneable
 {
     /// <summary>
     /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
@@ -36,6 +37,11 @@ public class WriteOptions
     /// The threshold in bytes for gzipping the body.
     /// </summary>
     public int GzipThreshold { get; set; }
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 
     internal static readonly WriteOptions DefaultOptions = new()
     {

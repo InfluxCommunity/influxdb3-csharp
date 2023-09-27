@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Web;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
@@ -40,13 +42,48 @@ namespace InfluxDB3.Client.Config;
 
 public class ClientConfig
 {
+    internal const string EnvInfluxHost = "INFLUX_HOST";
+    internal const string EnvInfluxToken = "INFLUX_TOKEN";
+    internal const string EnvInfluxOrg = "INFLUX_ORG";
+    internal const string EnvInfluxDatabase = "INFLUX_DATABASE";
+    internal const string EnvInfluxPrecision = "INFLUX_PRECISION";
+    internal const string EnvInfluxGzipThreshold = "INFLUX_GZIP_THRESHOLD";
+
     private string _host = "";
 
     /// <summary>
-    /// The configuration of the client.
+    /// Initializes a new instance of client configuration.
     /// </summary>
     public ClientConfig()
     {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of client configuration from connection string.
+    /// </summary>
+    internal ClientConfig(string connectionString)
+    {
+        var uri = new Uri(connectionString);
+        Host = uri.GetLeftPart(UriPartial.Path);
+        var values = HttpUtility.ParseQueryString(uri.Query);
+        Token = values.Get("token");
+        Organization = values.Get("org");
+        Database = values.Get("database");
+        ParsePrecision(values.Get("precision"));
+        ParseGzipThreshold(values.Get("gzipThreshold"));
+    }
+
+    /// <summary>
+    /// Initializes a new instance of client configuration from environment variables.
+    /// </summary>
+    internal ClientConfig(IDictionary env)
+    {
+        Host = (string)env[EnvInfluxHost];
+        Token = env[EnvInfluxToken] as string;
+        Organization = env[EnvInfluxOrg] as string;
+        Database = env[EnvInfluxDatabase] as string;
+        ParsePrecision(env[EnvInfluxPrecision] as string);
+        ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
     }
 
     /// <summary>
@@ -107,12 +144,39 @@ public class ClientConfig
     {
         if (string.IsNullOrEmpty(Host))
         {
-            throw new ArgumentException("The URL of the InfluxDB server has to be defined.");
+            throw new ArgumentException("The URL of the InfluxDB server has to be defined");
         }
     }
 
     internal WritePrecision WritePrecision
     {
         get => WriteOptions != null ? WriteOptions.Precision ?? WritePrecision.Ns : WritePrecision.Ns;
+    }
+
+    private void ParsePrecision(string? precision)
+    {
+        if (precision != null)
+        {
+            var writePrecision = precision switch
+            {
+                "ns" => WritePrecision.Ns,
+                "us" => WritePrecision.Us,
+                "ms" => WritePrecision.Ms,
+                "s" => WritePrecision.S,
+                _ => throw new ArgumentException($"Unsupported precision '{precision}'"),
+            };
+            WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
+            WriteOptions.Precision = writePrecision;
+        }
+    }
+
+    private void ParseGzipThreshold(string? threshold)
+    {
+        if (threshold != null)
+        {
+            int gzipThreshold = Int32.Parse(threshold);
+            WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
+            WriteOptions.GzipThreshold = gzipThreshold;
+        }
     }
 }
