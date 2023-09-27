@@ -24,7 +24,7 @@ namespace InfluxDB3.Client.Config;
 ///
 /// If you want create client with custom options, you can use the following code:
 /// <code>
-/// var client = new InfluxDBClient(new ClientConfig{
+/// using var client = new InfluxDBClient(new ClientConfig{
 ///     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
 ///     Token = "my-token",
 ///     Organization = "my-org",
