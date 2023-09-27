@@ -107,7 +107,7 @@ namespace InfluxDB3.Client
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <example>
-        /// var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com", "my-token", "my-org", "my-database");
+        /// using var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com", "my-token", "my-org", "my-database");
         /// </example>
         public InfluxDBClient(string host, string token, string? organization = null,
             string? database = null) : this(
@@ -127,7 +127,7 @@ namespace InfluxDB3.Client
         /// </summary>
         /// <param name="config">The configuration of the client.</param>
         /// <example>
-        /// var client = new InfluxDBClient(
+        /// using var client = new InfluxDBClient(
         ///    new ClientConfig
         ///    {
         ///        Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
@@ -168,18 +168,18 @@ namespace InfluxDB3.Client
         /// <description>database - database (bucket) name</description>
         /// </item>
         /// <item>
-        /// <description>precision - timestamp precision when writing data (<c>ns</> (default), <c>us</>, <c>ms</>, <c>s</>)</description>
+        /// <description>precision - timestamp precision when writing data (<c>ns</c> (default), <c>us</c>, <c>ms</c>, <c>s</c>)</description>
         /// </item>
         /// <item>
-        /// <description>gzipThreshold - threshold for gzipping data when writing (default is <c>1000</c>)</description>
+        /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>)</description>
         /// </item>
         /// </list>
         /// </para>
         /// </summary>
         /// <param name="connectionString">Connection string in URL format.</param>
         /// <example>
-        /// var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&database=my-db");
-        /// </examples>
+        /// using var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db");
+        /// </example>
         public InfluxDBClient(string connectionString) : this(new ClientConfig(connectionString))
         {
         }
@@ -202,7 +202,7 @@ namespace InfluxDB3.Client
         /// <description>INFLUX_DATABASE - database (bucket) name</description>
         /// </item>
         /// <item>
-        /// <description>INFLUX_PRECISION - timestamp precision when writing data (<c>ns</> (default), <c>us</>, <c>ms</>, <c>s</>)</description>
+        /// <description>INFLUX_PRECISION - timestamp precision when writing data (<c>ns</c> (default), <c>us</c>, <c>ms</c>, <c>s</c>)</description>
         /// </item>
         /// <item>
         /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
@@ -211,8 +211,8 @@ namespace InfluxDB3.Client
         /// </para>
         /// </summary>
         /// <example>
-        /// var client = new InfluxDBClient();
-        /// </examples>
+        /// using var client = new InfluxDBClient();
+        /// </example>
         public InfluxDBClient() : this(new ClientConfig(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process)))
         {
         }
