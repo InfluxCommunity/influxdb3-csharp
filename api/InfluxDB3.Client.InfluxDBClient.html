@@ -123,7 +123,7 @@
                             <a href="InfluxDB3.Client.Write.PointData.html" title="PointData" class="">PointData</a>
                           </li>
                           <li class="">
-                            <a href="InfluxDB3.Client.Write.PointData.Builder.html" title="PointData.Builder" class="">PointData.Builder</a>
+                            <a href="InfluxDB3.Client.Write.PointDataValues.html" title="PointDataValues" class="">PointDataValues</a>
                           </li>
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
@@ -162,9 +162,24 @@
   <h3 id="constructors">Constructors
   </h3>
   <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
+  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor">InfluxDBClient()</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the client using connection string.</p>
+<p>
+Supported parameters are:
+<ul><li>INFLUX_HOST - authentication token (required)</li><li>INFLUX_TOKEN - authentication token (required)</li><li>INFLUX_ORG - organization name</li><li>INFLUX_DATABASE - database (bucket) name</li><li>INFLUX_PRECISION - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <code>1000</code>)</li></ul>
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public InfluxDBClient()</code></pre>
+  </div>
+  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_examples">Examples</h5>
+  <p>using var client = new InfluxDBClient();</p>
+
+  <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
   <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_InfluxDB3_Client_Config_ClientConfig_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(InfluxDB3.Client.Config.ClientConfig)">InfluxDBClient(ClientConfig)</h4>
-  <div class="markdown level1 summary"><p>This class provides an interface for interacting with an InfluxDB server,
-simplifying common operations such as writing, querying.</p>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the client with provided configuration.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -189,15 +204,59 @@ simplifying common operations such as writing, querying.</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_InfluxDB3_Client_Config_ClientConfig__examples">Examples</h5>
+  <p>using var client = new InfluxDBClient(
+new ClientConfig
+{
+Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+Token = &quot;my-token&quot;,
+Organization = &quot;my-org&quot;,
+Database = &quot;my-database&quot;
+}
+);</p>
+
   <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})">InfluxDBClient(String, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;String&gt;)</h4>
-  <div class="markdown level1 summary"><p>This class provides an interface for interacting with an InfluxDB server,
-simplifying common operations such as writing, querying.</p>
+  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(System.String)">InfluxDBClient(String)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the client using connection string.</p>
+<p>
+Supported parameters are:
+<ul><li>token - authentication token (required)</li><li>org - organization name</li><li>database - database (bucket) name</li><li>precision - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>gzipThreshold - threshold for gzip data when writing (default is <code>1000</code>)</li></ul>
+</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public InfluxDBClient(string host, string? token = null, string? organization = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public InfluxDBClient(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td><p>Connection string in URL format.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String__examples">Examples</h5>
+  <p>using var client = new InfluxDBClient(&quot;https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db&quot;);</p>
+
+  <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
+  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String})">InfluxDBClient(String, String, Nullable&lt;String&gt;, Nullable&lt;String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the client with provided configuration options.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public InfluxDBClient(string host, string token, string? organization = null, string? database = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -216,7 +275,7 @@ simplifying common operations such as writing, querying.</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.String</span></td>
         <td><span class="parametername">token</span></td>
         <td><p>The authentication token for accessing the InfluxDB server.</p>
 </td>
@@ -235,6 +294,9 @@ simplifying common operations such as writing, querying.</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String___examples">Examples</h5>
+  <p>using var client = new InfluxDBClient(&quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;, &quot;my-token&quot;, &quot;my-org&quot;, &quot;my-database&quot;);</p>
+
   <h3 id="methods">Methods
   </h3>
   <a id="InfluxDB3_Client_InfluxDBClient_Dispose_" data-uid="InfluxDB3.Client.InfluxDBClient.Dispose*"></a>
@@ -350,6 +412,61 @@ simplifying common operations such as writing, querying.</p>
     <tbody>
       <tr>
         <td><span class="xref">IAsyncEnumerable</span>&lt;<span class="xref">RecordBatch</span>&gt;</td>
+        <td><p>Batches of rows</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_InfluxDBClient_QueryPoints_" data-uid="InfluxDB3.Client.InfluxDBClient.QueryPoints*"></a>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Query data from InfluxDB IOx into PointData structure using FlightSQL.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">query</span></td>
+        <td><p>The SQL query string to execute.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Query.QueryType.html">QueryType</a>&gt;</td>
+        <td><span class="parametername">queryType</span></td>
+        <td><p>The type of query sent to InfluxDB. Default to 'SQL'.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">database</span></td>
+        <td><p>The database to be used for InfluxDB operations.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IAsyncEnumerable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.PointDataValues.html">PointDataValues</a>&gt;</td>
         <td><p>Batches of rows</p>
 </td>
       </tr>

@@ -123,7 +123,7 @@
                             <a href="InfluxDB3.Client.Write.PointData.html" title="PointData" class="">PointData</a>
                           </li>
                           <li class="">
-                            <a href="InfluxDB3.Client.Write.PointData.Builder.html" title="PointData.Builder" class="">PointData.Builder</a>
+                            <a href="InfluxDB3.Client.Write.PointDataValues.html" title="PointDataValues" class="">PointDataValues</a>
                           </li>
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
@@ -185,15 +185,15 @@
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code>using var client = new InfluxDBClient(new ClientConfig
 {
-    HostUrl = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
+    Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,
     Token = &quot;my-token&quot;,
     Organization = &quot;my-org&quot;,
     Database = &quot;my-database&quot;,
     WriteOptions = new WriteOptions
-   {
-       Precision = WritePrecision.S,
-       GzipThreshold = 4096
-   }
+    {
+        Precision = WritePrecision.S,
+        GzipThreshold = 4096
+    }
 }); </code></pre>
 </section>
 </article>

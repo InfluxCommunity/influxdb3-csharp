@@ -123,7 +123,7 @@
                             <a href="InfluxDB3.Client.Write.PointData.html" title="PointData" class="">PointData</a>
                           </li>
                           <li class="">
-                            <a href="InfluxDB3.Client.Write.PointData.Builder.html" title="PointData.Builder" class="">PointData.Builder</a>
+                            <a href="InfluxDB3.Client.Write.PointDataValues.html" title="PointDataValues" class="">PointDataValues</a>
                           </li>
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
@@ -256,6 +256,61 @@
     <tbody>
       <tr>
         <td><span class="xref">IAsyncEnumerable</span>&lt;<span class="xref">RecordBatch</span>&gt;</td>
+        <td><p>Batches of rows</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints*"></a>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;)</h4>
+  <div class="markdown level1 summary"><p>Query data from InfluxDB IOx into PointData structure using FlightSQL.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">query</span></td>
+        <td><p>The SQL query string to execute.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Query.QueryType.html">QueryType</a>&gt;</td>
+        <td><span class="parametername">queryType</span></td>
+        <td><p>The type of query sent to InfluxDB. Default to 'SQL'.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">database</span></td>
+        <td><p>The database to be used for InfluxDB operations.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IAsyncEnumerable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.PointDataValues.html">PointDataValues</a>&gt;</td>
         <td><p>Batches of rows</p>
 </td>
       </tr>

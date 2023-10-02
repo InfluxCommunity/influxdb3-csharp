@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Config.ClientConfig.html",
-          "hash": "bKKBuYWYjTfkckv1glymgKjm2iV0bmoaHU4nFZ1PO48="
+          "hash": "FgYGbcSGEfzFCIpv9SHf2OyNRsWAxql82vLaG/CnVek="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Config.WriteOptions.html",
-          "hash": "KhQn4uzrTkrsdTxsWuLVxmKPrvTNAqb3KEmCaDSMFxI="
+          "hash": "USDCTrnIkSIuXb0s1ywORgIZ+9DES7/mlegacipZKYo="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Config.html",
-          "hash": "nVn39teQMuDFlfxZ4S7tAbmhsGGi7LLv5e8eoT6vQsI="
+          "hash": "2kvoJM0r9oqprC3zI2HzujVZUlNbkijueofx2Dn3+S0="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.IInfluxDBClient.html",
-          "hash": "vLWIaTs6zqv/uwnPDCzgvuDxUMAu9HYGEvYhOjG5oVA="
+          "hash": "DdiQKXP2fYFqdDnO2Pd2yDhLCI+ghLm3GDvF9R5fQi0="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.InfluxDBApiException.html",
-          "hash": "Ulb7Rxj6q+rF2bhHyoX9nJcW7UfOBpzN2W6aXvoGRXc="
+          "hash": "mQwZYoTocEg4V66Uw2+JEG/JM/ZgBgKmCp6FyjQ6hVI="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.InfluxDBClient.html",
-          "hash": "3F/XHQOBfnMLSEhtHKqIijSHRTO2dksc3CXmS3Qe/a8="
+          "hash": "nVjR0qi/Vd+t2PjuUnrort7HvoNvR/kivQBJobrlDDA="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Query.QueryType.html",
-          "hash": "OzjoVhzW67mo8b5yEn4M+iFAGfiRYCxWS6ASgTtB3gQ="
+          "hash": "zDVrcmfwbymwxosjcXdQW9mV4eFGQsLJNcDYQCMc5do="
         }
       },
       "is_incremental": false,
@@ -93,19 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Query.html",
-          "hash": "UyFzntHaza/S8wVp8rcTWVSyzxa7t95SSX3tTGmwrfg="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/InfluxDB3.Client.Write.PointData.Builder.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/InfluxDB3.Client.Write.PointData.Builder.html",
-          "hash": "UEhH0EdKTBlg14Fa2y4WOXTs6ilqLSUEaDTdBSf7Vow="
+          "hash": "pJhyElHAOmd/1lOPHNgefmy5asp0IWrfpFwhgvx/DQ8="
         }
       },
       "is_incremental": false,
@@ -117,7 +105,19 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.PointData.html",
-          "hash": "Gs7wvzWQmSe9LNBQGELMN3DUseTpeRDeYrpQ6ZfsWGw="
+          "hash": "FcgW+X15BqLL3wJBZ9pP/Yosebt+LxQ6PMitzCmmfvA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Write.PointDataValues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Write.PointDataValues.html",
+          "hash": "eNKrC1frNW4S1HEofxqcYqBM3gu636v4vUICuzo1MIE="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.WritePrecision.html",
-          "hash": "He2TI01/H5CFwYuJsuD7JtWyjDBFlA6jMAwq8jjQClQ="
+          "hash": "wpikRp1UySkkR4t9e0Z3vCws+ZlHQnLtxWbpFAv2GjQ="
         }
       },
       "is_incremental": false,
@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.html",
-          "hash": "7Q2AtL2pDYmQfZITGAvVzeMijRqkmhnDKhP73vsumL8="
+          "hash": "w1GMA/g2OabGbvLUgG6q/etcYF8wZDSr1M7ZokHYJ8s="
         }
       },
       "is_incremental": false,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.html",
-          "hash": "9lG3Gvda+MeFYi8bPT4kcR8RahY9fVP1Xvtcdz/ibkE="
+          "hash": "K5fnyFggwh9uPdUgXYEkXY9fjzVvtgZ242LKeG1fnR8="
         }
       },
       "is_incremental": false,
