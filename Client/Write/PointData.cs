@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 
@@ -433,13 +434,14 @@ namespace InfluxDB3.Client.Write
         /// Transform to Line Protocol.
         /// </summary>
         /// <param name="timeUnit">the timestamp precision</param>
+        /// <param name="defaultTags">Tags added to point</param>
         /// <returns>Line Protocol</returns>
-        public string ToLineProtocol(WritePrecision? timeUnit = null)
+        public string ToLineProtocol(WritePrecision? timeUnit = null, Dictionary<string, string>? defaultTags = null)
         {
             var sb = new StringBuilder();
 
             EscapeKey(sb, _values.GetMeasurement()!, false);
-            AppendTags(sb);
+            AppendTags(sb, defaultTags);
             var appendedFields = AppendFields(sb);
             if (!appendedFields)
             {
@@ -455,11 +457,23 @@ namespace InfluxDB3.Client.Write
         /// Appends the tags.
         /// </summary>
         /// <param name="writer">The writer.</param>
-        private void AppendTags(StringBuilder writer)
+        /// <param name="defaultTags">Tags added to point</param>
+        private void AppendTags(StringBuilder writer, Dictionary<string, string>? defaultTags = null)
         {
-            foreach (var name in _values.GetTagNames())
+            var allNames = defaultTags == null 
+                ? _values.GetTagNames()
+                : _values.GetTagNames().Concat(defaultTags.Keys).ToArray()
+                ;
+            Array.Sort(allNames);
+            var lastName = "" == allNames.FirstOrDefault() ? "_" : "";
+
+            foreach (var name in allNames)
             {
-                var value = _values.GetTag(name);
+                if (name == lastName) continue;
+                lastName = name;
+
+                var value = _values.GetTag(name)
+                    ?? defaultTags.First(kv => kv.Key == name).Value;
 
                 if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
                 {
