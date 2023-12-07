@@ -460,7 +460,7 @@ namespace InfluxDB3.Client.Write
         /// <param name="defaultTags">Tags added to point</param>
         private void AppendTags(StringBuilder writer, Dictionary<string, string>? defaultTags = null)
         {
-            var allNames = defaultTags == null 
+            var allNames = defaultTags == null
                 ? _values.GetTagNames()
                 : _values.GetTagNames().Concat(defaultTags.Keys).ToArray()
                 ;

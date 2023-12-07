@@ -99,9 +99,9 @@ namespace InfluxDB3.Client.Test.Write
                 {"a", "b"},
             };
 
-            Assert.That(point.ToLineProtocol(defaultTags:defaultTags), Is.EqualTo("h2o,a=b,tag1=default,tag2=val field=1i"));
-            Assert.That(point.ToLineProtocol(defaultTags:null), Is.EqualTo("h2o,tag2=val field=1i"));
-            Assert.That(point.ToLineProtocol(defaultTags:new Dictionary<string, string>()), Is.EqualTo("h2o,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: defaultTags), Is.EqualTo("h2o,a=b,tag1=default,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: null), Is.EqualTo("h2o,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: new Dictionary<string, string>()), Is.EqualTo("h2o,tag2=val field=1i"));
         }
 
         [Test]
