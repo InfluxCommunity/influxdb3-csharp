@@ -1,5 +1,9 @@
 ## 0.4.0 [unreleased]
 
+### Features
+
+1. [#66](https://github.com/InfluxCommunity/influxdb3-csharp/pull/66): Add option to add default tags
+
 ## 0.3.0 [2023-10-02]
 
 ### Features
