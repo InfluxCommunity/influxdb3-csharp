@@ -181,6 +181,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.WriteOptions.Clone
   nameWithType: WriteOptions.Clone
+- uid: InfluxDB3.Client.Config.WriteOptions.DefaultTags
+  name: DefaultTags
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_DefaultTags
+  commentId: P:InfluxDB3.Client.Config.WriteOptions.DefaultTags
+  fullName: InfluxDB3.Client.Config.WriteOptions.DefaultTags
+  nameWithType: WriteOptions.DefaultTags
+- uid: InfluxDB3.Client.Config.WriteOptions.DefaultTags*
+  name: DefaultTags
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_DefaultTags_
+  commentId: Overload:InfluxDB3.Client.Config.WriteOptions.DefaultTags
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.WriteOptions.DefaultTags
+  nameWithType: WriteOptions.DefaultTags
 - uid: InfluxDB3.Client.Config.WriteOptions.GzipThreshold
   name: GzipThreshold
   href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_GzipThreshold
@@ -1046,15 +1059,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Write.PointData.SetUintegerField
   nameWithType: PointData.SetUintegerField
-- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision})
-  name: ToLineProtocol(Nullable<WritePrecision>)
-  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__
-  commentId: M:InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision})
-  name.vb: ToLineProtocol(Nullable(Of WritePrecision))
-  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable<InfluxDB3.Client.Write.WritePrecision>)
-  fullName.vb: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable(Of InfluxDB3.Client.Write.WritePrecision))
-  nameWithType: PointData.ToLineProtocol(Nullable<WritePrecision>)
-  nameWithType.vb: PointData.ToLineProtocol(Nullable(Of WritePrecision))
+- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}})
+  name: ToLineProtocol(Nullable<WritePrecision>, Nullable<Dictionary<String, String>>)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___
+  commentId: M:InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}})
+  name.vb: ToLineProtocol(Nullable(Of WritePrecision), Nullable(Of Dictionary(Of String, String)))
+  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable<InfluxDB3.Client.Write.WritePrecision>, System.Nullable<Dictionary<System.String, System.String>>)
+  fullName.vb: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable(Of InfluxDB3.Client.Write.WritePrecision), System.Nullable(Of Dictionary(Of System.String, System.String)))
+  nameWithType: PointData.ToLineProtocol(Nullable<WritePrecision>, Nullable<Dictionary<String, String>>)
+  nameWithType.vb: PointData.ToLineProtocol(Nullable(Of WritePrecision), Nullable(Of Dictionary(Of String, String)))
 - uid: InfluxDB3.Client.Write.PointData.ToLineProtocol*
   name: ToLineProtocol
   href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_

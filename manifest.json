@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Config.WriteOptions.html",
-          "hash": "USDCTrnIkSIuXb0s1ywORgIZ+9DES7/mlegacipZKYo="
+          "hash": "3JfuLvgspQfYIrHmM897qgMdt7xMMBBfFGg29Xw7dfQ="
         }
       },
       "is_incremental": false,
@@ -60,7 +60,7 @@
           "hash": "mQwZYoTocEg4V66Uw2+JEG/JM/ZgBgKmCp6FyjQ6hVI="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -84,7 +84,7 @@
           "hash": "zDVrcmfwbymwxosjcXdQW9mV4eFGQsLJNcDYQCMc5do="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -96,7 +96,7 @@
           "hash": "pJhyElHAOmd/1lOPHNgefmy5asp0IWrfpFwhgvx/DQ8="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.Write.PointData.html",
-          "hash": "FcgW+X15BqLL3wJBZ9pP/Yosebt+LxQ6PMitzCmmfvA="
+          "hash": "U9QsQT8lKsI+QhNVnnlAANT0Igu+Vfrv8Xk55p8/tiE="
         }
       },
       "is_incremental": false,
@@ -132,7 +132,7 @@
           "hash": "wpikRp1UySkkR4t9e0Z3vCws+ZlHQnLtxWbpFAv2GjQ="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -190,32 +190,30 @@
           "hash": "kfcnfAPWI6t8TSibnNWrqjlQxgMGti+B5HrJHpogkBQ="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     }
   ],
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "can_incremental": true,
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0,
-        "full_build_reason_code": "NoAvailableBuildCache"
+        "skipped_file_count": 0
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 1,
-          "skipped_file_count": 0
+          "skipped_file_count": 1
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 13,
-          "skipped_file_count": 0
+          "skipped_file_count": 11
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
@@ -235,8 +233,8 @@
     },
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

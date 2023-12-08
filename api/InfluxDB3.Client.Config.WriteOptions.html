@@ -175,6 +175,48 @@
   </div>
   <h3 id="properties">Properties
   </h3>
+  <a id="InfluxDB3_Client_Config_WriteOptions_DefaultTags_" data-uid="InfluxDB3.Client.Config.WriteOptions.DefaultTags*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_DefaultTags" data-uid="InfluxDB3.Client.Config.WriteOptions.DefaultTags">DefaultTags</h4>
+  <div class="markdown level1 summary"><p>Tags added to each point during writing. If a point already has a tag with the same key, it is left unchanged.
+<example><p>
+<pre><code>var _client = new InfluxDBClient(new InfluxDBClientConfigs
+{
+    HostUrl = &quot;some-url&quot;,
+    Organization = &quot;org&quot;,
+    Database = &quot;database&quot;,
+    DefaultTags = new Dictionary \&lt;string, string ()
+    {
+        { &quot;rack&quot;, &quot;main&quot; },
+    }
+});
+
+// Writes with rack=main tag
+await _client.WritePointAsync(PointData
+    .Measurement(&quot;cpu&quot;)
+    .SetField(&quot;field&quot;, 1)
+);</code></pre>
+</example>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt;? DefaultTags { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_Config_WriteOptions_GzipThreshold_" data-uid="InfluxDB3.Client.Config.WriteOptions.GzipThreshold*"></a>
   <h4 id="InfluxDB3_Client_Config_WriteOptions_GzipThreshold" data-uid="InfluxDB3.Client.Config.WriteOptions.GzipThreshold">GzipThreshold</h4>
   <div class="markdown level1 summary"><p>The threshold in bytes for gzipping the body.</p>
