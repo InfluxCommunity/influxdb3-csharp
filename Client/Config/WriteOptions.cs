@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
@@ -32,6 +33,33 @@ public class WriteOptions : ICloneable
     /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
     /// </summary>
     public WritePrecision? Precision { get; set; }
+
+    /// <summary>
+    /// Tags added to each point during writing. If a point already has a tag with the same key, it is left unchanged.
+    /// <example>
+    /// <code>
+    /// <![CDATA[
+    /// var _client = new InfluxDBClient(new InfluxDBClientConfigs
+    /// {
+    ///     HostUrl = "some-url",
+    ///     Organization = "org",
+    ///     Database = "database",
+    ///     DefaultTags = new Dictionary \<string, string ()
+    ///     {
+    ///         { "rack", "main" },
+    ///     }
+    /// });
+    /// 
+    /// // Writes with rack=main tag
+    /// await _client.WritePointAsync(PointData
+    ///     .Measurement("cpu")
+    ///     .SetField("field", 1)
+    /// );
+    /// ]]>
+    /// </code>
+    /// </example>
+    /// </summary>
+    public Dictionary<string, string>? DefaultTags { get; set; }
 
     /// <summary>
     /// The threshold in bytes for gzipping the body.

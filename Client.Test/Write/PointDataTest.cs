@@ -87,6 +87,24 @@ namespace InfluxDB3.Client.Test.Write
         }
 
         [Test]
+        public void DefaultTags()
+        {
+            var point = PointData.Measurement("h2o")
+                .SetTag("tag2", "val")
+                .SetField("field", 1);
+
+            var defaultTags = new Dictionary<string, string>() {
+                {"tag1", "default"},
+                {"tag2", "--"},
+                {"a", "b"},
+            };
+
+            Assert.That(point.ToLineProtocol(defaultTags: defaultTags), Is.EqualTo("h2o,a=b,tag1=default,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: null), Is.EqualTo("h2o,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: new Dictionary<string, string>()), Is.EqualTo("h2o,tag2=val field=1i"));
+        }
+
+        [Test]
         public void TagEmptyValue()
         {
             var point = PointData.Measurement("h2o")
