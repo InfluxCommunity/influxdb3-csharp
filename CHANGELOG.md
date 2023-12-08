@@ -2,7 +2,7 @@
 
 ### Features
 
-1. [#66](https://github.com/InfluxCommunity/influxdb3-csharp/pull/66): Add option to add default tags
+1. [#66](https://github.com/InfluxCommunity/influxdb3-csharp/pull/66): Default Tags for Writes
 
 ## 0.3.0 [2023-10-02]
 
