@@ -1,5 +1,9 @@
 ## 0.5.0 [unreleased]
 
+### Features
+
+1. [#71](https://github.com/InfluxCommunity/influxdb3-csharp/pull/71): Add support for named query parameters
+
 ## 0.4.0 [2023-12-08]
 
 ### Features
