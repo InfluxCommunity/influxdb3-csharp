@@ -19,34 +19,78 @@ namespace InfluxDB3.Client
     {
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
+        ///
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// </summary>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null);
+        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
+            Dictionary<string, object>? namedParameters = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null);
+        IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null,
+            Dictionary<string, object>? namedParameters = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null);
+            string? database = null, Dictionary<string, object>? namedParameters = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -213,22 +257,37 @@ namespace InfluxDB3.Client
         /// <example>
         /// using var client = new InfluxDBClient();
         /// </example>
-        public InfluxDBClient() : this(new ClientConfig(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process)))
+        public InfluxDBClient() : this(
+            new ClientConfig(Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process)))
         {
         }
 
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
+        /// 
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
-            string? database = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -250,15 +309,29 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -312,7 +385,6 @@ namespace InfluxDB3.Client
                         {
                             point = point.SetTimestamp(timestamp);
                         }
-
                     }
 
                     yield return point;
@@ -323,13 +395,27 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
-            string? database = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null)
         {
             if (_disposed)
             {
@@ -338,7 +424,8 @@ namespace InfluxDB3.Client
 
             return _flightSqlClient.Execute(query,
                 (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
-                queryType ?? QueryType.SQL);
+                queryType ?? QueryType.SQL,
+                namedParameters ?? new Dictionary<string, object>());
         }
 
         /// <summary>
@@ -437,7 +524,8 @@ namespace InfluxDB3.Client
             _disposed = true;
         }
 
-        private static StringBuilder ToLineProtocolBody(IEnumerable<object?> data, WritePrecision precision, Dictionary<string, string>? defaultTags = null)
+        private static StringBuilder ToLineProtocolBody(IEnumerable<object?> data, WritePrecision precision,
+            Dictionary<string, string>? defaultTags = null)
         {
             var sb = new StringBuilder("");
 
@@ -474,14 +562,18 @@ namespace InfluxDB3.Client
             {
                 handler.AllowAutoRedirect = config.AllowHttpRedirects;
             }
+
             if (handler.SupportsAutomaticDecompression)
             {
-                handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+                handler.AutomaticDecompression =
+                    System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
             }
+
             if (handler.SupportsProxy && config.Proxy != null)
             {
                 handler.Proxy = config.Proxy;
             }
+
             if (config.DisableServerCertificateValidation)
             {
                 handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
@@ -498,6 +590,7 @@ namespace InfluxDB3.Client
                     client.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
             }
+
             client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
             if (!string.IsNullOrEmpty(config.Token))
             {

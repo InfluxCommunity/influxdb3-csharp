@@ -43,7 +43,7 @@ internal class FlightSqlClient : IDisposable
             });
     }
 
-    internal async IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType)
+    internal async IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType, Dictionary<string, object> namedParameters)
     {
         var headers = new Metadata();
 
