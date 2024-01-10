@@ -52,22 +52,25 @@ public class FlightSqlClientTest : MockServerTest
     public void PrepareFlightTicketNamedParameters()
     {
         var prepareFlightTicket = _flightSqlClient.PrepareFlightTicket(
-            "select * from cpu where location = $location",
+            "select * from cpu where location = $location and production = $production and count = $count and temperature = $temperature",
             "my-db",
             QueryType.SQL,
             new Dictionary<string, object>
             {
-                { "location", "us" }
+                { "location", "us" },
+                { "production", true },
+                { "count", 10 },
+                { "temperature", 23.5 }
             });
 
-        const string ticket =
-            @"{""database"":""my-db"",""sql_query"":""select * from cpu where location = $location"",""query_type"":""sql"",""params"": {""location"":""us""}}";
+        var ticket = "{\"database\":\"my-db\"," +
+                     "\"sql_query\":\"select * from cpu where location = $location and production = $production and count = $count and temperature = $temperature\"," +
+                     "\"query_type\":\"sql\"," +
+                     "\"params\": {\"location\":\"us\",\"production\":true,\"count\":10,\"temperature\":23.5}}";
         Assert.Multiple(() =>
         {
             Assert.That(prepareFlightTicket, Is.Not.Null);
-            var actual = Encoding.UTF8.GetString(prepareFlightTicket.Ticket.ToByteArray());
-            Console.WriteLine(actual);
-            Assert.That(actual, Is.EqualTo(ticket));
+            Assert.That(Encoding.UTF8.GetString(prepareFlightTicket.Ticket.ToByteArray()), Is.EqualTo(ticket));
         });
     }
 }
