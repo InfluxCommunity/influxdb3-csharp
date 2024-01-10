@@ -14,7 +14,18 @@ using InfluxDB3.Client.Query;
 
 namespace InfluxDB3.Client.Internal;
 
-internal class FlightSqlClient : IDisposable
+/// <summary>
+/// Simple "FlightSQL" client implementation.
+/// </summary>
+internal interface IFlightSqlClient : IDisposable
+{
+    /// <summary>
+    /// Execute the query and return the result as a sequence of record batches.
+    /// </summary>
+    IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType, Dictionary<string, object> namedParameters);
+}
+
+internal class FlightSqlClient : IFlightSqlClient
 {
     private readonly GrpcChannel _channel;
     private readonly FlightClient _flightClient;
@@ -43,8 +54,22 @@ internal class FlightSqlClient : IDisposable
             });
     }
 
-    internal async IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType, Dictionary<string, object> namedParameters)
+    public async IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType, Dictionary<string, object> namedParameters)
     {
+        //
+        // verify that values of namedParameters is supported type
+        //
+        foreach (var keyValuePair in namedParameters)
+        {
+            var key = keyValuePair.Key;
+            var value = keyValuePair.Value;
+            if (value is not string and not int and not float and not bool)
+            {
+                throw new ArgumentException($"The parameter '{key}' has unsupported type '{value.GetType()}'. " +
+                                            $"The supported types are 'string', 'bool', 'int' and 'float'.");
+            }
+        }
+
         var headers = new Metadata();
 
         // authorization by token

@@ -36,7 +36,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
@@ -61,7 +65,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null,
@@ -86,7 +94,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
@@ -139,9 +151,13 @@ namespace InfluxDB3.Client
 
         private readonly ClientConfig _config;
         private readonly HttpClient _httpClient;
-        private readonly FlightSqlClient _flightSqlClient;
         private readonly RestClient _restClient;
         private readonly GzipHandler _gzipHandler;
+
+        /// <summary>
+        /// The FlightSQLClient should be updated only by the constructor or tests.
+        /// </summary>
+        internal IFlightSqlClient FlightSqlClient;
 
         /// <summary>
         /// Initializes a new instance of the client with provided configuration options.
@@ -192,7 +208,7 @@ namespace InfluxDB3.Client
 
             _config = config;
             _httpClient = CreateAndConfigureHttpClient(_config);
-            _flightSqlClient = new FlightSqlClient(config: _config, httpClient: _httpClient);
+            FlightSqlClient = new FlightSqlClient(config: _config, httpClient: _httpClient);
             _restClient = new RestClient(config: _config, httpClient: _httpClient);
             _gzipHandler = new GzipHandler(config.WriteOptions != null ? config.WriteOptions.GzipThreshold : 0);
         }
@@ -281,7 +297,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
@@ -325,7 +345,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
@@ -411,7 +435,11 @@ namespace InfluxDB3.Client
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">Name:Value pairs to use as named parameters for this query. Parameters referenced using '$placeholder' syntax in the query will be substituted with the values provided.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
@@ -422,7 +450,7 @@ namespace InfluxDB3.Client
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
-            return _flightSqlClient.Execute(query,
+            return FlightSqlClient.Execute(query,
                 (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
                 queryType ?? QueryType.SQL,
                 namedParameters ?? new Dictionary<string, object>());
@@ -520,7 +548,7 @@ namespace InfluxDB3.Client
         public void Dispose()
         {
             _httpClient.Dispose();
-            _flightSqlClient.Dispose();
+            FlightSqlClient.Dispose();
             _disposed = true;
         }
 
