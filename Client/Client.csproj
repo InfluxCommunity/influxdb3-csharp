@@ -40,7 +40,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Apache.Arrow.Flight" Version="14.0.2" />
+        <PackageReference Include="Apache.Arrow.Flight" Version="15.0.0" />
     </ItemGroup>
 
     <ItemGroup>
