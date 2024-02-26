@@ -64,11 +64,14 @@ public class InfluxDBClientQueryTest : MockServerTest
         _client.FlightSqlClient.Dispose();
         _client.FlightSqlClient = mockFlightSqlClient.Object;
 
-        const string query = "select * from cpu where location = $location";
+        const string query = "select * from cpu where location = $location and core_count = $core-count and production = $production and max_frequency > $max-frequency";
         const QueryType queryType = QueryType.SQL;
         var namedParameters = new Dictionary<string, object>
         {
-            { "location", "us" }
+            { "location", "us" },
+            { "core-count", 4 },
+            { "production", true },
+            { "max-frequency", 3.5 }
         };
 
         _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, namedParameters: namedParameters)
