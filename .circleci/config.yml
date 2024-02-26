@@ -4,6 +4,8 @@ commands:
     parameters:
       project:
         type: string
+      net-version:
+        type: string
     steps:
       - checkout
       - run:
@@ -18,12 +20,12 @@ commands:
             mkdir test-results
       - run:
           name: Run tests
-          command: dotnet test << parameters.project >> --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
+          command: dotnet test "<< parameters.project >>/bin/Debug/net<< parameters.net-version >>/InfluxDB3.<< parameters.project >>.dll" --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
       - run:
           name: Coverage Report
           command: |
             dotnet tool install --tool-path="./reportgenerator/" dotnet-reportgenerator-globaltool
-            ./reportgenerator/reportgenerator -reports:"./*/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
+            ./reportgenerator/reportgenerator -reports:"<< parameters.project >>/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
             mv report/summary.html /tmp/artifacts
             cp test-results/test-result.xml /tmp/artifacts
           when: always
@@ -60,7 +62,8 @@ jobs:
       - image: << parameters.net-image >>
     steps:
       - client-test:
-          project: "Client.Test/bin/Debug/net<< parameters.net-version >>/InfluxDB3.Client.Test.dll"
+          project: "Client.Test"
+          net-version: << parameters.net-version >>
   tests-integration:
     working_directory: ~/repo
     parameters:
@@ -74,7 +77,8 @@ jobs:
       - image: << parameters.net-image >>
     steps:
       - client-test:
-          project: "Client.Test.Integration/bin/Debug/net<< parameters.net-version >>/InfluxDB3.Client.Test.Integration.dll"
+          project: "Client.Test.Integration"
+          net-version: << parameters.net-version >>
           
   check-compilation-warnings:
     docker:
