@@ -50,18 +50,32 @@ commands:
 jobs:
   tests-unit:
     working_directory: ~/repo
+    parameters:
+      net-version:
+        type: string
+        default: &default-dotnet-version "8.0"
+      net-image:
+        type: string
+        default: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
     docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
+      - image: << parameters.net-image >>
     steps:
       - client-test:
-          project: "Client.Test"
+          project: "Client.Test/bin/Debug/net<< parameters.net-version >>/InfluxDB3.Client.Test.dll"
   tests-integration:
     working_directory: ~/repo
+    parameters:
+      net-version:
+        type: string
+        default: *default-dotnet-version
+      net-image:
+        type: string
+        default: *default-dotnet-image
     docker:
-      - image: *default-dotnet-image
+      - image: << parameters.net-image >>
     steps:
       - client-test:
-          project: "Client.Test.Integration"
+          project: "Client.Test.Integration/bin/Debug/net<< parameters.net-version >>/InfluxDB3.Client.Test.Integration.dll"
           
   check-compilation-warnings:
     docker:
@@ -97,13 +111,15 @@ workflows:
   build:
     jobs:
       - check-compilation-warnings
-      - tests-unit
+      - tests-unit:
+          name: "Unit Tests .NET 8.0"
       - tests-integration:
+          name: "Integration Tests .NET 8.0"
           requires:
-            - "tests-unit"
+            - "Unit Tests .NET 8.0"
       - deploy-preview:
           requires:
-            - tests-integration
+            - "Integration Tests .NET 8.0"
           filters:
             branches:
               only: main
