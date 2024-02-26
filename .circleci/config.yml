@@ -23,7 +23,7 @@ commands:
           name: Coverage Report
           command: |
             dotnet tool install --tool-path="./reportgenerator/" dotnet-reportgenerator-globaltool
-            ./reportgenerator/reportgenerator -reports:"<< parameters.project >>/../../../../TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
+            ./reportgenerator/reportgenerator -reports:"./*/TestResults/*/coverage.cobertura.xml" -targetdir:"report" -reporttypes:HtmlSummary "-sourcedirs:Client/"
             mv report/summary.html /tmp/artifacts
             cp test-results/test-result.xml /tmp/artifacts
           when: always
