@@ -97,6 +97,18 @@ await foreach (var row in client.Query(query: sql))
 Console.WriteLine();
 
 //
+// Query by parametrized SQL
+//
+const string sqlParams = "select time,location,value from temperature where location=$location order by time desc limit 10";
+Console.WriteLine("Query by parametrized SQL");
+Console.WriteLine("{0,-30}{1,-15}{2,-15}", "time", "location", "value");
+await foreach (var row in client.Query(query: sqlParams, namedParameters: new Dictionary<string, object> { { "location", "west" } }))
+{
+    Console.WriteLine("{0,-30}{1,-15}{2,-15}", row[0], row[1], row[2]);
+}
+Console.WriteLine();
+
+//
 // Query by InfluxQL
 //
 const string influxQL =
