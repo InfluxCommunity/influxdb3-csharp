@@ -4,6 +4,10 @@
 
 1. [#71](https://github.com/InfluxCommunity/influxdb3-csharp/pull/71): Add support for named query parameters
 
+### Others
+
+1. [#80](https://github.com/InfluxCommunity/influxdb3-csharp/pull/80): Use net8.0 as a default target framework in Tests and Examples
+
 ## 0.4.0 [2023-12-08]
 
 ### Features

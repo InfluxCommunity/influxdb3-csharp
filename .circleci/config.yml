@@ -51,7 +51,7 @@ jobs:
   tests-unit:
     working_directory: ~/repo
     docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:7.0"
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
     steps:
       - client-test:
           project: "Client.Test"
@@ -90,7 +90,7 @@ jobs:
           name: Deploying To Preview Repository
           command: |
             dotnet pack Client --version-suffix=dev.$CIRCLE_BUILD_NUM
-            dotnet nuget push ./Client/bin/Debug/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
+            dotnet nuget push ./Client/bin/Release/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 workflows:
   version: 2
