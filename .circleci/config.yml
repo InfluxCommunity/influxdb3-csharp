@@ -51,7 +51,7 @@ jobs:
   tests-unit:
     working_directory: ~/repo
     docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:7.0"
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
     steps:
       - client-test:
           project: "Client.Test"
