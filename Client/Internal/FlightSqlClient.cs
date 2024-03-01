@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using Apache.Arrow;
@@ -14,7 +15,25 @@ using InfluxDB3.Client.Query;
 
 namespace InfluxDB3.Client.Internal;
 
-internal class FlightSqlClient : IDisposable
+/// <summary>
+/// Simple "FlightSQL" client implementation.
+/// </summary>
+internal interface IFlightSqlClient : IDisposable
+{
+    /// <summary>
+    /// Execute the query and return the result as a sequence of record batches.
+    /// </summary>
+    internal IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType,
+        Dictionary<string, object> namedParameters);
+
+    /// <summary>
+    /// Prepare the FlightTicket for the query.
+    /// </summary>
+    internal FlightTicket PrepareFlightTicket(string query, string database, QueryType queryType,
+        Dictionary<string, object> namedParameters);
+}
+
+internal class FlightSqlClient : IFlightSqlClient
 {
     private readonly GrpcChannel _channel;
     private readonly FlightClient _flightClient;
@@ -36,41 +55,81 @@ internal class FlightSqlClient : IDisposable
                     : ChannelCredentials.Insecure,
             });
         _flightClient = new FlightClient(_channel);
-        _serializer = new DataContractJsonSerializer(typeof(Dictionary<string, string>),
+        var knownTypes = new List<Type> { typeof(string), typeof(int), typeof(float), typeof(bool) };
+        _serializer = new DataContractJsonSerializer(typeof(Dictionary<string, object>),
             new DataContractJsonSerializerSettings
             {
-                UseSimpleDictionaryFormat = true
+                UseSimpleDictionaryFormat = true,
+                KnownTypes = knownTypes,
+                EmitTypeInformation = EmitTypeInformation.Never
             });
     }
 
-    internal async IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType)
+    async IAsyncEnumerable<RecordBatch> IFlightSqlClient.Execute(string query, string database, QueryType queryType,
+        Dictionary<string, object> namedParameters)
     {
-        var headers = new Metadata();
+        //
+        // verify that values of namedParameters is supported type
+        //
+        foreach (var keyValuePair in namedParameters)
+        {
+            var key = keyValuePair.Key;
+            var value = keyValuePair.Value;
+            if (value is not string and not int and not float and not bool)
+            {
+                throw new ArgumentException($"The parameter '{key}' has unsupported type '{value.GetType()}'. " +
+                                            $"The supported types are 'string', 'bool', 'int' and 'float'.");
+            }
+        }
 
+        var headers = new Metadata();
         // authorization by token
         if (!string.IsNullOrEmpty(_config.Token))
         {
             headers.Add("Authorization", $"Bearer {_config.Token}");
         }
 
-        // set query parameters
-        var ticketData = new Dictionary<string, string>()
-        {
-            { "database", database },
-            { "sql_query", query },
-            { "query_type", Enum.GetName(typeof(QueryType), queryType)!.ToLowerInvariant() }
-        };
+        var ticket = ((IFlightSqlClient)this).PrepareFlightTicket(query, database, queryType, namedParameters);
 
-        // serialize to json
-        using var memoryStream = new MemoryStream();
-        _serializer.WriteObject(memoryStream, ticketData);
-        var json = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-        using var stream = _flightClient.GetStream(new FlightTicket(json), headers);
+        using var stream = _flightClient.GetStream(ticket, headers);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
             yield return stream.ResponseStream.Current;
         }
+    }
+
+    FlightTicket IFlightSqlClient.PrepareFlightTicket(string query, string database, QueryType queryType,
+        Dictionary<string, object> namedParameters)
+    {
+        // set query parameters
+        var ticketData = new Dictionary<string, object>
+        {
+            { "database", database },
+            { "sql_query", query },
+            { "query_type", Enum.GetName(typeof(QueryType), queryType)!.ToLowerInvariant() },
+        };
+
+        //
+        // serialize to json
+        //
+        var json = SerializeDictionary(ticketData);
+        //
+        // serialize named parameters
+        //
+        if (namedParameters.Count > 0)
+        {
+            json = json.TrimEnd('}') + $",\"params\": {SerializeDictionary(namedParameters)}}}";
+        }
+
+        var flightTicket = new FlightTicket(json);
+        return flightTicket;
+    }
+
+    private string SerializeDictionary(Dictionary<string, object> ticketData)
+    {
+        using var memoryStream = new MemoryStream();
+        _serializer.WriteObject(memoryStream, ticketData);
+        return Encoding.UTF8.GetString(memoryStream.ToArray());
     }
 
     public void Dispose()

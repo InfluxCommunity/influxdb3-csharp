@@ -1,4 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Apache.Arrow;
+using InfluxDB3.Client.Internal;
+using InfluxDB3.Client.Query;
+using Moq;
 
 namespace InfluxDB3.Client.Test;
 
@@ -36,5 +43,60 @@ public class InfluxDBClientQueryTest : MockServerTest
 
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae.Message, Is.EqualTo("Please specify the 'database' as a method parameter or use default configuration at 'ClientConfig.Database'."));
+    }
+
+    [Test]
+    public async Task PassNamedParametersToFlightClient()
+    {
+        //
+        // Mock the FlightSqlClient
+        //
+        var mockFlightSqlClient = new Mock<IFlightSqlClient>();
+        mockFlightSqlClient
+            .Setup(m => m.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<QueryType>(),
+                It.IsAny<Dictionary<string, object>>()))
+            .Returns(new List<RecordBatch>().ToAsyncEnumerable());
+
+        //
+        // Setup the client with the mocked FlightSqlClient
+        //
+        _client = new InfluxDBClient(MockServerUrl);
+        _client.FlightSqlClient.Dispose();
+        _client.FlightSqlClient = mockFlightSqlClient.Object;
+
+        const string query = "select * from cpu where location = $location and core_count = $core-count and production = $production and max_frequency > $max-frequency";
+        const QueryType queryType = QueryType.SQL;
+        var namedParameters = new Dictionary<string, object>
+        {
+            { "location", "us" },
+            { "core-count", 4 },
+            { "production", true },
+            { "max-frequency", 3.5 }
+        };
+
+        _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, namedParameters: namedParameters)
+            .ToListAsync();
+        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, namedParameters), Times.Exactly(1));
+    }
+
+    [Test]
+    public void NotSupportedQueryParameterType()
+    {
+        _client = new InfluxDBClient(MockServerUrl);
+        var ae = Assert.ThrowsAsync<ArgumentException>(async () =>
+        {
+            _ = await _client
+                .Query("select * from cpu where location = $location", database: "my-db",
+                    queryType: QueryType.SQL, namedParameters: new Dictionary<string, object>
+                    {
+                        { "location", DateTime.UtcNow }
+                    })
+                .ToListAsync();
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae.Message,
+            Is.EqualTo(
+                "The parameter 'location' has unsupported type 'System.DateTime'. The supported types are 'string', 'bool', 'int' and 'float'."));
     }
 }

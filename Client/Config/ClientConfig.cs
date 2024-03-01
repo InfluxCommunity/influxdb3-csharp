@@ -174,7 +174,7 @@ public class ClientConfig
     {
         if (threshold != null)
         {
-            int gzipThreshold = Int32.Parse(threshold);
+            var gzipThreshold = int.Parse(threshold);
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
             WriteOptions.GzipThreshold = gzipThreshold;
         }

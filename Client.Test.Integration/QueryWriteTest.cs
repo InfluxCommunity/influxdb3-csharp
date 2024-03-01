@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -123,7 +124,6 @@ public class QueryWriteTest
         await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
     }
 
-
     [Test]
     public async Task WriteDataGzipped()
     {
@@ -139,5 +139,29 @@ public class QueryWriteTest
         });
 
         await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c").SetField("user", 14.34));
+    }
+
+    [Test]
+    public async Task QueryWriteParameters()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = _host,
+            Token = _token,
+            Database = _database
+        });
+
+        var testId = DateTime.UtcNow.Millisecond;
+        await client.WriteRecordAsync($"integration_test,type=used value=1234.0,testId={testId}");
+
+        const string sql = "SELECT value FROM integration_test where \"testId\" = $testId";
+        await foreach (var row in client.Query(sql, namedParameters: new Dictionary<string, object>
+                       {
+                           { "testId", testId },
+                       }))
+        {
+            Assert.That(row, Has.Length.EqualTo(1));
+            Assert.That(row[0], Is.EqualTo(1234.0));
+        }
     }
 }
