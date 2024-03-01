@@ -152,13 +152,22 @@
   <h3 id="methods">Methods
   </h3>
   <a id="InfluxDB3_Client_IInfluxDBClient_Query_" data-uid="InfluxDB3.Client.IInfluxDBClient.Query*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__" data-uid="InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})">Query(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">Query(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
+<example>
+The following example shows how to use SQL query with named parameters:
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.Query(
+    query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
+    namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
+);</code></pre>
+</example>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;object? []&gt; Query(string query, QueryType? queryType = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;object? []&gt; Query(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -186,6 +195,14 @@
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">database</span></td>
         <td><p>The database to be used for InfluxDB operations.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
+        <td><span class="parametername">namedParameters</span></td>
+        <td><p>Name:Value pairs to use as named parameters for this query. Parameters referenced using
+'$placeholder' syntax in the query will be substituted with the values provided.
+The supported types are: string, bool, int, float.</p>
 </td>
       </tr>
     </tbody>
@@ -207,13 +224,13 @@
     </tbody>
   </table>
   <a id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})">QueryBatches(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">QueryBatches(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -241,6 +258,14 @@
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">database</span></td>
         <td><p>The database to be used for InfluxDB operations.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
+        <td><span class="parametername">namedParameters</span></td>
+        <td><p>Name:Value pairs to use as named parameters for this query. Parameters referenced using
+'$placeholder' syntax in the query will be substituted with the values provided.
+The supported types are: string, bool, int, float.</p>
 </td>
       </tr>
     </tbody>
@@ -261,14 +286,23 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object____examples">Examples</h5>
+  <p>The following example shows how to use SQL query with named parameters:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.QueryBatches(
+    query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
+    namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx into PointData structure using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -298,6 +332,14 @@
         <td><p>The database to be used for InfluxDB operations.</p>
 </td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
+        <td><span class="parametername">namedParameters</span></td>
+        <td><p>Name:Value pairs to use as named parameters for this query. Parameters referenced using
+'$placeholder' syntax in the query will be substituted with the values provided.
+The supported types are: string, bool, int, float.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -316,6 +358,15 @@
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object____examples">Examples</h5>
+  <p>The following example shows how to use SQL query with named parameters:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.QueryPoints(
+    query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
+    namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync*"></a>
   <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointAsync(PointData, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>

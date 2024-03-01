@@ -226,15 +226,15 @@ references:
   commentId: T:InfluxDB3.Client.IInfluxDBClient
   fullName: InfluxDB3.Client.IInfluxDBClient
   nameWithType: IInfluxDBClient
-- uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: Query(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: IInfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: IInfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: Query(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: IInfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: IInfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.IInfluxDBClient.Query*
   name: Query
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_
@@ -242,15 +242,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.Query
   nameWithType: IInfluxDBClient.Query
-- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: IInfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: IInfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: IInfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: IInfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches*
   name: QueryBatches
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_
@@ -258,15 +258,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches
   nameWithType: IInfluxDBClient.QueryBatches
-- uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: QueryPoints(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: QueryPoints(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: IInfluxDBClient.QueryPoints(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: IInfluxDBClient.QueryPoints(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: QueryPoints(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: QueryPoints(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: IInfluxDBClient.QueryPoints(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: IInfluxDBClient.QueryPoints(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints*
   name: QueryPoints
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_
@@ -410,15 +410,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.Dispose
   nameWithType: InfluxDBClient.Dispose
-- uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: Query(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: InfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: InfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: Query(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: Query(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.Query(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: InfluxDBClient.Query(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: InfluxDBClient.Query(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.InfluxDBClient.Query*
   name: Query
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_
@@ -426,15 +426,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.Query
   nameWithType: InfluxDBClient.Query
-- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: InfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: InfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: QueryBatches(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: QueryBatches(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: InfluxDBClient.QueryBatches(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: InfluxDBClient.QueryBatches(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.InfluxDBClient.QueryBatches*
   name: QueryBatches
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_
@@ -442,15 +442,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches
   nameWithType: InfluxDBClient.QueryBatches
-- uid: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name: QueryPoints(String, Nullable<QueryType>, Nullable<String>)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String})
-  name.vb: QueryPoints(String, Nullable(Of QueryType), Nullable(Of String))
-  fullName: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String))
-  nameWithType: InfluxDBClient.QueryPoints(String, Nullable<QueryType>, Nullable<String>)
-  nameWithType.vb: InfluxDBClient.QueryPoints(String, Nullable(Of QueryType), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name: QueryPoints(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___
+  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})
+  name.vb: QueryPoints(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String, System.Nullable<InfluxDB3.Client.Query.QueryType>, System.Nullable<System.String>, System.Nullable<Dictionary<System.String, System.Object>>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String, System.Nullable(Of InfluxDB3.Client.Query.QueryType), System.Nullable(Of System.String), System.Nullable(Of Dictionary(Of System.String, System.Object)))
+  nameWithType: InfluxDBClient.QueryPoints(String, Nullable<QueryType>, Nullable<String>, Nullable<Dictionary<String, Object>>)
+  nameWithType.vb: InfluxDBClient.QueryPoints(String, Nullable(Of QueryType), Nullable(Of String), Nullable(Of Dictionary(Of String, Object)))
 - uid: InfluxDB3.Client.InfluxDBClient.QueryPoints*
   name: QueryPoints
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_
