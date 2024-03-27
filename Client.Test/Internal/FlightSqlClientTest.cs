@@ -23,8 +23,8 @@ public class FlightSqlClientTest : MockServerTest
         _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
     }
 
-    [TearDownAttribute]
-    public void TearDownAttribute()
+    [TearDown]
+    public new void TearDown()
     {
         _flightSqlClient.Dispose();
     }
@@ -71,6 +71,79 @@ public class FlightSqlClientTest : MockServerTest
         {
             Assert.That(prepareFlightTicket, Is.Not.Null);
             Assert.That(Encoding.UTF8.GetString(prepareFlightTicket.Ticket.ToByteArray()), Is.EqualTo(ticket));
+        });
+    }
+
+    [Test]
+    public void HeadersMetadataFromRequest()
+    {
+        var prepareHeadersMetadata =
+            _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string> { { "X-Tracing-Id", "987" } });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(prepareHeadersMetadata, Is.Not.Null);
+            Assert.That(prepareHeadersMetadata, Has.Count.EqualTo(1));
+            Assert.That(prepareHeadersMetadata[0].Key, Is.EqualTo("x-tracing-id"));
+            Assert.That(prepareHeadersMetadata[0].Value, Is.EqualTo("987"));
+        });
+    }
+
+    [Test]
+    public void HeadersMetadataFromConfig()
+    {
+        _flightSqlClient.Dispose();
+
+        var config = new ClientConfig
+        {
+            Host = MockServerUrl,
+            Timeout = TimeSpan.FromSeconds(45),
+            Headers = new Dictionary<string, string>
+            {
+                { "X-Global-Tracing-Id", "123" }
+            }
+        };
+
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+
+        var prepareHeadersMetadata =
+            _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string>());
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(prepareHeadersMetadata, Is.Not.Null);
+            Assert.That(prepareHeadersMetadata, Has.Count.EqualTo(1));
+            Assert.That(prepareHeadersMetadata[0].Key, Is.EqualTo("x-global-tracing-id"));
+            Assert.That(prepareHeadersMetadata[0].Value, Is.EqualTo("123"));
+        });
+    }
+
+    [Test]
+    public void HeadersMetadataFromRequestArePreferred()
+    {
+        _flightSqlClient.Dispose();
+
+        var config = new ClientConfig
+        {
+            Host = MockServerUrl,
+            Timeout = TimeSpan.FromSeconds(45),
+            Headers = new Dictionary<string, string>
+            {
+                { "X-Tracing-Id", "ABC" }
+            }
+        };
+
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+
+        var prepareHeadersMetadata =
+            _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string> { { "X-Tracing-Id", "258" } });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(prepareHeadersMetadata, Is.Not.Null);
+            Assert.That(prepareHeadersMetadata, Has.Count.EqualTo(1));
+            Assert.That(prepareHeadersMetadata[0].Key, Is.EqualTo("x-tracing-id"));
+            Assert.That(prepareHeadersMetadata[0].Value, Is.EqualTo("258"));
         });
     }
 }

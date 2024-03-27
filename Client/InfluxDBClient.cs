@@ -19,7 +19,8 @@ namespace InfluxDB3.Client
     {
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
-        ///
+        /// </summary>
+        /// 
         /// <example>
         /// The following example shows how to use SQL query with named parameters:
         ///
@@ -32,33 +33,16 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
-        /// </summary>
-        /// <param name="query">The SQL query string to execute.</param>
-        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
-        /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">
-        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
-        ///     '$placeholder' syntax in the query will be substituted with the values provided.
-        ///     The supported types are: string, bool, int, float.
-        /// </param>
-        /// <returns>Batches of rows</returns>
-        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null);
-
-        /// <summary>
-        /// Query data from InfluxDB IOx using FlightSQL.
-        /// </summary>
-        ///
+        /// 
         /// <example>
-        /// The following example shows how to use SQL query with named parameters:
+        /// The following example shows how to use custom request headers:
         ///
         /// <code>
         /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
-        /// var results = client.QueryBatches(
-        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
-        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
         /// );
         /// </code>
         /// </example>
@@ -70,10 +54,60 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
+
+        /// <summary>
+        /// Query data from InfluxDB IOx using FlightSQL.
+        /// </summary>
+        /// 
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null);
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
@@ -91,6 +125,18 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -99,10 +145,15 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null);
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -294,6 +345,19 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -302,12 +366,17 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -342,6 +411,18 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -350,12 +431,16 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers).ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -419,16 +504,29 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
-        ///
+        /// 
         /// <example>
         /// The following example shows how to use SQL query with named parameters:
-        ///
+        /// 
         /// <code>
         /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
         ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
         /// );
         /// </code>
         /// </example>
@@ -440,10 +538,15 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null)
         {
             if (_disposed)
             {
@@ -453,7 +556,8 @@ namespace InfluxDB3.Client
             return FlightSqlClient.Execute(query,
                 (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
                 queryType ?? QueryType.SQL,
-                namedParameters ?? new Dictionary<string, object>());
+                namedParameters ?? new Dictionary<string, object>(),
+                headers ?? new Dictionary<string, string>());
         }
 
         /// <summary>
