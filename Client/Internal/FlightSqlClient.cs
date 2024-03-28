@@ -142,7 +142,7 @@ internal class FlightSqlClient : IFlightSqlClient
         {
             metadata.Add(header.Key, header.Value);
         }
-        // add global headers
+        // add config headers
         if (_config.Headers != null)
         {
             foreach (var header in _config.Headers.Where(header => !headers.ContainsKey(header.Key)))

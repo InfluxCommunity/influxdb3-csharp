@@ -29,7 +29,7 @@ internal class RestClient
     }
 
     internal async Task Request(string path, HttpMethod method, HttpContent? content = null,
-        Dictionary<string, string?>? queryParams = null,
+        Dictionary<string, string?>? queryParams = null, Dictionary<string, string>? headers = null,
         CancellationToken cancellationToken = default)
     {
         var builder = new UriBuilder(new Uri($"{_config.Host}{path}"));
@@ -58,6 +58,26 @@ internal class RestClient
             RequestUri = builder.Uri,
             Content = content,
         };
+        // add request headers
+        if (headers is not null)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
+        }
+        
+        // add config headers
+        if (_config.Headers != null)
+        {
+            foreach (var header in _config.Headers)
+            {
+                if (headers == null || !headers.ContainsKey(header.Key))
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+        }
 
         var result = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!result.IsSuccessStatusCode)
