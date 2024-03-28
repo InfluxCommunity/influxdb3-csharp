@@ -1,5 +1,9 @@
 ## 0.6.0 [unreleased]
 
+### Features
+
+1. [#90](https://github.com/InfluxCommunity/influxdb3-csharp/pull/90): Custom `HTTP/gRPC` headers can be specified globally by config or per request
+
 ## 0.5.0 [2024-03-01]
 
 ### Features

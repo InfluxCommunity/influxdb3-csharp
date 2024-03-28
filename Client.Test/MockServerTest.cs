@@ -36,7 +36,7 @@ public class MockServerTest
         MockProxyUrl = MockProxy.Urls[0];
     }
 
-    [OneTimeTearDownAttribute]
+    [OneTimeTearDown]
     public void OneTimeTearDownAttribute()
     {
         MockServer.Dispose();
