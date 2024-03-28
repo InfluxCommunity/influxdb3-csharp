@@ -340,7 +340,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Assert.That(requests[0].RequestMessage.Headers?["X-device"].First(), Is.EqualTo("ab-01"));
         });
     }
-    
+
     [Test]
     public async Task CustomHeaderFromRequest()
     {
@@ -369,7 +369,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(requests, Has.Count.EqualTo(1));
         Assert.That(requests[0].RequestMessage.Headers?["X-Tracing-ID"].First(), Is.EqualTo("123"));
     }
-    
+
     [Test]
     public async Task CustomHeaderFromRequestArePreferred()
     {

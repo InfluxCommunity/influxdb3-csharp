@@ -66,7 +66,7 @@ internal class RestClient
                 request.Headers.Add(header.Key, header.Value);
             }
         }
-        
+
         // add config headers
         if (_config.Headers != null)
         {
