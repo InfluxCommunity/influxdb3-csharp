@@ -286,7 +286,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Token = "my-token",
             Organization = "my-org",
             Database = "my-database",
-            Proxy = new System.Net.WebProxy
+            Proxy = new WebProxy
             {
                 Address = new Uri(MockProxyUrl),
                 BypassProxyOnLocal = false
@@ -333,7 +333,74 @@ public class InfluxDBClientWriteTest : MockServerTest
         await _client.WritePointAsync(point);
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+        Assert.That(requests, Has.Count.EqualTo(1));
+        Assert.Multiple(() =>
+        {
+            Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("h2o,location=europe level=2i 123000000000"));
+            Assert.That(requests[0].RequestMessage.Headers?["X-device"].First(), Is.EqualTo("ab-01"));
+        });
+    }
+
+    [Test]
+    public async Task CustomHeaderFromRequest()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database"
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-Tracing-ID", "123").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var point = PointData.Measurement("h2o")
+            .SetTag("location", "europe")
+            .SetField("level", 2)
+            .SetTimestamp(123_000_000_000L);
+
+        await _client.WritePointAsync(point, headers: new Dictionary<string, string>
+        {
+            { "X-Tracing-ID", "123" },
+        });
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests, Has.Count.EqualTo(1));
+        Assert.That(requests[0].RequestMessage.Headers?["X-Tracing-ID"].First(), Is.EqualTo("123"));
+    }
+
+    [Test]
+    public async Task CustomHeaderFromRequestArePreferred()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-database",
+            Headers = new Dictionary<string, string>
+            {
+                { "X-Client-ID", "123" },
+            }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-Client-ID", "456").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var point = PointData.Measurement("h2o")
+            .SetTag("location", "europe")
+            .SetField("level", 2)
+            .SetTimestamp(123_000_000_000L);
+
+        await _client.WritePointAsync(point, headers: new Dictionary<string, string>
+        {
+            { "X-Client-ID", "456" },
+        });
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests, Has.Count.EqualTo(1));
+        Assert.That(requests[0].RequestMessage.Headers?["X-Client-ID"].First(), Is.EqualTo("456"));
     }
 
     private async Task WriteData()

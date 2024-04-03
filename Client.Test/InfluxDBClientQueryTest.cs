@@ -54,7 +54,7 @@ public class InfluxDBClientQueryTest : MockServerTest
         var mockFlightSqlClient = new Mock<IFlightSqlClient>();
         mockFlightSqlClient
             .Setup(m => m.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<QueryType>(),
-                It.IsAny<Dictionary<string, object>>()))
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>()))
             .Returns(new List<RecordBatch>().ToAsyncEnumerable());
 
         //
@@ -76,7 +76,7 @@ public class InfluxDBClientQueryTest : MockServerTest
 
         _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, namedParameters: namedParameters)
             .ToListAsync();
-        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, namedParameters), Times.Exactly(1));
+        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, namedParameters, new Dictionary<string, string>()), Times.Exactly(1));
     }
 
     [Test]
@@ -98,5 +98,36 @@ public class InfluxDBClientQueryTest : MockServerTest
         Assert.That(ae.Message,
             Is.EqualTo(
                 "The parameter 'location' has unsupported type 'System.DateTime'. The supported types are 'string', 'bool', 'int' and 'float'."));
+    }
+
+    [Test]
+    public async Task PassHeadersToFlightClient()
+    {
+        //
+        // Mock the FlightSqlClient
+        //
+        var mockFlightSqlClient = new Mock<IFlightSqlClient>();
+        mockFlightSqlClient
+            .Setup(m => m.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<QueryType>(),
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>()))
+            .Returns(new List<RecordBatch>().ToAsyncEnumerable());
+
+        //
+        // Setup the client with the mocked FlightSqlClient
+        //
+        _client = new InfluxDBClient(MockServerUrl);
+        _client.FlightSqlClient.Dispose();
+        _client.FlightSqlClient = mockFlightSqlClient.Object;
+
+        const string query = "select * from cpu";
+        const QueryType queryType = QueryType.SQL;
+
+        var headers = new Dictionary<string, string>{
+        {
+            "X-Tracing-Id", "123"
+        }};
+        _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, headers: headers)
+            .ToListAsync();
+        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, new Dictionary<string, object>(), headers), Times.Exactly(1));
     }
 }

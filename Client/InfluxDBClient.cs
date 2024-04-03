@@ -19,7 +19,8 @@ namespace InfluxDB3.Client
     {
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
-        ///
+        /// </summary>
+        /// 
         /// <example>
         /// The following example shows how to use SQL query with named parameters:
         ///
@@ -32,33 +33,16 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
-        /// </summary>
-        /// <param name="query">The SQL query string to execute.</param>
-        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
-        /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="namedParameters">
-        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
-        ///     '$placeholder' syntax in the query will be substituted with the values provided.
-        ///     The supported types are: string, bool, int, float.
-        /// </param>
-        /// <returns>Batches of rows</returns>
-        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
-        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null);
-
-        /// <summary>
-        /// Query data from InfluxDB IOx using FlightSQL.
-        /// </summary>
-        ///
+        /// 
         /// <example>
-        /// The following example shows how to use SQL query with named parameters:
+        /// The following example shows how to use custom request headers:
         ///
         /// <code>
         /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
-        /// var results = client.QueryBatches(
-        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
-        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
         /// );
         /// </code>
         /// </example>
@@ -70,10 +54,60 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
+        /// <returns>Batches of rows</returns>
+        /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
+        IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
+
+        /// <summary>
+        /// Query data from InfluxDB IOx using FlightSQL.
+        /// </summary>
+        /// 
+        /// <example>
+        /// The following example shows how to use SQL query with named parameters:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
+        ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// <param name="query">The SQL query string to execute.</param>
+        /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
+        /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="namedParameters">
+        ///     Name:Value pairs to use as named parameters for this query. Parameters referenced using
+        ///     '$placeholder' syntax in the query will be substituted with the values provided.
+        ///     The supported types are: string, bool, int, float.
+        /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null);
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
@@ -91,6 +125,18 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -99,50 +145,125 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null);
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write a single record with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WriteRecordAsync(
+        ///     record: "stat,unit=temperature value=24.5",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit. </param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordAsync(string record, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default);
+        Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write multiple records with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WriteRecordsAsync(
+        ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default);
+        Task WriteRecordsAsync(IEnumerable<string> records, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write a single point with custom headers:
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WritePointAsync(
+        ///     point: PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WritePointAsync(PointData point, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default);
+        Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write multiple points with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WritePointsAsync(
+        ///     points: new[]{
+        ///         PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+        ///         PointData.Measurement("h2o").SetTag("location", "us-west").SetField("level", 4),
+        ///     },
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default);
+        Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
     }
 
     public class InfluxDBClient : IInfluxDBClient
@@ -294,6 +415,19 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.Query(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -302,12 +436,18 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
+                               .ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -342,6 +482,18 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryPoints(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="query">The SQL query string to execute.</param>
         /// <param name="queryType">The type of query sent to InfluxDB. Default to 'SQL'.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -350,12 +502,18 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters).ConfigureAwait(false))
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
+                               .ConfigureAwait(false))
             {
                 var rowCount = batch.Column(0).Length;
                 for (var i = 0; i < rowCount; i++)
@@ -419,16 +577,29 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
         /// </summary>
-        ///
+        /// 
         /// <example>
         /// The following example shows how to use SQL query with named parameters:
-        ///
+        /// 
         /// <code>
         /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
         ///     namedParameters: new Dictionary&lt;string, object&gt; { { "id", 1 }, { "name", "test" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// 
+        /// <example>
+        /// The following example shows how to use custom request headers:
+        /// 
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// 
+        /// var results = client.QueryBatches(
+        ///     query: "SELECT a, b, c FROM my_table",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
         /// );
         /// </code>
         /// </example>
@@ -440,10 +611,15 @@ namespace InfluxDB3.Client
         ///     '$placeholder' syntax in the query will be substituted with the values provided.
         ///     The supported types are: string, bool, int, float.
         /// </param>
+        /// <param name="headers">
+        ///     The headers to be added to query request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
-            string? database = null, Dictionary<string, object>? namedParameters = null)
+            string? database = null, Dictionary<string, object>? namedParameters = null,
+            Dictionary<string, string>? headers = null)
         {
             if (_disposed)
             {
@@ -453,63 +629,138 @@ namespace InfluxDB3.Client
             return FlightSqlClient.Execute(query,
                 (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
                 queryType ?? QueryType.SQL,
-                namedParameters ?? new Dictionary<string, object>());
+                namedParameters ?? new Dictionary<string, object>(),
+                headers ?? new Dictionary<string, string>());
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write a single record with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WriteRecordAsync(
+        ///     record: "stat,unit=temperature value=24.5",
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
+        /// 
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WriteRecordAsync(string record, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default)
+        public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
         {
-            return WriteRecordsAsync(new[] { record }, database, precision, cancellationToken);
+            return WriteRecordsAsync(new[] { record }, database, precision, headers, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write multiple records with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WriteRecordsAsync(
+        ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default)
+            WritePrecision? precision = null, Dictionary<string, string>? headers = null,
+            CancellationToken cancellationToken = default)
         {
-            return WriteData(records, database, precision, cancellationToken);
+            return WriteData(records, database, precision, headers, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write a single point with custom headers:
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WritePointAsync(
+        ///     point: PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example>
         /// <param name="point">Specifies the Data point to write into InfluxDB. The <see cref="point" /> is considered as one batch unit. </param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        public Task WritePointAsync(PointData point, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default)
+        public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
         {
-            return WritePointsAsync(new[] { point }, database, precision, cancellationToken);
+            return WritePointsAsync(new[] { point }, database, precision, headers, cancellationToken);
         }
 
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
+        ///
+        /// <example>
+        /// The following example shows how to write multiple points with custom headers:
+        ///
+        /// <code>
+        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        ///
+        /// await client.WritePointsAsync(
+        ///     points: new[]{
+        ///         PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+        ///         PointData.Measurement("h2o").SetTag("location", "us-west").SetField("level", 4),
+        ///     },
+        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
+        /// );
+        /// </code>
+        /// </example> 
         /// <param name="points">Specifies the Data points to write into InfluxDB. The <see cref="points" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
+        /// <param name="headers">
+        ///     The headers to be added to write request. The headers specified here are preferred over
+        ///     the headers specified in the client configuration.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default)
+            WritePrecision? precision = null, Dictionary<string, string>? headers = null,
+            CancellationToken cancellationToken = default)
         {
-            return WriteData(points, database, precision, cancellationToken);
+            return WriteData(points, database, precision, headers, cancellationToken);
         }
 
         private async Task WriteData(IEnumerable<object> data, string? database = null,
-            WritePrecision? precision = null, CancellationToken cancellationToken = default)
+            WritePrecision? precision = null, Dictionary<string, string>? headers = null,
+            CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
@@ -541,7 +792,7 @@ namespace InfluxDB3.Client
             };
 
             await _restClient
-                .Request("api/v2/write", HttpMethod.Post, content, queryParams, cancellationToken)
+                .Request("api/v2/write", HttpMethod.Post, content, queryParams, headers, cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -611,13 +862,6 @@ namespace InfluxDB3.Client
             {
                 Timeout = config.Timeout
             };
-            if (config.Headers != null)
-            {
-                foreach (var header in config.Headers)
-                {
-                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
-                }
-            }
 
             client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
             if (!string.IsNullOrEmpty(config.Token))

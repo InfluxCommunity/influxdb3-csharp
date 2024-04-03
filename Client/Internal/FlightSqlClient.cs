@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
@@ -24,13 +25,20 @@ internal interface IFlightSqlClient : IDisposable
     /// Execute the query and return the result as a sequence of record batches.
     /// </summary>
     internal IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType,
-        Dictionary<string, object> namedParameters);
+        Dictionary<string, object> namedParameters, Dictionary<string, string> headers);
 
     /// <summary>
     /// Prepare the FlightTicket for the query.
     /// </summary>
     internal FlightTicket PrepareFlightTicket(string query, string database, QueryType queryType,
         Dictionary<string, object> namedParameters);
+
+    /// <summary>
+    /// Prepare the headers metadata.
+    /// </summary>
+    /// <param name="headers">The invocation headers</param>
+    /// <returns></returns>
+    internal Metadata PrepareHeadersMetadata(Dictionary<string, string> headers);
 }
 
 internal class FlightSqlClient : IFlightSqlClient
@@ -66,7 +74,7 @@ internal class FlightSqlClient : IFlightSqlClient
     }
 
     async IAsyncEnumerable<RecordBatch> IFlightSqlClient.Execute(string query, string database, QueryType queryType,
-        Dictionary<string, object> namedParameters)
+        Dictionary<string, object> namedParameters, Dictionary<string, string> headers)
     {
         //
         // verify that values of namedParameters is supported type
@@ -82,16 +90,11 @@ internal class FlightSqlClient : IFlightSqlClient
             }
         }
 
-        var headers = new Metadata();
-        // authorization by token
-        if (!string.IsNullOrEmpty(_config.Token))
-        {
-            headers.Add("Authorization", $"Bearer {_config.Token}");
-        }
+        var metadata = ((IFlightSqlClient)this).PrepareHeadersMetadata(headers);
 
         var ticket = ((IFlightSqlClient)this).PrepareFlightTicket(query, database, queryType, namedParameters);
 
-        using var stream = _flightClient.GetStream(ticket, headers);
+        using var stream = _flightClient.GetStream(ticket, metadata);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
             yield return stream.ResponseStream.Current;
@@ -123,6 +126,31 @@ internal class FlightSqlClient : IFlightSqlClient
 
         var flightTicket = new FlightTicket(json);
         return flightTicket;
+    }
+
+    Metadata IFlightSqlClient.PrepareHeadersMetadata(Dictionary<string, string> headers)
+    {
+        var metadata = new Metadata();
+        // authorization by token
+        if (!string.IsNullOrEmpty(_config.Token))
+        {
+            metadata.Add("Authorization", $"Bearer {_config.Token}");
+        }
+
+        // add request headers
+        foreach (var header in headers)
+        {
+            metadata.Add(header.Key, header.Value);
+        }
+        // add config headers
+        if (_config.Headers != null)
+        {
+            foreach (var header in _config.Headers.Where(header => !headers.ContainsKey(header.Key)))
+            {
+                metadata.Add(header.Key, header.Value);
+            }
+        }
+        return metadata;
     }
 
     private string SerializeDictionary(Dictionary<string, object> ticketData)

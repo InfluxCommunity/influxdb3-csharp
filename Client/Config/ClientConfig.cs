@@ -111,9 +111,24 @@ public class ClientConfig
     public string? Database { get; set; }
 
     /// <summary>
-    /// The set of HTTP headers to be included in requests.
+    /// The custom headers that will be added to requests. This is useful for adding custom headers to requests,
+    /// such as tracing headers. To add custom headers use following code:
+    ///
+    /// <code>
+    /// using var client = new InfluxDBClient(new ClientConfig
+    /// {
+    ///     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
+    ///     Token = "my-token",
+    ///     Organization = "my-org",
+    ///     Database = "my-database",
+    ///     Headers = new Dictionary&lt;string, string&gt;
+    ///     {
+    ///         { "X-Tracing-Id", "123" },
+    ///     }
+    /// });
+    /// </code>
     /// </summary>
-    public Dictionary<String, String>? Headers { get; set; }
+    public Dictionary<string, string>? Headers { get; set; }
 
     /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.
