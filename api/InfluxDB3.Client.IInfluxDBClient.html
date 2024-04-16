@@ -152,22 +152,13 @@
   <h3 id="methods">Methods
   </h3>
   <a id="InfluxDB3_Client_IInfluxDBClient_Query_" data-uid="InfluxDB3.Client.IInfluxDBClient.Query*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">Query(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String___" data-uid="InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}},System.Nullable{Dictionary{System.String,System.String}})">Query(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
-<example>
-The following example shows how to use SQL query with named parameters:
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
-
-var results = client.Query(
-    query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
-    namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
-);</code></pre>
-</example>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;object? []&gt; Query(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;object? []&gt; Query(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -203,6 +194,13 @@ var results = client.Query(
         <td><p>Name:Value pairs to use as named parameters for this query. Parameters referenced using
 '$placeholder' syntax in the query will be substituted with the values provided.
 The supported types are: string, bool, int, float.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to query request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
 </td>
       </tr>
     </tbody>
@@ -223,14 +221,31 @@ The supported types are: string, bool, int, float.</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
+  <p>The following example shows how to use SQL query with named parameters:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.Query(
+    query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
+    namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
+);</code></pre>
+
+  <p>The following example shows how to use custom request headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.Query(
+    query: &quot;SELECT a, b, c FROM my_table&quot;,
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">QueryBatches(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}},System.Nullable{Dictionary{System.String,System.String}})">QueryBatches(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -266,6 +281,13 @@ The supported types are: string, bool, int, float.</p>
         <td><p>Name:Value pairs to use as named parameters for this query. Parameters referenced using
 '$placeholder' syntax in the query will be substituted with the values provided.
 The supported types are: string, bool, int, float.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to query request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
 </td>
       </tr>
     </tbody>
@@ -286,7 +308,7 @@ The supported types are: string, bool, int, float.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object____examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
 <pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
@@ -295,14 +317,22 @@ var results = client.QueryBatches(
     namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
 );</code></pre>
 
+  <p>The following example shows how to use custom request headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.QueryBatches(
+    query: &quot;SELECT a, b, c FROM my_table&quot;,
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String___" data-uid="InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.Nullable{System.String},System.Nullable{Dictionary{System.String,System.Object}},System.Nullable{Dictionary{System.String,System.String}})">QueryPoints(String, Nullable&lt;QueryType&gt;, Nullable&lt;String&gt;, Nullable&lt;Dictionary&lt;String, Object&gt;&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx into PointData structure using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null)</code></pre>
+    <pre><code class="lang-csharp hljs">IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -340,6 +370,13 @@ var results = client.QueryBatches(
 The supported types are: string, bool, int, float.</p>
 </td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to query request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -358,7 +395,7 @@ The supported types are: string, bool, int, float.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object____examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
 <pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
@@ -367,14 +404,22 @@ var results = client.QueryPoints(
     namedParameters: new Dictionary&lt;string, object> { { &quot;id&quot;, 1 }, { &quot;name&quot;, &quot;test&quot; } }
 );</code></pre>
 
+  <p>The following example shows how to use custom request headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+var results = client.QueryPoints(
+    query: &quot;SELECT a, b, c FROM my_table&quot;,
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointAsync(PointData, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}},CancellationToken)">WritePointAsync(PointData, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -405,6 +450,13 @@ var results = client.QueryPoints(
 </td>
       </tr>
       <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to write request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="xref">CancellationToken</span></td>
         <td><span class="parametername">cancellationToken</span></td>
         <td><p>specifies the token to monitor for cancellation requests.</p>
@@ -427,14 +479,23 @@ var results = client.QueryPoints(
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
+  <p>The following example shows how to write a single point with custom headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+await client.WritePointAsync(
+    point: PointData.Measurement(&quot;h2o&quot;).SetTag(&quot;location&quot;, &quot;europe&quot;).SetField(&quot;level&quot;, 2),
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WritePointsAsync(IEnumerable&lt;PointData&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(IEnumerable{InfluxDB3.Client.Write.PointData},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}},CancellationToken)">WritePointsAsync(IEnumerable&lt;PointData&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -465,6 +526,13 @@ var results = client.QueryPoints(
 </td>
       </tr>
       <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to write request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="xref">CancellationToken</span></td>
         <td><span class="parametername">cancellationToken</span></td>
         <td><p>specifies the token to monitor for cancellation requests.</p>
@@ -487,14 +555,26 @@ var results = client.QueryPoints(
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
+  <p>The following example shows how to write multiple points with custom headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+await client.WritePointsAsync(
+    points: new[]{
+        PointData.Measurement(&quot;h2o&quot;).SetTag(&quot;location&quot;, &quot;europe&quot;).SetField(&quot;level&quot;, 2),
+        PointData.Measurement(&quot;h2o&quot;).SetTag(&quot;location&quot;, &quot;us-west&quot;).SetField(&quot;level&quot;, 4),
+    },
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordAsync(String, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}},CancellationToken)">WriteRecordAsync(String, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -525,6 +605,13 @@ var results = client.QueryPoints(
 </td>
       </tr>
       <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to write request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="xref">CancellationToken</span></td>
         <td><span class="parametername">cancellationToken</span></td>
         <td><p>specifies the token to monitor for cancellation requests.</p>
@@ -547,14 +634,23 @@ var results = client.QueryPoints(
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
+  <p>The following example shows how to write a single record with custom headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+await client.WriteRecordAsync(
+    record: &quot;stat,unit=temperature value=24.5&quot;,
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
   <a id="InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},CancellationToken)">WriteRecordsAsync(IEnumerable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(IEnumerable{System.String},System.Nullable{System.String},System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Nullable{Dictionary{System.String,System.String}},CancellationToken)">WriteRecordsAsync(IEnumerable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;WritePrecision&gt;, Nullable&lt;Dictionary&lt;String, String&gt;&gt;, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WriteRecordsAsync(IEnumerable&lt;string&gt; records, string? database = null, WritePrecision? precision = null, CancellationToken cancellationToken = null)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WriteRecordsAsync(IEnumerable&lt;string&gt; records, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -585,6 +681,13 @@ var results = client.QueryPoints(
 </td>
       </tr>
       <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">headers</span></td>
+        <td><p>The headers to be added to write request. The headers specified here are preferred over
+the headers specified in the client configuration.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="xref">CancellationToken</span></td>
         <td><span class="parametername">cancellationToken</span></td>
         <td><p>specifies the token to monitor for cancellation requests.</p>
@@ -607,6 +710,15 @@ var results = client.QueryPoints(
       </tr>
     </tbody>
   </table>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
+  <p>The following example shows how to write multiple records with custom headers:</p>
+<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+
+await client.WriteRecordsAsync(
+    records: new[] { &quot;stat,unit=temperature value=24.5&quot;, &quot;stat,unit=temperature value=25.5&quot; },
+    headers: new Dictionary&lt;string, string> { { &quot;X-Tracing-Id&quot;, &quot;123&quot; } }
+);</code></pre>
+
 </article>
           </div>
           
