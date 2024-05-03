@@ -31,6 +31,8 @@ The C# .NET client that provides an easy and convenient way to interact with Inf
 This package supports both writing data to InfluxDB and querying data using the FlightSQL client,
 which allows you to execute SQL queries against InfluxDB IOx.
 
+We offer this [Getting Started: InfluxDB 3.0 C# Client Library](https://www.youtube.com/watch?v=l2e4lXilvLA) video to learn more about the library.
+
 ## Installation
 
 Add the latest version of the client to your project:
