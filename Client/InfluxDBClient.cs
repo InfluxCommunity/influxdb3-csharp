@@ -863,7 +863,7 @@ namespace InfluxDB3.Client
                 Timeout = config.Timeout
             };
 
-            client.DefaultRequestHeaders.UserAgent.ParseAdd($"influxdb3-csharp/{AssemblyHelper.GetVersion()}");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             if (!string.IsNullOrEmpty(config.Token))
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", config.Token);

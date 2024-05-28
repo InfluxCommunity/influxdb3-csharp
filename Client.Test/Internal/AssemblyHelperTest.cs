@@ -18,5 +18,13 @@ namespace InfluxDB3.Client.Test.Internal
                 Assert.That(Version.Parse(version).Revision, Is.EqualTo(0));
             });
         }
+
+        [Test]
+        public void GetUserAgent()
+        {
+            var version = AssemblyHelper.GetVersion();
+            var userAgent = AssemblyHelper.GetUserAgent();
+            Assert.That(userAgent, Is.EqualTo($"influxdb3-csharp/{version}"));
+        }
     }
 }
