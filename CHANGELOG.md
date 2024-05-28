@@ -1,5 +1,9 @@
 ## 0.7.0 [unreleased]
 
+### Features
+
+1. [#101](https://github.com/InfluxCommunity/influxdb3-csharp/pull/101): Add standard `user-agent` header to all calls.
+
 ## 0.6.0 [2024-04-16]
 
 ### Features
