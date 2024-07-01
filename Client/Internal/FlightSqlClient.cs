@@ -131,6 +131,10 @@ internal class FlightSqlClient : IFlightSqlClient
     Metadata IFlightSqlClient.PrepareHeadersMetadata(Dictionary<string, string> headers)
     {
         var metadata = new Metadata();
+
+        // user-agent
+        metadata.Add("user-agent", AssemblyHelper.GetUserAgent());
+
         // authorization by token
         if (!string.IsNullOrEmpty(_config.Token))
         {
@@ -138,7 +142,7 @@ internal class FlightSqlClient : IFlightSqlClient
         }
 
         // add request headers
-        foreach (var header in headers)
+        foreach (var header in headers.Where(header => !header.Key.ToLower().Equals("user-agent")))
         {
             metadata.Add(header.Key, header.Value);
         }
@@ -147,7 +151,10 @@ internal class FlightSqlClient : IFlightSqlClient
         {
             foreach (var header in _config.Headers.Where(header => !headers.ContainsKey(header.Key)))
             {
-                metadata.Add(header.Key, header.Value);
+                if (!header.Key.ToLower().Equals("user-agent"))
+                {
+                    metadata.Add(header.Key, header.Value);
+                }
             }
         }
         return metadata;

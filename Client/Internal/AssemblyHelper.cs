@@ -12,5 +12,11 @@ namespace InfluxDB3.Client.Internal
                 .GetCustomAttribute<AssemblyFileVersionAttribute>()
                 .Version;
         }
+
+        internal static string GetUserAgent()
+        {
+            return $"influxdb3-csharp/{GetVersion()}";
+        }
+
     }
 }
