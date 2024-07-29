@@ -19,7 +19,7 @@
         <PackageReference Include="NUnit.Analyzers" Version="4.2.0" />
         <PackageReference Include="coverlet.collector" Version="6.0.2" />
         <PackageReference Include="JunitXml.TestLogger" Version="3.1.12" />
-        <PackageReference Include="WireMock.Net" Version="1.5.60" />
+        <PackageReference Include="WireMock.Net" Version="1.5.62" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
