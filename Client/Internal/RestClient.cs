@@ -93,11 +93,16 @@ internal class RestClient
                     if (new DataContractJsonSerializer(typeof(ErrorBody)).ReadObject(memoryStream) is ErrorBody
                         errorBody)
                     {
-                        if (!string.IsNullOrEmpty(errorBody.Message)) { // Cloud
+                        if (!string.IsNullOrEmpty(errorBody.Message)) // Cloud
+                        {
                             message = errorBody.Message;
-                        } else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) { // Edge
+                        }
+                        else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) // Edge
+                        {
                             message = errorBody.Data.ErrorMessage;
-                        } else if (!string.IsNullOrEmpty(errorBody.Error)) { // Edge
+                        }
+                        else if (!string.IsNullOrEmpty(errorBody.Error)) // Edge
+                        {
                             message = errorBody.Error;
                         }
                     }
