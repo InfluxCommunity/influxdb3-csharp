@@ -141,7 +141,7 @@ public class RestClientTest : MockServerTest
     }
 
     [Test]
-    public void ErrorJsonBody()
+    public void ErrorJsonBodyCloud()
     {
         CreateAndConfigureRestClient(new ClientConfig
         {
@@ -167,6 +167,63 @@ public class RestClientTest : MockServerTest
             Assert.That(ae.Message, Is.EqualTo("token does not have sufficient permissions"));
         });
     }
+
+    [Test]
+    public void ErrorJsonBodyEdgeWithData()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("X-Influx-Error", "not used")
+                .WithBody("{\"error\":\"parsing failed\", \"data\":{\"error_message\":\"invalid field value in line protocol for field 'value' on line 0\"}}")
+                .WithStatusCode(401));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("invalid field value in line protocol for field 'value' on line 0"));
+        });
+    }
+
+    [Test]
+    public void ErrorJsonBodyEdgeWithoutData()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("X-Influx-Error", "not used")
+                .WithBody("{\"error\":\"token does not have sufficient permissions\"}")
+                .WithStatusCode(401));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("token does not have sufficient permissions"));
+        });
+    }
+
 
     [Test]
     public void ErrorReason()

@@ -93,7 +93,13 @@ internal class RestClient
                     if (new DataContractJsonSerializer(typeof(ErrorBody)).ReadObject(memoryStream) is ErrorBody
                         errorBody)
                     {
-                        message = errorBody.Message;
+                        if (!string.IsNullOrEmpty(errorBody.Message)) { // Cloud
+                            message = errorBody.Message;
+                        } else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) { // Edge
+                            message = errorBody.Data.ErrorMessage;
+                        } else if (!string.IsNullOrEmpty(errorBody.Error)) { // Edge
+                            message = errorBody.Error;
+                        }
                     }
                 }
                 catch (SerializationException se)
@@ -131,5 +137,19 @@ internal class RestClient
 [DataContract]
 internal class ErrorBody
 {
-    [DataMember(Name = "message")] public string? Message { get; set; }
+    [DataMember(Name = "message")]
+    public string? Message { get; set; }
+
+    [DataMember(Name = "error")]
+    public string? Error { get; set; }
+
+    [DataMember(Name = "data")]
+    public ErrorData? Data { get; set; }
+
+    [DataContract]
+    internal class ErrorData
+    {
+        [DataMember(Name = "error_message")]
+        public string? ErrorMessage { get; set; }
+    }
 }
