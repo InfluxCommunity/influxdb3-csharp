@@ -13,7 +13,7 @@ namespace InfluxDB3.Client.Config;
 /// You can configure following options:
 /// - Host: The URL of the InfluxDB server.
 /// - Token: The authentication token for accessing the InfluxDB server.
-/// - AuthScheme: Token authenication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.
+/// - AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.
 /// - Organization: The organization to be used for operations.
 /// - Database: The database to be used for InfluxDB operations.
 /// - Headers: The set of HTTP headers to be included in requests.
