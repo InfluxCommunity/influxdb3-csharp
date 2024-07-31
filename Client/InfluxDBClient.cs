@@ -285,12 +285,13 @@ namespace InfluxDB3.Client
         /// </summary>
         /// <param name="host">The URL of the InfluxDB server.</param>
         /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
+        /// <param name="authScheme">Token authentications scheme.</param>
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <example>
         /// using var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com", "my-token", "my-org", "my-database");
         /// </example>
-        public InfluxDBClient(string host, string token, string? organization = null,
+        public InfluxDBClient(string host, string token, string? authScheme = null, string? organization = null,
             string? database = null) : this(
             new ClientConfig
             {
@@ -298,6 +299,7 @@ namespace InfluxDB3.Client
                 Organization = organization,
                 Database = database,
                 Token = token,
+                AuthScheme = authScheme,
                 WriteOptions = WriteOptions.DefaultOptions
             })
         {
@@ -343,6 +345,9 @@ namespace InfluxDB3.Client
         /// <description>token - authentication token (required)</description>
         /// </item>
         /// <item>
+        /// <description>authScheme - token authentication scheme (default <c>null</c> for Cloud access)</description>
+        /// </item>
+        /// <item>
         /// <description>org - organization name</description>
         /// </item>
         /// <item>
@@ -371,10 +376,13 @@ namespace InfluxDB3.Client
         /// Supported parameters are:
         /// <list type="bullet">
         /// <item>
-        /// <description>INFLUX_HOST - authentication token (required)</description>
+        /// <description>INFLUX_HOST - InfluxDB host URL (required)</description>
         /// </item>
         /// <item>
         /// <description>INFLUX_TOKEN - authentication token (required)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_AUTH_SCHEME - token authentication scheme (default is <c>null</c> for Cloud access)</description>
         /// </item>
         /// <item>
         /// <description>INFLUX_ORG - organization name</description>
@@ -866,7 +874,8 @@ namespace InfluxDB3.Client
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             if (!string.IsNullOrEmpty(config.Token))
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", config.Token);
+                string authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, config.Token);
             }
 
             return client;

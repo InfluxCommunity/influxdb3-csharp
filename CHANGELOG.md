@@ -4,6 +4,7 @@
 
 1. [#101](https://github.com/InfluxCommunity/influxdb3-csharp/pull/101): Add standard `user-agent` header to all calls.
 1. [#110](https://github.com/InfluxCommunity/influxdb3-csharp/pull/110): InfluxDB Edge (OSS) error handling.
+1. [#111](https://github.com/InfluxCommunity/influxdb3-csharp/pull/111): Add InfluxDB Edge (OSS) authentication support.
 
 ## 0.6.0 [2024-04-16]
 
