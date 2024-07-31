@@ -48,6 +48,21 @@ public class ClientConfigTest
     }
 
     [Test]
+    public void CreateFromConnectionStringWithAuthScheme()
+    {
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&authScheme=my-scheme");
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.AuthScheme, Is.EqualTo("my-scheme"));
+            Assert.That(cfg.WriteOptions, Is.EqualTo(null));
+        });
+    }
+
+    [Test]
     public void CreateFromConnectionStringWithWriteOptions()
     {
         var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database&precision=s&gzipThreshold=64");
@@ -139,6 +154,28 @@ public class ClientConfigTest
             Assert.That(cfg.Token, Is.EqualTo("my-token"));
             Assert.That(cfg.Organization, Is.EqualTo("my-org"));
             Assert.That(cfg.Database, Is.EqualTo("my-database"));
+            Assert.That(cfg.WriteOptions, Is.EqualTo(null));
+        });
+    }
+
+    [Test]
+    public void CreateFromEnvWithAuthScheme()
+    {
+        var env = new Dictionary<String, String>
+        {
+            {"INFLUX_HOST", "http://localhost:8086"},
+            {"INFLUX_TOKEN", "my-token"},
+            {"INFLUX_AUTH_SCHEME", "my-scheme"},
+        };
+        SetEnv(env);
+        var cfg = new ClientConfig(env);
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.AuthScheme, Is.EqualTo("my-scheme"));
             Assert.That(cfg.WriteOptions, Is.EqualTo(null));
         });
     }
