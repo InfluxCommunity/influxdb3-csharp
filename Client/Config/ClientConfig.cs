@@ -13,6 +13,7 @@ namespace InfluxDB3.Client.Config;
 /// You can configure following options:
 /// - Host: The URL of the InfluxDB server.
 /// - Token: The authentication token for accessing the InfluxDB server.
+/// - AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.
 /// - Organization: The organization to be used for operations.
 /// - Database: The database to be used for InfluxDB operations.
 /// - Headers: The set of HTTP headers to be included in requests.
@@ -44,6 +45,7 @@ public class ClientConfig
 {
     internal const string EnvInfluxHost = "INFLUX_HOST";
     internal const string EnvInfluxToken = "INFLUX_TOKEN";
+    internal const string EnvInfluxAuthScheme = "INFLUX_AUTH_SCHEME";
     internal const string EnvInfluxOrg = "INFLUX_ORG";
     internal const string EnvInfluxDatabase = "INFLUX_DATABASE";
     internal const string EnvInfluxPrecision = "INFLUX_PRECISION";
@@ -67,6 +69,7 @@ public class ClientConfig
         Host = uri.GetLeftPart(UriPartial.Path);
         var values = HttpUtility.ParseQueryString(uri.Query);
         Token = values.Get("token");
+        AuthScheme = values.Get("authScheme");
         Organization = values.Get("org");
         Database = values.Get("database");
         ParsePrecision(values.Get("precision"));
@@ -80,6 +83,7 @@ public class ClientConfig
     {
         Host = (string)env[EnvInfluxHost];
         Token = env[EnvInfluxToken] as string;
+        AuthScheme = env[EnvInfluxAuthScheme] as string;
         Organization = env[EnvInfluxOrg] as string;
         Database = env[EnvInfluxDatabase] as string;
         ParsePrecision(env[EnvInfluxPrecision] as string);
@@ -99,6 +103,11 @@ public class ClientConfig
     /// The authentication token for accessing the InfluxDB server.
     /// </summary>
     public string? Token { get; set; }
+
+    /// <summary>
+    /// Token authentication scheme.
+    /// </summary>
+    public string? AuthScheme { get; set; }
 
     /// <summary>
     /// The organization to be used for operations.

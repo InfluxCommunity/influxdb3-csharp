@@ -4,6 +4,18 @@
 
 1. [#101](https://github.com/InfluxCommunity/influxdb3-csharp/pull/101): Add standard `user-agent` header to all calls.
 1. [#110](https://github.com/InfluxCommunity/influxdb3-csharp/pull/110): InfluxDB Edge (OSS) error handling.
+1. [#111](https://github.com/InfluxCommunity/influxdb3-csharp/pull/111): Add InfluxDB Edge (OSS) authentication support.
+
+### Migration Notice
+
+- `InfluxDBClient` constructor with connection options has new option `authScheme` with `null` default value:
+
+```diff
+- public InfluxDBClient(string host, string token, string? organization = null, string? database = null);
++ public InfluxDBClient(string host, string token, string? organization = null, string? database = null, string? authScheme = null)
+```
+
+  This new option is used for Edge (OSS) authentication.
 
 ## 0.6.0 [2024-04-16]
 

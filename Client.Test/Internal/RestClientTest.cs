@@ -37,6 +37,22 @@ public class RestClientTest : MockServerTest
     }
 
     [Test]
+    public async Task AuthorizationCustomScheme()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            AuthScheme = "my-scheme"
+        });
+        await DoRequest();
+
+        var requests = MockServer.LogEntries.ToList();
+
+        Assert.That(requests[0].RequestMessage.Headers?["Authorization"][0], Is.EqualTo("my-scheme my-token"));
+    }
+
+    [Test]
     public async Task UserAgent()
     {
         CreateAndConfigureRestClient(new ClientConfig
