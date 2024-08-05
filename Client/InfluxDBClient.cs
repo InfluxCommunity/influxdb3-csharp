@@ -289,7 +289,7 @@ namespace InfluxDB3.Client
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <example>
-       /// using var client = new InfluxDBClient(host: "https://us-east-1-1.aws.cloud2.influxdata.com", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "https://us-east-1-1.aws.cloud2.influxdata.com", token: "my-token", organization: "my-org", database: "my-database");
         /// </example>
         public InfluxDBClient(string host, string token, string? authScheme = null, string? organization = null,
             string? database = null) : this(
