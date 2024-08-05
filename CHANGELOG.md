@@ -14,6 +14,7 @@
 - public InfluxDBClient(string host, string token, string? organization = null, string? database = null);
 + public InfluxDBClient(string host, string token, string? organization = null, string? database = null, string? authScheme = null)
 ```
+
   This new option is used for Edge (OSS) authentication.
 
 ## 0.6.0 [2024-04-16]
