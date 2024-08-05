@@ -25,7 +25,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.Query(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -38,7 +38,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.Query(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -71,7 +71,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         /// 
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -84,7 +84,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         /// 
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -117,7 +117,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryPoints(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -129,7 +129,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryPoints(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -163,7 +163,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write a single record with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WriteRecordAsync(
         ///     record: "stat,unit=temperature value=24.5",
@@ -190,7 +190,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write multiple records with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WriteRecordsAsync(
         ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
@@ -216,7 +216,7 @@ namespace InfluxDB3.Client
         /// <example>
         /// The following example shows how to write a single point with custom headers:
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WritePointAsync(
         ///     point: PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
@@ -243,7 +243,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write multiple points with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WritePointsAsync(
         ///     points: new[]{
@@ -285,14 +285,14 @@ namespace InfluxDB3.Client
         /// </summary>
         /// <param name="host">The URL of the InfluxDB server.</param>
         /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
-        /// <param name="authScheme">Token authentications scheme.</param>
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
+        /// <param name="authScheme">Token authentications scheme.</param>
         /// <example>
         /// using var client = new InfluxDBClient(host: "https://us-east-1-1.aws.cloud2.influxdata.com", token: "my-token", organization: "my-org", database: "my-database");
         /// </example>
-        public InfluxDBClient(string host, string token, string? authScheme = null, string? organization = null,
-            string? database = null) : this(
+        public InfluxDBClient(string host, string token, string? organization = null,
+            string? database = null, string? authScheme = null) : this(
             new ClientConfig
             {
                 Host = host,
@@ -364,7 +364,7 @@ namespace InfluxDB3.Client
         /// </summary>
         /// <param name="connectionString">Connection string in URL format.</param>
         /// <example>
-        /// using var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db");
+        /// using var client = new InfluxDBClient(host: "https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db");
         /// </example>
         public InfluxDBClient(string connectionString) : this(new ClientConfig(connectionString))
         {
@@ -415,7 +415,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.Query(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -428,7 +428,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.Query(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -482,7 +482,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryPoints(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -494,7 +494,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryPoints(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -590,7 +590,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use SQL query with named parameters:
         /// 
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table WHERE id = $id AND name = $name",
@@ -603,7 +603,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to use custom request headers:
         /// 
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         /// 
         /// var results = client.QueryBatches(
         ///     query: "SELECT a, b, c FROM my_table",
@@ -649,7 +649,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write a single record with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WriteRecordAsync(
         ///     record: "stat,unit=temperature value=24.5",
@@ -680,7 +680,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write multiple records with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WriteRecordsAsync(
         ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
@@ -710,7 +710,7 @@ namespace InfluxDB3.Client
         /// <example>
         /// The following example shows how to write a single point with custom headers:
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WritePointAsync(
         ///     point: PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
@@ -740,7 +740,7 @@ namespace InfluxDB3.Client
         /// The following example shows how to write multiple points with custom headers:
         ///
         /// <code>
-        /// using var client = new InfluxDBClient("http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
+        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
         ///
         /// await client.WritePointsAsync(
         ///     points: new[]{
