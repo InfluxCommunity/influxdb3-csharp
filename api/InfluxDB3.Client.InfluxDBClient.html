@@ -166,7 +166,7 @@
   <div class="markdown level1 summary"><p>Initializes a new instance of the client using connection string.</p>
 <p>
 Supported parameters are:
-<ul><li>INFLUX_HOST - authentication token (required)</li><li>INFLUX_TOKEN - authentication token (required)</li><li>INFLUX_ORG - organization name</li><li>INFLUX_DATABASE - database (bucket) name</li><li>INFLUX_PRECISION - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <code>1000</code>)</li></ul>
+<ul><li>INFLUX_HOST - InfluxDB host URL (required)</li><li>INFLUX_TOKEN - authentication token (required)</li><li>INFLUX_AUTH_SCHEME - token authentication scheme (default is <code>null</code> for Cloud access)</li><li>INFLUX_ORG - organization name</li><li>INFLUX_DATABASE - database (bucket) name</li><li>INFLUX_PRECISION - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <code>1000</code>)</li></ul>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -220,7 +220,7 @@ Database = &quot;my-database&quot;
   <div class="markdown level1 summary"><p>Initializes a new instance of the client using connection string.</p>
 <p>
 Supported parameters are:
-<ul><li>token - authentication token (required)</li><li>org - organization name</li><li>database - database (bucket) name</li><li>precision - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>gzipThreshold - threshold for gzip data when writing (default is <code>1000</code>)</li></ul>
+<ul><li>token - authentication token (required)</li><li>authScheme - token authentication scheme (default <code>null</code> for Cloud access)</li><li>org - organization name</li><li>database - database (bucket) name</li><li>precision - timestamp precision when writing data (<code>ns</code> (default), <code>us</code>, <code>ms</code>, <code>s</code>)</li><li>gzipThreshold - threshold for gzip data when writing (default is <code>1000</code>)</li></ul>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -247,16 +247,16 @@ Supported parameters are:
     </tbody>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String__examples">Examples</h5>
-  <p>using var client = new InfluxDBClient(&quot;https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db&quot;);</p>
+  <p>using var client = new InfluxDBClient(host: &quot;https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db&quot;);</p>
 
   <a id="InfluxDB3_Client_InfluxDBClient__ctor_" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String})">InfluxDBClient(String, String, Nullable&lt;String&gt;, Nullable&lt;String&gt;)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})">InfluxDBClient(String, String, Nullable&lt;String&gt;, Nullable&lt;String&gt;, Nullable&lt;String&gt;)</h4>
   <div class="markdown level1 summary"><p>Initializes a new instance of the client with provided configuration options.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public InfluxDBClient(string host, string token, string? organization = null, string? database = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public InfluxDBClient(string host, string token, string? organization = null, string? database = null, string? authScheme = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -292,10 +292,16 @@ Supported parameters are:
         <td><p>The database to be used for InfluxDB operations.</p>
 </td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">authScheme</span></td>
+        <td><p>Token authentications scheme.</p>
+</td>
+      </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String___examples">Examples</h5>
-  <p>using var client = new InfluxDBClient(&quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;, &quot;my-token&quot;, &quot;my-org&quot;, &quot;my-database&quot;);</p>
+  <h5 id="InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_System_String___examples">Examples</h5>
+  <p>using var client = new InfluxDBClient(host: &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);</p>
 
   <h3 id="methods">Methods
   </h3>
@@ -379,7 +385,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.Query(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -387,7 +393,7 @@ var results = client.Query(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.Query(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -466,7 +472,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryBatches(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -474,7 +480,7 @@ var results = client.QueryBatches(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryBatches(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -553,7 +559,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryPoints(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -561,7 +567,7 @@ var results = client.QueryPoints(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryPoints(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -637,7 +643,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write a single point with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WritePointAsync(
     point: PointData.Measurement(&quot;h2o&quot;).SetTag(&quot;location&quot;, &quot;europe&quot;).SetField(&quot;level&quot;, 2),
@@ -713,7 +719,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write multiple points with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WritePointsAsync(
     points: new[]{
@@ -792,7 +798,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write a single record with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WriteRecordAsync(
     record: &quot;stat,unit=temperature value=24.5&quot;,
@@ -868,7 +874,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write multiple records with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WriteRecordsAsync(
     records: new[] { &quot;stat,unit=temperature value=24.5&quot;, &quot;stat,unit=temperature value=25.5&quot; },

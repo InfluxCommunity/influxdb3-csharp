@@ -45,6 +45,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.AllowHttpRedirects
   nameWithType: ClientConfig.AllowHttpRedirects
+- uid: InfluxDB3.Client.Config.ClientConfig.AuthScheme
+  name: AuthScheme
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_AuthScheme
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.AuthScheme
+  fullName: InfluxDB3.Client.Config.ClientConfig.AuthScheme
+  nameWithType: ClientConfig.AuthScheme
+- uid: InfluxDB3.Client.Config.ClientConfig.AuthScheme*
+  name: AuthScheme
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_AuthScheme_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.AuthScheme
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.AuthScheme
+  nameWithType: ClientConfig.AuthScheme
 - uid: InfluxDB3.Client.Config.ClientConfig.Database
   name: Database
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_Database
@@ -381,15 +394,15 @@ references:
   commentId: M:InfluxDB3.Client.InfluxDBClient.#ctor(System.String)
   fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String)
   nameWithType: InfluxDBClient.InfluxDBClient(String)
-- uid: InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String})
-  name: InfluxDBClient(String, String, Nullable<String>, Nullable<String>)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String})
-  name.vb: InfluxDBClient(String, String, Nullable(Of String), Nullable(Of String))
-  fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.String, System.Nullable<System.String>, System.Nullable<System.String>)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.String, System.Nullable(Of System.String), System.Nullable(Of System.String))
-  nameWithType: InfluxDBClient.InfluxDBClient(String, String, Nullable<String>, Nullable<String>)
-  nameWithType.vb: InfluxDBClient.InfluxDBClient(String, String, Nullable(Of String), Nullable(Of String))
+- uid: InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})
+  name: InfluxDBClient(String, String, Nullable<String>, Nullable<String>, Nullable<String>)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_System_String_System_String_System_Nullable_System_String__System_Nullable_System_String__System_Nullable_System_String__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.#ctor(System.String,System.String,System.Nullable{System.String},System.Nullable{System.String},System.Nullable{System.String})
+  name.vb: InfluxDBClient(String, String, Nullable(Of String), Nullable(Of String), Nullable(Of String))
+  fullName: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.String, System.Nullable<System.String>, System.Nullable<System.String>, System.Nullable<System.String>)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.InfluxDBClient(System.String, System.String, System.Nullable(Of System.String), System.Nullable(Of System.String), System.Nullable(Of System.String))
+  nameWithType: InfluxDBClient.InfluxDBClient(String, String, Nullable<String>, Nullable<String>, Nullable<String>)
+  nameWithType.vb: InfluxDBClient.InfluxDBClient(String, String, Nullable(Of String), Nullable(Of String), Nullable(Of String))
 - uid: InfluxDB3.Client.InfluxDBClient.#ctor*
   name: InfluxDBClient
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient__ctor_

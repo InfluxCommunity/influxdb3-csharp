@@ -223,7 +223,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.Query(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -231,7 +231,7 @@ var results = client.Query(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.Query(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -310,7 +310,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryBatches(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -318,7 +318,7 @@ var results = client.QueryBatches(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryBatches(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -397,7 +397,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_Nullable_System_String__System_Nullable_Dictionary_System_String_System_Object___System_Nullable_Dictionary_System_String_System_String____examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryPoints(
     query: &quot;SELECT a, b, c FROM my_table WHERE id = $id AND name = $name&quot;,
@@ -405,7 +405,7 @@ var results = client.QueryPoints(
 );</code></pre>
 
   <p>The following example shows how to use custom request headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 var results = client.QueryPoints(
     query: &quot;SELECT a, b, c FROM my_table&quot;,
@@ -481,7 +481,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write a single point with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WritePointAsync(
     point: PointData.Measurement(&quot;h2o&quot;).SetTag(&quot;location&quot;, &quot;europe&quot;).SetField(&quot;level&quot;, 2),
@@ -557,7 +557,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_IEnumerable_InfluxDB3_Client_Write_PointData__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write multiple points with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WritePointsAsync(
     points: new[]{
@@ -636,7 +636,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write a single record with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WriteRecordAsync(
     record: &quot;stat,unit=temperature value=24.5&quot;,
@@ -712,7 +712,7 @@ the headers specified in the client configuration.</p>
   </table>
   <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_IEnumerable_System_String__System_Nullable_System_String__System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Nullable_Dictionary_System_String_System_String___CancellationToken__examples">Examples</h5>
   <p>The following example shows how to write multiple records with custom headers:</p>
-<pre><code>using var client = new InfluxDBClient(&quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
+<pre><code>using var client = new InfluxDBClient(host: &quot;http://localhost:8086&quot;, token: &quot;my-token&quot;, organization: &quot;my-org&quot;, database: &quot;my-database&quot;);
 
 await client.WriteRecordsAsync(
     records: new[] { &quot;stat,unit=temperature value=24.5&quot;, &quot;stat,unit=temperature value=25.5&quot; },
