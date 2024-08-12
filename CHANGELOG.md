@@ -1,3 +1,4 @@
+## 0.8.0 [unreleased]
 ## 0.7.0 [2024-08-12]
 
 ### Migration Notice
