@@ -10,9 +10,9 @@ namespace InfluxDB3.Client.Test;
 
 public class InfluxDBApiExceptionTest : MockServerTest
 {
-    
+
     private InfluxDBClient _client;
-    
+
     [TearDown]
     public void TearDown()
     {
@@ -24,7 +24,7 @@ public class InfluxDBApiExceptionTest : MockServerTest
     public async Task GeneratedInfluxDbException()
     {
         var requestId = Guid.NewGuid().ToString();
-        
+
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create()
@@ -39,10 +39,10 @@ public class InfluxDBApiExceptionTest : MockServerTest
                     {"X-Influxdb-Build", "Cloud"}
                 })
             );
-        
-        _client = new InfluxDBClient(MockServerUrl, 
-            "my-token", 
-            "my-org", 
+
+        _client = new InfluxDBClient(MockServerUrl,
+            "my-token",
+            "my-org",
             "my-database");
         try
         {

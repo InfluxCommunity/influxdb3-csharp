@@ -19,7 +19,7 @@ public class WriteTest : IntegrationTest
             Token = Token,
             Database = Database,
         });
-        
+
         try
         {
             await client.WriteRecordAsync("vehicle,id=vwbus vel=0.0,distance=,status=\"STOPPED\"");

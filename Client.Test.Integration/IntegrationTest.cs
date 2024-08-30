@@ -37,7 +37,4 @@ public abstract class IntegrationTest
     {
         ConsoleOutListener.Dispose();
     }
-    
-    
-
 }
