@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
@@ -12,41 +11,17 @@ using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test.Integration;
 
-public class QueryWriteTest
+public class QueryWriteTest : IntegrationTest
 {
-    private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
-
-    private readonly string _host = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
-                                       throw new InvalidOperationException("TESTING_INFLUXDB_URL environment variable is not set.");
-    private readonly string _token = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
-                                         throw new InvalidOperationException("TESTING_INFLUXDB_TOKEN environment variable is not set.");
-    private readonly string _database = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
-                                        throw new InvalidOperationException("TESTING_INFLUXDB_DATABASE environment variable is not set.");
-
-    [OneTimeSetUp]
-    public void OneTimeSetUp()
-    {
-        if (!Trace.Listeners.Contains(ConsoleOutListener))
-        {
-            Console.SetOut(TestContext.Progress);
-            Trace.Listeners.Add(ConsoleOutListener);
-        }
-    }
-
-    [OneTimeTearDownAttribute]
-    public void OneTimeTearDownAttribute()
-    {
-        ConsoleOutListener.Dispose();
-    }
 
     [Test]
     public async Task QueryWrite()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Token = _token,
-            Database = _database
+            Host = Host,
+            Token = Token,
+            Database = Database
         });
 
         const string measurement = "integration_test";
@@ -82,8 +57,8 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Database = _database
+            Host = Host,
+            Database = Database
         });
 
         var ae = Assert.ThrowsAsync<RpcException>(async () =>
@@ -102,9 +77,9 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Database = _database,
-            Token = _token
+            Host = Host,
+            Database = Database,
+            Token = Token
         });
 
         await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
@@ -115,9 +90,9 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Database = _database,
-            Token = _token,
+            Host = Host,
+            Database = Database,
+            Token = Token,
             DisableServerCertificateValidation = true
         });
 
@@ -129,9 +104,9 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Database = _database,
-            Token = _token,
+            Host = Host,
+            Database = Database,
+            Token = Token,
             WriteOptions = new WriteOptions
             {
                 GzipThreshold = 1
@@ -146,9 +121,9 @@ public class QueryWriteTest
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
-            Host = _host,
-            Token = _token,
-            Database = _database
+            Host = Host,
+            Token = Token,
+            Database = Database
         });
 
         var testId = DateTime.UtcNow.Millisecond;
