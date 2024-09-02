@@ -25,8 +25,8 @@ public class HttpErrorHandled
             {
                 InfluxDBApiException apiEx = (InfluxDBApiException)ex;
                 Console.WriteLine("Caught ApiException: {0} \"{1}\"",
-                    apiEx.GetStatusCode(), apiEx.Message);
-                var headers = apiEx.GetHeaders().ToFrozenDictionary();
+                    apiEx.StatusCode, apiEx.Message);
+                var headers = apiEx.Headers.ToFrozenDictionary();
                 Console.WriteLine("Headers:");
                 foreach (var header in headers)
                 {

@@ -17,14 +17,20 @@ public class InfluxDBApiException : Exception
 
     public HttpResponseMessage? HttpResponseMessage { get; private set; }
 
-    public HttpResponseHeaders GetHeaders()
+    public HttpResponseHeaders? Headers
     {
-        return HttpResponseMessage?.Headers;
+        get
+        {
+            return HttpResponseMessage?.Headers;
+        }
     }
 
-    public HttpStatusCode GetStatusCode()
+    public HttpStatusCode StatusCode
     {
-        return HttpResponseMessage?.StatusCode ?? 0;
+        get
+        {
+            return HttpResponseMessage?.StatusCode ?? 0;
+        }
     }
 
 }

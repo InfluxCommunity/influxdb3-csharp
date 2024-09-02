@@ -36,10 +36,10 @@ public class WriteTest : IntegrationTest
                             "errors encountered on line(s): line 1: " +
                             "Could not parse entire line. Found trailing content: 'distance=,status=\"STOPPED\"'"
                         ));
-                    Assert.That(iaex.GetStatusCode().ToString(), Is.EqualTo("BadRequest"));
-                    Assert.That(iaex.GetStatusCode().GetHashCode(), Is.EqualTo(400));
+                    Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
+                    Assert.That(iaex.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
                 });
-                var headersDix = iaex.GetHeaders().ToFrozenDictionary();
+                var headersDix = iaex.Headers.ToFrozenDictionary();
                 Assert.DoesNotThrow(() =>
                 {
                     Assert.Multiple(() =>

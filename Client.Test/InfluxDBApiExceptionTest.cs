@@ -24,9 +24,9 @@ public class InfluxDBApiExceptionTest : MockServerTest
     public void NullValuesTest()
     {
         var exception = new InfluxDBApiException("Testing exception", null);
-        Assert.That(exception.GetStatusCode().ToString(), Is.EqualTo("0"));
-        var headers = exception.GetHeaders();
-        Assert.That(exception.GetHeaders(), Is.Null);
+        Assert.That(exception.StatusCode.ToString(), Is.EqualTo("0"));
+        var headers = exception.Headers;
+        Assert.That(exception.Headers, Is.Null);
     }
 
     [Test]
@@ -65,10 +65,10 @@ public class InfluxDBApiExceptionTest : MockServerTest
                 Assert.Multiple(() =>
                 {
                     Assert.That(idbae.Message, Is.EqualTo("just testing"));
-                    Assert.That(idbae.GetStatusCode().ToString(), Is.EqualTo("BadRequest"));
-                    Assert.That(idbae.GetHeaders().Count() == 7);
+                    Assert.That(idbae.StatusCode.ToString(), Is.EqualTo("BadRequest"));
+                    Assert.That(idbae.Headers.Count() == 7);
                 });
-                var headersDix = idbae.GetHeaders().ToFrozenDictionary();
+                var headersDix = idbae.Headers.ToFrozenDictionary();
                 Assert.Multiple(() =>
                 {
                     Assert.That(headersDix["Trace-Id"].First(), Is.EqualTo("123456789ABCDEF0"));
