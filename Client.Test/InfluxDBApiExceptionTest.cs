@@ -17,7 +17,16 @@ public class InfluxDBApiExceptionTest : MockServerTest
     public void TearDown()
     {
         base.TearDown();
-        _client.Dispose();
+        _client?.Dispose();
+    }
+
+    [Test]
+    public void NullValuesTest()
+    {
+        var exception = new InfluxDBApiException("Testing exception", null);
+        Assert.That(exception.GetStatusCode().ToString(), Is.EqualTo("0"));
+        var headers = exception.GetHeaders();
+        Assert.That(exception.GetHeaders(), Is.Null);
     }
 
     [Test]
