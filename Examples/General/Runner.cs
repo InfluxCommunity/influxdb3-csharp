@@ -6,12 +6,12 @@ namespace InfluxDB3.Examples.General;
 public class Runner
 {
 
-    public static string Host { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? 
+    public static string Host { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_URL") ??
                                                   "http://localhost:8086";
-    public static string Token { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_TOKEN") ?? 
+    public static string Token { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_TOKEN") ??
                                                    "my-token";
 
-    public static string Database { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_DATABASE") ?? 
+    public static string Database { get; private set; } = Environment.GetEnvironmentVariable("INFLUXDB_DATABASE") ??
                                                       "my-database";
 
     private static readonly Dictionary<string, Func<Task>> Functions = new Dictionary<string, Func<Task>>()
@@ -37,7 +37,7 @@ public class Runner
         if (args.Length != 1)
         {
             Console.WriteLine("InfluxDB Example Runner requires a single argument.");
-            Help(); 
+            Help();
             Environment.Exit(1);
         }
 
@@ -48,7 +48,7 @@ public class Runner
         catch (KeyNotFoundException)
         {
             Console.WriteLine($"Unknown example: {args[0]}");
-            Help(); 
+            Help();
             Environment.Exit(1);
         }
     }

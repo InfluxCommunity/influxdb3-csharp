@@ -9,8 +9,8 @@ public class HttpErrorHandled
     public static async Task Run()
     {
         Console.WriteLine("HttpErrorHandled");
-        using var client = new InfluxDBClient(host: Runner.Host, 
-            token: Runner.Token, 
+        using var client = new InfluxDBClient(host: Runner.Host,
+            token: Runner.Token,
             database: Runner.Database);
 
         Console.WriteLine("Writing record");
@@ -24,7 +24,7 @@ public class HttpErrorHandled
             if (ex is InfluxDBApiException)
             {
                 InfluxDBApiException apiEx = (InfluxDBApiException)ex;
-                Console.WriteLine("Caught ApiException: {0} \"{1}\"", 
+                Console.WriteLine("Caught ApiException: {0} \"{1}\"",
                     apiEx.GetStatusCode(), apiEx.Message);
                 var headers = apiEx.GetHeaders().ToFrozenDictionary();
                 Console.WriteLine("Headers:");
