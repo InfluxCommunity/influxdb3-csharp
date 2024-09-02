@@ -9,9 +9,9 @@ public class DownsamplingExample
 {
     static async Task Main(string[] args)
     {
-        const string host = "https://us-east-1-1.aws.cloud2.influxdata.com";
-        const string token = "my-token";
-        const string database = "my-database";
+        var host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ?? "https://us-east-1-1.aws.cloud2.influxdata.com";
+        var token = Environment.GetEnvironmentVariable("INFLUXDB_TOKEN") ?? "my-token";
+        var database = Environment.GetEnvironmentVariable("INFLUXDB_DATABASE") ?? "my-database";
 
         using var client = new InfluxDBClient(host: host, token: token, database: database);
 
@@ -59,5 +59,10 @@ public class DownsamplingExample
 
             await client.WritePointAsync(downsampledPoint);
         }
+    }
+
+    public static async Task Run()
+    {
+        await Main(Array.Empty<string>());
     }
 }
