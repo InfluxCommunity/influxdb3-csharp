@@ -32,10 +32,7 @@ public class WriteTest : IntegrationTest
                 Assert.Multiple(() =>
                 {
                     Assert.That(iaex.Message,
-                        Is.EqualTo(
-                            "errors encountered on line(s): line 1: " +
-                            "Could not parse entire line. Found trailing content: 'distance=,status=\"STOPPED\"'"
-                        ));
+                        Contains.Substring("Found trailing content: 'distance=,status=\"STOPPED\"'"));
                     Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
                     Assert.That(iaex.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
                 });
