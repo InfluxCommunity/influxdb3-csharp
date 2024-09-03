@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.IOx", "Examples\IO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downsampling", "Examples\Downsampling\Downsampling.csproj", "{44C91C8C-B194-48CE-A5B1-763457F118F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "General", "Examples\General\General.csproj", "{2355049F-531D-4B43-9DFD-D88C75023B04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,9 +46,14 @@ Global
 		{44C91C8C-B194-48CE-A5B1-763457F118F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44C91C8C-B194-48CE-A5B1-763457F118F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44C91C8C-B194-48CE-A5B1-763457F118F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2355049F-531D-4B43-9DFD-D88C75023B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2355049F-531D-4B43-9DFD-D88C75023B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2355049F-531D-4B43-9DFD-D88C75023B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2355049F-531D-4B43-9DFD-D88C75023B04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B2DA69ED-C21D-4531-A32A-E537DC511785} = {EFBEAA10-411F-4BDB-A96B-B54632FAE99D}
 		{44C91C8C-B194-48CE-A5B1-763457F118F4} = {EFBEAA10-411F-4BDB-A96B-B54632FAE99D}
+		{2355049F-531D-4B43-9DFD-D88C75023B04} = {EFBEAA10-411F-4BDB-A96B-B54632FAE99D}
 	EndGlobalSection
 EndGlobal

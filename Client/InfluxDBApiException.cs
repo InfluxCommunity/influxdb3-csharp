@@ -1,5 +1,7 @@
 using System;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace InfluxDB3.Client;
 
@@ -14,4 +16,21 @@ public class InfluxDBApiException : Exception
     }
 
     public HttpResponseMessage? HttpResponseMessage { get; private set; }
+
+    public HttpResponseHeaders? Headers
+    {
+        get
+        {
+            return HttpResponseMessage?.Headers;
+        }
+    }
+
+    public HttpStatusCode StatusCode
+    {
+        get
+        {
+            return HttpResponseMessage?.StatusCode ?? 0;
+        }
+    }
+
 }

@@ -1,4 +1,9 @@
 ## 0.8.0 [unreleased]
+
+### Features
+
+1.[#118](https://github.com/InfluxCommunity/influxdb3-csharp/pull/118): Simplify getting response headers and status code from `InfluxDBApiException`.  Includes example runnable through `Examples/General`.
+
 ## 0.7.0 [2024-08-12]
 
 ### Migration Notice
