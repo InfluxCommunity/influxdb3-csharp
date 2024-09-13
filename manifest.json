@@ -12,7 +12,7 @@
           "hash": "p4ymTb6JmIWFBOILq2E+oeXH4tzOsZ28Bk+fR7FSJec="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -36,7 +36,7 @@
           "hash": "QF+ShvNcqPB/RuSWhLAVe6uVBnqsoOiSCeq2CIaC8vg="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -48,7 +48,7 @@
           "hash": "AoF/xkBro0E+ddsUrMNskMvsUPNIQC4Q68jB7VbOHKk="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -57,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/InfluxDB3.Client.InfluxDBApiException.html",
-          "hash": "mQwZYoTocEg4V66Uw2+JEG/JM/ZgBgKmCp6FyjQ6hVI="
+          "hash": "hP75R+gHFQyNhtsF8R3arXOeMzEpr+7XUVxDcokFi90="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -72,7 +72,7 @@
           "hash": "GJY6nv6EMX8o+eLlzYWlS7XMVjEH15CHmIiG9q0J5mU="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -213,7 +213,7 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 13,
-          "skipped_file_count": 10
+          "skipped_file_count": 12
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

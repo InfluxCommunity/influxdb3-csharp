@@ -357,6 +357,19 @@ references:
   commentId: T:InfluxDB3.Client.InfluxDBApiException
   fullName: InfluxDB3.Client.InfluxDBApiException
   nameWithType: InfluxDBApiException
+- uid: InfluxDB3.Client.InfluxDBApiException.Headers
+  name: Headers
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_Headers
+  commentId: P:InfluxDB3.Client.InfluxDBApiException.Headers
+  fullName: InfluxDB3.Client.InfluxDBApiException.Headers
+  nameWithType: InfluxDBApiException.Headers
+- uid: InfluxDB3.Client.InfluxDBApiException.Headers*
+  name: Headers
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_Headers_
+  commentId: Overload:InfluxDB3.Client.InfluxDBApiException.Headers
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBApiException.Headers
+  nameWithType: InfluxDBApiException.Headers
 - uid: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
   name: HttpResponseMessage
   href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_HttpResponseMessage
@@ -370,6 +383,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBApiException.HttpResponseMessage
   nameWithType: InfluxDBApiException.HttpResponseMessage
+- uid: InfluxDB3.Client.InfluxDBApiException.StatusCode
+  name: StatusCode
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_StatusCode
+  commentId: P:InfluxDB3.Client.InfluxDBApiException.StatusCode
+  fullName: InfluxDB3.Client.InfluxDBApiException.StatusCode
+  nameWithType: InfluxDBApiException.StatusCode
+- uid: InfluxDB3.Client.InfluxDBApiException.StatusCode*
+  name: StatusCode
+  href: api/InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_StatusCode_
+  commentId: Overload:InfluxDB3.Client.InfluxDBApiException.StatusCode
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBApiException.StatusCode
+  nameWithType: InfluxDBApiException.StatusCode
 - uid: InfluxDB3.Client.InfluxDBClient
   name: InfluxDBClient
   href: api/InfluxDB3.Client.InfluxDBClient.html
