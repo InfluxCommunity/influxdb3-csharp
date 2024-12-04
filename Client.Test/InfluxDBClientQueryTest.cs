@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Apache.Arrow;
+using Apache.Arrow.Types;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
 using Moq;
@@ -129,5 +130,60 @@ public class InfluxDBClientQueryTest : MockServerTest
         _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, headers: headers)
             .ToListAsync();
         mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, new Dictionary<string, object>(), headers), Times.Exactly(1));
+    }
+
+    [Test]
+    public async Task bar()
+    {
+        // var hostCloud = "https://us-east-1-1.aws.cloud2.influxdata.com";
+        // var adminTokenCloud =
+        //     "xWh3VQCb3pMJPw7T2lnEwFLXO-pb4OWzfNN76UTpmRKtlg83yJlz6maLC3AL0B6M6gMWWZY2QApzSdEeEopWlQ==";
+        // using var client = new InfluxDBClient(
+        //     hostCloud,
+        //     token: adminTokenCloud,
+        //     organization: "admin",
+        //     database: "admin");
+        // const string query = "select * from host10";
+        // var a = await client.QueryPoints(query).ToListAsync();
+        var meta = new Dictionary<string, string>
+        {
+            {
+                "iox::column::type", "iox::column_type::field::integer"
+            }
+        };
+
+        Field intField = new Field("column2", Int32Type.Default, true, meta);
+        
+    }
+    
+    [Test]
+    public void fooTest()
+    {
+        var meta = new Dictionary<string, string>
+        {
+            {
+                "iox::column::type", "iox::column_type::field::integer"
+            }
+        };
+
+        Field intField = new Field("column2", Int32Type.Default, true, meta);
+        Int32Array intArray = new Int32Array.Builder().Append(1).Append(2).AppendNull().Append(4).Build();
+        Schema schema1 = new Schema(new[] { intField, }, null);
+        RecordBatch recordBatch = new RecordBatch(schema1, new IArrowArray[] { intArray }, intArray.Length);
+
+        var rowCount = recordBatch.Column(0).Length;
+        for (var i = 0; i < rowCount; i++)
+        {
+            for (var j = 0; j < recordBatch.ColumnCount; j++)
+            {
+                var schema = recordBatch.Schema.FieldsList[j];
+                var type = schema.Metadata["iox::column::type"];
+                var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                var valueType = parts[2];
+                
+                Console.WriteLine(valueType);
+            }
+        }
+
     }
 }

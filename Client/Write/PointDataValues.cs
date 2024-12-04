@@ -78,6 +78,17 @@ namespace InfluxDB3.Client.Write
         }
 
         /// <summary>
+        /// Updates the timestamp for the point.
+        /// </summary>
+        /// <param name="timestamp">the timestamp in nanosecond</param>
+        /// <returns></returns>
+        public PointDataValues SetTimestamp(BigInteger timestamp)
+        {
+            _time = timestamp;
+            return this;
+        }
+        
+        /// <summary>
         /// Updates the timestamp for the point represented by <see cref="TimeSpan"/>.
         /// </summary>
         /// <param name="timestamp">the timestamp</param>
