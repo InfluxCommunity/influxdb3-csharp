@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow;
+using Apache.Arrow.Types;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
@@ -465,7 +468,10 @@ namespace InfluxDB3.Client
                     {
                         if (batch.Column(j) is ArrowArray array)
                         {
-                            row.Add(array.GetObjectValue(i));
+                            var mappedValue = GetMappedValue(
+                                batch.Schema.FieldsList[j],
+                                array.GetObjectValue(i));
+                            row.Add(mappedValue);
                         }
                     }
 
@@ -538,10 +544,13 @@ namespace InfluxDB3.Client
                         var objectValue = array.GetObjectValue(i);
                         if (objectValue is null)
                             continue;
-
-                        if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
+                        if (objectValue is StringType arrowString)
+                            objectValue = arrowString.ToString();
+                        
+                        if (fullName is "measurement" or "iox::measurement" &&
+                            objectValue is string value)
                         {
-                            point = point.SetMeasurement((string)objectValue);
+                            point = point.SetMeasurement(value);
                             continue;
                         }
 
@@ -562,18 +571,21 @@ namespace InfluxDB3.Client
                         var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                         var valueType = parts[2];
                         // string fieldType = parts.Length > 3 ? parts[3] : "";
+                        var mappedValue = GetMappedValue(schema, objectValue);
+                        if (mappedValue is null)
+                            continue;
 
                         if (valueType == "field")
                         {
-                            point = point.SetField(fullName, objectValue);
+                            point = point.SetField(fullName, mappedValue);
                         }
                         else if (valueType == "tag")
                         {
-                            point = point.SetTag(fullName, (string)objectValue);
+                            point = point.SetTag(fullName, (string)mappedValue);
                         }
-                        else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
+                        else if (valueType == "timestamp")
                         {
-                            point = point.SetTimestamp(timestamp);
+                            point = point.SetTimestamp((BigInteger)mappedValue);
                         }
                     }
 
@@ -853,7 +865,7 @@ namespace InfluxDB3.Client
             if (handler.SupportsAutomaticDecompression)
             {
                 handler.AutomaticDecompression =
-                    System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+                    DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
 
             if (handler.SupportsProxy && config.Proxy != null)
@@ -886,5 +898,113 @@ namespace InfluxDB3.Client
             return $"Please specify the '{property}' as a method parameter or use default configuration " +
                    $"at 'ClientConfig.{property[0].ToString().ToUpper()}{property.Substring(1)}'.";
         }
+
+                /// <summary>
+        /// Function to cast value return base on metadata from InfluxDB.
+        /// </summary>
+        /// <param name="field">The Field object from Arrow</param>
+        /// <param name="value">The value to cast</param>
+        /// <returns>The casted value</returns>
+        private static object? GetMappedValue(Field field, object? value)
+        {
+            if (value is null)
+            {
+                return null;
+            }
+            
+            var fieldName = field.Name;
+            if (fieldName is "measurement" or "iox::measurement")
+            {
+                return Convert.ToString(value);
+            }
+            
+            var metaType = field.HasMetadata ? field.Metadata["iox::column::type"] : null;
+            if (metaType == null)
+            {
+                if (fieldName == "time" && value is DateTimeOffset timeOffset)
+                {
+                    return TimestampConverter.GetNanoTime(timeOffset.UtcDateTime);
+                }
+
+                return value;
+            }
+
+            var parts = metaType.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            var valueType = parts[2];
+            if (valueType == "field")
+            {
+                switch (metaType)
+                {
+                    case "iox::column_type::field::integer":
+                        if (IsNumber(value))
+                        {
+                            return Convert.ToInt64(value);
+                        }
+                        Trace.TraceWarning($"The field [{fieldName}] is not an integer");
+                        return value;
+                    case "iox::column_type::field::uinteger":
+                        if (IsNumber(value))
+                        {
+                            return Convert.ToUInt64(value);
+                        }
+                        Trace.TraceWarning($"The field [{fieldName}] is not an uinteger");
+                        return value;
+                    case "iox::column_type::field::float":
+                        if (IsNumber(value))
+                        {
+                            return Convert.ToDouble(value);
+                        }
+
+                        Trace.TraceWarning($"The field [{fieldName}] is not a double");
+                        return value;
+                    case "iox::column_type::field::string":
+                        if (value is string)
+                        {
+                            return value;
+                        }
+
+                        if (value is StringType v)
+                        {
+                            return v.ToString();
+                        }
+                        
+                        Trace.TraceWarning($"The field [{fieldName}] is not a string");
+                        return value;
+                    case "iox::column_type::field::boolean":
+                        if (value is bool)
+                        {
+                            return Convert.ToBoolean(value);
+                        }
+                        Trace.TraceWarning($"The field [{fieldName}] is not a boolean");
+                        return value;
+                    default:
+                        return value;
+                }
+            }
+
+            if (valueType == "timestamp" && value is DateTimeOffset dateTimeOffset)
+            {
+                return TimestampConverter.GetNanoTime(dateTimeOffset.UtcDateTime);
+            }
+
+            return value;
+        }
+        
+        private static bool IsNumber(object? value)
+        {
+            return value is sbyte
+                or byte
+                or short
+                or ushort
+                or int
+                or uint
+                or long
+                or ulong
+                or float
+                or double
+                or decimal
+                or BigInteger;
+        }
     }
+    
 }
