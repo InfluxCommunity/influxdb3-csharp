@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow;
+using Apache.Arrow.Types;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
@@ -457,19 +460,19 @@ namespace InfluxDB3.Client
             await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
                                .ConfigureAwait(false))
             {
-                var rowCount = batch.Column(0).Length;
-                for (var i = 0; i < rowCount; i++)
+                for (var i = 0; i < batch.Column(0).Length; i++)
                 {
-                    var row = new List<object?>();
-                    for (var j = 0; j < batch.ColumnCount; j++)
+                    var columnCount = batch.ColumnCount;
+                    var row = new object?[columnCount];
+                    for (var j = 0; j < columnCount; j++)
                     {
-                        if (batch.Column(j) is ArrowArray array)
-                        {
-                            row.Add(array.GetObjectValue(i));
-                        }
+                        if (batch.Column(j) is not ArrowArray array) continue;
+                        row[j] = TypeCasting.GetMappedValue(
+                            batch.Schema.FieldsList[j],
+                            array.GetObjectValue(i));
                     }
 
-                    yield return row.ToArray();
+                    yield return row;
                 }
             }
         }
@@ -538,10 +541,13 @@ namespace InfluxDB3.Client
                         var objectValue = array.GetObjectValue(i);
                         if (objectValue is null)
                             continue;
-
-                        if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
+                        if (objectValue is StringType arrowString)
+                            objectValue = arrowString.ToString();
+                        
+                        if (fullName is "measurement" or "iox::measurement" &&
+                            objectValue is string value)
                         {
-                            point = point.SetMeasurement((string)objectValue);
+                            point = point.SetMeasurement(value);
                             continue;
                         }
 
@@ -562,18 +568,21 @@ namespace InfluxDB3.Client
                         var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                         var valueType = parts[2];
                         // string fieldType = parts.Length > 3 ? parts[3] : "";
+                        var mappedValue = TypeCasting.GetMappedValue(schema, objectValue);
+                        if (mappedValue is null)
+                            continue;
 
                         if (valueType == "field")
                         {
-                            point = point.SetField(fullName, objectValue);
+                            point = point.SetField(fullName, mappedValue);
                         }
                         else if (valueType == "tag")
                         {
-                            point = point.SetTag(fullName, (string)objectValue);
+                            point = point.SetTag(fullName, (string)mappedValue);
                         }
-                        else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
+                        else if (valueType == "timestamp")
                         {
-                            point = point.SetTimestamp(timestamp);
+                            point = point.SetTimestamp((BigInteger)mappedValue);
                         }
                     }
 
@@ -853,7 +862,7 @@ namespace InfluxDB3.Client
             if (handler.SupportsAutomaticDecompression)
             {
                 handler.AutomaticDecompression =
-                    System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+                    DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
 
             if (handler.SupportsProxy && config.Proxy != null)
