@@ -543,7 +543,7 @@ namespace InfluxDB3.Client
                             continue;
                         if (objectValue is StringType arrowString)
                             objectValue = arrowString.ToString();
-                        
+
                         if (fullName is "measurement" or "iox::measurement" &&
                             objectValue is string value)
                         {

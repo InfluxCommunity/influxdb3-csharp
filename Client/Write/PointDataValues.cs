@@ -87,7 +87,7 @@ namespace InfluxDB3.Client.Write
             _time = timestamp;
             return this;
         }
-        
+
         /// <summary>
         /// Updates the timestamp for the point represented by <see cref="TimeSpan"/>.
         /// </summary>
