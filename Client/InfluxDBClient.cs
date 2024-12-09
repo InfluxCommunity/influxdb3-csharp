@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Apache.Arrow;
-using Apache.Arrow.Types;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
@@ -467,9 +466,17 @@ namespace InfluxDB3.Client
                     for (var j = 0; j < columnCount; j++)
                     {
                         if (batch.Column(j) is not ArrowArray array) continue;
+                        var value = array.GetObjectValue(i);
+                        if (value is null)
+                        {
+                            row[j] = null;
+                            continue;
+                        }
+
                         row[j] = TypeCasting.GetMappedValue(
                             batch.Schema.FieldsList[j],
-                            array.GetObjectValue(i));
+                            value
+                        );
                     }
 
                     yield return row;
@@ -567,9 +574,6 @@ namespace InfluxDB3.Client
                         var valueType = parts[2];
                         // string fieldType = parts.Length > 3 ? parts[3] : "";
                         var mappedValue = TypeCasting.GetMappedValue(schema, objectValue);
-                        if (mappedValue is null)
-                            continue;
-
                         if (valueType == "field")
                         {
                             point = point.SetField(fullName, mappedValue);

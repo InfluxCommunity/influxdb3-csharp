@@ -69,13 +69,22 @@ public class TypeCastTest
             Assert.That(TypeCasting.GetMappedValue(field, 10)!, Is.EqualTo(10));
         });
         
-        // Field without metadata case
-        field = new Field(fieldName, Int64Type.Default, true);
-        Assert.That(TypeCasting.GetMappedValue(field, 1)!, Is.EqualTo(1));
         
-        // Assert.That(TypeCasting.GetMappedValue(field, )!, Is.EqualTo("a"));
+        field = GenerateIntFieldNullTypeMeta(fieldName);
+        Assert.That(TypeCasting.GetMappedValue(field, 1)!, Is.EqualTo(1));
     }
 
+    private static Field GenerateIntFieldNullTypeMeta(string fieldName)
+    {
+        var meta = new Dictionary<string, string>
+        {
+            {
+                "iox::column::type", null
+            }
+        };
+        return new Field(fieldName, Int64Type.Default, true, meta);
+    }
+    
     private static Field GenerateIntField(string fieldName)
     {
         var meta = new Dictionary<string, string>

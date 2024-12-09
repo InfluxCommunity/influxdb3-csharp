@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Numerics;
 using Apache.Arrow;
-using Apache.Arrow.Types;
 
 namespace InfluxDB3.Client.Internal;
 
@@ -14,13 +13,8 @@ public class TypeCasting
     /// <param name="field">The Field object from Arrow</param>
     /// <param name="value">The value to cast</param>
     /// <returns>The value with the correct type</returns>
-    public static object? GetMappedValue(Field field, object? value)
+    public static object GetMappedValue(Field field, object value)
     {
-        if (value is null)
-        {
-            return null;
-        }
-
         var fieldName = field.Name;
         if (fieldName is "measurement" or "iox::measurement")
         {
