@@ -70,16 +70,16 @@ public class TypeCastTest
         });
         
         
-        field = GenerateIntFieldNullTypeMeta(fieldName);
+        field = GenerateIntFieldTestTypeMeta(fieldName);
         Assert.That(TypeCasting.GetMappedValue(field, 1)!, Is.EqualTo(1));
     }
 
-    private static Field GenerateIntFieldNullTypeMeta(string fieldName)
+    private static Field GenerateIntFieldTestTypeMeta(string fieldName)
     {
         var meta = new Dictionary<string, string>
         {
             {
-                "iox::column::type", null
+                "iox::column::type", "iox::column_type::field::test"
             }
         };
         return new Field(fieldName, Int64Type.Default, true, meta);

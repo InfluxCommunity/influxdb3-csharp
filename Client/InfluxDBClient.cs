@@ -466,16 +466,9 @@ namespace InfluxDB3.Client
                     for (var j = 0; j < columnCount; j++)
                     {
                         if (batch.Column(j) is not ArrowArray array) continue;
-                        var value = array.GetObjectValue(i);
-                        if (value is null)
-                        {
-                            row[j] = null;
-                            continue;
-                        }
-
                         row[j] = TypeCasting.GetMappedValue(
                             batch.Schema.FieldsList[j],
-                            value
+                            array.GetObjectValue(i)
                         );
                     }
 
@@ -546,9 +539,6 @@ namespace InfluxDB3.Client
                             continue;
 
                         var objectValue = array.GetObjectValue(i);
-                        if (objectValue is null)
-                            continue;
-
                         if (fullName is "measurement" or "iox::measurement" &&
                             objectValue is string value)
                         {
