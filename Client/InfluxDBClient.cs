@@ -541,8 +541,6 @@ namespace InfluxDB3.Client
                         var objectValue = array.GetObjectValue(i);
                         if (objectValue is null)
                             continue;
-                        if (objectValue is StringType arrowString)
-                            objectValue = arrowString.ToString();
 
                         if (fullName is "measurement" or "iox::measurement" &&
                             objectValue is string value)

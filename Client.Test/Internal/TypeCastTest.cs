@@ -68,6 +68,12 @@ public class TypeCastTest
             Assert.That(TypeCasting.GetMappedValue(field, "a")!, Is.EqualTo("a"));
             Assert.That(TypeCasting.GetMappedValue(field, 10)!, Is.EqualTo(10));
         });
+        
+        // Field without metadata case
+        field = new Field(fieldName, Int64Type.Default, true);
+        Assert.That(TypeCasting.GetMappedValue(field, 1)!, Is.EqualTo(1));
+        
+        // Assert.That(TypeCasting.GetMappedValue(field, )!, Is.EqualTo("a"));
     }
 
     private static Field GenerateIntField(string fieldName)

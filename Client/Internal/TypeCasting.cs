@@ -74,11 +74,6 @@ public class TypeCasting
                         return value;
                     }
 
-                    if (value is StringType v)
-                    {
-                        return v.ToString();
-                    }
-
                     Trace.TraceWarning($"Value [{value}] is not a string");
                     return value;
                 case "iox::column_type::field::boolean":
