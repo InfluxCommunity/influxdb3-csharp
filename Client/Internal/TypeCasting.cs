@@ -19,11 +19,6 @@ public class TypeCasting
             return null;
         
         var fieldName = field.Name;
-        if (fieldName is "measurement" or "iox::measurement")
-        {
-            return Convert.ToString(value);
-        }
-
         var metaType = field.HasMetadata ? field.Metadata["iox::column::type"] : null;
         if (metaType == null)
         {
