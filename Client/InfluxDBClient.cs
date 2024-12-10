@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -526,58 +525,9 @@ namespace InfluxDB3.Client
             await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
                                .ConfigureAwait(false))
             {
-                var rowCount = batch.Column(0).Length;
-                for (var i = 0; i < rowCount; i++)
+                for (var i = 0; i < batch.Column(0).Length; i++)
                 {
-                    var point = new PointDataValues();
-                    for (var j = 0; j < batch.ColumnCount; j++)
-                    {
-                        var schema = batch.Schema.FieldsList[j];
-                        var fullName = schema.Name;
-
-                        if (batch.Column(j) is not ArrowArray array)
-                            continue;
-
-                        var objectValue = array.GetObjectValue(i);
-                        if (fullName is "measurement" or "iox::measurement" &&
-                            objectValue is string value)
-                        {
-                            point = point.SetMeasurement(value);
-                            continue;
-                        }
-
-                        if (!schema.HasMetadata)
-                        {
-                            if (fullName == "time" && objectValue is DateTimeOffset timestamp)
-                            {
-                                point = point.SetTimestamp(timestamp);
-                            }
-                            else
-                                // just push as field If you don't know what type is it
-                                point = point.SetField(fullName, objectValue);
-
-                            continue;
-                        }
-
-                        var type = schema.Metadata["iox::column::type"];
-                        var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                        var valueType = parts[2];
-                        // string fieldType = parts.Length > 3 ? parts[3] : "";
-                        var mappedValue = TypeCasting.GetMappedValue(schema, objectValue);
-                        if (valueType == "field")
-                        {
-                            point = point.SetField(fullName, mappedValue);
-                        }
-                        else if (valueType == "tag")
-                        {
-                            point = point.SetTag(fullName, (string)mappedValue);
-                        }
-                        else if (valueType == "timestamp")
-                        {
-                            point = point.SetTimestamp((BigInteger)mappedValue);
-                        }
-                    }
-
+                    var point = RecordBatchConverter.ConvertToPointDataValue(batch, i);
                     yield return point;
                 }
             }
