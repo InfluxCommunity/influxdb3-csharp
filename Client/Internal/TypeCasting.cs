@@ -17,7 +17,7 @@ public class TypeCasting
     {
         if (value == null)
             return null;
-        
+
         var fieldName = field.Name;
         var metaType = field.HasMetadata ? field.Metadata["iox::column::type"] : null;
         if (metaType == null)

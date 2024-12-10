@@ -68,8 +68,8 @@ public class TypeCastTest
             Assert.That(TypeCasting.GetMappedValue(field, "a")!, Is.EqualTo("a"));
             Assert.That(TypeCasting.GetMappedValue(field, 10)!, Is.EqualTo(10));
         });
-        
-        
+
+
         field = GenerateIntFieldTestTypeMeta(fieldName);
         Assert.That(TypeCasting.GetMappedValue(field, 1)!, Is.EqualTo(1));
     }
@@ -84,7 +84,7 @@ public class TypeCastTest
         };
         return new Field(fieldName, Int64Type.Default, true, meta);
     }
-    
+
     private static Field GenerateIntField(string fieldName)
     {
         var meta = new Dictionary<string, string>

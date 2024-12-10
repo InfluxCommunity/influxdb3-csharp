@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace InfluxDB3.Client.Internal;
 
-public class TimestampConverter
+public static class TimestampConverter
 {
     private static readonly DateTime EpochStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
