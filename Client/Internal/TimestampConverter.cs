@@ -10,7 +10,7 @@ public static class TimestampConverter
     /// <summary>
     /// Get nano time from Datetime and EpochStart time .
     /// </summary>
-    /// <param name="timestamp">the Datetime object</param>
+    /// <param name="dateTime">the Datetime object</param>
     /// <returns>the time in nanosecond</returns>
     public static BigInteger GetNanoTime(DateTime dateTime)
     {
