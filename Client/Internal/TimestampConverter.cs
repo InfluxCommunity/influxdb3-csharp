@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace InfluxDB3.Client.Internal;
 
-public static class TimestampConverter
+internal static class TimestampConverter
 {
     private static readonly DateTime EpochStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -12,7 +12,7 @@ public static class TimestampConverter
     /// </summary>
     /// <param name="dateTime">the Datetime object</param>
     /// <returns>the time in nanosecond</returns>
-    public static BigInteger GetNanoTime(DateTime dateTime)
+    internal static BigInteger GetNanoTime(DateTime dateTime)
     {
         var utcTimestamp = dateTime.Kind switch
         {

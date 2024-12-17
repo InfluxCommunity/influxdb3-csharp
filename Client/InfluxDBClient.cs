@@ -464,7 +464,10 @@ namespace InfluxDB3.Client
                     var row = new object?[columnCount];
                     for (var j = 0; j < columnCount; j++)
                     {
-                        if (batch.Column(j) is not ArrowArray array) continue;
+                        if (batch.Column(j) is not ArrowArray array)
+                        {
+                            continue;
+                        }
                         row[j] = TypeCasting.GetMappedValue(
                             batch.Schema.FieldsList[j],
                             array.GetObjectValue(i)

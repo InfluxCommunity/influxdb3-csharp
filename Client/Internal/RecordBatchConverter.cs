@@ -6,7 +6,7 @@ using ArrowArray = Apache.Arrow.Array;
 
 namespace InfluxDB3.Client.Internal;
 
-public static class RecordBatchConverter
+internal static class RecordBatchConverter
 {
     /// <summary>
     /// Convert a given row of data from RecordBatch to PointDataValues
@@ -14,7 +14,7 @@ public static class RecordBatchConverter
     /// <param name="recordBatch">The RecordBatch to get data from</param>
     /// <param name="rowNumber">The row number</param>
     /// <returns>The PointDataValues</returns>
-    public static PointDataValues ConvertToPointDataValue(RecordBatch recordBatch, int rowNumber)
+    internal static PointDataValues ConvertToPointDataValue(RecordBatch recordBatch, int rowNumber)
     {
         PointDataValues point = new();
         for (var columnIndex = 0; columnIndex < recordBatch.ColumnCount; columnIndex++)
@@ -23,8 +23,10 @@ public static class RecordBatchConverter
             var fullName = schema.Name;
 
             if (recordBatch.Column(columnIndex) is not ArrowArray array)
+            {
                 continue;
-
+            }
+            
             var objectValue = array.GetObjectValue(rowNumber);
             if (fullName is "measurement" or "iox::measurement" &&
                 objectValue is string value)
