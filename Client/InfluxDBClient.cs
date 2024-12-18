@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -457,19 +458,23 @@ namespace InfluxDB3.Client
             await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
                                .ConfigureAwait(false))
             {
-                var rowCount = batch.Column(0).Length;
-                for (var i = 0; i < rowCount; i++)
+                for (var i = 0; i < batch.Column(0).Length; i++)
                 {
-                    var row = new List<object?>();
-                    for (var j = 0; j < batch.ColumnCount; j++)
+                    var columnCount = batch.ColumnCount;
+                    var row = new object?[columnCount];
+                    for (var j = 0; j < columnCount; j++)
                     {
-                        if (batch.Column(j) is ArrowArray array)
+                        if (batch.Column(j) is not ArrowArray array)
                         {
-                            row.Add(array.GetObjectValue(i));
+                            continue;
                         }
+                        row[j] = TypeCasting.GetMappedValue(
+                            batch.Schema.FieldsList[j],
+                            array.GetObjectValue(i)
+                        );
                     }
 
-                    yield return row.ToArray();
+                    yield return row;
                 }
             }
         }
@@ -523,60 +528,9 @@ namespace InfluxDB3.Client
             await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
                                .ConfigureAwait(false))
             {
-                var rowCount = batch.Column(0).Length;
-                for (var i = 0; i < rowCount; i++)
+                for (var i = 0; i < batch.Column(0).Length; i++)
                 {
-                    var point = new PointDataValues();
-                    for (var j = 0; j < batch.ColumnCount; j++)
-                    {
-                        var schema = batch.Schema.FieldsList[j];
-                        var fullName = schema.Name;
-
-                        if (batch.Column(j) is not ArrowArray array)
-                            continue;
-
-                        var objectValue = array.GetObjectValue(i);
-                        if (objectValue is null)
-                            continue;
-
-                        if ((fullName == "measurement" || fullName == "iox::measurement") && objectValue is string)
-                        {
-                            point = point.SetMeasurement((string)objectValue);
-                            continue;
-                        }
-
-                        if (!schema.HasMetadata)
-                        {
-                            if (fullName == "time" && objectValue is DateTimeOffset timestamp)
-                            {
-                                point = point.SetTimestamp(timestamp);
-                            }
-                            else
-                                // just push as field If you don't know what type is it
-                                point = point.SetField(fullName, objectValue);
-
-                            continue;
-                        }
-
-                        var type = schema.Metadata["iox::column::type"];
-                        var parts = type.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                        var valueType = parts[2];
-                        // string fieldType = parts.Length > 3 ? parts[3] : "";
-
-                        if (valueType == "field")
-                        {
-                            point = point.SetField(fullName, objectValue);
-                        }
-                        else if (valueType == "tag")
-                        {
-                            point = point.SetTag(fullName, (string)objectValue);
-                        }
-                        else if (valueType == "timestamp" && objectValue is DateTimeOffset timestamp)
-                        {
-                            point = point.SetTimestamp(timestamp);
-                        }
-                    }
-
+                    var point = RecordBatchConverter.ConvertToPointDataValue(batch, i);
                     yield return point;
                 }
             }
@@ -853,7 +807,7 @@ namespace InfluxDB3.Client
             if (handler.SupportsAutomaticDecompression)
             {
                 handler.AutomaticDecompression =
-                    System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+                    DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
 
             if (handler.SupportsProxy && config.Proxy != null)

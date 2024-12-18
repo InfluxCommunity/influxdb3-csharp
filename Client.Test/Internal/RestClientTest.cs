@@ -63,7 +63,7 @@ public class RestClientTest : MockServerTest
 
         var requests = MockServer.LogEntries.ToList();
 
-        Assert.That(requests[0].RequestMessage.Headers?["User-Agent"][0], Does.StartWith("influxdb3-csharp/0."));
+        Assert.That(requests[0].RequestMessage.Headers?["User-Agent"][0], Does.StartWith("influxdb3-csharp/1."));
         Assert.That(requests[0].RequestMessage.Headers?["User-Agent"][0], Does.EndWith(".0.0"));
     }
 
