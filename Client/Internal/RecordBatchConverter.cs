@@ -26,7 +26,7 @@ internal static class RecordBatchConverter
             {
                 continue;
             }
-            
+
             var objectValue = array.GetObjectValue(rowNumber);
             if (fullName is "measurement" or "iox::measurement" &&
                 objectValue is string value)
@@ -41,9 +41,12 @@ internal static class RecordBatchConverter
                 {
                     point = point.SetTimestamp(timestamp);
                 }
-                else
+                else if (objectValue != null)
+                {
                     // just push as field If you don't know what type is it
                     point = point.SetField(fullName, objectValue);
+                }
+
 
                 continue;
             }
@@ -53,15 +56,15 @@ internal static class RecordBatchConverter
             var valueType = parts[2];
             // string fieldType = parts.Length > 3 ? parts[3] : "";
             var mappedValue = TypeCasting.GetMappedValue(schema, objectValue);
-            if (valueType == "field")
+            if (valueType == "field" && mappedValue != null)
             {
                 point = point.SetField(fullName, mappedValue);
             }
-            else if (valueType == "tag")
+            else if (valueType == "tag" && mappedValue != null)
             {
                 point = point.SetTag(fullName, (string)mappedValue);
             }
-            else if (valueType == "timestamp")
+            else if (valueType == "timestamp" && mappedValue != null)
             {
                 point = point.SetTimestamp((BigInteger)mappedValue);
             }
