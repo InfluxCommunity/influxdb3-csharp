@@ -1,4 +1,4 @@
-## 1.0.0 [unreleased]
+## 1.0.0 [2025-01-22]
 
 ### Features
 
@@ -9,8 +9,6 @@
     - iox::column_type::field::float: => Double
     - iox::column_type::field::string: => String
     - iox::column_type::field::boolean: => Boolean
-
-## 0.9.0 [unreleased]
 
 ## 0.8.0 [2024-09-13]
 
