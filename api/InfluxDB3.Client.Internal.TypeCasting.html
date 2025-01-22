@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>Namespace InfluxDB3.Client.Query </title>
+      <title>Class TypeCasting </title>
       <meta name="viewport" content="width=device-width">
-      <meta name="title" content="Namespace InfluxDB3.Client.Query ">
+      <meta name="title" content="Class TypeCasting ">
     
     
       <link rel="shortcut icon" href="../favicon.ico">
@@ -111,14 +111,14 @@
                       <a href="InfluxDB3.Client.Internal.html" title="InfluxDB3.Client.Internal" class="">InfluxDB3.Client.Internal</a>
 
                         <ul class="nav level2">
-                          <li class="">
-                            <a href="InfluxDB3.Client.Internal.TypeCasting.html" title="TypeCasting" class="">TypeCasting</a>
+                          <li class="active">
+                            <a href="InfluxDB3.Client.Internal.TypeCasting.html" title="TypeCasting" class="active">TypeCasting</a>
                           </li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li class="">
                       <span class="expand-stub"></span>
-                      <a href="InfluxDB3.Client.Query.html" title="InfluxDB3.Client.Query" class="active">InfluxDB3.Client.Query</a>
+                      <a href="InfluxDB3.Client.Query.html" title="InfluxDB3.Client.Query" class="">InfluxDB3.Client.Query</a>
 
                         <ul class="nav level2">
                           <li class="">
@@ -150,19 +150,139 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Query">
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Internal.TypeCasting">
 
-  <h1 id="InfluxDB3_Client_Query" data-uid="InfluxDB3.Client.Query" class="text-break">Namespace InfluxDB3.Client.Query</h1>
+
+
+  <h1 id="InfluxDB3_Client_Internal_TypeCasting" data-uid="InfluxDB3.Client.Internal.TypeCasting" class="text-break">Class TypeCasting</h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="enums">
-Enums
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">TypeCasting</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.html">InfluxDB3</a>.<a class="xref" href="InfluxDB3.Client.html">Client</a>.<a class="xref" href="InfluxDB3.Client.Internal.html">Internal</a></h6>
+  <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
+  <h5 id="InfluxDB3_Client_Internal_TypeCasting_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TypeCasting</code></pre>
+  </div>
+  <h3 id="methods">Methods
 </h3>
-      <h4><a class="xref" href="InfluxDB3.Client.Query.QueryType.html">QueryType</a></h4>
-      <section><p>Defines type of query sent to InfluxDB.</p>
-</section>
-
+  <a id="InfluxDB3_Client_Internal_TypeCasting_GetMappedValue_" data-uid="InfluxDB3.Client.Internal.TypeCasting.GetMappedValue*"></a>
+  <h4 id="InfluxDB3_Client_Internal_TypeCasting_GetMappedValue_Apache_Arrow_Field_System_Object_" data-uid="InfluxDB3.Client.Internal.TypeCasting.GetMappedValue(Apache.Arrow.Field,System.Object)">GetMappedValue(Field, object?)</h4>
+  <div class="markdown level1 summary"><p>Function to cast value return based on metadata from InfluxDB.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static object? GetMappedValue(Field field, object? value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Field</span></td>
+        <td><span class="parametername">field</span></td>
+        <td><p>The Field object from Arrow</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to cast</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
+        <td><p>The value with the correct type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Internal_TypeCasting_IsNumber_" data-uid="InfluxDB3.Client.Internal.TypeCasting.IsNumber*"></a>
+  <h4 id="InfluxDB3_Client_Internal_TypeCasting_IsNumber_System_Object_" data-uid="InfluxDB3.Client.Internal.TypeCasting.IsNumber(System.Object)">IsNumber(object?)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsNumber(object? value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
 </article>
           </div>

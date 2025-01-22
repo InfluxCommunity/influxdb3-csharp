@@ -1,23 +1,21 @@
 ﻿<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class PointDataValues
-   </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class PointDataValues
-   ">
-    <meta name="generator" content="docfx 2.59.3.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class PointDataValues </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class PointDataValues ">
     
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../styles/docfx.css">
-    <link rel="stylesheet" href="../styles/main.css">
-    <meta property="docfx:navrel" content="../toc">
-    <meta property="docfx:tocrel" content="toc">
+    <meta name="description" content="Point defines the values that will be written to the database. See Go Implementation.">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.json">
+      <meta property="docfx:tocrel" content="toc.json">
     
     
     
@@ -25,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -35,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../index.html">
                 <img id="logo" class="svg" src="../images/influxdata-logo--symbol--white.png" alt="">
               </a>
@@ -46,15 +44,16 @@
                   <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
                 </div>
               </form>
-                
+
                 <ul class="nav level1 navbar-nav">
                       <li>
                           <a href="../api/InfluxDB3.Client.html" title="InfluxDB3.Client API">InfluxDB3.Client API</a>
                       </li>
-                </ul>    </div>
+                </ul>
+            </div>
           </div>
         </nav>
-        
+
         <div class="subnav navbar navbar-default">
           <div class="container hide-when-search" id="breadcrumb">
             <ul class="breadcrumb">
@@ -76,12 +75,12 @@
               </div>
               <div class="sidetoc">
                 <div class="toc" id="toc">
-                  
+
                   <ul class="nav level1">
                     <li class="">
                       <span class="expand-stub"></span>
                       <a href="InfluxDB3.Client.html" title="InfluxDB3.Client" class="">InfluxDB3.Client</a>
-                        
+
                         <ul class="nav level2">
                           <li class="">
                             <a href="InfluxDB3.Client.IInfluxDBClient.html" title="IInfluxDBClient" class="">IInfluxDBClient</a>
@@ -92,11 +91,12 @@
                           <li class="">
                             <a href="InfluxDB3.Client.InfluxDBClient.html" title="InfluxDBClient" class="">InfluxDBClient</a>
                           </li>
-                        </ul>  </li>
+                        </ul>
+                    </li>
                     <li class="">
                       <span class="expand-stub"></span>
                       <a href="InfluxDB3.Client.Config.html" title="InfluxDB3.Client.Config" class="">InfluxDB3.Client.Config</a>
-                        
+
                         <ul class="nav level2">
                           <li class="">
                             <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
@@ -104,20 +104,32 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
-                        </ul>  </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="InfluxDB3.Client.Internal.html" title="InfluxDB3.Client.Internal" class="">InfluxDB3.Client.Internal</a>
+
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="InfluxDB3.Client.Internal.TypeCasting.html" title="TypeCasting" class="">TypeCasting</a>
+                          </li>
+                        </ul>
+                    </li>
                     <li class="">
                       <span class="expand-stub"></span>
                       <a href="InfluxDB3.Client.Query.html" title="InfluxDB3.Client.Query" class="">InfluxDB3.Client.Query</a>
-                        
+
                         <ul class="nav level2">
                           <li class="">
                             <a href="InfluxDB3.Client.Query.QueryType.html" title="QueryType" class="">QueryType</a>
                           </li>
-                        </ul>  </li>
+                        </ul>
+                    </li>
                     <li class="">
                       <span class="expand-stub"></span>
                       <a href="InfluxDB3.Client.Write.html" title="InfluxDB3.Client.Write" class="">InfluxDB3.Client.Write</a>
-                        
+
                         <ul class="nav level2">
                           <li class="">
                             <a href="InfluxDB3.Client.Write.PointData.html" title="PointData" class="">PointData</a>
@@ -128,8 +140,10 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
-                        </ul>  </li>
-                  </ul>        </div>
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -137,38 +151,60 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Write.PointDataValues">
-  
-  
-  <h1 id="InfluxDB3_Client_Write_PointDataValues" data-uid="InfluxDB3.Client.Write.PointDataValues" class="text-break">Class PointDataValues
-  </h1>
+
+
+
+  <h1 id="InfluxDB3_Client_Write_PointDataValues" data-uid="InfluxDB3.Client.Write.PointDataValues" class="text-break">Class PointDataValues</h1>
   <div class="markdown level0 summary"><p>Point defines the values that will be written to the database.
 <a href="http://bit.ly/influxdata-point">See Go Implementation</a>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
     <div class="level1"><span class="xref">PointDataValues</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.Client.Write.html">InfluxDB3.Client.Write</a></h6>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="InfluxDB3.Client.Write.PointDataValues.html">PointDataValues</a>&gt;</div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.html">InfluxDB3</a>.<a class="xref" href="InfluxDB3.Client.html">Client</a>.<a class="xref" href="InfluxDB3.Client.Write.html">Write</a></h6>
   <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
   <h5 id="InfluxDB3_Client_Write_PointDataValues_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class PointDataValues : IEquatable&lt;PointDataValues&gt;</code></pre>
   </div>
   <h3 id="methods">Methods
-  </h3>
+</h3>
   <a id="InfluxDB3_Client_Write_PointDataValues_AsPoint_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPoint*"></a>
   <h4 id="InfluxDB3_Client_Write_PointDataValues_AsPoint" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPoint">AsPoint()</h4>
   <div class="markdown level1 summary"><p>Creates new Point with this as values.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointData AsPoint()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -184,16 +220,16 @@
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_AsPoint_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPoint*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_AsPoint_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPoint(System.String)">AsPoint(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_AsPoint_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPoint(System.String)">AsPoint(string)</h4>
   <div class="markdown level1 summary"><p>Creates new Point with this as values with given measurement.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointData AsPoint(string measurement)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -203,7 +239,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">measurement</span></td>
         <td><p>the point measurement</p>
 </td>
@@ -211,7 +247,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -231,12 +267,12 @@
   <div class="markdown level1 summary"><p>Creates new Point with this as values.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointData AsPointData()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -252,16 +288,16 @@
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_AsPointData_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPointData*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_AsPointData_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPointData(System.String)">AsPointData(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_AsPointData_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.AsPointData(System.String)">AsPointData(string)</h4>
   <div class="markdown level1 summary"><p>Creates new Point with this as values with given measurement.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointData AsPointData(string measurement)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -271,7 +307,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">measurement</span></td>
         <td><p>the point measurement</p>
 </td>
@@ -279,7 +315,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -299,12 +335,12 @@
   <div class="markdown level1 summary"><p>Creates a copy of this object.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues Copy()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -320,16 +356,16 @@
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_Equals_" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_Equals_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals(InfluxDB3.Client.Write.PointDataValues)">Equals(PointDataValues)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_Equals_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals(InfluxDB3.Client.Write.PointDataValues)">Equals(PointDataValues?)</h4>
   <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Equals(PointDataValues other)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool Equals(PointDataValues? other)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -347,7 +383,7 @@
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -356,23 +392,23 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><p>true if the current object is equal to the <code data-dev-comment-type="paramref" class="paramref">other</code> parameter; otherwise, false.</p>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>true if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, false.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_Equals_" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_Equals_System_Nullable_System_Object__" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals(System.Nullable{System.Object})">Equals(Nullable&lt;Object&gt;)</h4>
-  <div class="markdown level1 summary"><p>Determines whether the specified <see cref="!:System.Object"></see>, is equal to this instance.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_Equals_System_Object_" data-uid="InfluxDB3.Client.Write.PointDataValues.Equals(System.Object)">Equals(object?)</h4>
+  <div class="markdown level1 summary"><p>Determines whether the specified <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>, is equal to this instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public override bool Equals(object? obj)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -382,15 +418,15 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
         <td><span class="parametername">obj</span></td>
-        <td><p>The <see cref="!:System.Object"></see> to compare with this instance.</p>
+        <td><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> to compare with this instance.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -399,24 +435,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><p><code>true</code> if the specified <see cref="!:System.Object"></see> is equal to this instance; otherwise, <code>false</code>.</p>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p><code>true</code> if the specified <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> is equal to this instance; otherwise, <code>false</code>.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a></div>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetBooleanField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetBooleanField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetBooleanField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetBooleanField(System.String)">GetBooleanField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetBooleanField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetBooleanField(System.String)">GetBooleanField(string)</h4>
   <div class="markdown level1 summary"><p>Gets the bool field value associated with the specified name.
 If the field is not present, returns null.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool? GetBooleanField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -426,7 +464,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
@@ -434,7 +472,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -443,24 +481,24 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>?</td>
         <td><p>The bool field value or null</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetDoubleField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetDoubleField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetDoubleField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetDoubleField(System.String)">GetDoubleField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetDoubleField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetDoubleField(System.String)">GetDoubleField(string)</h4>
   <div class="markdown level1 summary"><p>Gets the double field value associated with the specified name.
 If the field is not present, returns null.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public double? GetDoubleField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -470,7 +508,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
@@ -478,7 +516,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -487,23 +525,23 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>?</td>
         <td><p>The double field value or null</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField(System.String)">GetField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField(System.String)">GetField(string)</h4>
   <div class="markdown level1 summary"><p>Get field of given name. Can be null if field doesn't exist.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public object? GetField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -513,14 +551,14 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -529,24 +567,49 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
         <td><p>Field as object</p>
 </td>
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Write_PointDataValues_GetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetField__1_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField``1(System.String)">GetField&lt;T&gt;(String)</h4>
-  <div class="markdown level1 summary"><p>Get field of given name as type. Can be null if field doesn't exist.</p>
+  <a id="InfluxDB3_Client_Write_PointDataValues_GetFieldNames_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldNames*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetFieldNames" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldNames">GetFieldNames()</h4>
+  <div class="markdown level1 summary"><p>Gets an array of field names associated with this object.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public T? GetField&lt;T&gt;(string name)
-    where T : struct</code></pre>
+    <pre><code class="lang-csharp hljs">public string[] GetFieldNames()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><p>An array of field names.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointDataValues_GetFieldType_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldType*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetFieldType_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldType(System.String)">GetFieldType(string)</h4>
+  <div class="markdown level1 summary"><p>Gets the type of field with given name, if it exists.
+If the field is not present, returns null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Type? GetFieldType(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -556,14 +619,15 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
-        <td></td>
+        <td><p>the field name</p>
+</td>
       </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -572,14 +636,56 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;T&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.type">Type</a></td>
+        <td><p>The field type or null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointDataValues_GetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetField__1_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetField``1(System.String)">GetField&lt;T&gt;(string)</h4>
+  <div class="markdown level1 summary"><p>Get field of given name as type. Can be null if field doesn't exist.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T? GetField&lt;T&gt;(string name) where T : struct</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>T?</td>
         <td><p>Field as given type</p>
 </td>
       </tr>
     </tbody>
   </table>
   <h5 class="typeParameters">Type Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Name</th>
@@ -593,71 +699,18 @@ If the field is not present, returns null.</p>
       </tr>
     </tbody>
   </table>
-  <a id="InfluxDB3_Client_Write_PointDataValues_GetFieldNames_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldNames*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetFieldNames" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldNames">GetFieldNames()</h4>
-  <div class="markdown level1 summary"><p>Gets an array of field names associated with this object.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string[] GetFieldNames()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
-        <th>Description</th>
+        <th>Condition</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><p>An array of field names.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="InfluxDB3_Client_Write_PointDataValues_GetFieldType_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldType*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetFieldType_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetFieldType(System.String)">GetFieldType(String)</h4>
-  <div class="markdown level1 summary"><p>Gets the type of field with given name, if it exists.
-If the field is not present, returns null.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Type? GetFieldType(string name)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">name</span></td>
-        <td><p>the field name</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Type</span>&gt;</td>
-        <td><p>The field type or null.</p>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidcastexception">InvalidCastException</a></td>
+        <td><p>Field doesn't match given type</p>
 </td>
       </tr>
     </tbody>
@@ -667,12 +720,12 @@ If the field is not present, returns null.</p>
   <div class="markdown level1 summary"><p>Returns a hash code for this instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -681,24 +734,26 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
         <td><p>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a></div>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetIntegerField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetIntegerField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetIntegerField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetIntegerField(System.String)">GetIntegerField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetIntegerField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetIntegerField(System.String)">GetIntegerField(string)</h4>
   <div class="markdown level1 summary"><p>Gets the integer field value associated with the specified name.
 If the field is not present, returns null.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public long? GetIntegerField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -708,7 +763,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
@@ -716,7 +771,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -725,7 +780,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>?</td>
         <td><p>The integer field value or null</p>
 </td>
       </tr>
@@ -736,12 +791,12 @@ If the field is not present, returns null.</p>
   <div class="markdown level1 summary"><p>Get measurement name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string? GetMeasurement()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -750,24 +805,24 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><p>Measurement name</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetStringField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetStringField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetStringField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetStringField(System.String)">GetStringField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetStringField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetStringField(System.String)">GetStringField(string)</h4>
   <div class="markdown level1 summary"><p>Gets the string field value associated with the specified name.
 If the field is not present, returns null.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string? GetStringField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -777,7 +832,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
@@ -785,7 +840,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -794,23 +849,23 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><p>The string field value or null</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetTag_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetTag*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetTag_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetTag(System.String)">GetTag(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetTag_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetTag(System.String)">GetTag(string)</h4>
   <div class="markdown level1 summary"><p>Gets value of tag with given name. Returns null if tag not found.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string? GetTag(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -820,7 +875,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the tag name</p>
 </td>
@@ -828,7 +883,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -837,7 +892,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><p>tag value or null</p>
 </td>
       </tr>
@@ -848,12 +903,12 @@ If the field is not present, returns null.</p>
   <div class="markdown level1 summary"><p>Gets an array of tag names.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string[] GetTagNames()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -862,7 +917,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span>[]</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
         <td><p>An array of tag names</p>
 </td>
       </tr>
@@ -873,12 +928,12 @@ If the field is not present, returns null.</p>
   <div class="markdown level1 summary"><p>Get timestamp. Can be null if not set.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public BigInteger? GetTimestamp()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -887,24 +942,24 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">BigInteger</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.biginteger">BigInteger</a>?</td>
         <td><p>timestamp or null</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_GetUintegerField_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetUintegerField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetUintegerField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetUintegerField(System.String)">GetUintegerField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_GetUintegerField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.GetUintegerField(System.String)">GetUintegerField(string)</h4>
   <div class="markdown level1 summary"><p>Gets the uinteger field value associated with the specified name.
 If the field is not present, returns null.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ulong? GetUintegerField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -914,7 +969,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
@@ -922,7 +977,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -931,7 +986,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.UInt64</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a>?</td>
         <td><p>The uinteger field value or null</p>
 </td>
       </tr>
@@ -942,12 +997,12 @@ If the field is not present, returns null.</p>
   <div class="markdown level1 summary"><p>Has point any fields?</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool HasFields()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -956,23 +1011,23 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td><p>true, if the point contains any fields, false otherwise.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_Measurement_" data-uid="InfluxDB3.Client.Write.PointDataValues.Measurement*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_Measurement_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.Measurement(System.String)">Measurement(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_Measurement_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.Measurement(System.String)">Measurement(string)</h4>
   <div class="markdown level1 summary"><p>Create a new Point withe specified a measurement name.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static PointDataValues Measurement(string measurementName)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -982,7 +1037,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">measurementName</span></td>
         <td><p>the measurement name</p>
 </td>
@@ -990,7 +1045,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1006,16 +1061,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_RemoveField_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_RemoveField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveField(System.String)">RemoveField(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_RemoveField_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveField(System.String)">RemoveField(string)</h4>
   <div class="markdown level1 summary"><p>Removes a field with the specified name if it exists; otherwise, it does nothing.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues RemoveField(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1025,7 +1080,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>The name of the field to be removed.</p>
 </td>
@@ -1033,7 +1088,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1049,16 +1104,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_RemoveTag_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveTag*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_RemoveTag_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveTag(System.String)">RemoveTag(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_RemoveTag_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.RemoveTag(System.String)">RemoveTag(string)</h4>
   <div class="markdown level1 summary"><p>Removes a tag with the specified name if it exists; otherwise, it does nothing.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues RemoveTag(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1068,7 +1123,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the tag name</p>
 </td>
@@ -1076,7 +1131,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1092,16 +1147,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetBooleanField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetBooleanField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetBooleanField_System_String_System_Boolean_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetBooleanField(System.String,System.Boolean)">SetBooleanField(String, Boolean)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetBooleanField_System_String_System_Boolean_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetBooleanField(System.String,System.Boolean)">SetBooleanField(string, bool)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a bool field.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetBooleanField(string name, bool value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1111,13 +1166,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1125,7 +1180,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1141,16 +1196,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetDoubleField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetDoubleField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetDoubleField_System_String_System_Double_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetDoubleField(System.String,System.Double)">SetDoubleField(String, Double)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetDoubleField_System_String_System_Double_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetDoubleField(System.String,System.Double)">SetDoubleField(string, double)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a double field.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetDoubleField(string name, double value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1160,13 +1215,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1174,7 +1229,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1190,16 +1245,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Boolean_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Boolean)">SetField(String, Boolean)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with a <see cref="!:System.Boolean"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Boolean_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Boolean)">SetField(string, bool)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, bool value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1209,13 +1264,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1223,7 +1278,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1239,16 +1294,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Double_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Double)">SetField(String, Double)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with a <see cref="!:System.Double"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Double_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Double)">SetField(string, double)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, double value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1258,13 +1313,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1272,7 +1327,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1288,16 +1343,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Int64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Int64)">SetField(String, Int64)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with a <see cref="!:System.Int64"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Int64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Int64)">SetField(string, long)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, long value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1307,13 +1362,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int64</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1321,7 +1376,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1337,16 +1392,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Object_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Object)">SetField(String, Object)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with an <see cref="!:System.Object"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_Object_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.Object)">SetField(string, object)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with an <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, object value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1356,13 +1411,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Object</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1370,7 +1425,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1386,16 +1441,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.String)">SetField(String, String)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with a <see cref="!:System.String"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.String)">SetField(string, string)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, string value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1405,13 +1460,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1419,7 +1474,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1435,16 +1490,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_UInt64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.UInt64)">SetField(String, UInt64)</h4>
-  <div class="markdown level1 summary"><p>Adds or replaces a field with a <see cref="!:System.UInt64"></see> value.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetField_System_String_System_UInt64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetField(System.String,System.UInt64)">SetField(string, ulong)</h4>
+  <div class="markdown level1 summary"><p>Adds or replaces a field with a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a> value.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetField(string name, ulong value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1454,13 +1509,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.UInt64</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1468,7 +1523,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1484,16 +1539,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetFields_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetFields*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetFields_Dictionary_System_String_System_Object__" data-uid="InfluxDB3.Client.Write.PointDataValues.SetFields(Dictionary{System.String,System.Object})">SetFields(Dictionary&lt;String, Object&gt;)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetFields_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="InfluxDB3.Client.Write.PointDataValues.SetFields(System.Collections.Generic.Dictionary{System.String,System.Object})">SetFields(Dictionary&lt;string, object&gt;)</h4>
   <div class="markdown level1 summary"><p>Add fields according to their type.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetFields(Dictionary&lt;string, object&gt; fields)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1503,7 +1558,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;</td>
         <td><span class="parametername">fields</span></td>
         <td><p>the name-value dictionary</p>
 </td>
@@ -1511,7 +1566,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1527,16 +1582,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetIntegerField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetIntegerField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetIntegerField_System_String_System_Int64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetIntegerField(System.String,System.Int64)">SetIntegerField(String, Int64)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetIntegerField_System_String_System_Int64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetIntegerField(System.String,System.Int64)">SetIntegerField(string, long)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a integer field.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetIntegerField(string name, long value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1546,13 +1601,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Int64</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1560,7 +1615,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1576,16 +1631,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetMeasurement_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetMeasurement*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetMeasurement_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetMeasurement(System.String)">SetMeasurement(String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetMeasurement_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetMeasurement(System.String)">SetMeasurement(string)</h4>
   <div class="markdown level1 summary"><p>Create new Point with this values and provided measurement.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetMeasurement(string measurementName)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1595,7 +1650,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">measurementName</span></td>
         <td><p>the measurement name</p>
 </td>
@@ -1603,7 +1658,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1619,16 +1674,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetStringField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetStringField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetStringField_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetStringField(System.String,System.String)">SetStringField(String, String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetStringField_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetStringField(System.String,System.String)">SetStringField(string, string)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a string field.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetStringField(string name, string value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1638,13 +1693,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1652,7 +1707,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1668,16 +1723,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetTag_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTag*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTag_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTag(System.String,System.String)">SetTag(String, String)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTag_System_String_System_String_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTag(System.String,System.String)">SetTag(string, string)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a tag value for a point.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetTag(string name, string value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1687,13 +1742,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the tag name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the tag value</p>
 </td>
@@ -1701,7 +1756,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1717,16 +1772,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_DateTime_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(DateTime)">SetTimestamp(DateTime)</h4>
-  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:DateTime"></see>.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_DateTime_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.DateTime)">SetTimestamp(DateTime)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(DateTime timestamp)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1736,7 +1791,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DateTime</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
         <td><span class="parametername">timestamp</span></td>
         <td><p>the timestamp</p>
 </td>
@@ -1744,7 +1799,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1759,16 +1814,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_DateTimeOffset_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(DateTimeOffset)">SetTimestamp(DateTimeOffset)</h4>
-  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:DateTime"></see>.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_DateTimeOffset_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.DateTimeOffset)">SetTimestamp(DateTimeOffset)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(DateTimeOffset timestamp)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1778,7 +1833,7 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DateTimeOffset</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetimeoffset">DateTimeOffset</a></td>
         <td><span class="parametername">timestamp</span></td>
         <td><p>the timestamp</p>
 </td>
@@ -1786,7 +1841,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1801,16 +1856,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_Int64_System_Nullable_InfluxDB3_Client_Write_WritePrecision__" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})">SetTimestamp(Int64, Nullable&lt;WritePrecision&gt;)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_Int64_System_Nullable_InfluxDB3_Client_Write_WritePrecision__" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.Int64,System.Nullable{InfluxDB3.Client.Write.WritePrecision})">SetTimestamp(long, WritePrecision?)</h4>
   <div class="markdown level1 summary"><p>Updates the timestamp for the point.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(long timestamp, WritePrecision? timeUnit = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1820,13 +1875,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int64</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
         <td><span class="parametername">timestamp</span></td>
         <td><p>the timestamp</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a>&gt;</td>
+        <td><a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a>?</td>
         <td><span class="parametername">timeUnit</span></td>
         <td><p>the timestamp precision. Default is 'nanoseconds'.</p>
 </td>
@@ -1834,7 +1889,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1849,16 +1904,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_TimeSpan_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(TimeSpan)">SetTimestamp(TimeSpan)</h4>
-  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <see cref="!:TimeSpan"></see>.</p>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_Numerics_BigInteger_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.Numerics.BigInteger)">SetTimestamp(BigInteger)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(TimeSpan timestamp)</code></pre>
+    <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(BigInteger timestamp)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1868,7 +1923,49 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">TimeSpan</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.biginteger">BigInteger</a></td>
+        <td><span class="parametername">timestamp</span></td>
+        <td><p>the timestamp in nanosecond</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.PointDataValues.html">PointDataValues</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp*"></a>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetTimestamp_System_TimeSpan_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetTimestamp(System.TimeSpan)">SetTimestamp(TimeSpan)</h4>
+  <div class="markdown level1 summary"><p>Updates the timestamp for the point represented by <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PointDataValues SetTimestamp(TimeSpan timestamp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a></td>
         <td><span class="parametername">timestamp</span></td>
         <td><p>the timestamp</p>
 </td>
@@ -1876,7 +1973,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1891,16 +1988,16 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_SetUintegerField_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetUintegerField*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetUintegerField_System_String_System_UInt64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetUintegerField(System.String,System.UInt64)">SetUintegerField(String, UInt64)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_SetUintegerField_System_String_System_UInt64_" data-uid="InfluxDB3.Client.Write.PointDataValues.SetUintegerField(System.String,System.UInt64)">SetUintegerField(string, ulong)</h4>
   <div class="markdown level1 summary"><p>Adds or replaces a uinteger field.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public PointDataValues SetUintegerField(string name, ulong value)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1910,13 +2007,13 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td><span class="parametername">name</span></td>
         <td><p>the field name</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">System.UInt64</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a></td>
         <td><span class="parametername">value</span></td>
         <td><p>the field value</p>
 </td>
@@ -1924,7 +2021,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1940,18 +2037,18 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h3 id="operators">Operators
-  </h3>
+</h3>
   <a id="InfluxDB3_Client_Write_PointDataValues_op_Equality_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Equality*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_op_Equality_InfluxDB3_Client_Write_PointDataValues_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Equality(InfluxDB3.Client.Write.PointDataValues,InfluxDB3.Client.Write.PointDataValues)">Equality(PointDataValues, PointDataValues)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_op_Equality_InfluxDB3_Client_Write_PointDataValues_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Equality(InfluxDB3.Client.Write.PointDataValues,InfluxDB3.Client.Write.PointDataValues)">operator ==(PointDataValues?, PointDataValues?)</h4>
   <div class="markdown level1 summary"><p>Implements the operator ==.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool operator ==(PointDataValues left, PointDataValues right)</code></pre>
+    <pre><code class="lang-csharp hljs">public static bool operator ==(PointDataValues? left, PointDataValues? right)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1975,7 +2072,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -1984,23 +2081,23 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td><p>The result of the operator.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointDataValues_op_Inequality_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Inequality*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointDataValues_op_Inequality_InfluxDB3_Client_Write_PointDataValues_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Inequality(InfluxDB3.Client.Write.PointDataValues,InfluxDB3.Client.Write.PointDataValues)">Inequality(PointDataValues, PointDataValues)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointDataValues_op_Inequality_InfluxDB3_Client_Write_PointDataValues_InfluxDB3_Client_Write_PointDataValues_" data-uid="InfluxDB3.Client.Write.PointDataValues.op_Inequality(InfluxDB3.Client.Write.PointDataValues,InfluxDB3.Client.Write.PointDataValues)">operator !=(PointDataValues, PointDataValues)</h4>
   <div class="markdown level1 summary"><p>Implements the operator !=.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static bool operator !=(PointDataValues left, PointDataValues right)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -2024,7 +2121,7 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -2033,26 +2130,31 @@ If the field is not present, returns null.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td><p>The result of the operator.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable&lt;T&gt;</a>
+  </div>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
+                <h5>In this article</h5>
                 <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -2060,14 +2162,14 @@ If the field is not present, returns null.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            
-            <span>Generated by <strong>DocFX</strong></span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../styles/docfx.js"></script>
     <script type="text/javascript" src="../styles/main.js"></script>
   </body>
