@@ -15,6 +15,7 @@
         <ProjectReference Include="..\..\Client\Client.csproj" />
         <ProjectReference Include="..\Downsampling\Downsampling.csproj" />
         <ProjectReference Include="..\IOx\Examples.IOx.csproj" />
+        <ProjectReference Include="..\CustomSslCerts\CustomSslCerts.csproj" />
     </ItemGroup>
     
 </Project>

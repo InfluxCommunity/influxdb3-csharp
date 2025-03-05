@@ -817,7 +817,14 @@ namespace InfluxDB3.Client
 
             if (config.DisableServerCertificateValidation)
             {
-                handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+                handler.ServerCertificateCustomValidationCallback =
+                    ServerCertificateCustomValidations.CreateSkipValidationCallback();
+            }
+            else if (config.SslRootsFilePath != null)
+            {
+                handler.ServerCertificateCustomValidationCallback =
+                    ServerCertificateCustomValidations.CreateCustomCertificatesValidationCallback(
+                        config.SslRootsFilePath);
             }
 
             var client = new HttpClient(handler)

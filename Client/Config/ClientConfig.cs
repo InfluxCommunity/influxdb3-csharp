@@ -155,6 +155,11 @@ public class ClientConfig
     public bool DisableServerCertificateValidation { get; set; }
 
     /// <summary>
+    /// SSL root certificates file path.
+    /// </summary>
+    public string? SslRootsFilePath { get; set; }
+
+    /// <summary>
     /// The HTTP proxy URL. Default is not set.
     /// </summary>
     public WebProxy? Proxy { get; set; }

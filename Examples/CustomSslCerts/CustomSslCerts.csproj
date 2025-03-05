@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <AssemblyName>InfluxDB3.Examples.CustomSslCerts</AssemblyName>
+        <RootNamespace>InfluxDB3.Examples.CustomSslCerts</RootNamespace>
+
+        <AssemblyOriginatorKeyFile>../../Keys/Key.snk</AssemblyOriginatorKeyFile>
+        <SignAssembly>true</SignAssembly>
+
+        <OutputType>Exe</OutputType>
+        <StartupObject>InfluxDB3.Examples.CustomSslCerts.CustomSslCertsExample</StartupObject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Client\Client.csproj" />
+    </ItemGroup>
+
+</Project>
