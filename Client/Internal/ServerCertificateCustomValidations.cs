@@ -23,7 +23,8 @@ internal static class ServerCertificateCustomValidations
     /// <summary>
     /// Create a ServerCertificateCustomValidationCallback function that uses additional root certificates for validation.
     /// </summary>
-    internal static ValidationCallback CreateCustomCertificatesValidationCallback(string customCertsFilePath)
+    internal static ValidationCallback CreateCustomCertificatesValidationCallback(string customCertsFilePath,
+        bool disableRevocationChecks)
     {
         // Check custom certificates file
         if (!File.Exists(customCertsFilePath))
@@ -47,6 +48,7 @@ internal static class ServerCertificateCustomValidations
         {
             throw new Exception($"Failed to import custom certificates from '{customCertsFilePath}': {ex.Message}", ex);
         }
+
         return (_, certificate, chain, sslErrors) =>
         {
             Trace.TraceWarning($"### DEBUG-1: certificate={certificate}"); // TODO simon: rollback!!!
@@ -94,6 +96,13 @@ internal static class ServerCertificateCustomValidations
                     return false;
                 }
 
+                // Ignore revocation-related errors is certificate revocation list (CRL) checks are disabled. 
+                if (disableRevocationChecks && status.Status is X509ChainStatusFlags.OfflineRevocation
+                        or X509ChainStatusFlags.RevocationStatusUnknown)
+                {
+                    return false;
+                }
+
                 // Ignore NoError statuses.
                 return status.Status != X509ChainStatusFlags.NoError;
             });
@@ -103,7 +112,8 @@ internal static class ServerCertificateCustomValidations
             foreach (var status in errorStatuses)
             {
                 Trace.TraceWarning($"Certificate chain validation failed: {status.Status}: {status.StatusInformation}");
-                Console.Out.WriteLine($"Certificate chain validation failed: {status.Status}: {status.StatusInformation}"); // TODO simon: rollback!!!
+                Console.Out.WriteLine(
+                    $"Certificate chain validation failed: {status.Status}: {status.StatusInformation}"); // TODO simon: rollback!!!
             }
 
             return false;

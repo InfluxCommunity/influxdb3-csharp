@@ -824,7 +824,7 @@ namespace InfluxDB3.Client
             {
                 handler.ServerCertificateCustomValidationCallback =
                     ServerCertificateCustomValidations.CreateCustomCertificatesValidationCallback(
-                        config.SslRootsFilePath);
+                        config.SslRootsFilePath, config.DisableServerCertificateValidation);
             }
 
             if (config.DisableCertificateRevocationListCheck)
