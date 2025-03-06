@@ -51,12 +51,6 @@ public class CustomSslCertsExample
         await client.WriteRecordAsync(record: record);
 
 
-
-        await foreach (var row in client.Query(query: "SELECT 1"))
-        {
-            Console.WriteLine(row);
-        }
-        
         //
         // Query by SQL
         //

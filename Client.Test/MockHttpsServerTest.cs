@@ -26,7 +26,6 @@ public class MockHttpsServerTest
                 X509CertificateFilePath = "./TestData/ServerCert/server.p12",
                 X509CertificatePassword = "password12"
             }
-            
         });
 
         MockHttpsServerUrl = MockHttpsServer.Urls[0];
