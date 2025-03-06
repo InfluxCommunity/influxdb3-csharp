@@ -32,6 +32,9 @@
         <None Update="TestData\ServerCert\server.p12">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="TestData\ServerCert\server.pem">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="TestData\ServerCert\rootCA.pem">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
