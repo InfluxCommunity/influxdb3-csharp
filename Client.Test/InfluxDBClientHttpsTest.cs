@@ -155,7 +155,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
     }
 
     [Test]
-    public async Task QueryWithValidSslRootCertificate()
+    public Task QueryWithValidSslRootCertificate()
     {
         _client = new InfluxDBClient(new ClientConfig
         {
@@ -177,10 +177,11 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
         // Verify: the request reached the server
         var requests = MockHttpsServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Does.Contain("SELECT 1"));
+        return Task.CompletedTask;
     }
 
     [Test]
-    public async Task QueryWithDisabledCertificates()
+    public Task QueryWithDisabledCertificates()
     {
         _client = new InfluxDBClient(new ClientConfig
         {
@@ -200,6 +201,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
         // Verify: the request reached the server
         var requests = MockHttpsServer.LogEntries.ToList();
         Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Does.Contain("SELECT 1"));
+        return Task.CompletedTask;
     }
 
     [Test]
