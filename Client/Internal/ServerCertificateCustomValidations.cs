@@ -39,8 +39,14 @@ internal static class ServerCertificateCustomValidations
 
         // Load custom certificates
         var customCerts = new X509Certificate2Collection();
-        customCerts.Import(customCertsFilePath);
-
+        try
+        {
+            customCerts.Import(customCertsFilePath);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Failed to import custom certificates from '{customCertsFilePath}': {ex.Message}", ex);
+        }
         return (_, certificate, chain, sslErrors) =>
         {
             if (sslErrors == SslPolicyErrors.None)

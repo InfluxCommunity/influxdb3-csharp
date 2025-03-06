@@ -81,7 +81,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
         catch (Exception e)
         {
             Assert.That(e, Is.Not.Null);
-            Assert.That(e.Message, Does.Contain("Unknown format in import"));
+            Assert.That(e.Message, Does.Match("Failed to import custom certificates"));
         }
 
         return Task.CompletedTask;
