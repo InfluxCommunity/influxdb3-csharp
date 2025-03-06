@@ -51,10 +51,9 @@ internal static class ServerCertificateCustomValidations
 
         return (_, certificate, chain, sslErrors) =>
         {
-            Trace.TraceWarning($"### DEBUG-1: certificate={certificate}"); // TODO simon: rollback!!!
             Console.Out.WriteLine($"### DEBUG-1: certificate={certificate}"); // TODO simon: rollback!!!
-            Trace.TraceWarning($"### DEBUG-2: sslErrors={sslErrors}"); // TODO simon: rollback!!!
             Console.Out.WriteLine($"### DEBUG-2: sslErrors={sslErrors}"); // TODO simon: rollback!!!
+            Console.Out.WriteLine($"### DEBUG-3: disableRevocationChecks={disableRevocationChecks}"); // TODO simon: rollback!!!
             if (sslErrors == SslPolicyErrors.None)
             {
                 // No errors, certificate is valid
@@ -83,6 +82,8 @@ internal static class ServerCertificateCustomValidations
             var hasSelfSignedRoot = IsRootCertificateSelfSigned(newChain);
             var errorStatuses = GetFilteredChainStatuses(newChain, (element, status) =>
             {
+                Console.Out.WriteLine($"### DEBUG-4: status={status}"); // TODO simon: rollback!!!
+                
                 // Ignore UntrustedRoot errors for root certificates from the user-provided custom certificates file.
                 // These certificates are explicitly trusted by the user.
                 if (status.Status == X509ChainStatusFlags.UntrustedRoot &&
