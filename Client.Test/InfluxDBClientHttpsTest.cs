@@ -31,6 +31,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
                 Organization = "my-org",
                 Database = "my-database",
                 DisableServerCertificateValidation = false,
+                DisableCertificateRevocationListCheck = true,
                 SslRootsFilePath = "./not-existing.pem"
             });
             return null;
@@ -53,6 +54,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
                 Organization = "my-org",
                 Database = "my-database",
                 DisableServerCertificateValidation = false,
+                DisableCertificateRevocationListCheck = true,
                 SslRootsFilePath = "./TestData/OtherCerts/empty.pem"
             });
             return null;
@@ -75,6 +77,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
                 Organization = "my-org",
                 Database = "my-database",
                 DisableServerCertificateValidation = false,
+                DisableCertificateRevocationListCheck = true,
                 SslRootsFilePath = "./TestData/OtherCerts/invalid.pem"
             });
         }
@@ -97,6 +100,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
             Organization = "my-org",
             Database = "my-database",
             DisableServerCertificateValidation = false,
+            DisableCertificateRevocationListCheck = true,
             SslRootsFilePath = "./TestData/ServerCert/rootCA.pem"
         });
 
@@ -134,6 +138,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
             Organization = "my-org",
             Database = "my-database",
             DisableServerCertificateValidation = false,
+            DisableCertificateRevocationListCheck = true,
             SslRootsFilePath = "./TestData/OtherCerts/otherCA.pem"
         });
 
@@ -159,6 +164,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
             Organization = "my-org",
             Database = "my-database",
             DisableServerCertificateValidation = false,
+            DisableCertificateRevocationListCheck = true,
             SslRootsFilePath = "./TestData/ServerCert/rootCA.pem"
         });
 
@@ -206,6 +212,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
             Organization = "my-org",
             Database = "my-database",
             DisableServerCertificateValidation = false,
+            DisableCertificateRevocationListCheck = true,
             SslRootsFilePath = "./TestData/OtherCerts/otherCA.pem"
         });
 

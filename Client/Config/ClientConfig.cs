@@ -20,6 +20,8 @@ namespace InfluxDB3.Client.Config;
 /// - Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.
 /// - AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.
 /// - DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.
+/// - DisableCertificateRevocationListCheck: Disable SSL certificate revocation list (CRL) checking. Default to 'false'.
+/// - SslRootsFilePath: SSL root certificates file path.
 /// - Proxy: The HTTP proxy URL. Default is not set.
 /// - WriteOptions: Write options.
 ///
@@ -153,6 +155,11 @@ public class ClientConfig
     /// Disable server SSL certificate validation. Default to 'false'.
     /// </summary>
     public bool DisableServerCertificateValidation { get; set; }
+
+    /// <summary>
+    /// Disable SSL certificate revocation list (CRL) checking. Default to 'false'.
+    /// </summary>
+    public bool DisableCertificateRevocationListCheck { get; set; }
 
     /// <summary>
     /// SSL root certificates file path.

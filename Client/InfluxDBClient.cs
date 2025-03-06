@@ -827,6 +827,11 @@ namespace InfluxDB3.Client
                         config.SslRootsFilePath);
             }
 
+            if (config.DisableServerCertificateValidation)
+            {
+                handler.CheckCertificateRevocationList = false;
+            }
+
             var client = new HttpClient(handler)
             {
                 Timeout = config.Timeout
