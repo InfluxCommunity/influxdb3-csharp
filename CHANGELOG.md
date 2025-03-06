@@ -1,5 +1,16 @@
 ## 1.1.0 [unreleased]
 
+### Features
+
+1. [#153](https://github.com/InfluxCommunity/influxdb3-csharp/pull/153): Add custom SSL root certificate support.
+   - New configuration items:
+      - `SslRootsFilePath`
+      - `DisableCertificateRevocationListCheck`
+   - **Disclaimer:** Using custom SSL root certificate configurations is recommended for development and testing
+     purposes
+     only. For production deployments, ensure custom certificates are added to the operating system's trusted
+     certificate store.
+
 ## 1.0.0 [2025-01-22]
 
 ### Features
