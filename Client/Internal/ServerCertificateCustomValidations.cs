@@ -82,7 +82,7 @@ internal static class ServerCertificateCustomValidations
             var hasSelfSignedRoot = IsRootCertificateSelfSigned(newChain);
             var errorStatuses = GetFilteredChainStatuses(newChain, (element, status) =>
             {
-                Console.Out.WriteLine($"### DEBUG-4: status={status}"); // TODO simon: rollback!!!
+                Console.Out.WriteLine($"### DEBUG-4: status={status.Status}"); // TODO simon: rollback!!!
                 
                 // Ignore UntrustedRoot errors for root certificates from the user-provided custom certificates file.
                 // These certificates are explicitly trusted by the user.
