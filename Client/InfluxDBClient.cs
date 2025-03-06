@@ -827,7 +827,7 @@ namespace InfluxDB3.Client
                         config.SslRootsFilePath);
             }
 
-            if (config.DisableServerCertificateValidation)
+            if (config.DisableCertificateRevocationListCheck)
             {
                 handler.CheckCertificateRevocationList = false;
             }
