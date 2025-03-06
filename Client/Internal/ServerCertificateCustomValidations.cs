@@ -133,7 +133,7 @@ internal static class ServerCertificateCustomValidations
         return filtered;
     }
 
-    private static bool ContainsCertificateWithThumbprint(X509Certificate2Collection certificates,
+    internal static bool ContainsCertificateWithThumbprint(X509Certificate2Collection certificates,
         string? certificateThumbprint)
     {
         if (string.IsNullOrEmpty(certificateThumbprint))
@@ -153,7 +153,7 @@ internal static class ServerCertificateCustomValidations
         return false;
     }
 
-    private static bool IsRootCertificateSelfSigned(X509Chain chain)
+    internal static bool IsRootCertificateSelfSigned(X509Chain chain)
     {
         if (chain.ChainElements == null || chain.ChainElements.Count == 0)
         {

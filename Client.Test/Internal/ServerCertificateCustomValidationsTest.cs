@@ -13,6 +13,7 @@ public class ServerCertificateCustomValidationsTest
     private X509Certificate2 _certificate;
     private X509Chain _chain;
     private Func<HttpRequestMessage, X509Certificate2, X509Chain, SslPolicyErrors, bool> _callback;
+    private X509Certificate2Collection _certificates;
 
 
     [SetUp]
@@ -20,6 +21,7 @@ public class ServerCertificateCustomValidationsTest
     {
         _message = new Mock<HttpRequestMessage>().Object;
         _certificate = new X509Certificate2("./TestData/ServerCert/server.pem");
+        _certificates = new X509Certificate2Collection(_certificate);
         _chain = new X509Chain();
         _chain.Build(_certificate);
 
@@ -67,5 +69,56 @@ public class ServerCertificateCustomValidationsTest
     {
         var isValid = _callback(_message, _certificate, null, SslPolicyErrors.RemoteCertificateChainErrors);
         Assert.That(isValid, Is.False);
+    }
+
+    [Test]
+    public void ContainsCertificateWithThumbprint_NullThumbprint()
+    {
+        var contains = ServerCertificateCustomValidations.ContainsCertificateWithThumbprint(_certificates, null);
+        Assert.That(contains, Is.False);
+    }
+
+    [Test]
+    public void ContainsCertificateWithThumbprint_NotFoundThumbprint()
+    {
+        var contains =
+            ServerCertificateCustomValidations.ContainsCertificateWithThumbprint(_certificates, "not-found-thumbprint");
+        Assert.That(contains, Is.False);
+    }
+
+    [Test]
+    public void ContainsCertificateWithThumbprint_EmptyCollection()
+    {
+        var contains =
+            ServerCertificateCustomValidations.ContainsCertificateWithThumbprint(new X509Certificate2Collection(),
+                "thumbprint");
+        Assert.That(contains, Is.False);
+    }
+
+    [Test]
+    public void IsRootCertificateSelfSigned_SelfSignedCertificate()
+    {
+        var chain = new X509Chain();
+        chain.ChainPolicy.ExtraStore.Add(new X509Certificate2("./TestData/ServerCert/rootCA.pem"));
+        chain.Build(_certificate);
+        var isSelfSigned = ServerCertificateCustomValidations.IsRootCertificateSelfSigned(chain);
+        Assert.That(isSelfSigned, Is.True);
+    }
+
+    [Test]
+    public void IsRootCertificateSelfSigned_ServerPemWithoutRootCA()
+    {
+        var partialChain = new X509Chain();
+        partialChain.Build(new X509Certificate2("./TestData/ServerCert/server.pem"));
+        var isSelfSigned = ServerCertificateCustomValidations.IsRootCertificateSelfSigned(partialChain);
+        Assert.That(isSelfSigned, Is.False);
+    }
+
+    [Test]
+    public void IsRootCertificateSelfSigned_EmptyChain()
+    {
+        var isSelfSigned =
+            ServerCertificateCustomValidations.IsRootCertificateSelfSigned(new X509Chain());
+        Assert.That(isSelfSigned, Is.False);
     }
 }
