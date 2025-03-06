@@ -49,6 +49,10 @@ internal static class ServerCertificateCustomValidations
         }
         return (_, certificate, chain, sslErrors) =>
         {
+            Trace.TraceWarning($"### DEBUG-1: certificate={certificate}"); // TODO simon: rollback!!!
+            Console.Out.WriteLine($"### DEBUG-1: certificate={certificate}"); // TODO simon: rollback!!!
+            Trace.TraceWarning($"### DEBUG-2: sslErrors={sslErrors}"); // TODO simon: rollback!!!
+            Console.Out.WriteLine($"### DEBUG-2: sslErrors={sslErrors}"); // TODO simon: rollback!!!
             if (sslErrors == SslPolicyErrors.None)
             {
                 // No errors, certificate is valid
@@ -99,6 +103,7 @@ internal static class ServerCertificateCustomValidations
             foreach (var status in errorStatuses)
             {
                 Trace.TraceWarning($"Certificate chain validation failed: {status.Status}: {status.StatusInformation}");
+                Console.Out.WriteLine($"Certificate chain validation failed: {status.Status}: {status.StatusInformation}"); // TODO simon: rollback!!!
             }
 
             return false;
