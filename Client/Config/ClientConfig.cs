@@ -8,24 +8,26 @@ using InfluxDB3.Client.Write;
 namespace InfluxDB3.Client.Config;
 
 /// <summary>
-/// The ClientConfig class holds the configuration for the InfluxDB client.
+/// <para>The ClientConfig class holds the configuration for the InfluxDB client.</para>
 ///
-/// You can configure following options:
-/// - Host: The URL of the InfluxDB server.
-/// - Token: The authentication token for accessing the InfluxDB server.
-/// - AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.
-/// - Organization: The organization to be used for operations.
-/// - Database: The database to be used for InfluxDB operations.
-/// - Headers: The set of HTTP headers to be included in requests.
-/// - Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.
-/// - AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.
-/// - DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.
-/// - DisableCertificateRevocationListCheck: Disable SSL certificate revocation list (CRL) checking. Default to 'false'.
-/// - SslRootsFilePath: SSL root certificates file path.
-/// - Proxy: The HTTP proxy URL. Default is not set.
-/// - WriteOptions: Write options.
+/// <para>You can configure following options:</para>
+/// <list type="bulleted">
+/// <item>- Host: The URL of the InfluxDB server.</item>
+/// <item>- Token: The authentication token for accessing the InfluxDB server.</item>
+/// <item>- AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.</item>
+/// <item>- Organization: The organization to be used for operations.</item>
+/// <item>- Database: The database to be used for InfluxDB operations.</item>
+/// <item>- Headers: The set of HTTP headers to be included in requests.</item>
+/// <item>- Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</item>
+/// <item>- AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</item>
+/// <item>- DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</item>
+/// <item>- DisableCertificateRevocationListCheck: Disable SSL certificate revocation list (CRL) checking. Default to 'false'.</item>
+/// <item>- SslRootsFilePath: SSL root certificates file path.</item>
+/// <item>- Proxy: The HTTP proxy URL. Default is not set.</item>
+/// <item>- WriteOptions: Write options.</item>
+/// </list>
 ///
-/// If you want create client with custom options, you can use the following code:
+/// <para>If you want create client with custom options, you can use the following code:</para>
 /// <code>
 /// using var client = new InfluxDBClient(new ClientConfig{
 ///     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
