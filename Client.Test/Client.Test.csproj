@@ -28,4 +28,25 @@
       <ProjectReference Include="..\Client\Client.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="TestData\ServerCert\server.p12">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\ServerCert\server.pem">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\ServerCert\rootCA.pem">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\OtherCerts\otherCA.pem">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\OtherCerts\empty.pem">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\OtherCerts\invalid.pem">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
