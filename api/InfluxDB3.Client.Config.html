@@ -162,19 +162,6 @@ Classes
       <h4><a class="xref" href="InfluxDB3.Client.Config.ClientConfig.html">ClientConfig</a></h4>
       <section><p>The ClientConfig class holds the configuration for the InfluxDB client.</p>
 <p>You can configure following options:</p>
-<ul>
-<li>Host: The URL of the InfluxDB server.</li>
-<li>Token: The authentication token for accessing the InfluxDB server.</li>
-<li>AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.</li>
-<li>Organization: The organization to be used for operations.</li>
-<li>Database: The database to be used for InfluxDB operations.</li>
-<li>Headers: The set of HTTP headers to be included in requests.</li>
-<li>Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</li>
-<li>AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</li>
-<li>DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</li>
-<li>Proxy: The HTTP proxy URL. Default is not set.</li>
-<li>WriteOptions: Write options.</li>
-</ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig{
     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",

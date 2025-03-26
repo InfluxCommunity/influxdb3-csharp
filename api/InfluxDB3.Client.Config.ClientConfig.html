@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width">
       <meta name="title" content="Class ClientConfig ">
     
-    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options:  Host: The URL of the InfluxDB server. Token: The authentication token for accessing the InfluxDB server. AuthScheme: Token authentication scheme. Default is &#39;null&#39; for Cloud access. Set to &#39;Bearer&#39; for Edge access. Organization: The organization to be used for operations. Database: The database to be used for InfluxDB operations. Headers: The set of HTTP headers to be included in requests. Timeout: Timeout to wait before the HTTP request times out. Default to &#39;10 seconds&#39;. AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to &#39;false&#39;. DisableServerCertificateValidation: Disable server SSL certificate validation. Default to &#39;false&#39;. Proxy: The HTTP proxy URL. Default is not set. WriteOptions: Write options.  If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096    } });">
+    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options: If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096    } });">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -157,19 +157,6 @@
   <h1 id="InfluxDB3_Client_Config_ClientConfig" data-uid="InfluxDB3.Client.Config.ClientConfig" class="text-break">Class ClientConfig</h1>
   <div class="markdown level0 summary"><p>The ClientConfig class holds the configuration for the InfluxDB client.</p>
 <p>You can configure following options:</p>
-<ul>
-<li>Host: The URL of the InfluxDB server.</li>
-<li>Token: The authentication token for accessing the InfluxDB server.</li>
-<li>AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.</li>
-<li>Organization: The organization to be used for operations.</li>
-<li>Database: The database to be used for InfluxDB operations.</li>
-<li>Headers: The set of HTTP headers to be included in requests.</li>
-<li>Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</li>
-<li>AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</li>
-<li>DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</li>
-<li>Proxy: The HTTP proxy URL. Default is not set.</li>
-<li>WriteOptions: Write options.</li>
-</ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig{
     Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
@@ -306,6 +293,30 @@
       </tr>
     </tbody>
   </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_DisableCertificateRevocationListCheck_" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_DisableCertificateRevocationListCheck" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck">DisableCertificateRevocationListCheck</h4>
+  <div class="markdown level1 summary"><p>Disable SSL certificate revocation list (CRL) checking. Default to 'false'.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool DisableCertificateRevocationListCheck { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_Config_ClientConfig_DisableServerCertificateValidation_" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableServerCertificateValidation*"></a>
   <h4 id="InfluxDB3_Client_Config_ClientConfig_DisableServerCertificateValidation" data-uid="InfluxDB3.Client.Config.ClientConfig.DisableServerCertificateValidation">DisableServerCertificateValidation</h4>
   <div class="markdown level1 summary"><p>Disable server SSL certificate validation. Default to 'false'.</p>
@@ -434,6 +445,30 @@ such as tracing headers. To add custom headers use following code:</p>
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.webproxy">WebProxy</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath_" data-uid="InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath" data-uid="InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath">SslRootsFilePath</h4>
+  <div class="markdown level1 summary"><p>SSL root certificates file path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? SslRootsFilePath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
         <td></td>
       </tr>
     </tbody>

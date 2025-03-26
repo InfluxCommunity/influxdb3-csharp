@@ -77,6 +77,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.Database
   nameWithType: ClientConfig.Database
+- uid: InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck
+  name: DisableCertificateRevocationListCheck
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_DisableCertificateRevocationListCheck
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck
+  fullName: InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck
+  nameWithType: ClientConfig.DisableCertificateRevocationListCheck
+- uid: InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck*
+  name: DisableCertificateRevocationListCheck
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_DisableCertificateRevocationListCheck_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.DisableCertificateRevocationListCheck
+  nameWithType: ClientConfig.DisableCertificateRevocationListCheck
 - uid: InfluxDB3.Client.Config.ClientConfig.DisableServerCertificateValidation
   name: DisableServerCertificateValidation
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_DisableServerCertificateValidation
@@ -142,6 +155,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.Proxy
   nameWithType: ClientConfig.Proxy
+- uid: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
+  name: SslRootsFilePath
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
+  fullName: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
+  nameWithType: ClientConfig.SslRootsFilePath
+- uid: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath*
+  name: SslRootsFilePath
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
+  nameWithType: ClientConfig.SslRootsFilePath
 - uid: InfluxDB3.Client.Config.ClientConfig.Timeout
   name: Timeout
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_Timeout
