@@ -76,6 +76,7 @@ public class ClientConfig
         AuthScheme = values.Get("authScheme");
         Organization = values.Get("org");
         Database = values.Get("database");
+        QueryOptions = QueryOptions.DefaultOptions;
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
     }
@@ -90,6 +91,7 @@ public class ClientConfig
         AuthScheme = env[EnvInfluxAuthScheme] as string;
         Organization = env[EnvInfluxOrg] as string;
         Database = env[EnvInfluxDatabase] as string;
+        QueryOptions = QueryOptions.DefaultOptions;
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
     }
@@ -177,6 +179,8 @@ public class ClientConfig
     /// Write options.
     /// </summary>
     public WriteOptions? WriteOptions { get; set; }
+
+    public QueryOptions? QueryOptions { get; set; }
 
     internal void Validate()
     {
