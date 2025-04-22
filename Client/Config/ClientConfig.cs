@@ -62,6 +62,7 @@ public class ClientConfig
     /// </summary>
     public ClientConfig()
     {
+        QueryOptions = QueryOptions.DefaultOptions;
     }
 
     /// <summary>
