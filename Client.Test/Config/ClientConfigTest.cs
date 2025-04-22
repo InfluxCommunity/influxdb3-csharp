@@ -215,6 +215,29 @@ public class ClientConfigTest
         }
     }
 
+    [Test]
+    public void DefaultQueryOptionsValue()
+    {
+        var config = new ClientConfig();
+        Assert.That(config.QueryOptions, Is.EqualTo(QueryOptions.DefaultOptions));
+    }
+
+    [Test]
+    public void CustomQueryOptions()
+    {
+        var config = new ClientConfig();
+        var options = new QueryOptions
+        {
+            Deadline = DateTime.Now.AddMinutes(5),
+            MaxReceiveMessageSize = 8_388_608,
+            MaxSendMessageSize = 8_388_608
+        };
+
+        config.QueryOptions = options;
+        Assert.That(config.QueryOptions, Is.EqualTo(options));
+    }
+
+
     [TearDown]
     public void Cleanup()
     {
