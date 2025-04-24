@@ -8,6 +8,7 @@ public class QueryOptions : ICloneable
 
     public int? MaxReceiveMessageSize { get; set; }
 
+    
     public object Clone()
     {
         return MemberwiseClone();
