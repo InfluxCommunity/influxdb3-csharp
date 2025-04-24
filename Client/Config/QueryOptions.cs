@@ -8,8 +8,6 @@ public class QueryOptions : ICloneable
 
     public int? MaxReceiveMessageSize { get; set; }
 
-    public int? MaxSendMessageSize { get; set; }
-
     public object Clone()
     {
         return MemberwiseClone();
@@ -18,7 +16,6 @@ public class QueryOptions : ICloneable
     internal static readonly QueryOptions DefaultOptions = new()
     {
         Deadline = null,
-        MaxReceiveMessageSize = 4_194_304,
-        MaxSendMessageSize = null
+        MaxReceiveMessageSize = 4_194_304
     };
 }

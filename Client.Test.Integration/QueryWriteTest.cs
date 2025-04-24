@@ -160,31 +160,7 @@ public class QueryWriteTest : IntegrationTest
             {
             }
         });
-        Assert.That(ex?.StatusCode, Is.EqualTo(StatusCode.ResourceExhausted));;
-    }
-
-    [Test]
-    public async Task MaxSendMessageSize()
-    {
-        //todo write test, should I test this
-
-        using var client = new InfluxDBClient(new ClientConfig
-        {
-            Host = Host,
-            Token = Token,
-            Database = Database,
-            QueryOptions = new QueryOptions()
-            {
-                MaxSendMessageSize = 0
-            }
-        });
-
-        await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
-        // var ex = Assert.ThrowsAsync<RpcException>(async () =>
-        // {
-        //     await client.WritePointAsync(PointData.Measurement("cpu").SetTag("tag", "c"));
-        // });
-        // Assert.That(ex?.StatusCode, Is.EqualTo(StatusCode.ResourceExhausted));;
+        Assert.That(ex?.StatusCode, Is.EqualTo(StatusCode.ResourceExhausted));
     }
 
     [Test]

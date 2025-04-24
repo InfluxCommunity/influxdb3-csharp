@@ -230,7 +230,6 @@ public class ClientConfigTest
         {
             Deadline = DateTime.Now.AddMinutes(5),
             MaxReceiveMessageSize = 8_388_608,
-            MaxSendMessageSize = 8_388_608
         };
 
         config.QueryOptions = options;

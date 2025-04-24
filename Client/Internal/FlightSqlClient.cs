@@ -61,8 +61,7 @@ internal class FlightSqlClient : IFlightSqlClient
                 Credentials = _config.Host.StartsWith("https", StringComparison.OrdinalIgnoreCase)
                     ? ChannelCredentials.SecureSsl
                     : ChannelCredentials.Insecure,
-                MaxReceiveMessageSize = _config.QueryOptions?.MaxReceiveMessageSize,
-                MaxSendMessageSize = _config.QueryOptions?.MaxSendMessageSize
+                MaxReceiveMessageSize = _config.QueryOptions?.MaxReceiveMessageSize
             });
         _flightClient = new FlightClient(_channel);
         var knownTypes = new List<Type> { typeof(string), typeof(int), typeof(float), typeof(bool) };
