@@ -183,6 +183,6 @@ public class QueryWriteTest : IntegrationTest
             {
             }
         });
-        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));;;
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
 }
