@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using Grpc.Net.Compression;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config.Test;
@@ -230,6 +232,8 @@ public class ClientConfigTest
         {
             Deadline = DateTime.Now.AddMinutes(5),
             MaxReceiveMessageSize = 8_388_608,
+            MaxSendMessageSize = 10000,
+            CompressionProviders = ImmutableArray<ICompressionProvider>.Empty
         };
 
         config.QueryOptions = options;

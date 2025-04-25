@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Grpc.Net.Compression;
 
 namespace InfluxDB3.Client.Config;
 
@@ -8,6 +10,10 @@ public class QueryOptions : ICloneable
 
     public int? MaxReceiveMessageSize { get; set; }
 
+    public int? MaxSendMessageSize { get; set; }
+
+    public IList<ICompressionProvider>? CompressionProviders { get; set; }
+
     public object Clone()
     {
         return MemberwiseClone();
@@ -16,6 +22,8 @@ public class QueryOptions : ICloneable
     internal static readonly QueryOptions DefaultOptions = new()
     {
         Deadline = null,
-        MaxReceiveMessageSize = 4_194_304
+        MaxReceiveMessageSize = 4_194_304,
+        MaxSendMessageSize = null,
+        CompressionProviders = null
     };
 }
