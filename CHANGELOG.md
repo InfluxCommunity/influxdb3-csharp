@@ -1,5 +1,9 @@
 ## 1.2.0 [unreleased]
 
+### Features
+
+1. [#155](https://github.com/InfluxCommunity/influxdb3-csharp/pull/155): Allows setting grpc options.
+
 ## 1.1.0 [2025-03-26]
 
 ### Features
