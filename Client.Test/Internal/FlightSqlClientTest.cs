@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
+using Grpc.Net.Compression;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
@@ -180,6 +182,24 @@ public class FlightSqlClientTest : MockServerTest
             Assert.That(prepareHeadersMetadata[0].Key, Is.EqualTo("user-agent"));
             Assert.That(prepareHeadersMetadata[0].Value, Is.EqualTo(AssemblyHelper.GetUserAgent()));
         });
+    }
+
+    [Test]
+    public void TestGrpcCallOptions()
+    {
+        var config = new ClientConfig
+        {
+            Host = MockServerUrl,
+            QueryOptions = {
+                Deadline = DateTime.Now.AddMinutes(5),
+                MaxReceiveMessageSize = 8_388_608,
+                MaxSendMessageSize = 10000,
+                CompressionProviders = ImmutableArray<ICompressionProvider>.Empty
+            }
+        };
+
+        Assert.DoesNotThrow(() =>
+            _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config)));
     }
 
 }
