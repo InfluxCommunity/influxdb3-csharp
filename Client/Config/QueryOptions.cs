@@ -42,7 +42,7 @@ public class QueryOptions : ICloneable
     /// <remarks>
     /// This property specifies the list of compression algorithms available for compressing gRPC messages.
     /// The value is represented as a nullable list of <see cref="ICompressionProvider"/>.
-    /// If set to <c>null</c>, GrpcProtocolConstants.DefaultCompressionProviders will be used
+    /// If set to <c>null</c>, Gzip will be used
     /// </remarks>
     public IList<ICompressionProvider>? CompressionProviders { get; set; }
 
