@@ -192,6 +192,9 @@ public class ClientConfig
     /// </summary>
     public WriteOptions? WriteOptions { get; set; }
 
+    /// <summary>
+    /// Configuration options for query behavior in the InfluxDB client.
+    /// </summary>
     public QueryOptions QueryOptions { get; set; }
 
     internal void Validate()
