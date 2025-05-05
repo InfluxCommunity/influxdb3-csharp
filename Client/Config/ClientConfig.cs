@@ -25,6 +25,7 @@ namespace InfluxDB3.Client.Config;
 /// <item>- SslRootsFilePath: SSL root certificates file path.</item>
 /// <item>- Proxy: The HTTP proxy URL. Default is not set.</item>
 /// <item>- WriteOptions: Write options.</item>
+/// <item>- QueryOptions Query options.</item>
 /// </list>
 ///
 /// <para>If you want create client with custom options, you can use the following code:</para>
@@ -40,6 +41,16 @@ namespace InfluxDB3.Client.Config;
 ///    {
 ///        Precision = WritePrecision.S,
 ///        GzipThreshold = 4096
+///    },
+///    QueryOptions = new QueryOptions
+///    {
+///        Deadline = DateTime.UtcNow.AddSeconds(10),
+///        MaxReceiveMessageSize = 4096,
+///        MaxSendMessageSize = 4096,
+///        CompressionProviders = new List&lt;ICompressionProvider&gt;
+///        {
+///            Grpc.Net.Compression.GzipCompressionProvider.Default
+///        }
 ///    }
 /// }); 
 /// </code>
@@ -62,6 +73,7 @@ public class ClientConfig
     /// </summary>
     public ClientConfig()
     {
+        QueryOptions = QueryOptions.DefaultOptions;
     }
 
     /// <summary>
@@ -76,6 +88,7 @@ public class ClientConfig
         AuthScheme = values.Get("authScheme");
         Organization = values.Get("org");
         Database = values.Get("database");
+        QueryOptions = QueryOptions.DefaultOptions;
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
     }
@@ -90,6 +103,7 @@ public class ClientConfig
         AuthScheme = env[EnvInfluxAuthScheme] as string;
         Organization = env[EnvInfluxOrg] as string;
         Database = env[EnvInfluxDatabase] as string;
+        QueryOptions = QueryOptions.DefaultOptions;
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
     }
@@ -177,6 +191,11 @@ public class ClientConfig
     /// Write options.
     /// </summary>
     public WriteOptions? WriteOptions { get; set; }
+
+    /// <summary>
+    /// Configuration options for query behavior in the InfluxDB client.
+    /// </summary>
+    public QueryOptions QueryOptions { get; set; }
 
     internal void Validate()
     {

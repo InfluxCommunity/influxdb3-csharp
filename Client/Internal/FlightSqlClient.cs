@@ -61,6 +61,9 @@ internal class FlightSqlClient : IFlightSqlClient
                 Credentials = _config.Host.StartsWith("https", StringComparison.OrdinalIgnoreCase)
                     ? ChannelCredentials.SecureSsl
                     : ChannelCredentials.Insecure,
+                MaxReceiveMessageSize = _config.QueryOptions.MaxReceiveMessageSize,
+                MaxSendMessageSize = _config.QueryOptions.MaxSendMessageSize,
+                CompressionProviders = _config.QueryOptions.CompressionProviders,
             });
         _flightClient = new FlightClient(_channel);
         var knownTypes = new List<Type> { typeof(string), typeof(int), typeof(float), typeof(bool) };
@@ -94,7 +97,7 @@ internal class FlightSqlClient : IFlightSqlClient
 
         var ticket = ((IFlightSqlClient)this).PrepareFlightTicket(query, database, queryType, namedParameters);
 
-        using var stream = _flightClient.GetStream(ticket, metadata);
+        using var stream = _flightClient.GetStream(ticket, metadata, _config.QueryOptions.Deadline);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
             yield return stream.ResponseStream.Current;

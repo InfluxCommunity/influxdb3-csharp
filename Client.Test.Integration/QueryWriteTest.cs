@@ -139,4 +139,50 @@ public class QueryWriteTest : IntegrationTest
             Assert.That(row[0], Is.EqualTo(1234.0));
         }
     }
+
+    [Test]
+    public async Task MaxReceiveMessageSize()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            QueryOptions = new QueryOptions()
+            {
+                MaxReceiveMessageSize = 100
+            }
+        });
+
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.Query("SELECT value FROM integration_test"))
+            {
+            }
+        });
+        Assert.That(ex?.StatusCode, Is.EqualTo(StatusCode.ResourceExhausted));
+    }
+
+    [Test]
+    public async Task GrpcDeadline()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            QueryOptions = new QueryOptions()
+            {
+                Deadline = DateTime.UtcNow.AddMicroseconds(1)
+            }
+        });
+
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.Query("SELECT value FROM stat"))
+            {
+            }
+        });
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+    }
 }

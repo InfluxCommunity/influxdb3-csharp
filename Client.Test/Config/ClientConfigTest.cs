@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using Grpc.Net.Compression;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config.Test;
@@ -214,6 +216,30 @@ public class ClientConfigTest
             Environment.SetEnvironmentVariable(entry.Key, entry.Value, EnvironmentVariableTarget.Process);
         }
     }
+
+    [Test]
+    public void DefaultQueryOptionsValue()
+    {
+        var config = new ClientConfig();
+        Assert.That(config.QueryOptions, Is.EqualTo(QueryOptions.DefaultOptions));
+    }
+
+    [Test]
+    public void CustomQueryOptions()
+    {
+        var config = new ClientConfig();
+        var options = new QueryOptions
+        {
+            Deadline = DateTime.Now.AddMinutes(5),
+            MaxReceiveMessageSize = 8_388_608,
+            MaxSendMessageSize = 10000,
+            CompressionProviders = ImmutableArray<ICompressionProvider>.Empty
+        };
+
+        config.QueryOptions = options;
+        Assert.That(config.QueryOptions, Is.EqualTo(options));
+    }
+
 
     [TearDown]
     public void Cleanup()
