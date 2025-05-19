@@ -27,7 +27,7 @@ namespace InfluxDB3.Client.Config;
 /// }); 
 /// </code>
 /// </summary>
-public class WriteOptions : ICloneable
+public class WriteOptions : ICloneable, IEquatable<WriteOptions>
 {
     /// <summary>
     /// The default precision to use for the timestamp of points if no precision is specified in the write API call.
@@ -66,14 +66,41 @@ public class WriteOptions : ICloneable
     /// </summary>
     public int GzipThreshold { get; set; }
 
-    public object Clone()
-    {
-        return this.MemberwiseClone();
-    }
-
     internal static readonly WriteOptions DefaultOptions = new()
     {
         Precision = WritePrecision.Ns,
         GzipThreshold = 1000
     };
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+
+    public bool Equals(WriteOptions? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Precision == other.Precision && Equals(DefaultTags, other.DefaultTags) &&
+               GzipThreshold == other.GzipThreshold;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((WriteOptions)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = Precision.GetHashCode();
+            hashCode = (hashCode * 397) ^ (DefaultTags != null ? DefaultTags.GetHashCode() : 0);
+            hashCode = (hashCode * 397) ^ GzipThreshold;
+            return hashCode;
+        }
+    }
 }

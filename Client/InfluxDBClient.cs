@@ -301,7 +301,7 @@ namespace InfluxDB3.Client
                 Database = database,
                 Token = token,
                 AuthScheme = authScheme,
-                WriteOptions = WriteOptions.DefaultOptions
+                WriteOptions = (WriteOptions)WriteOptions.DefaultOptions.Clone()
             })
         {
         }
