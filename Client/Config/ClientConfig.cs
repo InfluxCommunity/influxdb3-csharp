@@ -40,7 +40,8 @@ namespace InfluxDB3.Client.Config;
 ///     WriteOptions = new WriteOptions
 ///    {
 ///        Precision = WritePrecision.S,
-///        GzipThreshold = 4096
+///        GzipThreshold = 4096,
+///        NoSync = false
 ///    },
 ///    QueryOptions = new QueryOptions
 ///    {
@@ -55,7 +56,6 @@ namespace InfluxDB3.Client.Config;
 /// }); 
 /// </code>
 /// </summary>
-
 public class ClientConfig
 {
     internal const string EnvInfluxHost = "INFLUX_HOST";
@@ -65,6 +65,7 @@ public class ClientConfig
     internal const string EnvInfluxDatabase = "INFLUX_DATABASE";
     internal const string EnvInfluxPrecision = "INFLUX_PRECISION";
     internal const string EnvInfluxGzipThreshold = "INFLUX_GZIP_THRESHOLD";
+    internal const string EnvInfluxWriteNoSync = "INFLUX_WRITE_NO_SYNC";
 
     private string _host = "";
 
@@ -91,6 +92,7 @@ public class ClientConfig
         QueryOptions = (QueryOptions)QueryOptions.DefaultOptions.Clone();
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
+        ParseWriteNoSync(values.Get("writeNoSync"));
     }
 
     /// <summary>
@@ -106,6 +108,7 @@ public class ClientConfig
         QueryOptions = (QueryOptions)QueryOptions.DefaultOptions.Clone();
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
+        ParseWriteNoSync(env[EnvInfluxWriteNoSync] as string);
     }
 
     /// <summary>
@@ -210,6 +213,11 @@ public class ClientConfig
         get => WriteOptions != null ? WriteOptions.Precision ?? WritePrecision.Ns : WritePrecision.Ns;
     }
 
+    internal bool WriteNoSync
+    {
+        get => (WriteOptions ?? WriteOptions.DefaultOptions).NoSync;
+    }
+
     private void ParsePrecision(string? precision)
     {
         if (precision != null)
@@ -217,9 +225,13 @@ public class ClientConfig
             var writePrecision = precision switch
             {
                 "ns" => WritePrecision.Ns,
+                "nanosecond" => WritePrecision.Ns,
                 "us" => WritePrecision.Us,
+                "microsecond" => WritePrecision.Us,
                 "ms" => WritePrecision.Ms,
+                "millisecond" => WritePrecision.Ms,
                 "s" => WritePrecision.S,
+                "second" => WritePrecision.S,
                 _ => throw new ArgumentException($"Unsupported precision '{precision}'"),
             };
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
@@ -234,6 +246,16 @@ public class ClientConfig
             var gzipThreshold = int.Parse(threshold);
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
             WriteOptions.GzipThreshold = gzipThreshold;
+        }
+    }
+
+    private void ParseWriteNoSync(string? strVal)
+    {
+        if (strVal != null)
+        {
+            var noSync = bool.Parse(strVal);
+            WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
+            WriteOptions.NoSync = noSync;
         }
     }
 }

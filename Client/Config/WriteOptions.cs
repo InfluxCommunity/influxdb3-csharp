@@ -10,6 +10,7 @@ namespace InfluxDB3.Client.Config;
 /// You can configure following options:
 /// - Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.
 /// - GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.
+/// - NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.
 ///
 /// If you want create client with custom options, you can use the following code:
 /// <code>
@@ -22,7 +23,8 @@ namespace InfluxDB3.Client.Config;
 ///     WriteOptions = new WriteOptions
 ///     {
 ///         Precision = WritePrecision.S,
-///         GzipThreshold = 4096
+///         GzipThreshold = 4096,
+///         NoSync = false
 ///     }
 /// }); 
 /// </code>
@@ -66,6 +68,18 @@ public class WriteOptions : ICloneable
     /// </summary>
     public int GzipThreshold { get; set; }
 
+    /// <summary>
+    /// Instructs the server whether to wait with the response until WAL persistence completes.
+    /// NoSync=true means faster write but without the confirmation that the data was persisted.
+    ///
+    /// Note: This option is supported by InfluxDB 3 Core and Enterprise servers only.
+    /// For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Clould Serverless/Dedicated)
+    /// the write operation will fail with an error.
+    ///
+    /// Default value: false.
+    /// </summary>
+    public bool NoSync { get; set; }
+
     public object Clone()
     {
         return this.MemberwiseClone();
@@ -74,6 +88,7 @@ public class WriteOptions : ICloneable
     internal static readonly WriteOptions DefaultOptions = new()
     {
         Precision = WritePrecision.Ns,
-        GzipThreshold = 1000
+        GzipThreshold = 1000,
+        NoSync = false,
     };
 }

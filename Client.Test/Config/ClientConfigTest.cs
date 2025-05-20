@@ -68,7 +68,7 @@ public class ClientConfigTest
     [Test]
     public void CreateFromConnectionStringWithWriteOptions()
     {
-        var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database&precision=s&gzipThreshold=64");
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database&precision=s&gzipThreshold=64&writeNoSync=true");
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
         Assert.Multiple(() =>
@@ -77,8 +77,29 @@ public class ClientConfigTest
             Assert.That(cfg.Token, Is.EqualTo("my-token"));
             Assert.That(cfg.Organization, Is.EqualTo("my-org"));
             Assert.That(cfg.Database, Is.EqualTo("my-database"));
+            Assert.That(cfg.WriteOptions, Is.Not.Null);
             Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WritePrecision.S));
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(64));
+            Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
+        });
+    }
+
+    [Test]
+    public void CreateFromConnectionStringWithWriteNoSyncOnly()
+    {
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&writeNoSync=true");
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.Organization, Is.Null);
+            Assert.That(cfg.Database, Is.Null);
+            Assert.That(cfg.WriteOptions, Is.Not.Null);
+            Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WriteOptions.DefaultOptions.Precision));
+            Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(WriteOptions.DefaultOptions.GzipThreshold));
+            Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
         });
     }
 
@@ -88,9 +109,13 @@ public class ClientConfigTest
         var precisions = new[]
         {
             ("ns", WritePrecision.Ns),
+            ("nanosecond", WritePrecision.Ns),
             ("us", WritePrecision.Us),
+            ("microsecond", WritePrecision.Us),
             ("ms", WritePrecision.Ms),
+            ("millisecond", WritePrecision.Ms),
             ("s", WritePrecision.S),
+            ("second", WritePrecision.S),
         };
         foreach (var precision in precisions)
         {
@@ -194,6 +219,7 @@ public class ClientConfigTest
             {"INFLUX_DATABASE", "my-database"},
             {"INFLUX_PRECISION", "s"},
             {"INFLUX_GZIP_THRESHOLD", "64"},
+            {"INFLUX_WRITE_NO_SYNC", "true"},
         };
         SetEnv(env);
         var cfg = new ClientConfig(env);
@@ -205,8 +231,36 @@ public class ClientConfigTest
             Assert.That(cfg.Token, Is.EqualTo("my-token"));
             Assert.That(cfg.Organization, Is.EqualTo("my-org"));
             Assert.That(cfg.Database, Is.EqualTo("my-database"));
+            Assert.That(cfg.WriteOptions, Is.Not.Null);
             Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WritePrecision.S));
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(64));
+            Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
+        });
+    }
+
+    [Test]
+    public void CreateFromEnvWithWriteNoSyncOnly()
+    {
+        var env = new Dictionary<String, String>
+        {
+            {"INFLUX_HOST", "http://localhost:8086"},
+            {"INFLUX_TOKEN", "my-token"},
+            {"INFLUX_WRITE_NO_SYNC", "true"},
+        };
+        SetEnv(env);
+        var cfg = new ClientConfig(env);
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.Organization, Is.Null);
+            Assert.That(cfg.Database, Is.Null);
+            Assert.That(cfg.WriteOptions, Is.Not.Null);
+            Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WriteOptions.DefaultOptions.Precision));
+            Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(WriteOptions.DefaultOptions.GzipThreshold));
+            Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
         });
     }
 
@@ -252,7 +306,8 @@ public class ClientConfigTest
             ClientConfig.EnvInfluxOrg,
             ClientConfig.EnvInfluxDatabase,
             ClientConfig.EnvInfluxPrecision,
-            ClientConfig.EnvInfluxGzipThreshold
+            ClientConfig.EnvInfluxGzipThreshold,
+            ClientConfig.EnvInfluxWriteNoSync
         };
         foreach (var envVar in envVars)
         {
