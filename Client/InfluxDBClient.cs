@@ -301,7 +301,7 @@ namespace InfluxDB3.Client
                 Database = database,
                 Token = token,
                 AuthScheme = authScheme,
-                WriteOptions = WriteOptions.DefaultOptions
+                WriteOptions = (WriteOptions)WriteOptions.DefaultOptions.Clone()
             })
         {
         }
@@ -840,7 +840,7 @@ namespace InfluxDB3.Client
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             if (!string.IsNullOrEmpty(config.Token))
             {
-                string authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme;
+                string authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme!;
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, config.Token);
             }
 

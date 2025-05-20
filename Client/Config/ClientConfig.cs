@@ -73,7 +73,7 @@ public class ClientConfig
     /// </summary>
     public ClientConfig()
     {
-        QueryOptions = QueryOptions.DefaultOptions;
+        QueryOptions = (QueryOptions)QueryOptions.DefaultOptions.Clone();
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class ClientConfig
         AuthScheme = values.Get("authScheme");
         Organization = values.Get("org");
         Database = values.Get("database");
-        QueryOptions = QueryOptions.DefaultOptions;
+        QueryOptions = (QueryOptions)QueryOptions.DefaultOptions.Clone();
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
     }
@@ -103,7 +103,7 @@ public class ClientConfig
         AuthScheme = env[EnvInfluxAuthScheme] as string;
         Organization = env[EnvInfluxOrg] as string;
         Database = env[EnvInfluxDatabase] as string;
-        QueryOptions = QueryOptions.DefaultOptions;
+        QueryOptions = (QueryOptions)QueryOptions.DefaultOptions.Clone();
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
     }

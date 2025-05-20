@@ -36,7 +36,7 @@ public class WriteTest : IntegrationTest
                     Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
                     Assert.That(iaex.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
                 });
-                var headersDix = iaex.Headers.ToFrozenDictionary();
+                var headersDix = iaex.Headers!.ToFrozenDictionary();
                 Assert.DoesNotThrow(() =>
                 {
                     Assert.Multiple(() =>

@@ -14,7 +14,7 @@ public class InfluxDBApiExceptionTest : MockServerTest
     private InfluxDBClient _client;
 
     [TearDown]
-    public void TearDown()
+    public new void TearDown()
     {
         base.TearDown();
         _client?.Dispose();

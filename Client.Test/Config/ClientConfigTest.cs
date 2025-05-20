@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using Grpc.Net.Compression;
+using InfluxDB3.Client.Test.Config;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config.Test;
@@ -221,7 +222,7 @@ public class ClientConfigTest
     public void DefaultQueryOptionsValue()
     {
         var config = new ClientConfig();
-        Assert.That(config.QueryOptions, Is.EqualTo(QueryOptions.DefaultOptions));
+        Assert.That(config.QueryOptions, Is.EqualTo(QueryOptions.DefaultOptions).Using(new QueryOptionsComparer()));
     }
 
     [Test]

@@ -141,7 +141,7 @@ public class QueryWriteTest : IntegrationTest
     }
 
     [Test]
-    public async Task MaxReceiveMessageSize()
+    public void MaxReceiveMessageSize()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -164,7 +164,7 @@ public class QueryWriteTest : IntegrationTest
     }
 
     [Test]
-    public async Task GrpcDeadline()
+    public void GrpcDeadline()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
