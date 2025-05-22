@@ -360,6 +360,9 @@ namespace InfluxDB3.Client
         /// <item>
         /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>)</description>
         /// </item>
+        /// <item>
+        /// <description>writeNoSync - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
+        /// </item>
         /// </list>
         /// </para>
         /// </summary>
@@ -396,6 +399,9 @@ namespace InfluxDB3.Client
         /// </item>
         /// <item>
         /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_WRITE_NO_SYNC - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
         /// </item>
         /// </list>
         /// </para>
@@ -739,23 +745,50 @@ namespace InfluxDB3.Client
 
             var body = sb.ToString();
             var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
-            var queryParams = new Dictionary<string, string?>()
-            {
-                {
-                    "bucket",
-                    (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"))
-                },
-                { "org", _config.Organization },
-                {
-                    "precision",
-                    Enum.GetName(typeof(WritePrecision), precisionNotNull)
-                        ?.ToLowerInvariant()
-                }
-            };
 
-            await _restClient
-                .Request("api/v2/write", HttpMethod.Post, content, queryParams, headers, cancellationToken)
-                .ConfigureAwait(false);
+            string path;
+            Dictionary<string, string?> queryParams;
+            var databaseNotNull
+                = (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"));
+            if (_config.WriteNoSync)
+            {
+                // Setting no_sync=true is supported only in the v3 API.
+                path = "api/v3/write_lp";
+                queryParams = new Dictionary<string, string?>()
+                {
+                    { "org", _config.Organization },
+                    { "db", databaseNotNull },
+                    { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
+                    { "no_sync", "true" }
+                };
+            }
+            else
+            {
+                // By default, use the v2 API.
+                path = "api/v2/write";
+                queryParams = new Dictionary<string, string?>()
+                {
+                    { "org", _config.Organization },
+                    { "bucket", databaseNotNull },
+                    { "precision", WritePrecisionConverter.ToV2ApiString(precisionNotNull) },
+                };
+            }
+
+            try
+            {
+                await _restClient
+                    .Request(path, HttpMethod.Post, content, queryParams, headers, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (InfluxDBApiException e)
+            {
+                if (_config.WriteNoSync && e.StatusCode == HttpStatusCode.MethodNotAllowed)
+                {
+                    // Server does not support the v3 write API, can't use the NoSync option.
+                    throw new InfluxDBApiException("Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only).", e.HttpResponseMessage!);
+                }
+                throw;
+            }
         }
 
         public void Dispose()

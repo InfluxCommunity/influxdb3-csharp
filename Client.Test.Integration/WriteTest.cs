@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Frozen;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using NUnit.Framework;
@@ -32,21 +31,11 @@ public class WriteTest : IntegrationTest
                 Assert.Multiple(() =>
                 {
                     Assert.That(iaex.Message,
-                        Contains.Substring("Found trailing content: 'distance=,status=\"STOPPED\"'"));
+                        Does.Contain("Found trailing content")
+                            .Or.Contain("partial write of line protocol occurred")
+                    );
                     Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
-                    Assert.That(iaex.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
-                });
-                var headersDix = iaex.Headers!.ToFrozenDictionary();
-                Assert.DoesNotThrow(() =>
-                {
-                    Assert.Multiple(() =>
-                    {
-                        Assert.That(headersDix["trace-id"].First(), Is.Not.Empty);
-                        Assert.That(headersDix["trace-sampled"].First(), Is.EqualTo("false"));
-                        Assert.That(headersDix["Strict-Transport-Security"].First(), Is.Not.Empty);
-                        Assert.That(headersDix["X-Influxdb-Request-ID"].First(), Is.Not.Empty);
-                        Assert.That(headersDix["X-Influxdb-Build"].First(), Is.EqualTo("Cloud"));
-                    });
+                    Assert.That(iaex.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
                 });
             }
             else

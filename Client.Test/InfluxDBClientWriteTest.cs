@@ -411,4 +411,83 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
     }
+
+    [Test]
+    public async Task WriteNoSyncFalse()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = new WriteOptions
+            {
+                NoSync = false
+            }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.Path, Is.EqualTo("/api/v2/write"));
+    }
+
+    [Test]
+    public async Task WriteNoSyncTrueSupported()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = new WriteOptions
+            {
+                NoSync = true
+            }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+
+        var requests = MockServer.LogEntries.ToList();
+        Assert.That(requests[0].RequestMessage.Query?["no_sync"].First(), Is.EqualTo("true"));
+    }
+
+    [Test]
+    public void WriteNoSyncTrueNotSupported()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = new WriteOptions
+            {
+                NoSync = true
+            }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.MethodNotAllowed));
+
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message,
+                Does.Contain(
+                    "Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only)."));
+        });
+    }
 }
