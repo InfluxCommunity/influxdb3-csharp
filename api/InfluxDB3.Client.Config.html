@@ -102,6 +102,9 @@
                             <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
                           </li>
                           <li class="">
+                            <a href="InfluxDB3.Client.Config.QueryOptions.html" title="QueryOptions" class="">QueryOptions</a>
+                          </li>
+                          <li class="">
                             <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
                         </ul>
@@ -174,8 +177,21 @@ Classes
    {
        Precision = WritePrecision.S,
        GzipThreshold = 4096
+   },
+   QueryOptions = new QueryOptions
+   {
+       Deadline = DateTime.UtcNow.AddSeconds(10),
+       MaxReceiveMessageSize = 4096,
+       MaxSendMessageSize = 4096,
+       CompressionProviders = new List&lt;ICompressionProvider&gt;
+       {
+           Grpc.Net.Compression.GzipCompressionProvider.Default
+       }
    }
 });</code></pre>
+</section>
+      <h4><a class="xref" href="InfluxDB3.Client.Config.QueryOptions.html">QueryOptions</a></h4>
+      <section><p>Represents the options for configuring query behavior in the client.</p>
 </section>
       <h4><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></h4>
       <section><p>The WriteOptions class holds the configuration for writing data to InfluxDB.</p>

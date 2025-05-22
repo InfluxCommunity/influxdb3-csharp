@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width">
       <meta name="title" content="Class ClientConfig ">
     
-    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options: If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096    } });">
+    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options: If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096    },    QueryOptions = new QueryOptions    {        Deadline = DateTime.UtcNow.AddSeconds(10),        MaxReceiveMessageSize = 4096,        MaxSendMessageSize = 4096,        CompressionProviders = new List&amp;lt;ICompressionProvider&amp;gt;        {            Grpc.Net.Compression.GzipCompressionProvider.Default        }    } });">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -102,6 +102,9 @@
                             <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="active">ClientConfig</a>
                           </li>
                           <li class="">
+                            <a href="InfluxDB3.Client.Config.QueryOptions.html" title="QueryOptions" class="">QueryOptions</a>
+                          </li>
+                          <li class="">
                             <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
                           </li>
                         </ul>
@@ -169,6 +172,16 @@
    {
        Precision = WritePrecision.S,
        GzipThreshold = 4096
+   },
+   QueryOptions = new QueryOptions
+   {
+       Deadline = DateTime.UtcNow.AddSeconds(10),
+       MaxReceiveMessageSize = 4096,
+       MaxSendMessageSize = 4096,
+       CompressionProviders = new List&lt;ICompressionProvider&gt;
+       {
+           Grpc.Net.Compression.GzipCompressionProvider.Default
+       }
    }
 });</code></pre>
 </div>
@@ -445,6 +458,30 @@ such as tracing headers. To add custom headers use following code:</p>
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.webproxy">WebProxy</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_QueryOptions_" data-uid="InfluxDB3.Client.Config.ClientConfig.QueryOptions*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_QueryOptions" data-uid="InfluxDB3.Client.Config.ClientConfig.QueryOptions">QueryOptions</h4>
+  <div class="markdown level1 summary"><p>Configuration options for query behavior in the InfluxDB client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public QueryOptions QueryOptions { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Config.QueryOptions.html">QueryOptions</a></td>
         <td></td>
       </tr>
     </tbody>

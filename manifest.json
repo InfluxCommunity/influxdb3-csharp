@@ -14,6 +14,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/InfluxDB3.Client.Config.QueryOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/InfluxDB3.Client.Config.QueryOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/InfluxDB3.Client.Config.WriteOptions.yml",
       "output": {
         ".html": {

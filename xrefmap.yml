@@ -155,6 +155,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.Proxy
   nameWithType: ClientConfig.Proxy
+- uid: InfluxDB3.Client.Config.ClientConfig.QueryOptions
+  name: QueryOptions
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_QueryOptions
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.QueryOptions
+  fullName: InfluxDB3.Client.Config.ClientConfig.QueryOptions
+  nameWithType: ClientConfig.QueryOptions
+- uid: InfluxDB3.Client.Config.ClientConfig.QueryOptions*
+  name: QueryOptions
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_QueryOptions_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.QueryOptions
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.QueryOptions
+  nameWithType: ClientConfig.QueryOptions
 - uid: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
   name: SslRootsFilePath
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath
@@ -207,6 +220,77 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.WriteOptions
   nameWithType: ClientConfig.WriteOptions
+- uid: InfluxDB3.Client.Config.QueryOptions
+  name: QueryOptions
+  href: api/InfluxDB3.Client.Config.QueryOptions.html
+  commentId: T:InfluxDB3.Client.Config.QueryOptions
+  fullName: InfluxDB3.Client.Config.QueryOptions
+  nameWithType: QueryOptions
+- uid: InfluxDB3.Client.Config.QueryOptions.Clone
+  name: Clone()
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_Clone
+  commentId: M:InfluxDB3.Client.Config.QueryOptions.Clone
+  fullName: InfluxDB3.Client.Config.QueryOptions.Clone()
+  nameWithType: QueryOptions.Clone()
+- uid: InfluxDB3.Client.Config.QueryOptions.Clone*
+  name: Clone
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_Clone_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.Clone
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.Clone
+  nameWithType: QueryOptions.Clone
+- uid: InfluxDB3.Client.Config.QueryOptions.CompressionProviders
+  name: CompressionProviders
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_CompressionProviders
+  commentId: P:InfluxDB3.Client.Config.QueryOptions.CompressionProviders
+  fullName: InfluxDB3.Client.Config.QueryOptions.CompressionProviders
+  nameWithType: QueryOptions.CompressionProviders
+- uid: InfluxDB3.Client.Config.QueryOptions.CompressionProviders*
+  name: CompressionProviders
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_CompressionProviders_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.CompressionProviders
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.CompressionProviders
+  nameWithType: QueryOptions.CompressionProviders
+- uid: InfluxDB3.Client.Config.QueryOptions.Deadline
+  name: Deadline
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_Deadline
+  commentId: P:InfluxDB3.Client.Config.QueryOptions.Deadline
+  fullName: InfluxDB3.Client.Config.QueryOptions.Deadline
+  nameWithType: QueryOptions.Deadline
+- uid: InfluxDB3.Client.Config.QueryOptions.Deadline*
+  name: Deadline
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_Deadline_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.Deadline
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.Deadline
+  nameWithType: QueryOptions.Deadline
+- uid: InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
+  name: MaxReceiveMessageSize
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize
+  commentId: P:InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
+  fullName: InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
+  nameWithType: QueryOptions.MaxReceiveMessageSize
+- uid: InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize*
+  name: MaxReceiveMessageSize
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
+  nameWithType: QueryOptions.MaxReceiveMessageSize
+- uid: InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize
+  name: MaxSendMessageSize
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_MaxSendMessageSize
+  commentId: P:InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize
+  fullName: InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize
+  nameWithType: QueryOptions.MaxSendMessageSize
+- uid: InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize*
+  name: MaxSendMessageSize
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_MaxSendMessageSize_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize
+  nameWithType: QueryOptions.MaxSendMessageSize
 - uid: InfluxDB3.Client.Config.WriteOptions
   name: WriteOptions
   href: api/InfluxDB3.Client.Config.WriteOptions.html
