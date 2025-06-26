@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -265,6 +267,8 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+
+        Task<string?> GetServerVersion();
     }
 
     public class InfluxDBClient : IInfluxDBClient
@@ -789,6 +793,26 @@ namespace InfluxDB3.Client
                 }
                 throw;
             }
+        }
+
+        public async Task<string?> GetServerVersion()
+        {
+            string? version;
+            var response = await _restClient.Request("ping", HttpMethod.Get);
+            version = response.Headers?
+                .Where(header => header.Key == "x-influxdb-version")
+                .Select(header => header.Value.FirstOrDefault()?.ToString())
+                .FirstOrDefault();
+
+            if (version == null)
+            {
+                var versionObject =
+                    new DataContractJsonSerializer(typeof(VersionBody)).ReadObject(
+                        await response.Content.ReadAsStreamAsync());
+                version = ((VersionBody)versionObject).Version;
+            }
+
+            return version;
         }
 
         public void Dispose()

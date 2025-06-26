@@ -28,7 +28,7 @@ internal class RestClient
         _httpClient = httpClient;
     }
 
-    internal async Task Request(string path, HttpMethod method, HttpContent? content = null,
+    internal async Task<HttpResponseMessage> Request(string path, HttpMethod method, HttpContent? content = null,
         Dictionary<string, string?>? queryParams = null, Dictionary<string, string>? headers = null,
         CancellationToken cancellationToken = default)
     {
@@ -136,6 +136,8 @@ internal class RestClient
 
             throw new InfluxDBApiException(message ?? "Cannot write data to InfluxDB.", result);
         }
+
+        return result;
     }
 }
 
@@ -157,4 +159,11 @@ internal class ErrorBody
         [DataMember(Name = "error_message")]
         public string? ErrorMessage { get; set; }
     }
+}
+
+[DataContract]
+internal class VersionBody
+{
+    [DataMember(Name = "version")]
+    public string? Version { get; set; }
 }
