@@ -796,6 +796,13 @@ namespace InfluxDB3.Client
             }
         }
 
+        /// <summary>
+        /// Retrieves the server version of the connected InfluxDB instance.
+        /// </summary>
+        /// <returns>
+        /// A string representing the version of the InfluxDB server. Returns null if the version
+        /// cannot be determined from the response headers or body.
+        /// </returns>
         public async Task<string?> GetServerVersion()
         {
             string? version;
