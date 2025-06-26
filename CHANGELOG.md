@@ -1,5 +1,9 @@
 ## 1.3.0 [unreleased]
 
+### Features
+
+1. [#164](https://github.com/InfluxCommunity/influxdb3-csharp/pull/164): Add function to get InfluxDB version.
+
 ## 1.2.0 [2025-05-22]
 
 ### Features
