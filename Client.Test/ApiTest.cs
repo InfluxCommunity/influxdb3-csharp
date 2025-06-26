@@ -65,7 +65,32 @@ public class ApiTest
     }
 
     [Test]
-    public void TestGetVersionEmpty()
+    public void TestGetVersionEmptyHeader()
+    {
+        _mockHttpsServer
+            .Given(Request.Create().WithPath("/ping").UsingGet())
+            .RespondWith(Response.Create()
+                .WithStatusCode(200)
+            );
+        var result = _influxDbClient.GetServerVersion().GetAwaiter().GetResult();
+        Assert.That(result, Is.Null);
+    }
+
+    [Test]
+    public void TestGetVersionMalformJson()
+    {
+        _mockHttpsServer
+            .Given(Request.Create().WithPath("/ping").UsingGet())
+            .RespondWith(Response.Create()
+                .WithBody("{{{}")
+                .WithStatusCode(200)
+            );
+        var result = _influxDbClient.GetServerVersion().GetAwaiter().GetResult();
+        Assert.That(result, Is.Null);
+    }
+
+    [Test]
+    public void TestGetVersionInvalidHeader()
     {
         _mockHttpsServer
             .Given(Request.Create().WithPath("/ping").UsingGet())
@@ -84,7 +109,7 @@ public class ApiTest
         _mockHttpsServer
             .Given(Request.Create().WithPath("/ping").UsingGet())
             .RespondWith(Response.Create()
-                .WithHeader("x-influxdb-version-wrong", "2.0")
+                .WithHeader("x-influxdb-version", "2.0")
                 .WithBody("{\"field\": \"3.0\"}")
                 .WithStatusCode(400)
             );

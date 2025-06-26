@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
@@ -806,10 +807,18 @@ namespace InfluxDB3.Client
 
             if (version == null)
             {
-                var versionObject =
-                    new DataContractJsonSerializer(typeof(VersionBody)).ReadObject(
-                        await response.Content.ReadAsStreamAsync());
-                version = ((VersionBody)versionObject).Version;
+                try
+                {
+                    var versionObject =
+                        new DataContractJsonSerializer(typeof(VersionBody)).ReadObject(
+                            await response.Content.ReadAsStreamAsync());
+                    version = ((VersionBody)versionObject).Version;
+                }
+                catch (SerializationException e)
+                {
+                    version = null;
+                }
+
             }
 
             return version;
