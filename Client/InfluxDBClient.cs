@@ -800,7 +800,7 @@ namespace InfluxDB3.Client
         {
             string? version;
             var response = await _restClient.Request("ping", HttpMethod.Get);
-            version = response.Headers?
+            version = response.Headers
                 .Where(header => header.Key == "x-influxdb-version")
                 .Select(header => header.Value.First().ToString())
                 .FirstOrDefault();
