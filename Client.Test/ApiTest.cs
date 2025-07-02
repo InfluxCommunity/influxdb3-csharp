@@ -52,6 +52,19 @@ public class ApiTest
     }
 
     [Test]
+    public void TestGetVersionInHeaderSuccessUppercase()
+    {
+        _mockHttpsServer
+            .Given(Request.Create().WithPath("/ping").UsingGet())
+            .RespondWith(Response.Create()
+                .WithHeader("X-Influxdb-Version", "1.8.0")
+                .WithStatusCode(200)
+            );
+        var result = _influxDbClient.GetServerVersion().GetAwaiter().GetResult();
+        Assert.That(result, Is.EqualTo("1.8.0"));
+    }
+
+    [Test]
     public void TestGetVersionInBodySuccess()
     {
         _mockHttpsServer

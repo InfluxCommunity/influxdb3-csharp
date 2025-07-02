@@ -808,7 +808,7 @@ namespace InfluxDB3.Client
             string? version;
             var response = await _restClient.Request("ping", HttpMethod.Get);
             version = response.Headers
-                .Where(header => header.Key == "x-influxdb-version")
+                .Where(header => header.Key is "x-influxdb-version" or "X-Influxdb-Version")
                 .Select(header => header.Value.First().ToString())
                 .FirstOrDefault();
 
@@ -821,7 +821,7 @@ namespace InfluxDB3.Client
                             await response.Content.ReadAsStreamAsync());
                     version = ((VersionBody)versionObject).Version;
                 }
-                catch (SerializationException e)
+                catch (SerializationException)
                 {
                     version = null;
                 }
