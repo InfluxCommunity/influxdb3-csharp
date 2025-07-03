@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -265,6 +268,15 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves the server version of the connected InfluxDB instance.
+        /// </summary>
+        /// <returns>
+        /// A string representing the version of the InfluxDB server. Returns null if the server version
+        /// information cannot be extracted from the response headers or body.
+        /// </returns>
+        Task<string?> GetServerVersion();
     }
 
     public class InfluxDBClient : IInfluxDBClient
@@ -789,6 +801,41 @@ namespace InfluxDB3.Client
                 }
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Retrieves the server version of the connected InfluxDB instance.
+        /// </summary>
+        /// <returns>
+        /// A string representing the version of the InfluxDB server. Returns null if the version
+        /// cannot be determined from the response headers or body.
+        /// </returns>
+        public async Task<string?> GetServerVersion()
+        {
+            string? version;
+            var response = await _restClient.Request("ping", HttpMethod.Get);
+            version = response.Headers
+                .Where(header => header.Key is "x-influxdb-version" or "X-Influxdb-Version")
+                .Select(header => header.Value.First().ToString())
+                .FirstOrDefault();
+
+            if (version == null)
+            {
+                try
+                {
+                    var versionObject =
+                        new DataContractJsonSerializer(typeof(VersionBody)).ReadObject(
+                            await response.Content.ReadAsStreamAsync());
+                    version = ((VersionBody)versionObject).Version;
+                }
+                catch (SerializationException)
+                {
+                    version = null;
+                }
+
+            }
+
+            return version;
         }
 
         public void Dispose()
