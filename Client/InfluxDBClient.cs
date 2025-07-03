@@ -269,6 +269,13 @@ namespace InfluxDB3.Client
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Retrieves the server version of the connected InfluxDB instance.
+        /// </summary>
+        /// <returns>
+        /// A string representing the version of the InfluxDB server. Returns null if the server version
+        /// information cannot be extracted from the response headers or body.
+        /// </returns>
         Task<string?> GetServerVersion();
     }
 
