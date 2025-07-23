@@ -38,6 +38,7 @@ namespace InfluxDB3.Client.Write
 
         /// <summary>
         /// Get measurement name.
+        /// It will return null when querying with SQL Query.
         /// </summary>
         /// <returns>Measurement name</returns>
         public string? GetMeasurement()
