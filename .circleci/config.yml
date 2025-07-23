@@ -67,6 +67,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install jq
+          command: |
+            apt-get update
+            apt-get install -y jq
+      - run:
           name: Setup InfluxDB service
           command: |
             ./Scripts/influxdb-setup.sh \
