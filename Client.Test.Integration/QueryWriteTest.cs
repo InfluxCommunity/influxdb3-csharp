@@ -153,7 +153,7 @@ public class QueryWriteTest : IntegrationTest
                 MaxReceiveMessageSize = 100
             }
         });
-        
+
         // Make sure the measurement exists
         var testId = DateTime.UtcNow.Millisecond;
         await client.WriteRecordAsync($"integration_test,type=used value=1234.0,testId={testId}");

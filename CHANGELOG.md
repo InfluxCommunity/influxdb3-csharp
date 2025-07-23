@@ -3,6 +3,7 @@
 ### Features
 
 1. [#164](https://github.com/InfluxCommunity/influxdb3-csharp/pull/164): Add function to get InfluxDB version.
+1. [#168](https://github.com/InfluxCommunity/influxdb3-csharp/pull/168): Run integration tests against a locally started InfluxDB 3 Core server.
 
 ## 1.2.0 [2025-05-22]
 
