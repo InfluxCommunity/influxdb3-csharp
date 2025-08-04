@@ -141,7 +141,7 @@ public class QueryWriteTest : IntegrationTest
     }
 
     [Test]
-    public void MaxReceiveMessageSize()
+    public async Task MaxReceiveMessageSize()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -153,6 +153,11 @@ public class QueryWriteTest : IntegrationTest
                 MaxReceiveMessageSize = 100
             }
         });
+
+        // Make sure the measurement exists
+        var testId = DateTime.UtcNow.Millisecond;
+        await client.WriteRecordAsync($"integration_test,type=used value=1234.0,testId={testId}");
+
 
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
