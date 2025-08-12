@@ -143,6 +143,9 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="">WritePrecisionConverter</a>
+                          </li>
                         </ul>
                     </li>
                   </ul>
@@ -174,6 +177,32 @@
   </div>
   <h3 id="methods">Methods
 </h3>
+  <a id="InfluxDB3_Client_IInfluxDBClient_GetServerVersion_" data-uid="InfluxDB3.Client.IInfluxDBClient.GetServerVersion*"></a>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_GetServerVersion" data-uid="InfluxDB3.Client.IInfluxDBClient.GetServerVersion">GetServerVersion()</h4>
+  <div class="markdown level1 summary"><p>Retrieves the server version of the connected InfluxDB instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Task&lt;string?&gt; GetServerVersion()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>A string representing the version of the InfluxDB server. Returns null if the server version
+information cannot be extracted from the response headers or body.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_IInfluxDBClient_Query_" data-uid="InfluxDB3.Client.IInfluxDBClient.Query*"></a>
   <h4 id="InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">Query(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>

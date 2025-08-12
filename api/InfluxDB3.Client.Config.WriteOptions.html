@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width">
       <meta name="title" content="Class WriteOptions ">
     
-    <meta name="description" content="The WriteOptions class holds the configuration for writing data to InfluxDB. You can configure following options:  Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call. GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.  If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig {     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     WriteOptions = new WriteOptions     {         Precision = WritePrecision.S,         GzipThreshold = 4096     } });">
+    <meta name="description" content="The WriteOptions class holds the configuration for writing data to InfluxDB. You can configure following options:  Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call. GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000. NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.  If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig {     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     WriteOptions = new WriteOptions     {         Precision = WritePrecision.S,         GzipThreshold = 4096,         NoSync = false     } });">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -143,6 +143,9 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="">WritePrecisionConverter</a>
+                          </li>
                         </ul>
                     </li>
                   </ul>
@@ -163,6 +166,7 @@
 <ul>
 <li>Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.</li>
 <li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
+<li>NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.</li>
 </ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig
@@ -174,7 +178,8 @@
     WriteOptions = new WriteOptions
     {
         Precision = WritePrecision.S,
-        GzipThreshold = 4096
+        GzipThreshold = 4096,
+        NoSync = false
     }
 });</code></pre>
 </div>
@@ -281,6 +286,35 @@ DefaultTags = new Dictionary &amp;lt;string, string ()
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_WriteOptions_NoSync_" data-uid="InfluxDB3.Client.Config.WriteOptions.NoSync*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_NoSync" data-uid="InfluxDB3.Client.Config.WriteOptions.NoSync">NoSync</h4>
+  <div class="markdown level1 summary"><p>Instructs the server whether to wait with the response until WAL persistence completes.
+NoSync=true means faster write but without the confirmation that the data was persisted.</p>
+<p>Note: This option is supported by InfluxDB 3 Core and Enterprise servers only.
+For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Clould Serverless/Dedicated)
+the write operation will fail with an error.</p>
+<p>Default value: false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool NoSync { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td></td>
       </tr>
     </tbody>

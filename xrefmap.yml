@@ -336,6 +336,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.WriteOptions.GzipThreshold
   nameWithType: WriteOptions.GzipThreshold
+- uid: InfluxDB3.Client.Config.WriteOptions.NoSync
+  name: NoSync
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_NoSync
+  commentId: P:InfluxDB3.Client.Config.WriteOptions.NoSync
+  fullName: InfluxDB3.Client.Config.WriteOptions.NoSync
+  nameWithType: WriteOptions.NoSync
+- uid: InfluxDB3.Client.Config.WriteOptions.NoSync*
+  name: NoSync
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_NoSync_
+  commentId: Overload:InfluxDB3.Client.Config.WriteOptions.NoSync
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.WriteOptions.NoSync
+  nameWithType: WriteOptions.NoSync
 - uid: InfluxDB3.Client.Config.WriteOptions.Precision
   name: Precision
   href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_Precision
@@ -355,6 +368,19 @@ references:
   commentId: T:InfluxDB3.Client.IInfluxDBClient
   fullName: InfluxDB3.Client.IInfluxDBClient
   nameWithType: IInfluxDBClient
+- uid: InfluxDB3.Client.IInfluxDBClient.GetServerVersion
+  name: GetServerVersion()
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_GetServerVersion
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.GetServerVersion
+  fullName: InfluxDB3.Client.IInfluxDBClient.GetServerVersion()
+  nameWithType: IInfluxDBClient.GetServerVersion()
+- uid: InfluxDB3.Client.IInfluxDBClient.GetServerVersion*
+  name: GetServerVersion
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_GetServerVersion_
+  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.GetServerVersion
+  isSpec: "True"
+  fullName: InfluxDB3.Client.IInfluxDBClient.GetServerVersion
+  nameWithType: IInfluxDBClient.GetServerVersion
 - uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
   name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
@@ -577,6 +603,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.Dispose
   nameWithType: InfluxDBClient.Dispose
+- uid: InfluxDB3.Client.InfluxDBClient.GetServerVersion
+  name: GetServerVersion()
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_GetServerVersion
+  commentId: M:InfluxDB3.Client.InfluxDBClient.GetServerVersion
+  fullName: InfluxDB3.Client.InfluxDBClient.GetServerVersion()
+  nameWithType: InfluxDBClient.GetServerVersion()
+- uid: InfluxDB3.Client.InfluxDBClient.GetServerVersion*
+  name: GetServerVersion
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_GetServerVersion_
+  commentId: Overload:InfluxDB3.Client.InfluxDBClient.GetServerVersion
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBClient.GetServerVersion
+  nameWithType: InfluxDBClient.GetServerVersion
 - uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
   name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
@@ -2033,3 +2072,35 @@ references:
   commentId: F:InfluxDB3.Client.Write.WritePrecision.Us
   fullName: InfluxDB3.Client.Write.WritePrecision.Us
   nameWithType: WritePrecision.Us
+- uid: InfluxDB3.Client.Write.WritePrecisionConverter
+  name: WritePrecisionConverter
+  href: api/InfluxDB3.Client.Write.WritePrecisionConverter.html
+  commentId: T:InfluxDB3.Client.Write.WritePrecisionConverter
+  fullName: InfluxDB3.Client.Write.WritePrecisionConverter
+  nameWithType: WritePrecisionConverter
+- uid: InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString(InfluxDB3.Client.Write.WritePrecision)
+  name: ToV2ApiString(WritePrecision)
+  href: api/InfluxDB3.Client.Write.WritePrecisionConverter.html#InfluxDB3_Client_Write_WritePrecisionConverter_ToV2ApiString_InfluxDB3_Client_Write_WritePrecision_
+  commentId: M:InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString(InfluxDB3.Client.Write.WritePrecision)
+  fullName: InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString(InfluxDB3.Client.Write.WritePrecision)
+  nameWithType: WritePrecisionConverter.ToV2ApiString(WritePrecision)
+- uid: InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString*
+  name: ToV2ApiString
+  href: api/InfluxDB3.Client.Write.WritePrecisionConverter.html#InfluxDB3_Client_Write_WritePrecisionConverter_ToV2ApiString_
+  commentId: Overload:InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString
+  nameWithType: WritePrecisionConverter.ToV2ApiString
+- uid: InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString(InfluxDB3.Client.Write.WritePrecision)
+  name: ToV3ApiString(WritePrecision)
+  href: api/InfluxDB3.Client.Write.WritePrecisionConverter.html#InfluxDB3_Client_Write_WritePrecisionConverter_ToV3ApiString_InfluxDB3_Client_Write_WritePrecision_
+  commentId: M:InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString(InfluxDB3.Client.Write.WritePrecision)
+  fullName: InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString(InfluxDB3.Client.Write.WritePrecision)
+  nameWithType: WritePrecisionConverter.ToV3ApiString(WritePrecision)
+- uid: InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString*
+  name: ToV3ApiString
+  href: api/InfluxDB3.Client.Write.WritePrecisionConverter.html#InfluxDB3_Client_Write_WritePrecisionConverter_ToV3ApiString_
+  commentId: Overload:InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString
+  nameWithType: WritePrecisionConverter.ToV3ApiString

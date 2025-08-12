@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width">
       <meta name="title" content="Class ClientConfig ">
     
-    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options: If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096    },    QueryOptions = new QueryOptions    {        Deadline = DateTime.UtcNow.AddSeconds(10),        MaxReceiveMessageSize = 4096,        MaxSendMessageSize = 4096,        CompressionProviders = new List&amp;lt;ICompressionProvider&amp;gt;        {            Grpc.Net.Compression.GzipCompressionProvider.Default        }    } });">
+    <meta name="description" content="The ClientConfig class holds the configuration for the InfluxDB client. You can configure following options: If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig{     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     AllowHttpRedirects = true,     DisableServerCertificateValidation = true,     WriteOptions = new WriteOptions    {        Precision = WritePrecision.S,        GzipThreshold = 4096,        NoSync = false    },    QueryOptions = new QueryOptions    {        Deadline = DateTime.UtcNow.AddSeconds(10),        MaxReceiveMessageSize = 4096,        MaxSendMessageSize = 4096,        CompressionProviders = new List&amp;lt;ICompressionProvider&amp;gt;        {            Grpc.Net.Compression.GzipCompressionProvider.Default        }    } });">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -143,6 +143,9 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="">WritePrecisionConverter</a>
+                          </li>
                         </ul>
                     </li>
                   </ul>
@@ -171,7 +174,8 @@
     WriteOptions = new WriteOptions
    {
        Precision = WritePrecision.S,
-       GzipThreshold = 4096
+       GzipThreshold = 4096,
+       NoSync = false
    },
    QueryOptions = new QueryOptions
    {

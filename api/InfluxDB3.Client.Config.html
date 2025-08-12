@@ -143,6 +143,9 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="">WritePrecisionConverter</a>
+                          </li>
                         </ul>
                     </li>
                   </ul>
@@ -176,7 +179,8 @@ Classes
     WriteOptions = new WriteOptions
    {
        Precision = WritePrecision.S,
-       GzipThreshold = 4096
+       GzipThreshold = 4096,
+       NoSync = false
    },
    QueryOptions = new QueryOptions
    {
@@ -199,6 +203,7 @@ Classes
 <ul>
 <li>Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.</li>
 <li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
+<li>NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.</li>
 </ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig
@@ -210,7 +215,8 @@ Classes
     WriteOptions = new WriteOptions
     {
         Precision = WritePrecision.S,
-        GzipThreshold = 4096
+        GzipThreshold = 4096,
+        NoSync = false
     }
 });</code></pre>
 </section>

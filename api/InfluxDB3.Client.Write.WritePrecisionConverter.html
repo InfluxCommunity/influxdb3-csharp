@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>Class QueryOptions </title>
+      <title>Class WritePrecisionConverter </title>
       <meta name="viewport" content="width=device-width">
-      <meta name="title" content="Class QueryOptions ">
+      <meta name="title" content="Class WritePrecisionConverter ">
     
-    <meta name="description" content="Represents the options for configuring query behavior in the client.">
+    
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -101,8 +101,8 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Config.ClientConfig.html" title="ClientConfig" class="">ClientConfig</a>
                           </li>
-                          <li class="active">
-                            <a href="InfluxDB3.Client.Config.QueryOptions.html" title="QueryOptions" class="active">QueryOptions</a>
+                          <li class="">
+                            <a href="InfluxDB3.Client.Config.QueryOptions.html" title="QueryOptions" class="">QueryOptions</a>
                           </li>
                           <li class="">
                             <a href="InfluxDB3.Client.Config.WriteOptions.html" title="WriteOptions" class="">WriteOptions</a>
@@ -143,8 +143,8 @@
                           <li class="">
                             <a href="InfluxDB3.Client.Write.WritePrecision.html" title="WritePrecision" class="">WritePrecision</a>
                           </li>
-                          <li class="">
-                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="">WritePrecisionConverter</a>
+                          <li class="active">
+                            <a href="InfluxDB3.Client.Write.WritePrecisionConverter.html" title="WritePrecisionConverter" class="active">WritePrecisionConverter</a>
                           </li>
                         </ul>
                     </li>
@@ -156,22 +156,17 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Config.QueryOptions">
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter">
 
 
 
-  <h1 id="InfluxDB3_Client_Config_QueryOptions" data-uid="InfluxDB3.Client.Config.QueryOptions" class="text-break">Class QueryOptions</h1>
-  <div class="markdown level0 summary"><p>Represents the options for configuring query behavior in the client.</p>
-</div>
+  <h1 id="InfluxDB3_Client_Write_WritePrecisionConverter" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter" class="text-break">Class WritePrecisionConverter</h1>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">QueryOptions</span></div>
-  </div>
-  <div class="implements">
-    <h5>Implements</h5>
-    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icloneable">ICloneable</a></div>
+    <div class="level1"><span class="xref">WritePrecisionConverter</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -197,138 +192,39 @@
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.html">InfluxDB3</a>.<a class="xref" href="InfluxDB3.Client.html">Client</a>.<a class="xref" href="InfluxDB3.Client.Config.html">Config</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.html">InfluxDB3</a>.<a class="xref" href="InfluxDB3.Client.html">Client</a>.<a class="xref" href="InfluxDB3.Client.Write.html">Write</a></h6>
   <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
-  <h5 id="InfluxDB3_Client_Config_QueryOptions_syntax">Syntax</h5>
+  <h5 id="InfluxDB3_Client_Write_WritePrecisionConverter_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class QueryOptions : ICloneable</code></pre>
+    <pre><code class="lang-csharp hljs">public static class WritePrecisionConverter</code></pre>
   </div>
-  <h3 id="properties">Properties
-</h3>
-  <a id="InfluxDB3_Client_Config_QueryOptions_CompressionProviders_" data-uid="InfluxDB3.Client.Config.QueryOptions.CompressionProviders*"></a>
-  <h4 id="InfluxDB3_Client_Config_QueryOptions_CompressionProviders" data-uid="InfluxDB3.Client.Config.QueryOptions.CompressionProviders">CompressionProviders</h4>
-  <div class="markdown level1 summary"><p>Gets or sets the collection of compression providers used for gRPC message compression.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IList&lt;ICompressionProvider&gt;? CompressionProviders { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/60156334d62c5169792c5fca1a653aa490c1abd8/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="InfluxDB3_Client_Config_QueryOptions_CompressionProviders_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This property specifies the list of compression algorithms available for compressing gRPC messages.
-The value is represented as a nullable list of <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/60156334d62c5169792c5fca1a653aa490c1abd8/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>.
-If set to <code>null</code>, Gzip will be used</p>
-</div>
-  <a id="InfluxDB3_Client_Config_QueryOptions_Deadline_" data-uid="InfluxDB3.Client.Config.QueryOptions.Deadline*"></a>
-  <h4 id="InfluxDB3_Client_Config_QueryOptions_Deadline" data-uid="InfluxDB3.Client.Config.QueryOptions.Deadline">Deadline</h4>
-  <div class="markdown level1 summary"><p>Gets or sets the optional deadline for query execution.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public DateTime? Deadline { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>?</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="InfluxDB3_Client_Config_QueryOptions_Deadline_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This property specifies the maximum time allowed for query execution before a timeout.
-If set to <code>null</code>, no deadline is applied. The value is represented as a nullable <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>.</p>
-</div>
-  <a id="InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize_" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize*"></a>
-  <h4 id="InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize">MaxReceiveMessageSize</h4>
-  <div class="markdown level1 summary"><p>Gets or sets the maximum size, in bytes, of a single message that can be received.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int? MaxReceiveMessageSize { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This property defines an optional limit for the size of incoming messages to avoid excessive memory allocation.
-A value of <code>null</code> specifies that no maximum size is enforced. The default value is 4,194,304 bytes (4 MB).</p>
-</div>
-  <a id="InfluxDB3_Client_Config_QueryOptions_MaxSendMessageSize_" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize*"></a>
-  <h4 id="InfluxDB3_Client_Config_QueryOptions_MaxSendMessageSize" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxSendMessageSize">MaxSendMessageSize</h4>
-  <div class="markdown level1 summary"><p>Gets or sets the maximum size of a message that can be sent.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int? MaxSendMessageSize { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 id="InfluxDB3_Client_Config_QueryOptions_MaxSendMessageSize_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This property defines the maximum allowable size, in bytes, for messages sent by the client.
-If set to <code>null</code>, there is no limit on the size of the sent messages.</p>
-</div>
   <h3 id="methods">Methods
 </h3>
-  <a id="InfluxDB3_Client_Config_QueryOptions_Clone_" data-uid="InfluxDB3.Client.Config.QueryOptions.Clone*"></a>
-  <h4 id="InfluxDB3_Client_Config_QueryOptions_Clone" data-uid="InfluxDB3.Client.Config.QueryOptions.Clone">Clone()</h4>
-  <div class="markdown level1 summary"><p>Creates a shallow copy of the current QueryOptions instance.</p>
-</div>
+  <a id="InfluxDB3_Client_Write_WritePrecisionConverter_ToV2ApiString_" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString*"></a>
+  <h4 id="InfluxDB3_Client_Write_WritePrecisionConverter_ToV2ApiString_InfluxDB3_Client_Write_WritePrecision_" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter.ToV2ApiString(InfluxDB3.Client.Write.WritePrecision)">ToV2ApiString(WritePrecision)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public object Clone()</code></pre>
+    <pre><code class="lang-csharp hljs">public static string ToV2ApiString(WritePrecision precision)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a></td>
+        <td><span class="parametername">precision</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-condensed">
     <thead>
@@ -339,16 +235,51 @@ If set to <code>null</code>, there is no limit on the size of the sent messages.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
-        <td><p>A new object that is a shallow copy of the current QueryOptions instance.</p>
-</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.icloneable">ICloneable</a>
+  <a id="InfluxDB3_Client_Write_WritePrecisionConverter_ToV3ApiString_" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString*"></a>
+  <h4 id="InfluxDB3_Client_Write_WritePrecisionConverter_ToV3ApiString_InfluxDB3_Client_Write_WritePrecision_" data-uid="InfluxDB3.Client.Write.WritePrecisionConverter.ToV3ApiString(InfluxDB3.Client.Write.WritePrecision)">ToV3ApiString(WritePrecision)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string ToV3ApiString(WritePrecision precision)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a></td>
+        <td><span class="parametername">precision</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
 </article>
           </div>
