@@ -76,10 +76,13 @@ executors:
 jobs:
   tests-unit:
     working_directory: ~/repo
+    parameters:
+      dotnet-image:
+        type: string
+        default: mcr.microsoft.com/dotnet/sdk:8.0
     docker:
-#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
-#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-amd64"
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
+#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8"
     steps:
       - checkout
       - client-test:
@@ -145,6 +148,9 @@ workflows:
     jobs:
       - check-compilation-warnings
       - tests-unit
+      - tests-unit:
+          parameters:
+            dotnet-image: mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8
       - tests-integration:
           requires:
             - "tests-unit"
