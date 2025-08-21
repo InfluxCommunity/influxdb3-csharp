@@ -150,7 +150,7 @@ workflows:
       - tests-unit
       - tests-unit:
           parameters:
-            dotnet-image: mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8
+            dotnet-image: mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8m
       - tests-integration:
           requires:
             - "tests-unit"
