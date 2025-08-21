@@ -1,5 +1,9 @@
 ## 1.4.0 [unreleased]
 
+### CI
+
+1. [#170](https://github.com/InfluxCommunity/influxdb3-csharp/pull/170) Add tests for arm64 CircleCI.
+
 ## 1.3.0 [2025-08-12]
 
 ### Features
