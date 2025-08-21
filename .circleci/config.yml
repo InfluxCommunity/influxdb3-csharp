@@ -51,7 +51,8 @@ jobs:
     working_directory: ~/repo
     docker:
 #      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-amd64"
+#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-amd64"
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64"
 #      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/aspnet:8.0.19-jammy-amd64"
     steps:
       - checkout
