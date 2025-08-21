@@ -50,7 +50,8 @@ jobs:
   tests-unit:
     working_directory: ~/repo
     docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
+#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
+      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/aspnet:8.0.19-jammy-amd64"
     steps:
       - checkout
       - client-test:
