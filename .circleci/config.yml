@@ -1,5 +1,4 @@
 version: 2.1
-
 commands:
   client-test:
     parameters:
@@ -46,43 +45,12 @@ commands:
       - store_test_results:
           path: test-results
 
-#executors:
-#  docker-amd64-image:
-#    parameters:
-#      dotnet-image:
-#        type: string
-#        default: << pipeline.parameters.default-dotnet-image >>
-#    docker:
-#      - image: <<parameters.dotnet-image>>
-#      - image: influxdb:3-core
-#        environment:
-#          - INFLUXDB3_NODE_IDENTIFIER_PREFIX=node01
-#          - INFLUXDB3_OBJECT_STORE=file
-#          - INFLUXDB3_DB_DIR=/var/lib/influxdb3/data
-#  docker-arm64-image:
-#    parameters:
-#      dotnet-image:
-#        type: string
-#        default: << pipeline.parameters.default-dotnet-image >>
-#    docker:
-#      - image: <<parameters.dotnet-image>>
-#      - image: influxdb:3-core
-#        environment:
-#          - INFLUXDB3_NODE_IDENTIFIER_PREFIX=node01
-#          - INFLUXDB3_OBJECT_STORE=file
-#          - INFLUXDB3_DB_DIR=/var/lib/influxdb3/data
-#    resource_class: arm.medium
 
 jobs:
   tests-unit:
     working_directory: ~/repo
-    parameters:
-      dotnet-image:
-        type: string
-        default: mcr.microsoft.com/dotnet/sdk:8.0
     docker:
       - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
-#      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8"
     steps:
       - checkout
       - client-test:
@@ -148,9 +116,6 @@ workflows:
     jobs:
       - check-compilation-warnings
       - tests-unit
-      - tests-unit:
-          parameters:
-            dotnet-image: mcr.microsoft.com/dotnet/sdk:8.0-jammy-arm64v8m
       - tests-integration:
           requires:
             - "tests-unit"
