@@ -176,7 +176,7 @@ jobs:
 
 workflows:
   version: 2
-  build:
+  build_something:
     jobs:
       - check-compilation-warnings
       - tests-unit:
