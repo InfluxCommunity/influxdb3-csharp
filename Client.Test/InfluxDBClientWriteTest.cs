@@ -510,7 +510,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
 
         httpClient.PostAsync("", new StringContent("")).Wait();
-        Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl)));;
+        Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
         Assert.Pass();
     }
 }
