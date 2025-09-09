@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using InfluxDB3.Client.Write;
 
@@ -199,6 +200,13 @@ public class ClientConfig
     /// Configuration options for query behavior in the InfluxDB client.
     /// </summary>
     public QueryOptions QueryOptions { get; set; }
+
+    /// <summary>
+    /// User-defined HttpClient.
+    /// Influxdb client will add an authentication header and base url to HttpClient. The rest is up to the user.
+    /// User will be responsible for closing the HttpClient.
+    /// </summary>
+    public HttpClient? HttpClient { get; set; }
 
     internal void Validate()
     {

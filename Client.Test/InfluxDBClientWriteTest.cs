@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
@@ -489,5 +490,27 @@ public class InfluxDBClientWriteTest : MockServerTest
                 Does.Contain(
                     "Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only)."));
         });
+    }
+
+    [Test]
+    public void TestSetHttpClient()
+    {
+
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+
+        var httpClient = new HttpClient(new HttpClientHandler());
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            HttpClient = httpClient
+        });
+
+        httpClient.PostAsync("", new StringContent("")).Wait();
+        Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl)));;
+        Assert.Pass();
     }
 }

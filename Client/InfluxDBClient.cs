@@ -343,7 +343,7 @@ namespace InfluxDB3.Client
             config.Validate();
 
             _config = config;
-            _httpClient = CreateAndConfigureHttpClient(_config);
+            _httpClient = CreateOrGetHttpClient(_config);
             FlightSqlClient = new FlightSqlClient(config: _config, httpClient: _httpClient);
             _restClient = new RestClient(config: _config, httpClient: _httpClient);
             _gzipHandler = new GzipHandler(config.WriteOptions != null ? config.WriteOptions.GzipThreshold : 0);
@@ -840,7 +840,12 @@ namespace InfluxDB3.Client
 
         public void Dispose()
         {
-            _httpClient.Dispose();
+            // _config.HttpClient == null means HttpClient is created by the library, not from the user.
+            // so the client will be responsible for disposing of the HttpClient.
+            if (_config.HttpClient == null)
+            {
+                _httpClient.Dispose();
+            }
             FlightSqlClient.Dispose();
             _disposed = true;
         }
@@ -876,7 +881,26 @@ namespace InfluxDB3.Client
             return sb;
         }
 
-        internal static HttpClient CreateAndConfigureHttpClient(ClientConfig config)
+        internal static HttpClient CreateOrGetHttpClient(ClientConfig config)
+        {
+            if (config.HttpClient == null)
+            {
+                return CreateHttpClient(config);
+            }
+
+            var httpClient = config.HttpClient;
+            if (httpClient.BaseAddress == null)
+            {
+                httpClient.BaseAddress = new Uri(config.Host);
+            }
+            if (!string.IsNullOrEmpty(config.AuthScheme))
+            {
+                _setDefaultHeader(httpClient, config);
+            }
+            return config.HttpClient;
+        }
+
+        private static HttpClient CreateHttpClient(ClientConfig config)
         {
             var handler = new HttpClientHandler();
             if (handler.SupportsRedirectConfiguration)
@@ -920,11 +944,17 @@ namespace InfluxDB3.Client
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             if (!string.IsNullOrEmpty(config.Token))
             {
-                string authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme!;
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, config.Token);
+                _setDefaultHeader(client, config);
             }
 
             return client;
+        }
+
+        private static void _setDefaultHeader(HttpClient httpClient, ClientConfig config)
+        {
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
+            var authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme!;
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, config.Token);
         }
 
         private static string OptionMessage(string property)

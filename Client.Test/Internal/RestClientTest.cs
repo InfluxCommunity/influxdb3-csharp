@@ -294,7 +294,7 @@ public class RestClientTest : MockServerTest
 
     private void CreateAndConfigureRestClient(ClientConfig config)
     {
-        _httpClient = InfluxDBClient.CreateAndConfigureHttpClient(config);
+        _httpClient = InfluxDBClient.CreateOrGetHttpClient(config);
         _client = new RestClient(config, _httpClient);
     }
 
