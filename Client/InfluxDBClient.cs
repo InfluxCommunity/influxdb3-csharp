@@ -895,7 +895,7 @@ namespace InfluxDB3.Client
             }
             if (!string.IsNullOrEmpty(config.AuthScheme))
             {
-                _setDefaultHeader(httpClient, config);
+                _setAuthenticationHeader(httpClient, config);
             }
             return config.HttpClient;
         }
@@ -944,15 +944,14 @@ namespace InfluxDB3.Client
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             if (!string.IsNullOrEmpty(config.Token))
             {
-                _setDefaultHeader(client, config);
+                _setAuthenticationHeader(client, config);
             }
 
             return client;
         }
 
-        private static void _setDefaultHeader(HttpClient httpClient, ClientConfig config)
+        private static void _setAuthenticationHeader(HttpClient httpClient, ClientConfig config)
         {
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
             var authScheme = string.IsNullOrEmpty(config.AuthScheme) ? "Token" : config.AuthScheme!;
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authScheme, config.Token);
         }

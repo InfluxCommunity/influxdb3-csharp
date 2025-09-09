@@ -505,6 +505,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             Host = MockServerUrl,
             Token = "my-token",
+            AuthScheme = "",
             Database = "my-database",
             HttpClient = httpClient
         });
