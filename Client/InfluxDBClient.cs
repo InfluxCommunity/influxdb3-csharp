@@ -893,7 +893,7 @@ namespace InfluxDB3.Client
             {
                 httpClient.BaseAddress = new Uri(config.Host);
             }
-            if (!string.IsNullOrEmpty(config.AuthScheme))
+            if (!string.IsNullOrEmpty(config.Token))
             {
                 _setAuthenticationHeader(httpClient, config);
             }
