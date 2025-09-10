@@ -883,21 +883,23 @@ namespace InfluxDB3.Client
 
         internal static HttpClient CreateOrGetHttpClient(ClientConfig config)
         {
-            if (config.HttpClient == null)
+            var httpClient = config.HttpClient;
+            if (httpClient == null)
             {
-                return CreateHttpClient(config);
+                httpClient = CreateHttpClient(config);
             }
 
-            var httpClient = config.HttpClient;
             if (httpClient.BaseAddress == null)
             {
                 httpClient.BaseAddress = new Uri(config.Host);
             }
+
             if (!string.IsNullOrEmpty(config.Token))
             {
                 _setAuthenticationHeader(httpClient, config);
             }
-            return config.HttpClient;
+
+            return httpClient;
         }
 
         private static HttpClient CreateHttpClient(ClientConfig config)
@@ -940,12 +942,7 @@ namespace InfluxDB3.Client
             {
                 Timeout = config.Timeout
             };
-
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
-            if (!string.IsNullOrEmpty(config.Token))
-            {
-                _setAuthenticationHeader(client, config);
-            }
 
             return client;
         }
