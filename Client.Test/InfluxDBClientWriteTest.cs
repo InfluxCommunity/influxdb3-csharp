@@ -500,7 +500,10 @@ public class InfluxDBClientWriteTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v3/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
 
-        var httpClient = new HttpClient(new HttpClientHandler());
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("my-user-agent");
+        httpClient.DefaultRequestHeaders.Add("X-Client-ID", "123");
+
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
@@ -510,7 +513,12 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
 
         httpClient.PostAsync("", new StringContent("")).Wait();
-        Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
+            Assert.That(httpClient.DefaultRequestHeaders.UserAgent.ToString(), Is.EqualTo("my-user-agent"));
+            Assert.That(httpClient.DefaultRequestHeaders.GetValues("X-Client-ID").First(), Is.EqualTo("123"));
+        }
         Assert.Pass();
     }
 
