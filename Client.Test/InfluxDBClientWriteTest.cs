@@ -495,7 +495,6 @@ public class InfluxDBClientWriteTest : MockServerTest
     [Test]
     public void TestSetHttpClient()
     {
-
         MockServer
             .Given(Request.Create().WithPath("/api/v3/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
@@ -512,7 +511,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             HttpClient = httpClient
         });
 
-        httpClient.PostAsync("", new StringContent("")).Wait();
+        _client.WriteRecordAsync("mem,tag=a field=1");
         using (Assert.EnterMultipleScope())
         {
             Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
