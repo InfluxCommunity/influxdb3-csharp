@@ -1,5 +1,9 @@
 ## 1.4.0 [unreleased]
 
+### Features
+
+1. [#174](https://github.com/InfluxCommunity/influxdb3-csharp/pull/174): Support passing HttpClient to InfluxDBClient.
+
 ## 1.3.0 [2025-08-12]
 
 ### Features

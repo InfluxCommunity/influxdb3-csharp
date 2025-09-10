@@ -3,7 +3,7 @@ using WireMock.Settings;
 
 namespace InfluxDB3.Client.Test;
 
-public class MockServerTest
+public abstract class MockServerTest
 {
     internal WireMockServer MockServer, MockProxy;
     internal string MockServerUrl, MockProxyUrl;
