@@ -513,4 +513,28 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
         Assert.Pass();
     }
+
+    [Test]
+    public void TestCheckHttpClientStillOpen()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/test").UsingGet())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBody("Still ok"));
+
+        var httpClient = new HttpClient(new HttpClientHandler());
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            HttpClient = httpClient
+        });
+        _client.Dispose();
+
+        var httpResponseMessage = httpClient.Send(new HttpRequestMessage(HttpMethod.Get, "test"));
+        Assert.That(httpResponseMessage.Content.ReadAsStringAsync().Result, Is.EqualTo("Still ok"));
+    }
 }
