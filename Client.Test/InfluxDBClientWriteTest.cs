@@ -493,10 +493,10 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public void TestSetHttpClient()
+    public async Task TestSetHttpClient()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
 
         var httpClient = new HttpClient();
@@ -511,12 +511,12 @@ public class InfluxDBClientWriteTest : MockServerTest
             HttpClient = httpClient
         });
 
-        _client.WriteRecordAsync("mem,tag=a field=1");
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+        var requests = MockServer.LogEntries.ToList();
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(httpClient.BaseAddress, Is.EqualTo(new Uri(MockServerUrl))); ;
-            Assert.That(httpClient.DefaultRequestHeaders.UserAgent.ToString(), Is.EqualTo("my-user-agent"));
-            Assert.That(httpClient.DefaultRequestHeaders.GetValues("X-Client-ID").First(), Is.EqualTo("123"));
+            Assert.That(requests[0].RequestMessage.Headers?["User-Agent"].First(), Is.EqualTo("my-user-agent"));
+            Assert.That(requests[0].RequestMessage.Headers["X-Client-ID"].First(), Is.EqualTo("123"));
         }
         Assert.Pass();
     }
