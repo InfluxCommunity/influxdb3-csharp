@@ -27,6 +27,7 @@ namespace InfluxDB3.Client.Config;
 /// <item>- Proxy: The HTTP proxy URL. Default is not set.</item>
 /// <item>- WriteOptions: Write options.</item>
 /// <item>- QueryOptions Query options.</item>
+/// <item>- HttpClient: The HttpClient will be used for Write and Query apis.</item>
 /// </list>
 ///
 /// <para>If you want create client with custom options, you can use the following code:</para>
@@ -203,8 +204,8 @@ public class ClientConfig
 
     /// <summary>
     /// User-defined HttpClient.
-    /// Influxdb client will add an authentication header and base url to HttpClient. The rest is up to the user.
-    /// User will be responsible for closing the HttpClient.
+    /// Influxdb client will add an authentication header and base url to HttpClient. The rest is up to the users.
+    /// Users will be responsible for closing the HttpClient.
     /// </summary>
     public HttpClient? HttpClient { get; set; }
 
