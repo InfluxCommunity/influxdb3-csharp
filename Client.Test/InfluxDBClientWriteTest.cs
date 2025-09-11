@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
@@ -493,7 +494,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public void TimeoutExceeded()
+    public void TimeoutExceededByTimeout()
     {
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
@@ -517,7 +518,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public void TimeoutExceededByWriteTimeout()
+    public Task TimeoutExceededByWriteTimeout()
     {
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
@@ -528,12 +529,38 @@ public class InfluxDBClientWriteTest : MockServerTest
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
+            QueryTimeout = TimeSpan.FromSeconds(11),
             Timeout = TimeSpan.FromSeconds(11),
             WriteTimeout = TimeSpan.FromSeconds(1) // WriteTimeout has a higher priority than Timeout
         });
         var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
         {
             await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public void TimeoutExceededByToken()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
+
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            QueryTimeout = TimeSpan.FromSeconds(11),
+            Timeout = TimeSpan.FromSeconds(11),
+            WriteTimeout = TimeSpan.FromSeconds(11)
+        });
+        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: new CancellationTokenSource(TimeSpan.FromSeconds(1)).Token);
         });
 
         Assert.That(ae, Is.Not.Null);

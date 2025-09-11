@@ -199,7 +199,8 @@ public class QueryWriteTest : IntegrationTest
             Host = Host,
             Token = Token,
             Database = Database,
-            QueryTimeout = TimeSpan.FromSeconds(100),
+            WriteTimeout = TimeSpan.FromSeconds(11),
+            QueryTimeout = TimeSpan.FromSeconds(11),
             QueryOptions = new QueryOptions()
             {
                 Deadline = DateTime.UtcNow.AddMilliseconds(1) // Deadline will have a higher priority than QueryTimeout
@@ -224,11 +225,38 @@ public class QueryWriteTest : IntegrationTest
             Host = Host,
             Token = Token,
             Database = Database,
+            WriteTimeout = TimeSpan.FromSeconds(11),
             QueryTimeout = TimeSpan.FromMilliseconds(1),
         });
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
             await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5"))
+            {
+            }
+        });
+        Assert.That(ex, Is.Not.Null);;
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task TimeoutExceeded()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteTimeout = TimeSpan.FromSeconds(11),
+            QueryTimeout = TimeSpan.FromSeconds(11),
+            QueryOptions =
+            {
+                Deadline = DateTime.UtcNow.AddSeconds(11),
+            }
+        });
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5", timeout: TimeSpan.FromMilliseconds(1)))
             {
             }
         });
