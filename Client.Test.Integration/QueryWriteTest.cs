@@ -260,7 +260,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.Query("SELECT * FROM weathers LIMIT 5", timeout: timeout))
+            await foreach (var _ in client.Query("SELECT * FROM integration_test", timeout: timeout))
             {
             }
         });
