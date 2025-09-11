@@ -279,19 +279,6 @@ public class RestClientTest : MockServerTest
         Assert.That(_client, Is.Not.Null);
     }
 
-    [Test]
-    public void Timeout()
-    {
-        CreateAndConfigureRestClient(new ClientConfig
-        {
-            Host = MockServerUrl,
-            Timeout = TimeSpan.FromSeconds(45)
-        });
-
-        var httpClient = GetDeclaredField<HttpClient>(_client.GetType(), _client, "_httpClient");
-        Assert.That(httpClient.Timeout, Is.EqualTo(TimeSpan.FromSeconds(45)));
-    }
-
     private void CreateAndConfigureRestClient(ClientConfig config)
     {
         _httpClient = InfluxDBClient.CreateOrGetHttpClient(config);

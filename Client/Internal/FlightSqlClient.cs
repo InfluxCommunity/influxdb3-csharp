@@ -25,7 +25,7 @@ internal interface IFlightSqlClient : IDisposable
     /// Execute the query and return the result as a sequence of record batches.
     /// </summary>
     internal IAsyncEnumerable<RecordBatch> Execute(string query, string database, QueryType queryType,
-        Dictionary<string, object> namedParameters, Dictionary<string, string> headers);
+        Dictionary<string, object> namedParameters, Dictionary<string, string> headers, TimeSpan? timeout = null);
 
     /// <summary>
     /// Prepare the FlightTicket for the query.
@@ -77,7 +77,7 @@ internal class FlightSqlClient : IFlightSqlClient
     }
 
     async IAsyncEnumerable<RecordBatch> IFlightSqlClient.Execute(string query, string database, QueryType queryType,
-        Dictionary<string, object> namedParameters, Dictionary<string, string> headers)
+        Dictionary<string, object> namedParameters, Dictionary<string, string> headers, TimeSpan? timeout)
     {
         //
         // verify that values of namedParameters is supported type
@@ -97,7 +97,20 @@ internal class FlightSqlClient : IFlightSqlClient
 
         var ticket = ((IFlightSqlClient)this).PrepareFlightTicket(query, database, queryType, namedParameters);
 
-        using var stream = _flightClient.GetStream(ticket, metadata, _config.QueryOptions.Deadline);
+        DateTime? deadline = null;
+        if (timeout.HasValue)
+        {
+            deadline = DateTime.UtcNow.Add(timeout.Value);
+        } else if (_config.QueryOptions.Deadline.HasValue)
+        {
+            deadline = _config.QueryOptions.Deadline.Value;
+        }
+        else if (_config.QueryTimeout.HasValue)
+        {
+            deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
+        }
+
+        using var stream = _flightClient.GetStream(ticket, metadata, deadline);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
             yield return stream.ResponseStream.Current;

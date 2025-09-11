@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
+using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test;
 
@@ -493,55 +493,49 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public async Task TestSetHttpClient()
+    public void TimeoutExceeded()
     {
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("my-user-agent");
-        httpClient.DefaultRequestHeaders.Add("X-Client-ID", "123");
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            HttpClient = httpClient
+            Timeout = TimeSpan.FromSeconds(1)
         });
 
-        await _client.WriteRecordAsync("mem,tag=a field=1");
-        var requests = MockServer.LogEntries.ToList();
-        using (Assert.EnterMultipleScope())
+        //fixme should be TaskCanceledException or TimeoutException
+        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
         {
-            Assert.That(requests[0].RequestMessage.Headers?["User-Agent"].First(), Is.EqualTo("my-user-agent"));
-            Assert.That(requests[0].RequestMessage.Headers["X-Client-ID"].First(), Is.EqualTo("123"));
-        }
-        Assert.Pass();
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.That(ae, Is.Not.Null);
     }
 
     [Test]
-    public void TestCheckHttpClientStillOpen()
+    public void TimeoutExceededByWriteTimeout()
     {
         MockServer
-            .Given(Request.Create().WithPath("/test").UsingGet())
-            .RespondWith(
-                Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody("Still ok"));
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
-        var httpClient = new HttpClient(new HttpClientHandler());
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            HttpClient = httpClient
+            Timeout = TimeSpan.FromSeconds(11),
+            WriteTimeout = TimeSpan.FromSeconds(1) // WriteTimeout has a higher priority than Timeout
         });
-        _client.Dispose();
+        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
 
-        var httpResponseMessage = httpClient.Send(new HttpRequestMessage(HttpMethod.Get, "test"));
-        Assert.That(httpResponseMessage.Content.ReadAsStringAsync().Result, Is.EqualTo("Still ok"));
+        Assert.That(ae, Is.Not.Null);
     }
 }

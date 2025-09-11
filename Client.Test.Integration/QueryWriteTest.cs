@@ -190,4 +190,50 @@ public class QueryWriteTest : IntegrationTest
         });
         Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
+
+    [Test]
+    public Task TimeoutExceededByDeadline()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            QueryTimeout = TimeSpan.FromSeconds(100),
+            QueryOptions = new QueryOptions()
+            {
+                Deadline = DateTime.UtcNow.AddMilliseconds(1) // Deadline will have a higher priority than QueryTimeout
+            }
+        });
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5"))
+            {
+            }
+        });
+        Assert.That(ex, Is.Not.Null);;
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task TimeoutExceededByQueryTimeout()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            QueryTimeout = TimeSpan.FromMilliseconds(1),
+        });
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5"))
+            {
+            }
+        });
+        Assert.That(ex, Is.Not.Null);;
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+        return Task.CompletedTask;
+    }
 }
