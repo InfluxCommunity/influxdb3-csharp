@@ -250,8 +250,8 @@ public class QueryWriteTest : IntegrationTest
 
         var timeout = TimeSpan.FromTicks(1);
         TestQuery(client, timeout);
-        // TestQueryBatches(client, timeout);
-        // TestQueryPoints(client, timeout);
+        TestQueryBatches(client, timeout);
+        TestQueryPoints(client, timeout);
 
         return Task.FromResult(Task.CompletedTask);
     }
@@ -271,7 +271,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.QueryBatches("SELECT * FROM weathers LIMIT 5", timeout: timeout))
+            await foreach (var _ in client.QueryBatches("SELECT * FROM integration_test", timeout: timeout))
             {
             }
         });
@@ -282,7 +282,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.QueryPoints("SELECT * FROM weathers LIMIT 5", timeout: timeout))
+            await foreach (var _ in client.QueryPoints("SELECT * FROM integration_test", timeout: timeout))
             {
             }
         });
