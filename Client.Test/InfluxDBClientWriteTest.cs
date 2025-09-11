@@ -507,18 +507,14 @@ public class InfluxDBClientWriteTest : MockServerTest
             Database = "my-database",
             Timeout = TimeSpan.FromSeconds(1)
         });
-
-        //fixme should be TaskCanceledException or TimeoutException
-        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.That(ae, Is.Not.Null);
+        TestWriteRecordAsync(_client);
+        TestWriteRecordsAsync(_client);
+        TestWritePointAsync(_client);
+        TestWritePointsAsync(_client);
     }
 
     [Test]
-    public Task TimeoutExceededByWriteTimeout()
+    public void TimeoutExceededByWriteTimeout()
     {
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
@@ -533,13 +529,11 @@ public class InfluxDBClientWriteTest : MockServerTest
             Timeout = TimeSpan.FromSeconds(11),
             WriteTimeout = TimeSpan.FromSeconds(1) // WriteTimeout has a higher priority than Timeout
         });
-        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
+        TestWriteRecordAsync(_client);
+        TestWriteRecordsAsync(_client);
+        TestWritePointAsync(_client);
+        TestWritePointsAsync(_client);
 
-        Assert.That(ae, Is.Not.Null);
-        return Task.CompletedTask;
     }
 
     [Test]
@@ -558,11 +552,55 @@ public class InfluxDBClientWriteTest : MockServerTest
             Timeout = TimeSpan.FromSeconds(11),
             WriteTimeout = TimeSpan.FromSeconds(11)
         });
-        var ae = Assert.ThrowsAsync<TaskCanceledException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: new CancellationTokenSource(TimeSpan.FromSeconds(1)).Token);
-        });
+        var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(1)).Token;
+        TestWriteRecordAsync(_client, cancellationToken);
+        TestWriteRecordsAsync(_client, cancellationToken);
+        TestWritePointAsync(_client, cancellationToken);
+        TestWritePointsAsync(_client, cancellationToken);
+    }
 
-        Assert.That(ae, Is.Not.Null);
+    private static void TestWriteRecordAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken);
+        });
+    }
+
+    private static void TestWriteRecordsAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WriteRecordsAsync(
+                records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
+                cancellationToken: cancellationToken
+            );
+        });
+    }
+
+    private static void TestWritePointAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WritePointAsync(
+                PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+                cancellationToken: cancellationToken
+            );
+        });
+    }
+
+    private static void TestWritePointsAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WritePointsAsync(
+                points: new[]
+                {
+                    PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+                    PointData.Measurement("h2o").SetTag("location", "us-west").SetField("level", 4),
+                },
+                cancellationToken: cancellationToken
+            );
+        });
     }
 }

@@ -206,14 +206,10 @@ public class QueryWriteTest : IntegrationTest
                 Deadline = DateTime.UtcNow.AddMilliseconds(1) // Deadline will have a higher priority than QueryTimeout
             }
         });
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
-        {
-            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5"))
-            {
-            }
-        });
-        Assert.That(ex, Is.Not.Null);;
-        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+        TestQuery(client);
+        TestQueryBatches(client);
+        TestQueryPoints(client);
+
         return Task.CompletedTask;
     }
 
@@ -228,15 +224,12 @@ public class QueryWriteTest : IntegrationTest
             WriteTimeout = TimeSpan.FromSeconds(11),
             QueryTimeout = TimeSpan.FromMilliseconds(1),
         });
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
-        {
-            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5"))
-            {
-            }
-        });
-        Assert.That(ex, Is.Not.Null);;
-        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+        TestQuery(client);
+        TestQueryBatches(client);
+        TestQueryPoints(client);
+
         return Task.CompletedTask;
+
     }
 
     [Test]
@@ -254,14 +247,45 @@ public class QueryWriteTest : IntegrationTest
                 Deadline = DateTime.UtcNow.AddSeconds(11),
             }
         });
+
+        var timeout = TimeSpan.FromMilliseconds(1);
+        TestQuery(client, timeout);
+        TestQueryBatches(client, timeout);
+        TestQueryPoints(client, timeout);
+
+        return Task.FromResult(Task.CompletedTask);
+    }
+
+    private static void TestQuery(InfluxDBClient client, TimeSpan? timeout = null)
+    {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var v in client.Query("SELECT * FROM weathers LIMIT 5", timeout: TimeSpan.FromMilliseconds(1)))
+            await foreach (var _ in client.Query("SELECT * FROM weathers LIMIT 5", timeout: timeout))
             {
             }
         });
-        Assert.That(ex, Is.Not.Null);;
         Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
-        return Task.CompletedTask;
+    }
+
+    private static void TestQueryBatches(InfluxDBClient client, TimeSpan? timeout = null)
+    {
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.QueryBatches("SELECT * FROM weathers LIMIT 5", timeout: timeout))
+            {
+            }
+        });
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+    }
+
+    private static void TestQueryPoints(InfluxDBClient client, TimeSpan? timeout = null)
+    {
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.QueryPoints("SELECT * FROM weathers LIMIT 5", timeout: timeout))
+            {
+            }
+        });
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
 }
