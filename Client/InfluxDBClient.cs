@@ -759,7 +759,7 @@ namespace InfluxDB3.Client
         private async Task WriteData(IEnumerable<object> data, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
             CancellationToken? cancellationToken = null)
-        
+
         {
             if (_disposed)
             {

@@ -101,7 +101,8 @@ internal class FlightSqlClient : IFlightSqlClient
         if (timeout.HasValue)
         {
             deadline = DateTime.UtcNow.Add(timeout.Value);
-        } else if (_config.QueryOptions.Deadline.HasValue)
+        }
+        else if (_config.QueryOptions.Deadline.HasValue)
         {
             deadline = _config.QueryOptions.Deadline.Value;
         }
