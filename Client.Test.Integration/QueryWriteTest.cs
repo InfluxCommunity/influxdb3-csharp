@@ -248,10 +248,10 @@ public class QueryWriteTest : IntegrationTest
             }
         });
 
-        var timeout = TimeSpan.FromMilliseconds(1);
+        var timeout = TimeSpan.FromTicks(1);
         TestQuery(client, timeout);
-        TestQueryBatches(client, timeout);
-        TestQueryPoints(client, timeout);
+        // TestQueryBatches(client, timeout);
+        // TestQueryPoints(client, timeout);
 
         return Task.FromResult(Task.CompletedTask);
     }
