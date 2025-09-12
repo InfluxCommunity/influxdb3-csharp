@@ -111,6 +111,7 @@ internal class FlightSqlClient : IFlightSqlClient
             deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
         }
 
+        deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
         using var stream = _flightClient.GetStream(ticket, metadata, deadline);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
