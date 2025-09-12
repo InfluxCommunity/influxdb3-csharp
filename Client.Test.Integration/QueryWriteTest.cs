@@ -230,6 +230,10 @@ public class QueryWriteTest : IntegrationTest
             Database = Database,
             WriteTimeout = TimeSpan.FromSeconds(11),
             QueryTimeout = TimeSpan.FromMilliseconds(1),
+            QueryOptions = new QueryOptions()
+            {
+                Deadline = DateTime.UtcNow.AddMilliseconds(1) // Deadline will have a higher priority than QueryTimeout
+            }
         });
         await client.WriteRecordAsync("mem,tag=a field=1");
         await TestQuery(client);
