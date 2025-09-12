@@ -223,13 +223,14 @@ public class QueryWriteTest : IntegrationTest
         //     WriteTimeout = TimeSpan.FromSeconds(11),
         //     QueryTimeout = TimeSpan.FromMicroseconds(0.00000000001),
         // });
+        
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = Host,
             Token = Token,
             Database = Database,
             WriteTimeout = TimeSpan.FromSeconds(11),
-            QueryTimeout = TimeSpan.FromMicroseconds(0.00000000001)
+            QueryTimeout = TimeSpan.FromTicks(1)
         });
         await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client);
@@ -253,7 +254,7 @@ public class QueryWriteTest : IntegrationTest
             }
         });
 
-        var timeout = TimeSpan.FromMicroseconds(0.00000001);
+        var timeout = TimeSpan.FromTicks(1); // 100 nanoseconds
         await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client, timeout);
         TestQueryBatches(client, timeout);
