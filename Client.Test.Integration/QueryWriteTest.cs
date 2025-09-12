@@ -256,7 +256,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.Query("SELECT * FROM integration_test", timeout: timeout))
+            await foreach (var _ in client.Query("SELECT * FROM mem", timeout: timeout))
             {
             }
         });
@@ -267,7 +267,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.QueryBatches("SELECT * FROM integration_test", timeout: timeout))
+            await foreach (var _ in client.QueryBatches("SELECT * FROM mem", timeout: timeout))
             {
             }
         });
@@ -278,7 +278,7 @@ public class QueryWriteTest : IntegrationTest
     {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.QueryPoints("SELECT * FROM integration_test", timeout: timeout))
+            await foreach (var _ in client.QueryPoints("SELECT * FROM mem", timeout: timeout))
             {
             }
         });
