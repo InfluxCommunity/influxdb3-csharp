@@ -192,7 +192,7 @@ public class QueryWriteTest : IntegrationTest
     }
 
     [Test]
-    public Task TimeoutExceededByDeadline()
+    public async Task TimeoutExceededByDeadline()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -206,15 +206,14 @@ public class QueryWriteTest : IntegrationTest
                 Deadline = DateTime.UtcNow.AddMilliseconds(1) // Deadline will have a higher priority than QueryTimeout
             }
         });
+        await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client);
         TestQueryBatches(client);
         TestQueryPoints(client);
-
-        return Task.CompletedTask;
     }
 
     [Test]
-    public Task TimeoutExceededByQueryTimeout()
+    public async Task TimeoutExceededByQueryTimeout()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -224,16 +223,14 @@ public class QueryWriteTest : IntegrationTest
             WriteTimeout = TimeSpan.FromSeconds(11),
             QueryTimeout = TimeSpan.FromMilliseconds(1),
         });
+        await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client);
         TestQueryBatches(client);
         TestQueryPoints(client);
-
-        return Task.CompletedTask;
-
     }
 
     [Test]
-    public Task TimeoutExceeded()
+    public async Task TimeoutExceeded()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -248,12 +245,11 @@ public class QueryWriteTest : IntegrationTest
             }
         });
 
-        var timeout = TimeSpan.FromTicks(1);
+        var timeout = TimeSpan.FromMicroseconds(0.00000001);
+        await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client, timeout);
         TestQueryBatches(client, timeout);
         TestQueryPoints(client, timeout);
-
-        return Task.FromResult(Task.CompletedTask);
     }
 
     private static void TestQuery(InfluxDBClient client, TimeSpan? timeout = null)
