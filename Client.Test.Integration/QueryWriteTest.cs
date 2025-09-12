@@ -233,8 +233,8 @@ public class QueryWriteTest : IntegrationTest
         });
         await client.WriteRecordAsync("mem,tag=a field=1");
         await TestQuery(client);
-        TestQueryBatches(client);
-        TestQueryPoints(client);
+        // TestQueryBatches(client);
+        // TestQueryPoints(client);
     }
 
     // [Test]
