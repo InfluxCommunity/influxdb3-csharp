@@ -10,15 +10,15 @@ public abstract class IntegrationTest
 {
     private static readonly TraceListener ConsoleOutListener = new TextWriterTraceListener(Console.Out);
 
-    protected string Host { get; private set; } = Environment.GetEnvironmentVariable("INFLUX_DB3_LOCAL_HOST") ??
+    protected string Host { get; private set; } = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_URL") ??
                                                 throw new InvalidOperationException(
                                                     "TESTING_INFLUXDB_URL environment variable is not set.");
 
-    protected string Token { get; private set; } = Environment.GetEnvironmentVariable("INFLUX_DB3_LOCAL_TOKEN") ??
+    protected string Token { get; private set; } = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_TOKEN") ??
                                                    throw new InvalidOperationException(
                                                        "TESTING_INFLUXDB_TOKEN environment variable is not set.");
 
-    protected string Database { get; private set; } = Environment.GetEnvironmentVariable("INFLUX_DB3_LOCAL_DATABASE") ??
+    protected string Database { get; private set; } = Environment.GetEnvironmentVariable("TESTING_INFLUXDB_DATABASE") ??
                                                       throw new InvalidOperationException(
                                                           "TESTING_INFLUXDB_DATABASE environment variable is not set.");
 
