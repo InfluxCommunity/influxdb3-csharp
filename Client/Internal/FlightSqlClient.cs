@@ -98,20 +98,24 @@ internal class FlightSqlClient : IFlightSqlClient
         var ticket = ((IFlightSqlClient)this).PrepareFlightTicket(query, database, queryType, namedParameters);
 
         DateTime? deadline = null;
-        if (timeout.HasValue)
-        {
-            deadline = DateTime.UtcNow.Add(timeout.Value);
-        }
-        else if (_config.QueryOptions.Deadline.HasValue)
-        {
-            deadline = _config.QueryOptions.Deadline.Value;
-        }
-        else if (_config.QueryTimeout.HasValue)
+        // if (timeout.HasValue)
+        // {
+        //     deadline = DateTime.UtcNow.Add(timeout.Value);
+        // }
+        // else if (_config.QueryOptions.Deadline.HasValue)
+        // {
+        //     deadline = _config.QueryOptions.Deadline.Value;
+        // }
+        // else if (_config.QueryTimeout.HasValue)
+        // {
+        //     deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
+        // }
+
+        if (_config.QueryTimeout.HasValue)
         {
             deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
         }
 
-        deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
         using var stream = _flightClient.GetStream(ticket, metadata, deadline);
         while (await stream.ResponseStream.MoveNext().ConfigureAwait(false))
         {
