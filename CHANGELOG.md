@@ -1,5 +1,9 @@
 ## 1.4.0 [unreleased]
 
+### Features
+
+1. [#174](https://github.com/InfluxCommunity/influxdb3-csharp/pull/174): Support passing HttpClient to InfluxDBClient.
+
 ### CI
 
 1. [#170](https://github.com/InfluxCommunity/influxdb3-csharp/pull/170) Add tests for arm64 CircleCI.

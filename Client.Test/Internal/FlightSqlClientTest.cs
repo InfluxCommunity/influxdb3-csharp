@@ -22,7 +22,7 @@ public class FlightSqlClientTest : MockServerTest
             Timeout = TimeSpan.FromSeconds(45)
         };
 
-        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateOrGetHttpClient(config));
     }
 
     [TearDown]
@@ -108,7 +108,7 @@ public class FlightSqlClientTest : MockServerTest
             }
         };
 
-        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateOrGetHttpClient(config));
 
         var prepareHeadersMetadata =
             _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string>());
@@ -139,7 +139,7 @@ public class FlightSqlClientTest : MockServerTest
             }
         };
 
-        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateOrGetHttpClient(config));
 
         var prepareHeadersMetadata =
             _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string> { { "X-Tracing-Id", "258" } });
@@ -170,7 +170,7 @@ public class FlightSqlClientTest : MockServerTest
             }
         };
 
-        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config));
+        _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateOrGetHttpClient(config));
 
         var prepareHeadersMetadata =
             _flightSqlClient.PrepareHeadersMetadata(new Dictionary<string, string> { { "user-agent", "another/user-agent" } });
@@ -199,7 +199,7 @@ public class FlightSqlClientTest : MockServerTest
         };
 
         Assert.DoesNotThrow(() =>
-            _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateAndConfigureHttpClient(config)));
+            _flightSqlClient = new FlightSqlClient(config, InfluxDBClient.CreateOrGetHttpClient(config)));
     }
 
 }

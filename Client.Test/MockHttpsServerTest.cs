@@ -4,7 +4,7 @@ using WireMock.Types;
 
 namespace InfluxDB3.Client.Test;
 
-public class MockHttpsServerTest
+public abstract class MockHttpsServerTest
 {
     internal WireMockServer MockHttpsServer;
     internal string MockHttpsServerUrl;

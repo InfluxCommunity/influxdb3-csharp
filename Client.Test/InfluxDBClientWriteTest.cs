@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
@@ -489,5 +490,58 @@ public class InfluxDBClientWriteTest : MockServerTest
                 Does.Contain(
                     "Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only)."));
         });
+    }
+
+    [Test]
+    public async Task TestSetHttpClient()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("my-user-agent");
+        httpClient.DefaultRequestHeaders.Add("X-Client-ID", "123");
+
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            HttpClient = httpClient
+        });
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+        var requests = MockServer.LogEntries.ToList();
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(requests[0].RequestMessage.Headers?["User-Agent"].First(), Is.EqualTo("my-user-agent"));
+            Assert.That(requests[0].RequestMessage.Headers["X-Client-ID"].First(), Is.EqualTo("123"));
+        }
+        Assert.Pass();
+    }
+
+    [Test]
+    public void TestCheckHttpClientStillOpen()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/test").UsingGet())
+            .RespondWith(
+                Response.Create()
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithBody("Still ok"));
+
+        var httpClient = new HttpClient(new HttpClientHandler());
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            HttpClient = httpClient
+        });
+        _client.Dispose();
+
+        var httpResponseMessage = httpClient.Send(new HttpRequestMessage(HttpMethod.Get, "test"));
+        Assert.That(httpResponseMessage.Content.ReadAsStringAsync().Result, Is.EqualTo("Still ok"));
     }
 }
