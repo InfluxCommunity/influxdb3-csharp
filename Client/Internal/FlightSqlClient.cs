@@ -100,14 +100,17 @@ internal class FlightSqlClient : IFlightSqlClient
         DateTime? deadline = null;
         if (timeout is not null)
         {
+            Console.WriteLine("1111111");
             deadline = DateTime.UtcNow.Add(timeout.Value);
         }
         else if (_config.QueryOptions.Deadline is not null)
         {
+            Console.WriteLine("2222222");
             deadline = _config.QueryOptions.Deadline.Value;
         }
         else if (_config.QueryTimeout is not null)
         {
+            Console.WriteLine("3333333");
             deadline = DateTime.UtcNow.Add(_config.QueryTimeout.Value);
         }
 

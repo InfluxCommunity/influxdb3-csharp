@@ -229,7 +229,7 @@ public class QueryWriteTest : IntegrationTest
             Token = Token,
             Database = Database,
             WriteTimeout = TimeSpan.FromSeconds(11),
-            QueryTimeout = TimeSpan.FromMilliseconds(1)
+            QueryTimeout = TimeSpan.FromMicroseconds(0.00000000001)
         });
         await client.WriteRecordAsync("mem,tag=a field=1");
         TestQuery(client);
