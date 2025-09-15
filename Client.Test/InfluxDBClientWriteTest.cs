@@ -563,7 +563,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         Assert.ThrowsAsync<TaskCanceledException>(async () =>
         {
-            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken ?? CancellationToken.None);;
+            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken ?? CancellationToken.None);
         });
     }
 
