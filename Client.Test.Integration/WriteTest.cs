@@ -33,6 +33,7 @@ public class WriteTest : IntegrationTest
                     Assert.That(iaex.Message,
                         Does.Contain("Found trailing content")
                             .Or.Contain("partial write of line protocol occurred")
+                            .Or.Contain("write buffer error: parsing for line protocol failed")
                     );
                     Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
                     Assert.That(iaex.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
