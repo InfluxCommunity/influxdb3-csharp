@@ -505,7 +505,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            Timeout = TimeSpan.FromSeconds(1)
+            Timeout = TimeSpan.FromTicks(1)
         });
         TestWriteRecordAsync(_client);
         TestWriteRecordsAsync(_client);
@@ -527,7 +527,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Database = "my-database",
             QueryTimeout = TimeSpan.FromSeconds(11),
             Timeout = TimeSpan.FromSeconds(11),
-            WriteTimeout = TimeSpan.FromSeconds(1) // WriteTimeout has a higher priority than Timeout
+            WriteTimeout = TimeSpan.FromTicks(1) // WriteTimeout has a higher priority than Timeout
         });
         TestWriteRecordAsync(_client);
         TestWriteRecordsAsync(_client);
@@ -552,7 +552,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Timeout = TimeSpan.FromSeconds(11),
             WriteTimeout = TimeSpan.FromSeconds(11)
         });
-        var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(1)).Token;
+        var cancellationToken = new CancellationTokenSource(TimeSpan.FromTicks(1)).Token;
         TestWriteRecordAsync(_client, cancellationToken);
         TestWriteRecordsAsync(_client, cancellationToken);
         TestWritePointAsync(_client, cancellationToken);
@@ -563,7 +563,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         Assert.ThrowsAsync<TaskCanceledException>(async () =>
         {
-            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken);
+            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken ?? CancellationToken.None);;
         });
     }
 
@@ -573,7 +573,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             await client.WriteRecordsAsync(
                 records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken ?? CancellationToken.None
             );
         });
     }
@@ -584,7 +584,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             await client.WritePointAsync(
                 PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken ?? CancellationToken.None
             );
         });
     }
@@ -599,7 +599,7 @@ public class InfluxDBClientWriteTest : MockServerTest
                     PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
                     PointData.Measurement("h2o").SetTag("location", "us-west").SetField("level", 4),
                 },
-                cancellationToken: cancellationToken
+                cancellationToken: cancellationToken ?? CancellationToken.None
             );
         });
     }

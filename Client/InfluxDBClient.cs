@@ -193,34 +193,7 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// Write data to InfluxDB.
-        /// </summary>
-        ///
-        /// <example>
-        /// The following example shows how to write multiple records with custom headers:
-        ///
-        /// <code>
-        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
-        ///
-        /// await client.WriteRecordsAsync(
-        ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
-        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
-        /// );
-        /// </code>
-        /// </example>
-        /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
-        /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="precision">The to use for the timestamp in the write API call.</param>
-        /// <param name="headers">
-        ///     The headers to be added to write request. The headers specified here are preferred over
-        ///     the headers specified in the client configuration.
-        /// </param>
-        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordsAsync(IEnumerable<string> records, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -246,7 +219,7 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -276,7 +249,7 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves the server version of the connected InfluxDB instance.
@@ -647,7 +620,7 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
-        /// 
+        ///
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
@@ -657,7 +630,7 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null)
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
         {
             return WriteRecordsAsync(new[] { record }, database, precision, headers, cancellationToken);
         }
@@ -688,7 +661,7 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken? cancellationToken = null)
+            CancellationToken cancellationToken = default)
         {
             return WriteData(records, database, precision, headers, cancellationToken);
         }
@@ -717,7 +690,7 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken? cancellationToken = null)
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
         {
             return WritePointsAsync(new[] { point }, database, precision, headers, cancellationToken);
         }
@@ -751,15 +724,14 @@ namespace InfluxDB3.Client
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken? cancellationToken = null)
+            CancellationToken cancellationToken = default)
         {
             return WriteData(points, database, precision, headers, cancellationToken);
         }
 
         private async Task WriteData(IEnumerable<object> data, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken? cancellationToken = null)
-
+            CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
@@ -806,9 +778,9 @@ namespace InfluxDB3.Client
             }
 
             var cancelToken = new CancellationTokenSource(_config.Timeout).Token; // Just for compatibility with the old API
-            if (cancellationToken.HasValue)
+            if (cancellationToken != CancellationToken.None)
             {
-                cancelToken = cancellationToken.Value;
+                cancelToken = cancellationToken;
             }
             else if (_config.WriteTimeout.HasValue)
             {
