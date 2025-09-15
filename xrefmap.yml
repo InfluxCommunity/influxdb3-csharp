@@ -129,6 +129,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.Host
   nameWithType: ClientConfig.Host
+- uid: InfluxDB3.Client.Config.ClientConfig.HttpClient
+  name: HttpClient
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_HttpClient
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.HttpClient
+  fullName: InfluxDB3.Client.Config.ClientConfig.HttpClient
+  nameWithType: ClientConfig.HttpClient
+- uid: InfluxDB3.Client.Config.ClientConfig.HttpClient*
+  name: HttpClient
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_HttpClient_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.HttpClient
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.HttpClient
+  nameWithType: ClientConfig.HttpClient
 - uid: InfluxDB3.Client.Config.ClientConfig.Organization
   name: Organization
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_Organization

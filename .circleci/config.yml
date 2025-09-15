@@ -5,6 +5,9 @@ commands:
       project:
         type: string
         default: "Client.Test"
+      exe:
+        type: executor
+        default: docker-amd64-image
     steps:
       - run:
           name: Install Dependencies
@@ -27,43 +30,104 @@ commands:
             mv report/summary.html /tmp/artifacts
             cp test-results/test-result.xml /tmp/artifacts
           when: always
-      - run:
-          name: Report test results to codecov
-          command: |
-            apt-get update
-            apt-get install gpg --yes
-            curl -Os https://uploader.codecov.io/latest/linux/codecov
-            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
-            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
-            curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
-            gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
-            shasum -a 256 -c codecov.SHA256SUM
-            chmod +x ./codecov
-            ./codecov
+      - when:
+          condition:
+            equal: [ docker-amd64-image, << parameters.exe >> ]
+          steps:
+            - upload-codecov-amd64
+      - when:
+          condition:
+            equal: [ docker-arm64-image, << parameters.exe >> ]
+          steps:
+            - upload-codecov-arm64
       - store_artifacts:
           path: /tmp/artifacts
       - store_test_results:
           path: test-results
-
-
-jobs:
-  tests-unit:
-    working_directory: ~/repo
-    docker:
-      - image: &default-dotnet-image "mcr.microsoft.com/dotnet/sdk:8.0"
+  upload-codecov-amd64:
     steps:
-      - checkout
-      - client-test:
-          project: "Client.Test"
-  tests-integration:
-    working_directory: ~/repo
+      - run:
+          name: Collecting coverage reports
+          command: |
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+            curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+            curl -s https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+            gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+            shasum -a 256 -c codecov.SHA256SUM
+            chmod +x ./codecov
+            ./codecov
+  upload-codecov-arm64:
+    steps:
+      - run:
+          name: Collecting coverage reports
+          command: |
+            curl -k https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+            curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov
+            curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov.SHA256SUM
+            curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov.SHA256SUM.sig
+            gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+            shasum -a 256 -c codecov.SHA256SUM
+            sudo chmod +x codecov
+
+parameters:
+  default-dotnet-image:
+    type: string
+    default: "mcr.microsoft.com/dotnet/sdk:8.0"
+
+executors:
+  docker-amd64-image:
+    parameters:
+      dotnet-image:
+        type: string
+        default: << pipeline.parameters.default-dotnet-image >>
     docker:
-      - image: *default-dotnet-image
+      - image: <<parameters.dotnet-image>>
       - image: influxdb:3-core
         environment:
           - INFLUXDB3_NODE_IDENTIFIER_PREFIX=node01
           - INFLUXDB3_OBJECT_STORE=file
           - INFLUXDB3_DB_DIR=/var/lib/influxdb3/data
+  docker-arm64-image:
+    parameters:
+      dotnet-image:
+        type: string
+        default: << pipeline.parameters.default-dotnet-image >>
+    docker:
+      - image: <<parameters.dotnet-image>>
+      - image: influxdb:3-core
+        environment:
+          - INFLUXDB3_NODE_IDENTIFIER_PREFIX=node01
+          - INFLUXDB3_OBJECT_STORE=file
+          - INFLUXDB3_DB_DIR=/var/lib/influxdb3/data
+    resource_class: arm.medium
+
+jobs:
+  tests-unit:
+    working_directory: ~/repo
+    parameters:
+      dotnet-image:
+        type: string
+        default: << pipeline.parameters.default-dotnet-image >>
+      exe:
+        type: executor
+        default: docker-amd64-image
+    executor: << parameters.exe >>
+    steps:
+      - checkout
+      - client-test:
+          exe: << parameters.exe >>
+          project: "Client.Test"
+  tests-integration:
+    working_directory: ~/repo
+    parameters:
+      dotnet-image:
+        type: string
+        default: << pipeline.parameters.default-dotnet-image >>
+      exe:
+        type: executor
+        default: docker-amd64-image
+    executor: << parameters.exe >>
     steps:
       - checkout
       - run:
@@ -80,10 +144,10 @@ jobs:
               --export-token-as TESTING_INFLUXDB_TOKEN
       - client-test:
           project: "Client.Test.Integration"
-          
+
   check-compilation-warnings:
     docker:
-      - image: *default-dotnet-image
+      - image: << pipeline.parameters.default-dotnet-image >>
     steps:
       - checkout
       - run:
@@ -91,10 +155,10 @@ jobs:
           command: |
             dotnet clean --configuration Release
             dotnet build --configuration Release
-            
+
   deploy-preview:
     docker:
-      - image: *default-dotnet-image
+      - image: <<pipeline.parameters.default-dotnet-image>>
     steps:
       - run:
           name: Early return if this build is from a forked repository
@@ -115,8 +179,16 @@ workflows:
   build:
     jobs:
       - check-compilation-warnings
-      - tests-unit
+      - tests-unit:
+          matrix:
+            parameters:
+              exe: [ docker-amd64-image, docker-arm64-image ]
+              dotnet-image: [ << pipeline.parameters.default-dotnet-image >> ]
       - tests-integration:
+          matrix:
+            parameters:
+              exe: [ docker-amd64-image, docker-arm64-image ]
+              dotnet-image: [ << pipeline.parameters.default-dotnet-image >> ]
           requires:
             - "tests-unit"
       - deploy-preview:

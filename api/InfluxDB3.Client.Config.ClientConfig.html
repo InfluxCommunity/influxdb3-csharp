@@ -418,6 +418,32 @@ such as tracing headers. To add custom headers use following code:</p>
       </tr>
     </tbody>
   </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_HttpClient_" data-uid="InfluxDB3.Client.Config.ClientConfig.HttpClient*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_HttpClient" data-uid="InfluxDB3.Client.Config.ClientConfig.HttpClient">HttpClient</h4>
+  <div class="markdown level1 summary"><p>User-defined HttpClient.
+Influxdb client will add an authentication header and base url to HttpClient. The rest is up to the users.
+Users will be responsible for closing the HttpClient.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HttpClient? HttpClient { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_Config_ClientConfig_Organization_" data-uid="InfluxDB3.Client.Config.ClientConfig.Organization*"></a>
   <h4 id="InfluxDB3_Client_Config_ClientConfig_Organization" data-uid="InfluxDB3.Client.Config.ClientConfig.Organization">Organization</h4>
   <div class="markdown level1 summary"><p>The organization to be used for operations.</p>
