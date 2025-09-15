@@ -19,7 +19,9 @@ namespace InfluxDB3.Client.Config;
 /// <item>- Organization: The organization to be used for operations.</item>
 /// <item>- Database: The database to be used for InfluxDB operations.</item>
 /// <item>- Headers: The set of HTTP headers to be included in requests.</item>
-/// <item>- Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</item>
+/// <item>- [Deprecated] Timeout: Timeout to wait before the HTTP request times out. Default to '10 seconds'.</item>
+/// <item>- QueryTimeout: The maximum duration to wait for a query to complete before timing out.</item>
+/// <item>- WriteTimeout: The duration to wait before timing out a write operation to the InfluxDB server.</item>
 /// <item>- AllowHttpRedirects: Automatically following HTTP 3xx redirects. Default to 'false'.</item>
 /// <item>- DisableServerCertificateValidation: Disable server SSL certificate validation. Default to 'false'.</item>
 /// <item>- DisableCertificateRevocationListCheck: Disable SSL certificate revocation list (CRL) checking. Default to 'false'.</item>
@@ -165,7 +167,18 @@ public class ClientConfig
     /// <summary>
     /// Timeout to wait before the HTTP request times out. Default to '10 seconds'.
     /// </summary>
+    [Obsolete("Please use more informative properties like WriteTimeout or QueryTimeout")]
     public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(10);
+
+    /// <summary>
+    /// The maximum duration to wait for a query to complete before timing out.
+    /// </summary>
+    public TimeSpan? QueryTimeout { get; set; }
+
+    /// <summary>
+    /// The duration to wait before timing out a write operation to the InfluxDB server.
+    /// </summary>
+    public TimeSpan? WriteTimeout { get; set; }
 
     /// <summary>
     /// Automatically following HTTP 3xx redirects. Default to 'false'.

@@ -62,10 +62,13 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null, TimeSpan? timeout = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx using FlightSQL.
@@ -108,10 +111,13 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null, string? database = null,
-            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null);
+            Dictionary<string, object>? namedParameters = null, Dictionary<string, string>? headers = null, TimeSpan? timeout = null);
 
         /// <summary>
         /// Query data from InfluxDB IOx into PointData structure using FlightSQL.
@@ -153,11 +159,14 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
             string? database = null, Dictionary<string, object>? namedParameters = null,
-            Dictionary<string, string>? headers = null);
+            Dictionary<string, string>? headers = null, TimeSpan? timeout = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -184,33 +193,6 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Write data to InfluxDB.
-        /// </summary>
-        ///
-        /// <example>
-        /// The following example shows how to write multiple records with custom headers:
-        ///
-        /// <code>
-        /// using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
-        ///
-        /// await client.WriteRecordsAsync(
-        ///     records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
-        ///     headers: new Dictionary&lt;string, string&gt; { { "X-Tracing-Id", "123" } }
-        /// );
-        /// </code>
-        /// </example>
-        /// <param name="records">Specifies the records in InfluxDB Line Protocol. The <see cref="records" /> is considered as one batch unit.</param>
-        /// <param name="database">The database to be used for InfluxDB operations.</param>
-        /// <param name="precision">The to use for the timestamp in the write API call.</param>
-        /// <param name="headers">
-        ///     The headers to be added to write request. The headers specified here are preferred over
-        ///     the headers specified in the client configuration.
-        /// </param>
-        /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
-        Task WriteRecordsAsync(IEnumerable<string> records, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -467,13 +449,16 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<object?[]> Query(string query, QueryType? queryType = null,
             string? database = null, Dictionary<string, object>? namedParameters = null,
-            Dictionary<string, string>? headers = null)
+            Dictionary<string, string>? headers = null, TimeSpan? timeout = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers, timeout)
                                .ConfigureAwait(false))
             {
                 for (var i = 0; i < batch.Column(0).Length; i++)
@@ -537,13 +522,16 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public async IAsyncEnumerable<PointDataValues> QueryPoints(string query, QueryType? queryType = null,
             string? database = null, Dictionary<string, object>? namedParameters = null,
-            Dictionary<string, string>? headers = null)
+            Dictionary<string, string>? headers = null, TimeSpan? timeout = null)
         {
-            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers)
+            await foreach (var batch in QueryBatches(query, queryType, database, namedParameters, headers, timeout)
                                .ConfigureAwait(false))
             {
                 for (var i = 0; i < batch.Column(0).Length; i++)
@@ -595,11 +583,14 @@ namespace InfluxDB3.Client
         ///     The headers to be added to query request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="timeout">
+        ///     The timeout to use for only this query request.
+        /// </param>
         /// <returns>Batches of rows</returns>
         /// <exception cref="ObjectDisposedException">The client is already disposed</exception>
         public IAsyncEnumerable<RecordBatch> QueryBatches(string query, QueryType? queryType = null,
             string? database = null, Dictionary<string, object>? namedParameters = null,
-            Dictionary<string, string>? headers = null)
+            Dictionary<string, string>? headers = null, TimeSpan? timeout = null)
         {
             if (_disposed)
             {
@@ -610,7 +601,7 @@ namespace InfluxDB3.Client
                 (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database")),
                 queryType ?? QueryType.SQL,
                 namedParameters ?? new Dictionary<string, object>(),
-                headers ?? new Dictionary<string, string>());
+                headers ?? new Dictionary<string, string>(), timeout);
         }
 
         /// <summary>
@@ -629,7 +620,7 @@ namespace InfluxDB3.Client
         /// );
         /// </code>
         /// </example>
-        /// 
+        ///
         /// <param name="record">Specifies the record in InfluxDB Line Protocol. The <see cref="record" /> is considered as one batch unit.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
         /// <param name="precision">The to use for the timestamp in the write API call.</param>
@@ -786,10 +777,20 @@ namespace InfluxDB3.Client
                 };
             }
 
+            var cancelToken = new CancellationTokenSource(_config.Timeout).Token; // Just for compatibility with the old API
+            if (cancellationToken != CancellationToken.None)
+            {
+                cancelToken = cancellationToken;
+            }
+            else if (_config.WriteTimeout.HasValue)
+            {
+                cancelToken = new CancellationTokenSource(_config.WriteTimeout.Value).Token;
+            }
+
             try
             {
                 await _restClient
-                    .Request(path, HttpMethod.Post, content, queryParams, headers, cancellationToken)
+                    .Request(path, HttpMethod.Post, content, queryParams, headers, cancelToken)
                     .ConfigureAwait(false);
             }
             catch (InfluxDBApiException e)
@@ -938,10 +939,7 @@ namespace InfluxDB3.Client
                 handler.CheckCertificateRevocationList = false;
             }
 
-            var client = new HttpClient(handler)
-            {
-                Timeout = config.Timeout
-            };
+            var client = new HttpClient(handler);
             client.DefaultRequestHeaders.UserAgent.ParseAdd(AssemblyHelper.GetUserAgent());
 
             return client;

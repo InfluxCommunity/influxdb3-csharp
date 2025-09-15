@@ -169,22 +169,92 @@ public class QueryWriteTest : IntegrationTest
     }
 
     [Test]
-    public void GrpcDeadline()
+    public async Task TimeoutExceededByDeadline()
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
             Host = Host,
             Token = Token,
             Database = Database,
+            WriteTimeout = TimeSpan.FromSeconds(11),
+            QueryTimeout = TimeSpan.FromSeconds(11),
             QueryOptions = new QueryOptions()
             {
-                Deadline = DateTime.UtcNow.AddMicroseconds(1)
+                Deadline = DateTime.UtcNow.AddTicks(1) // Deadline will have a higher priority than QueryTimeout
             }
         });
+        await client.WriteRecordAsync("mem,tag=a field=1");
+        TestQuery(client);
+        TestQueryBatches(client);
+        TestQueryPoints(client);
+    }
 
+    [Test]
+    public async Task TimeoutExceededByQueryTimeout()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteTimeout = TimeSpan.FromSeconds(11),
+            QueryTimeout = TimeSpan.FromTicks(1)
+        });
+        await client.WriteRecordAsync("mem,tag=a field=1");
+        TestQuery(client);
+        TestQueryBatches(client);
+        TestQueryPoints(client);
+    }
+
+    [Test]
+    public async Task TimeoutExceeded()
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteTimeout = TimeSpan.FromSeconds(11),
+            QueryTimeout = TimeSpan.FromSeconds(11),
+            QueryOptions =
+            {
+                Deadline = DateTime.UtcNow.AddSeconds(11),
+            }
+        });
+        await client.WriteRecordAsync("mem,tag=a field=1");
+        var timeout = TimeSpan.FromTicks(1);
+        TestQuery(client, timeout);
+        TestQueryBatches(client, timeout);
+        TestQueryPoints(client, timeout);
+    }
+
+    private static void TestQuery(InfluxDBClient client, TimeSpan? timeout = null)
+    {
         var ex = Assert.ThrowsAsync<RpcException>(async () =>
         {
-            await foreach (var _ in client.Query("SELECT value FROM stat"))
+            await foreach (var _ in client.Query("SELECT * FROM mem", timeout: timeout))
+            {
+            }
+        });
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+    }
+
+    private static void TestQueryBatches(InfluxDBClient client, TimeSpan? timeout = null)
+    {
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.QueryBatches("SELECT * FROM mem", timeout: timeout))
+            {
+            }
+        });
+        Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
+    }
+
+    private static void TestQueryPoints(InfluxDBClient client, TimeSpan? timeout = null)
+    {
+        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await foreach (var _ in client.QueryPoints("SELECT * FROM mem", timeout: timeout))
             {
             }
         });

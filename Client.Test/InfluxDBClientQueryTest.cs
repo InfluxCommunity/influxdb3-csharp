@@ -54,7 +54,7 @@ public class InfluxDBClientQueryTest : MockServerTest
         var mockFlightSqlClient = new Mock<IFlightSqlClient>();
         mockFlightSqlClient
             .Setup(m => m.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<QueryType>(),
-                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>()))
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<TimeSpan>()))
             .Returns(new List<RecordBatch>().ToAsyncEnumerable());
 
         //
@@ -74,9 +74,9 @@ public class InfluxDBClientQueryTest : MockServerTest
             { "max-frequency", 3.5 }
         };
 
-        _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, namedParameters: namedParameters)
+        _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, namedParameters: namedParameters, timeout: TimeSpan.MaxValue)
             .ToListAsync();
-        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, namedParameters, new Dictionary<string, string>()), Times.Exactly(1));
+        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, namedParameters, new Dictionary<string, string>(), TimeSpan.MaxValue), Times.Exactly(1));
     }
 
     [Test]
@@ -109,7 +109,7 @@ public class InfluxDBClientQueryTest : MockServerTest
         var mockFlightSqlClient = new Mock<IFlightSqlClient>();
         mockFlightSqlClient
             .Setup(m => m.Execute(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<QueryType>(),
-                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>()))
+                It.IsAny<Dictionary<string, object>>(), It.IsAny<Dictionary<string, string>>(), It.IsAny<TimeSpan?>()))
             .Returns(new List<RecordBatch>().ToAsyncEnumerable());
 
         //
@@ -128,6 +128,6 @@ public class InfluxDBClientQueryTest : MockServerTest
         }};
         _ = await _client.QueryPoints(query, database: "my-db", queryType: queryType, headers: headers)
             .ToListAsync();
-        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, new Dictionary<string, object>(), headers), Times.Exactly(1));
+        mockFlightSqlClient.Verify(m => m.Execute(query, "my-db", queryType, new Dictionary<string, object>(), headers, null), Times.Exactly(1));
     }
 }

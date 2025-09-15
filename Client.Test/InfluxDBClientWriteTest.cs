@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Write;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
+using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test;
 
@@ -493,55 +494,113 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
-    public async Task TestSetHttpClient()
+    public void TimeoutExceededByTimeout()
     {
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
-
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("my-user-agent");
-        httpClient.DefaultRequestHeaders.Add("X-Client-ID", "123");
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            HttpClient = httpClient
+            Timeout = TimeSpan.FromTicks(1)
         });
-
-        await _client.WriteRecordAsync("mem,tag=a field=1");
-        var requests = MockServer.LogEntries.ToList();
-        using (Assert.EnterMultipleScope())
-        {
-            Assert.That(requests[0].RequestMessage.Headers?["User-Agent"].First(), Is.EqualTo("my-user-agent"));
-            Assert.That(requests[0].RequestMessage.Headers["X-Client-ID"].First(), Is.EqualTo("123"));
-        }
-        Assert.Pass();
+        TestWriteRecordAsync(_client);
+        TestWriteRecordsAsync(_client);
+        TestWritePointAsync(_client);
+        TestWritePointsAsync(_client);
     }
 
     [Test]
-    public void TestCheckHttpClientStillOpen()
+    public void TimeoutExceededByWriteTimeout()
     {
         MockServer
-            .Given(Request.Create().WithPath("/test").UsingGet())
-            .RespondWith(
-                Response.Create()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithBody("Still ok"));
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
-        var httpClient = new HttpClient(new HttpClientHandler());
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            HttpClient = httpClient
+            QueryTimeout = TimeSpan.FromSeconds(11),
+            Timeout = TimeSpan.FromSeconds(11),
+            WriteTimeout = TimeSpan.FromTicks(1) // WriteTimeout has a higher priority than Timeout
         });
-        _client.Dispose();
+        TestWriteRecordAsync(_client);
+        TestWriteRecordsAsync(_client);
+        TestWritePointAsync(_client);
+        TestWritePointsAsync(_client);
 
-        var httpResponseMessage = httpClient.Send(new HttpRequestMessage(HttpMethod.Get, "test"));
-        Assert.That(httpResponseMessage.Content.ReadAsStringAsync().Result, Is.EqualTo("Still ok"));
+    }
+
+    [Test]
+    public void TimeoutExceededByToken()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
+
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            QueryTimeout = TimeSpan.FromSeconds(11),
+            Timeout = TimeSpan.FromSeconds(11),
+            WriteTimeout = TimeSpan.FromSeconds(11)
+        });
+        var cancellationToken = new CancellationTokenSource(TimeSpan.FromTicks(1)).Token;
+        TestWriteRecordAsync(_client, cancellationToken);
+        TestWriteRecordsAsync(_client, cancellationToken);
+        TestWritePointAsync(_client, cancellationToken);
+        TestWritePointsAsync(_client, cancellationToken);
+    }
+
+    private static void TestWriteRecordAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WriteRecordAsync("mem,tag=a field=1", cancellationToken: cancellationToken ?? CancellationToken.None);
+        });
+    }
+
+    private static void TestWriteRecordsAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WriteRecordsAsync(
+                records: new[] { "stat,unit=temperature value=24.5", "stat,unit=temperature value=25.5" },
+                cancellationToken: cancellationToken ?? CancellationToken.None
+            );
+        });
+    }
+
+    private static void TestWritePointAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WritePointAsync(
+                PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+                cancellationToken: cancellationToken ?? CancellationToken.None
+            );
+        });
+    }
+
+    private static void TestWritePointsAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
+    {
+        Assert.ThrowsAsync<TaskCanceledException>(async () =>
+        {
+            await client.WritePointsAsync(
+                points: new[]
+                {
+                    PointData.Measurement("h2o").SetTag("location", "europe").SetField("level", 2),
+                    PointData.Measurement("h2o").SetTag("location", "us-west").SetField("level", 4),
+                },
+                cancellationToken: cancellationToken ?? CancellationToken.None
+            );
+        });
     }
 }
