@@ -84,7 +84,7 @@ public class ClientConfig
     /// <summary>
     /// Initializes a new instance of client configuration from connection string.
     /// </summary>
-    internal ClientConfig(string connectionString)
+    public ClientConfig(string connectionString)
     {
         var uri = new Uri(connectionString);
         Host = uri.GetLeftPart(UriPartial.Path);
@@ -102,7 +102,7 @@ public class ClientConfig
     /// <summary>
     /// Initializes a new instance of client configuration from environment variables.
     /// </summary>
-    internal ClientConfig(IDictionary env)
+    public ClientConfig(IDictionary env)
     {
         Host = (string)env[EnvInfluxHost];
         Token = env[EnvInfluxToken] as string;

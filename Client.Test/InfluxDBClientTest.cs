@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using InfluxDB3.Client.Config;
 
 // ReSharper disable ObjectCreationAsStatement
 // ReSharper disable AssignNullToNotNullAttribute
@@ -38,6 +39,29 @@ public class InfluxDBClientTest
 
         using var client = new InfluxDBClient();
 
+        Assert.That(client, Is.Not.Null);
+    }
+
+    [Test]
+    public void CreateFromConfigString()
+    {
+        var clientConfig = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-db");
+        using var client = new InfluxDBClient(clientConfig);
+        Assert.That(client, Is.Not.Null);
+    }
+
+    [Test]
+    public void CreateFromConfigEnv()
+    {
+        var env = new Dictionary<String, String>
+        {
+            {"INFLUX_HOST", "http://localhost:8086"},
+            {"INFLUX_TOKEN", "my-token"},
+            {"INFLUX_ORG", "my-org"},
+            {"INFLUX_DATABASE", "my-database"},
+        };
+        var clientConfig = new ClientConfig(env);
+        using var client = new InfluxDBClient(clientConfig);
         Assert.That(client, Is.Not.Null);
     }
 
