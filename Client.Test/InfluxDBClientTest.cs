@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Test.Utils;
 
 // ReSharper disable ObjectCreationAsStatement
 // ReSharper disable AssignNullToNotNullAttribute
@@ -35,33 +36,10 @@ public class InfluxDBClientTest
             {"INFLUX_ORG", "my-org"},
             {"INFLUX_DATABASE", "my-database"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
 
         using var client = new InfluxDBClient();
 
-        Assert.That(client, Is.Not.Null);
-    }
-
-    [Test]
-    public void CreateFromConfigString()
-    {
-        var clientConfig = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-db");
-        using var client = new InfluxDBClient(clientConfig);
-        Assert.That(client, Is.Not.Null);
-    }
-
-    [Test]
-    public void CreateFromConfigEnv()
-    {
-        var env = new Dictionary<String, String>
-        {
-            {"INFLUX_HOST", "http://localhost:8086"},
-            {"INFLUX_TOKEN", "my-token"},
-            {"INFLUX_ORG", "my-org"},
-            {"INFLUX_DATABASE", "my-database"},
-        };
-        var clientConfig = new ClientConfig(env);
-        using var client = new InfluxDBClient(clientConfig);
         Assert.That(client, Is.Not.Null);
     }
 
@@ -74,24 +52,9 @@ public class InfluxDBClientTest
         Assert.That(ae.Message, Is.EqualTo("The URL of the InfluxDB server has to be defined"));
     }
 
-    private static void SetEnv(IDictionary<String, String> dict)
-    {
-        foreach (var entry in dict)
-        {
-            Environment.SetEnvironmentVariable(entry.Key, entry.Value, EnvironmentVariableTarget.Process);
-        }
-    }
-
     [TearDown]
     public void Cleanup()
     {
-        var env = Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process);
-        foreach (var key in env.Keys)
-        {
-            if (((string)key).StartsWith("INFLUX_"))
-            {
-                Environment.SetEnvironmentVariable((string)key, null, EnvironmentVariableTarget.Process);
-            }
-        }
+        TestUtils.CleanupEnv();
     }
 }
