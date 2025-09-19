@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using Grpc.Net.Compression;
 using InfluxDB3.Client.Test.Config;
+using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config.Test;
@@ -148,7 +149,7 @@ public class ClientConfigTest
             {"INFLUX_HOST", "http://localhost:8086"},
             {"INFLUX_TOKEN", "my-token"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
@@ -172,7 +173,7 @@ public class ClientConfigTest
             {"INFLUX_ORG", "my-org"},
             {"INFLUX_DATABASE", "my-database"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
@@ -195,7 +196,7 @@ public class ClientConfigTest
             {"INFLUX_TOKEN", "my-token"},
             {"INFLUX_AUTH_SCHEME", "my-scheme"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
@@ -221,7 +222,7 @@ public class ClientConfigTest
             {"INFLUX_GZIP_THRESHOLD", "64"},
             {"INFLUX_WRITE_NO_SYNC", "true"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
@@ -247,7 +248,7 @@ public class ClientConfigTest
             {"INFLUX_TOKEN", "my-token"},
             {"INFLUX_WRITE_NO_SYNC", "true"},
         };
-        SetEnv(env);
+        TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
@@ -262,14 +263,6 @@ public class ClientConfigTest
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(WriteOptions.DefaultOptions.GzipThreshold));
             Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
         });
-    }
-
-    private static void SetEnv(IDictionary<String, String> dict)
-    {
-        foreach (var entry in dict)
-        {
-            Environment.SetEnvironmentVariable(entry.Key, entry.Value, EnvironmentVariableTarget.Process);
-        }
     }
 
     [Test]
@@ -299,19 +292,6 @@ public class ClientConfigTest
     [TearDown]
     public void Cleanup()
     {
-        var envVars = new List<String>
-        {
-            ClientConfig.EnvInfluxHost,
-            ClientConfig.EnvInfluxToken,
-            ClientConfig.EnvInfluxOrg,
-            ClientConfig.EnvInfluxDatabase,
-            ClientConfig.EnvInfluxPrecision,
-            ClientConfig.EnvInfluxGzipThreshold,
-            ClientConfig.EnvInfluxWriteNoSync
-        };
-        foreach (var envVar in envVars)
-        {
-            Environment.SetEnvironmentVariable(envVar, null, EnvironmentVariableTarget.Process);
-        }
+        TestUtils.CleanupEnv();
     }
 }

@@ -3,6 +3,7 @@
 ### Features
 
 1. [#175](https://github.com/InfluxCommunity/influxdb3-csharp/pull/175): Add QueryTimeout and WriteTimeout to ClientConfig.
+1. [#179](https://github.com/InfluxCommunity/influxdb3-csharp/pull/179): Allows create ClientConfig from ClientConfig(string connectionString) and ClientConfig(IDictionary env)
 
 ## 1.4.0 [2025-09-15]
 

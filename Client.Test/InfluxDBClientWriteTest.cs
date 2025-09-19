@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
@@ -557,6 +559,113 @@ public class InfluxDBClientWriteTest : MockServerTest
         TestWriteRecordsAsync(_client, cancellationToken);
         TestWritePointAsync(_client, cancellationToken);
         TestWritePointsAsync(_client, cancellationToken);
+    }
+
+    [Test]
+    public async Task WriteFromUrl()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        const string token = "my-token";
+        const string org = "my-org";
+        const string db = "my-database";
+        const string precision = "nanosecond";
+        const string authSchema = "Token";
+        const bool writeNoSync = true;
+        const int gzipThreshold = 2024;
+
+        var parameters = HttpUtility.ParseQueryString(string.Empty);
+        parameters.Add("database", db);
+        parameters.Add("token", token);
+        parameters.Add("authScheme", authSchema);
+        parameters.Add("org", org);
+        parameters.Add("precision", precision);
+        parameters.Add("writeNoSync", writeNoSync.ToString().ToLower());
+        parameters.Add("gzipThreshold", gzipThreshold.ToString()); ;
+        var uriBuilder = new UriBuilder(MockServerUrl);
+        uriBuilder.Query = parameters.ToString()!;
+
+        var clientConfig = new ClientConfig(uriBuilder.Uri.ToString());
+        Assert.That(clientConfig.WriteOptions!.GzipThreshold, Is.EqualTo(gzipThreshold)); ;
+
+        _client = new InfluxDBClient(clientConfig);
+        await _client.WritePointAsync(PointData
+            .Measurement("cpu")
+            .SetTag("tag", "c")
+            .SetField("field", 1)
+        );
+
+        var requests = MockServer.LogEntries.ToList();
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(requests[0].RequestMessage.Query?["db"].First(), Is.EqualTo(db));
+            Assert.That(requests[0].RequestMessage.Query?["org"].First(), Is.EqualTo(org));
+            Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo(precision));
+            Assert.That(requests[0].RequestMessage.Query?["no_sync"].First(), Is.EqualTo(writeNoSync.ToString().ToLower()));
+        }
+        var authHeader = requests[0].RequestMessage.Headers?["Authorization"].First().Split(" ");
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(authHeader?[0], Is.EqualTo(authSchema));
+            Assert.That(authHeader?[1], Is.EqualTo(token));
+        }
+    }
+
+    [Test]
+    public async Task WriteFromEnvVars()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        const string token = "my-token";
+        const string org = "my-org";
+        const string db = "my-database";
+        const string precision = "nanosecond";
+        const string authSchema = "Token";
+        const bool writeNoSync = true;
+        const int gzipThreshold = 2024;
+
+        var dict = new Dictionary<string, string>()
+        {
+            { ClientConfig.EnvInfluxHost, MockServerUrl },
+            { ClientConfig.EnvInfluxToken, token },
+            { ClientConfig.EnvInfluxOrg, org },
+            { ClientConfig.EnvInfluxDatabase, db },
+            { ClientConfig.EnvInfluxPrecision, precision },
+            { ClientConfig.EnvInfluxAuthScheme, authSchema },
+            { ClientConfig.EnvInfluxWriteNoSync, writeNoSync.ToString().ToLower() },
+            { ClientConfig.EnvInfluxGzipThreshold, gzipThreshold.ToString() }
+        };
+
+        TestUtils.SetEnv(dict);
+
+        var clientConfig = new ClientConfig(dict);
+        Assert.That(clientConfig.WriteOptions!.GzipThreshold, Is.EqualTo(gzipThreshold));
+
+        _client = new InfluxDBClient(clientConfig);
+        await _client.WritePointAsync(PointData
+            .Measurement("cpu")
+            .SetTag("tag", "c")
+            .SetField("field", 1)
+        );
+
+        var requests = MockServer.LogEntries.ToList();
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(requests[0].RequestMessage.Query?["db"].First(), Is.EqualTo(db));
+            Assert.That(requests[0].RequestMessage.Query?["org"].First(), Is.EqualTo(org));
+            Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo(precision));
+            Assert.That(requests[0].RequestMessage.Query?["no_sync"].First(), Is.EqualTo(writeNoSync.ToString().ToLower()));
+        }
+        var authHeader = requests[0].RequestMessage.Headers?["Authorization"].First().Split(" ");
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(authHeader?[0], Is.EqualTo(authSchema));
+            Assert.That(authHeader?[1], Is.EqualTo(token));
+        }
     }
 
     private static void TestWriteRecordAsync(InfluxDBClient client, CancellationToken? cancellationToken = null)
