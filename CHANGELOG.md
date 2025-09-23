@@ -1,5 +1,9 @@
 ## 1.5.0 [unreleased]
 
+### CI
+
+1. [#181](https://github.com/InfluxCommunity/influxdb3-csharp/pull/181): Fix CI executors parameters.
+
 ### Features
 
 1. [#175](https://github.com/InfluxCommunity/influxdb3-csharp/pull/175): Add QueryTimeout and WriteTimeout to ClientConfig.
