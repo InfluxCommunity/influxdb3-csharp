@@ -110,9 +110,11 @@ jobs:
         type: string
         default: << pipeline.parameters.default-dotnet-image >>
       exe:
-        type: executor
+        type: string
         default: docker-amd64-image
-    executor: << parameters.exe >>
+    executor:
+      name: << parameters.exe >>
+      dotnet-image: << parameters.dotnet-image >>
     steps:
       - checkout
       - client-test:
