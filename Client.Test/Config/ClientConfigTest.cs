@@ -288,6 +288,82 @@ public class ClientConfigTest
         Assert.That(config.QueryOptions, Is.EqualTo(options));
     }
 
+    [Test]
+    public void CreateFromConnectionStringWithDisableGrpcCompression()
+    {
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&disableGrpcCompression=true");
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.QueryOptions.DisableGrpcCompression, Is.EqualTo(true));
+        });
+    }
+
+    [Test]
+    public void CreateFromConnectionStringWithDisableGrpcCompressionFalse()
+    {
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&disableGrpcCompression=false");
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.QueryOptions.DisableGrpcCompression, Is.EqualTo(false));
+        });
+    }
+
+    [Test]
+    public void CreateFromEnvWithDisableGrpcCompression()
+    {
+        var env = new Dictionary<String, String>
+        {
+            { "INFLUX_HOST", "http://localhost:8086" },
+            { "INFLUX_TOKEN", "my-token" },
+            { "INFLUX_DISABLE_GRPC_COMPRESSION", "true" },
+        };
+        TestUtils.SetEnv(env);
+        var cfg = new ClientConfig(env);
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.QueryOptions.DisableGrpcCompression, Is.EqualTo(true));
+        });
+    }
+
+    [Test]
+    public void CreateFromEnvWithDisableGrpcCompressionFalse()
+    {
+        var env = new Dictionary<String, String>
+        {
+            { "INFLUX_HOST", "http://localhost:8086" },
+            { "INFLUX_TOKEN", "my-token" },
+            { "INFLUX_DISABLE_GRPC_COMPRESSION", "false" },
+        };
+        TestUtils.SetEnv(env);
+        var cfg = new ClientConfig(env);
+        Assert.That(cfg, Is.Not.Null);
+        cfg.Validate();
+        Assert.Multiple(() =>
+        {
+            Assert.That(cfg.Host, Is.EqualTo("http://localhost:8086/"));
+            Assert.That(cfg.Token, Is.EqualTo("my-token"));
+            Assert.That(cfg.QueryOptions.DisableGrpcCompression, Is.EqualTo(false));
+        });
+    }
+
+    [Test]
+    public void DefaultDisableGrpcCompressionIsFalse()
+    {
+        var config = new ClientConfig();
+        Assert.That(config.QueryOptions.DisableGrpcCompression, Is.EqualTo(false));
+    }
 
     [TearDown]
     public void Cleanup()

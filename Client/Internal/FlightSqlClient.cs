@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using Apache.Arrow.Flight;
 using Apache.Arrow.Flight.Client;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Grpc.Net.Compression;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Query;
 
@@ -63,7 +65,7 @@ internal class FlightSqlClient : IFlightSqlClient
                     : ChannelCredentials.Insecure,
                 MaxReceiveMessageSize = _config.QueryOptions.MaxReceiveMessageSize,
                 MaxSendMessageSize = _config.QueryOptions.MaxSendMessageSize,
-                CompressionProviders = _config.QueryOptions.CompressionProviders,
+                CompressionProviders = ResolveCompressionProviders(_config.QueryOptions),
             });
         _flightClient = new FlightClient(_channel);
         var knownTypes = new List<Type> { typeof(string), typeof(int), typeof(float), typeof(bool) };
@@ -187,5 +189,39 @@ internal class FlightSqlClient : IFlightSqlClient
     public void Dispose()
     {
         _channel.Dispose();
+    }
+
+    /// <summary>
+    /// Resolves the compression providers based on QueryOptions settings.
+    /// </summary>
+    /// <param name="options">The query options containing compression settings.</param>
+    /// <returns>
+    /// An empty list if DisableGrpcCompression is true (disabling compression),
+    /// the explicitly set CompressionProviders if provided,
+    /// or null to use the default gzip compression.
+    /// </returns>
+    private static IList<ICompressionProvider>? ResolveCompressionProviders(QueryOptions options)
+    {
+        // DisableGrpcCompression takes priority
+        if (options.DisableGrpcCompression)
+        {
+            // Log warning if CompressionProviders was also set
+            if (options.CompressionProviders != null)
+            {
+                Trace.TraceWarning(
+                    "DisableGrpcCompression is set to true, CompressionProviders value will be ignored.");
+            }
+
+            return new List<ICompressionProvider>();
+        }
+
+        // If user explicitly set CompressionProviders, use that
+        if (options.CompressionProviders != null)
+        {
+            return options.CompressionProviders;
+        }
+
+        // Default: null (gRPC will use gzip)
+        return null;
     }
 }
