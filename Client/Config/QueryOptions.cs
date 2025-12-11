@@ -42,9 +42,24 @@ public class QueryOptions : ICloneable
     /// <remarks>
     /// This property specifies the list of compression algorithms available for compressing gRPC messages.
     /// The value is represented as a nullable list of <see cref="ICompressionProvider"/>.
-    /// If set to <c>null</c>, Gzip will be used
+    /// If set to <c>null</c> (default), Gzip will be used.
+    /// Note: If <see cref="DisableGrpcCompression"/> is set to <c>true</c>, this property will be ignored.
     /// </remarks>
     public IList<ICompressionProvider>? CompressionProviders { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether to disable gRPC compression.
+    /// </summary>
+    /// <remarks>
+    /// When set to <c>true</c>, the client will not advertise support for any compression
+    /// algorithms in the grpc-accept-encoding header, causing the server to send
+    /// uncompressed responses.
+    /// Default is <c>false</c> (compression is enabled, using gzip by default).
+    /// Note: This only affects query response compression (requests are never compressed).
+    /// If this property is set to <c>true</c> and <see cref="CompressionProviders"/> is also set,
+    /// a warning will be logged and <see cref="CompressionProviders"/> will be ignored.
+    /// </remarks>
+    public bool DisableGrpcCompression { get; set; }
 
     /// <summary>
     /// Represents the default query options used throughout the client configuration.
@@ -58,7 +73,8 @@ public class QueryOptions : ICloneable
         Deadline = null,
         MaxReceiveMessageSize = 4_194_304,
         MaxSendMessageSize = null,
-        CompressionProviders = null
+        CompressionProviders = null,
+        DisableGrpcCompression = false
     };
 
     /// <summary>

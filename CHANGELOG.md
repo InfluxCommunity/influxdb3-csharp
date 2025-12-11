@@ -1,5 +1,14 @@
 ## 1.6.0 [unreleased]
 
+### Features
+
+1. [#193](https://github.com/InfluxCommunity/influxdb3-csharp/pull/193): Add option to disable gRPC query response
+   compression:
+    - New query option (`QueryOptions.DisableGrpcCompression`) added: `true` value disables gRPC response compression.
+      Default value: `false` (compression enabled).
+    - Also configurable via connection string query parameter (`disableGrpcCompression`).
+    - Also configurable via environment variable (`INFLUX_DISABLE_GRPC_COMPRESSION`).
+
 ## 1.5.0 [2025-11-18]
 
 ### Features

@@ -122,6 +122,46 @@ await foreach (var row in client.Query(query: influxQL, queryType: QueryType.Inf
 }
 ```
 
+## gRPC Compression
+
+The client uses gRPC for querying data from InfluxDB 3.
+
+### Request Compression
+
+Request compression is not supported by InfluxDB 3 — the client sends uncompressed requests.
+
+### Response Compression
+
+By default, the client advertises support for gzip compression and the server may compress responses. The client handles
+decompression automatically.
+
+To disable response compression, set `DisableGrpcCompression` to `true`:
+
+```csharp
+using var client = new InfluxDBClient(new ClientConfig
+{
+    Host = "https://us-east-1-1.aws.cloud2.influxdata.com",
+    Token = "my-token",
+    Database = "my-database",
+    QueryOptions = new QueryOptions
+    {
+        DisableGrpcCompression = true
+    }
+});
+```
+
+Alternatively, use the `INFLUX_DISABLE_GRPC_COMPRESSION` environment variable:
+
+```sh
+export INFLUX_DISABLE_GRPC_COMPRESSION=true
+```
+
+Or use the connection string parameter:
+
+```csharp
+using var client = new InfluxDBClient("https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&database=my-database&disableGrpcCompression=true");
+```
+
 ## Feedback
 
 If you need help, please use our [Community Slack](https://app.slack.com/huddle/TH8RGQX5Z/C02UDUPLQKA)

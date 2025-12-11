@@ -13,12 +13,13 @@ internal class QueryOptionsComparer : IEqualityComparer<QueryOptions>
         if (y is null) return false;
         if (x.GetType() != y.GetType()) return false;
         return Nullable.Equals(x.Deadline, y.Deadline) && x.MaxReceiveMessageSize == y.MaxReceiveMessageSize &&
-               x.MaxSendMessageSize == y.MaxSendMessageSize && Equals(x.CompressionProviders, y.CompressionProviders);
+               x.MaxSendMessageSize == y.MaxSendMessageSize && Equals(x.CompressionProviders, y.CompressionProviders) &&
+               x.DisableGrpcCompression == y.DisableGrpcCompression;
     }
 
     public int GetHashCode(QueryOptions obj)
     {
         return HashCode.Combine(obj.Deadline, obj.MaxReceiveMessageSize, obj.MaxSendMessageSize,
-            obj.CompressionProviders);
+            obj.CompressionProviders, obj.DisableGrpcCompression);
     }
 }

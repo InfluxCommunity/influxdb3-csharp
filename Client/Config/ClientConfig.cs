@@ -70,6 +70,7 @@ public class ClientConfig
     internal const string EnvInfluxPrecision = "INFLUX_PRECISION";
     internal const string EnvInfluxGzipThreshold = "INFLUX_GZIP_THRESHOLD";
     internal const string EnvInfluxWriteNoSync = "INFLUX_WRITE_NO_SYNC";
+    internal const string EnvInfluxDisableGrpcCompression = "INFLUX_DISABLE_GRPC_COMPRESSION";
 
     private string _host = "";
 
@@ -97,6 +98,7 @@ public class ClientConfig
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
         ParseWriteNoSync(values.Get("writeNoSync"));
+        ParseDisableGrpcCompression(values.Get("disableGrpcCompression"));
     }
 
     /// <summary>
@@ -113,6 +115,7 @@ public class ClientConfig
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
         ParseWriteNoSync(env[EnvInfluxWriteNoSync] as string);
+        ParseDisableGrpcCompression(env[EnvInfluxDisableGrpcCompression] as string);
     }
 
     /// <summary>
@@ -278,6 +281,15 @@ public class ClientConfig
             var noSync = bool.Parse(strVal);
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
             WriteOptions.NoSync = noSync;
+        }
+    }
+
+    private void ParseDisableGrpcCompression(string? strVal)
+    {
+        if (strVal != null)
+        {
+            var disable = bool.Parse(strVal);
+            QueryOptions.DisableGrpcCompression = disable;
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Grpc.Core;
 using InfluxDB3.Client.Config;
@@ -137,6 +138,73 @@ public class QueryWriteTest : IntegrationTest
         {
             Assert.That(row, Has.Length.EqualTo(1));
             Assert.That(row[0], Is.EqualTo(1234.0));
+        }
+    }
+
+    [Test]
+    [TestCase(null, "identity,gzip,deflate", "gzip", TestName = "QueryWithDisableGrpcCompression_NotSet")]
+    [TestCase(false, "identity,gzip,deflate", "gzip", TestName = "QueryWithDisableGrpcCompression_False")]
+    [TestCase(true, "identity", null, TestName = "QueryWithDisableGrpcCompression_True")]
+    public async Task QueryWithDisableGrpcCompression(bool? disableGrpcCompression, string expectedReqEncoding,
+        string? expectedRespEncoding)
+    {
+        // Custom handler to intercept and capture grpc encoding headers
+        var headerInterceptor = new GrpcEncodingInterceptorHandler();
+        var httpClient = new HttpClient(headerInterceptor);
+
+        var queryOptions = new QueryOptions();
+        if (disableGrpcCompression.HasValue)
+        {
+            queryOptions.DisableGrpcCompression = disableGrpcCompression.Value;
+        }
+
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            DisableServerCertificateValidation = true,
+            QueryOptions = queryOptions,
+            HttpClient = httpClient,
+        });
+
+        const string measurement = "integration_test_compression";
+        var testId = DateTime.UtcNow.Millisecond;
+        await client.WriteRecordAsync($"{measurement},type=test value=42.0,testId={testId}");
+
+        // Wait for data to be available (max 10 seconds)
+        var sql = $"SELECT value FROM {measurement} where \"testId\" = {testId}";
+        List<object?[]> results;
+        for (var i = 0; i < 100 && (results = await client.Query(sql).ToListAsync()).Count == 0; i++)
+            await Task.Delay(100);
+        results = await client.Query(sql).ToListAsync();
+
+        Assert.That(results, Has.Count.EqualTo(1));
+        Assert.That(results[0][0], Is.EqualTo(42.0));
+
+        // Verify the request grpc-accept-encoding header
+        Assert.That(headerInterceptor.LastGrpcAcceptEncoding, Is.EqualTo(expectedReqEncoding),
+            $"Request grpc-accept-encoding should be '{expectedReqEncoding}'");
+
+        // Verify the response grpc-encoding header
+        // Note: InfluxDB 3 Core may not compress responses even when client advertises gzip support.
+        // Per gRPC spec, servers may choose not to compress regardless of client settings.
+        // InfluxDB Cloud typically compresses, but Core may not. We warn instead of failing.
+        // See: https://grpc.io/docs/guides/compression/
+        var actualRespEncoding = headerInterceptor.LastGrpcEncoding;
+        if (expectedRespEncoding != null)
+        {
+            if (actualRespEncoding != expectedRespEncoding)
+            {
+                Assert.Warn(
+                    $"Server returned '{actualRespEncoding}' instead of '{expectedRespEncoding}'. " +
+                    "This is normal for InfluxDB 3 Core which may not compress responses.");
+            }
+        }
+        else
+        {
+            Assert.That(actualRespEncoding, Is.Null.Or.EqualTo("identity"),
+                $"Expected no compression, got: {actualRespEncoding}");
         }
     }
 
