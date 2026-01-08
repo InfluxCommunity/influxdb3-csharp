@@ -13,7 +13,7 @@
         <Authors>InfluxDB3.Client Contributors</Authors>
         <AssemblyName>InfluxDB3.Client</AssemblyName>
         <VersionPrefix>1.6.0</VersionPrefix>
-        <VersionSuffix>dev</VersionSuffix>
+        <VersionSuffix></VersionSuffix>
 
         <PackageId>InfluxDB3.Client</PackageId>
         <PackageTags>influxdata;timeseries;influxdb</PackageTags>
