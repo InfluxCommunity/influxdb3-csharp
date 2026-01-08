@@ -383,13 +383,13 @@ cannot be determined from the response headers or body.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_Query_" data-uid="InfluxDB3.Client.InfluxDBClient.Query*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">Query(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__" data-uid="InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})">Query(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?, TimeSpan?)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;object?[]&gt; Query(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;object?[]&gt; Query(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null, TimeSpan? timeout = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -434,6 +434,12 @@ The supported types are: string, bool, int, float.</p>
 the headers specified in the client configuration.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
+        <td><span class="parametername">timeout</span></td>
+        <td><p>The timeout to use for only this query request.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -452,7 +458,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String___examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan___examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 
@@ -486,13 +492,13 @@ var results = client.Query(
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_QueryBatches_" data-uid="InfluxDB3.Client.InfluxDBClient.QueryBatches*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">QueryBatches(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__" data-uid="InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})">QueryBatches(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?, TimeSpan?)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;RecordBatch&gt; QueryBatches(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null, TimeSpan? timeout = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -537,6 +543,12 @@ The supported types are: string, bool, int, float.</p>
 the headers specified in the client configuration.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
+        <td><span class="parametername">timeout</span></td>
+        <td><p>The timeout to use for only this query request.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -555,7 +567,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String___examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan___examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 
@@ -589,13 +601,13 @@ var results = client.QueryBatches(
     </tbody>
   </table>
   <a id="InfluxDB3_Client_InfluxDBClient_QueryPoints_" data-uid="InfluxDB3.Client.InfluxDBClient.QueryPoints*"></a>
-  <h4 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">QueryPoints(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?)</h4>
+  <h4 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__" data-uid="InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})">QueryPoints(string, QueryType?, string?, Dictionary&lt;string, object&gt;?, Dictionary&lt;string, string&gt;?, TimeSpan?)</h4>
   <div class="markdown level1 summary"><p>Query data from InfluxDB IOx into PointData structure using FlightSQL.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IAsyncEnumerable&lt;PointDataValues&gt; QueryPoints(string query, QueryType? queryType = null, string? database = null, Dictionary&lt;string, object&gt;? namedParameters = null, Dictionary&lt;string, string&gt;? headers = null, TimeSpan? timeout = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -640,6 +652,12 @@ The supported types are: string, bool, int, float.</p>
 the headers specified in the client configuration.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
+        <td><span class="parametername">timeout</span></td>
+        <td><p>The timeout to use for only this query request.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -658,7 +676,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String___examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan___examples">Examples</h5>
   <p>The following example shows how to use SQL query with named parameters:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 

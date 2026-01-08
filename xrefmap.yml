@@ -28,6 +28,24 @@ references:
   fullName.vb: InfluxDB3.Client.Config.ClientConfig.New()
   nameWithType: ClientConfig.ClientConfig()
   nameWithType.vb: ClientConfig.New()
+- uid: InfluxDB3.Client.Config.ClientConfig.#ctor(System.Collections.IDictionary)
+  name: ClientConfig(IDictionary)
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig__ctor_System_Collections_IDictionary_
+  commentId: M:InfluxDB3.Client.Config.ClientConfig.#ctor(System.Collections.IDictionary)
+  name.vb: New(IDictionary)
+  fullName: InfluxDB3.Client.Config.ClientConfig.ClientConfig(System.Collections.IDictionary)
+  fullName.vb: InfluxDB3.Client.Config.ClientConfig.New(System.Collections.IDictionary)
+  nameWithType: ClientConfig.ClientConfig(IDictionary)
+  nameWithType.vb: ClientConfig.New(IDictionary)
+- uid: InfluxDB3.Client.Config.ClientConfig.#ctor(System.String)
+  name: ClientConfig(string)
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig__ctor_System_String_
+  commentId: M:InfluxDB3.Client.Config.ClientConfig.#ctor(System.String)
+  name.vb: New(String)
+  fullName: InfluxDB3.Client.Config.ClientConfig.ClientConfig(string)
+  fullName.vb: InfluxDB3.Client.Config.ClientConfig.New(String)
+  nameWithType: ClientConfig.ClientConfig(string)
+  nameWithType.vb: ClientConfig.New(String)
 - uid: InfluxDB3.Client.Config.ClientConfig.#ctor*
   name: ClientConfig
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig__ctor_
@@ -181,6 +199,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.QueryOptions
   nameWithType: ClientConfig.QueryOptions
+- uid: InfluxDB3.Client.Config.ClientConfig.QueryTimeout
+  name: QueryTimeout
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_QueryTimeout
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.QueryTimeout
+  fullName: InfluxDB3.Client.Config.ClientConfig.QueryTimeout
+  nameWithType: ClientConfig.QueryTimeout
+- uid: InfluxDB3.Client.Config.ClientConfig.QueryTimeout*
+  name: QueryTimeout
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_QueryTimeout_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.QueryTimeout
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.QueryTimeout
+  nameWithType: ClientConfig.QueryTimeout
 - uid: InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath
   name: SslRootsFilePath
   href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath
@@ -233,6 +264,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.ClientConfig.WriteOptions
   nameWithType: ClientConfig.WriteOptions
+- uid: InfluxDB3.Client.Config.ClientConfig.WriteTimeout
+  name: WriteTimeout
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_WriteTimeout
+  commentId: P:InfluxDB3.Client.Config.ClientConfig.WriteTimeout
+  fullName: InfluxDB3.Client.Config.ClientConfig.WriteTimeout
+  nameWithType: ClientConfig.WriteTimeout
+- uid: InfluxDB3.Client.Config.ClientConfig.WriteTimeout*
+  name: WriteTimeout
+  href: api/InfluxDB3.Client.Config.ClientConfig.html#InfluxDB3_Client_Config_ClientConfig_WriteTimeout_
+  commentId: Overload:InfluxDB3.Client.Config.ClientConfig.WriteTimeout
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.ClientConfig.WriteTimeout
+  nameWithType: ClientConfig.WriteTimeout
 - uid: InfluxDB3.Client.Config.QueryOptions
   name: QueryOptions
   href: api/InfluxDB3.Client.Config.QueryOptions.html
@@ -278,6 +322,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.QueryOptions.Deadline
   nameWithType: QueryOptions.Deadline
+- uid: InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression
+  name: DisableGrpcCompression
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression
+  commentId: P:InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression
+  fullName: InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression
+  nameWithType: QueryOptions.DisableGrpcCompression
+- uid: InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression*
+  name: DisableGrpcCompression
+  href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression_
+  commentId: Overload:InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression
+  nameWithType: QueryOptions.DisableGrpcCompression
 - uid: InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize
   name: MaxReceiveMessageSize
   href: api/InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize
@@ -394,15 +451,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.GetServerVersion
   nameWithType: IInfluxDBClient.GetServerVersion
-- uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.Query(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.Query(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: IInfluxDBClient.Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: IInfluxDBClient.Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.IInfluxDBClient.Query(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.Query(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: IInfluxDBClient.Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: IInfluxDBClient.Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.IInfluxDBClient.Query*
   name: Query
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_Query_
@@ -410,15 +467,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.Query
   nameWithType: IInfluxDBClient.Query
-- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryBatches(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: IInfluxDBClient.QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: IInfluxDBClient.QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryBatches(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: IInfluxDBClient.QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: IInfluxDBClient.QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.IInfluxDBClient.QueryBatches*
   name: QueryBatches
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryBatches_
@@ -426,15 +483,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.QueryBatches
   nameWithType: IInfluxDBClient.QueryBatches
-- uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.IInfluxDBClient.QueryPoints(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryPoints(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: IInfluxDBClient.QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: IInfluxDBClient.QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.IInfluxDBClient.QueryPoints(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.QueryPoints(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: IInfluxDBClient.QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: IInfluxDBClient.QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.IInfluxDBClient.QueryPoints*
   name: QueryPoints
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_QueryPoints_
@@ -490,22 +547,6 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync
   nameWithType: IInfluxDBClient.WriteRecordAsync
-- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_System_Collections_Generic_IEnumerable_System_String__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable<string>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable(Of String), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: IInfluxDBClient.WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: IInfluxDBClient.WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync*
-  name: WriteRecordsAsync
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordsAsync_
-  commentId: Overload:InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync
-  isSpec: "True"
-  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordsAsync
-  nameWithType: IInfluxDBClient.WriteRecordsAsync
 - uid: InfluxDB3.Client.InfluxDBApiException
   name: InfluxDBApiException
   href: api/InfluxDB3.Client.InfluxDBApiException.html
@@ -629,15 +670,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.GetServerVersion
   nameWithType: InfluxDBClient.GetServerVersion
-- uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.InfluxDBClient.Query(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.Query(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: InfluxDBClient.Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: InfluxDBClient.Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.Query(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.InfluxDBClient.Query(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.Query(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: InfluxDBClient.Query(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: InfluxDBClient.Query(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.InfluxDBClient.Query*
   name: Query
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_Query_
@@ -645,15 +686,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.Query
   nameWithType: InfluxDBClient.Query
-- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryBatches(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: InfluxDBClient.QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: InfluxDBClient.QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryBatches(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryBatches(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: InfluxDBClient.QueryBatches(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: InfluxDBClient.QueryBatches(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.InfluxDBClient.QueryBatches*
   name: QueryBatches
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryBatches_
@@ -661,15 +702,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.QueryBatches
   nameWithType: InfluxDBClient.QueryBatches
-- uid: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.InfluxDBClient.QueryPoints(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryPoints(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: InfluxDBClient.QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?)
-  nameWithType.vb: InfluxDBClient.QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String))
+- uid: InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name: QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_System_String_System_Nullable_InfluxDB3_Client_Query_QueryType__System_String_System_Collections_Generic_Dictionary_System_String_System_Object__System_Collections_Generic_Dictionary_System_String_System_String__System_Nullable_System_TimeSpan__
+  commentId: M:InfluxDB3.Client.InfluxDBClient.QueryPoints(System.String,System.Nullable{InfluxDB3.Client.Query.QueryType},System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String},System.Nullable{System.TimeSpan})
+  name.vb: QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
+  fullName: InfluxDB3.Client.InfluxDBClient.QueryPoints(string, InfluxDB3.Client.Query.QueryType?, string?, System.Collections.Generic.Dictionary<string, object>?, System.Collections.Generic.Dictionary<string, string>?, System.TimeSpan?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.QueryPoints(String, InfluxDB3.Client.Query.QueryType?, String, System.Collections.Generic.Dictionary(Of String, Object), System.Collections.Generic.Dictionary(Of String, String), System.TimeSpan?)
+  nameWithType: InfluxDBClient.QueryPoints(string, QueryType?, string?, Dictionary<string, object>?, Dictionary<string, string>?, TimeSpan?)
+  nameWithType.vb: InfluxDBClient.QueryPoints(String, QueryType?, String, Dictionary(Of String, Object), Dictionary(Of String, String), TimeSpan?)
 - uid: InfluxDB3.Client.InfluxDBClient.QueryPoints*
   name: QueryPoints
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_QueryPoints_

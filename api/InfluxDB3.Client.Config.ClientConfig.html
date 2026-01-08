@@ -236,6 +236,58 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public ClientConfig()</code></pre>
   </div>
+  <a id="InfluxDB3_Client_Config_ClientConfig__ctor_" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig__ctor_System_Collections_IDictionary_" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor(System.Collections.IDictionary)">ClientConfig(IDictionary)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of client configuration from environment variables.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ClientConfig(IDictionary env)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+        <td><span class="parametername">env</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig__ctor_" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig__ctor_System_String_" data-uid="InfluxDB3.Client.Config.ClientConfig.#ctor(System.String)">ClientConfig(string)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of client configuration from connection string.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ClientConfig(string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
 </h3>
   <a id="InfluxDB3_Client_Config_ClientConfig_AllowHttpRedirects_" data-uid="InfluxDB3.Client.Config.ClientConfig.AllowHttpRedirects*"></a>
@@ -516,6 +568,30 @@ Users will be responsible for closing the HttpClient.</p>
       </tr>
     </tbody>
   </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_QueryTimeout_" data-uid="InfluxDB3.Client.Config.ClientConfig.QueryTimeout*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_QueryTimeout" data-uid="InfluxDB3.Client.Config.ClientConfig.QueryTimeout">QueryTimeout</h4>
+  <div class="markdown level1 summary"><p>The maximum duration to wait for a query to complete before timing out.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan? QueryTimeout { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath_" data-uid="InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath*"></a>
   <h4 id="InfluxDB3_Client_Config_ClientConfig_SslRootsFilePath" data-uid="InfluxDB3.Client.Config.ClientConfig.SslRootsFilePath">SslRootsFilePath</h4>
   <div class="markdown level1 summary"><p>SSL root certificates file path.</p>
@@ -547,7 +623,8 @@ Users will be responsible for closing the HttpClient.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TimeSpan Timeout { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Please use more informative properties like WriteTimeout or QueryTimeout&quot;)]
+public TimeSpan Timeout { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-condensed">
@@ -608,6 +685,30 @@ Users will be responsible for closing the HttpClient.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_ClientConfig_WriteTimeout_" data-uid="InfluxDB3.Client.Config.ClientConfig.WriteTimeout*"></a>
+  <h4 id="InfluxDB3_Client_Config_ClientConfig_WriteTimeout" data-uid="InfluxDB3.Client.Config.ClientConfig.WriteTimeout">WriteTimeout</h4>
+  <div class="markdown level1 summary"><p>The duration to wait before timing out a write operation to the InfluxDB server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TimeSpan? WriteTimeout { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
         <td></td>
       </tr>
     </tbody>

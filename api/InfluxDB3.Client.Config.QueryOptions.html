@@ -224,15 +224,16 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/60156334d62c5169792c5fca1a653aa490c1abd8/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>&gt;</td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/c2555f2951c56a23d6c57bae6970cdfd30c552a7/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 id="InfluxDB3_Client_Config_QueryOptions_CompressionProviders_remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This property specifies the list of compression algorithms available for compressing gRPC messages.
-The value is represented as a nullable list of <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/60156334d62c5169792c5fca1a653aa490c1abd8/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>.
-If set to <code>null</code>, Gzip will be used</p>
+The value is represented as a nullable list of <a class="xref" href="https://github.com/grpc/grpc-dotnet/blob/c2555f2951c56a23d6c57bae6970cdfd30c552a7/src/Grpc.Net.Common/Compression/ICompressionProvider.cs">ICompressionProvider</a>.
+If set to <code>null</code> (default), Gzip will be used.
+Note: If <a class="xref" href="InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression">DisableGrpcCompression</a> is set to <code>true</code>, this property will be ignored.</p>
 </div>
   <a id="InfluxDB3_Client_Config_QueryOptions_Deadline_" data-uid="InfluxDB3.Client.Config.QueryOptions.Deadline*"></a>
   <h4 id="InfluxDB3_Client_Config_QueryOptions_Deadline" data-uid="InfluxDB3.Client.Config.QueryOptions.Deadline">Deadline</h4>
@@ -261,6 +262,39 @@ If set to <code>null</code>, Gzip will be used</p>
   <h5 id="InfluxDB3_Client_Config_QueryOptions_Deadline_remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This property specifies the maximum time allowed for query execution before a timeout.
 If set to <code>null</code>, no deadline is applied. The value is represented as a nullable <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a>.</p>
+</div>
+  <a id="InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression_" data-uid="InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression*"></a>
+  <h4 id="InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression" data-uid="InfluxDB3.Client.Config.QueryOptions.DisableGrpcCompression">DisableGrpcCompression</h4>
+  <div class="markdown level1 summary"><p>Gets or sets whether to disable gRPC compression.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool DisableGrpcCompression { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="InfluxDB3_Client_Config_QueryOptions_DisableGrpcCompression_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When set to <code>true</code>, the client will not advertise support for any compression
+algorithms in the grpc-accept-encoding header, causing the server to send
+uncompressed responses.
+Default is <code>false</code> (compression is enabled, using gzip by default).
+Note: This only affects query response compression (requests are never compressed).
+If this property is set to <code>true</code> and <a class="xref" href="InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_CompressionProviders">CompressionProviders</a> is also set,
+a warning will be logged and <a class="xref" href="InfluxDB3.Client.Config.QueryOptions.html#InfluxDB3_Client_Config_QueryOptions_CompressionProviders">CompressionProviders</a> will be ignored.</p>
 </div>
   <a id="InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize_" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize*"></a>
   <h4 id="InfluxDB3_Client_Config_QueryOptions_MaxReceiveMessageSize" data-uid="InfluxDB3.Client.Config.QueryOptions.MaxReceiveMessageSize">MaxReceiveMessageSize</h4>
