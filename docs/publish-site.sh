@@ -16,6 +16,10 @@
 
 set -ev
 
+# Install Git
+apt-get -y update
+apt-get -y install git
+
 echo "# Clone client and switch to branch for GH-Pages"
 git clone -b gh-pages git@github.com:InfluxCommunity/influxdb3-csharp.git /code/influxdb3-csharp
 
