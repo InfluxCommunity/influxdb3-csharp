@@ -1,7 +1,21 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/Client"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "chore(deps): "
+  - package-ecosystem: "nuget"
+    directory: "/Client.Test"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "chore(deps): "
+  - package-ecosystem: "nuget"
+    directory: "/Client.Test.Integration"
     open-pull-requests-limit: 10
     schedule:
       interval: "daily"
