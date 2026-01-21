@@ -177,6 +177,7 @@ jobs:
             dotnet nuget push ./Client/bin/Release/InfluxDB3.Client.*-dev.$CIRCLE_BUILD_NUM.nupkg -k ${NUGET_KEY} -s https://api.nuget.org/v3/index.json
 
 workflows:
+  version: 2
   build:
     jobs:
       - check-compilation-warnings
@@ -192,15 +193,7 @@ workflows:
               dotnet-image: [ << pipeline.parameters.default-dotnet-image >> ]
           requires:
             - "tests-unit"
-  build-and-deploy:
-    when:
-      or:
-        - equal: [ 'scheduled_pipeline', '<< pipeline.trigger_source >>' ]
-        - equal: [ '<< pipeline.schedule.name >>', Nightly' ]
-    jobs:
       - deploy-preview:
           requires:
             - tests-integration
-          filters:
-            branches:
-              only: main
+          filters: pipeline.git.branch == "main" and pipeline.schedule.name != "Nightly"
