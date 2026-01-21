@@ -196,6 +196,4 @@ workflows:
       - deploy-preview:
           requires:
             - tests-integration
-          filters:
-            branches:
-              only: main
+          filters: pipeline.git.branch == "main" and pipeline.schedule.name != "Nightly"
