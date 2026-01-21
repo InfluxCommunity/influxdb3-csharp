@@ -1,5 +1,9 @@
 ## 1.7.0 [unreleased]
 
+### CI
+
+1. [#213](https://github.com/InfluxCommunity/influxdb3-csharp/pull/213): Turn off deploy workflow for Nighly builds.
+
 ## 1.6.0 [2026-01-08]
 
 ### Features
