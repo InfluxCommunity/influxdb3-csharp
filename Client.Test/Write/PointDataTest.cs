@@ -253,7 +253,7 @@ namespace InfluxDB3.Client.Test.Write
                 .SetTag("location", "europe")
                 .SetBooleanField("value", true);
 
-            Assert.That(point.GetHashCode(), Is.Not.NaN);
+            Assert.That(point.GetHashCode(), Is.Not.Zero);
         }
 
         [Test]
