@@ -185,7 +185,7 @@ workflows:
           matrix:
             parameters:
               exe: [ docker-amd64-image, docker-arm64-image ]
-              dotnet-image: [ << pipeline.parameters.default-dotnet-image >> ]
+              dotnet-image: [ << pipeline.parameters.default-dotnet-image >>, mcr.microsoft.com/dotnet/sdk:10.0 ]
       - tests-integration:
           matrix:
             parameters:
