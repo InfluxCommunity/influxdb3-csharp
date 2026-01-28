@@ -3,6 +3,7 @@
 ### CI
 
 1. [#213](https://github.com/InfluxCommunity/influxdb3-csharp/pull/213): Turn off deploy workflow for Nighly builds.
+1. [#219](https://github.com/InfluxCommunity/influxdb3-csharp/pull/219): Add support for .NET 10.0.
 
 ## 1.6.0 [2026-01-08]
 
