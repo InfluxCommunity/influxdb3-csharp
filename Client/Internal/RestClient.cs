@@ -83,7 +83,7 @@ internal class RestClient
         if (!result.IsSuccessStatusCode)
         {
             string? message = null;
-            var body = await result.Content.ReadAsStringAsync().ConfigureAwait(true);
+            var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var contentType = result.Content?.Headers?.ContentType?.ToString();
             message = FormatErrorMessage(body, contentType);
 
