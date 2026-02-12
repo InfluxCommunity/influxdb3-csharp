@@ -181,20 +181,18 @@ internal class RestClient
 
         var message = new StringBuilder(v3ErrorBody.Error);
         var hasDetails = false;
-        foreach (var detail in v3ErrorBody.Data ?? new List<V3ErrorBody.V3ErrorData>())
+        foreach (var detail in (v3ErrorBody.Data ?? Enumerable.Empty<V3ErrorBody.V3ErrorData>())
+                     .Where(detail => !string.IsNullOrEmpty(detail.ErrorMessage)))
         {
-            if (!string.IsNullOrEmpty(detail.ErrorMessage))
+            if (!hasDetails)
             {
-                if (!hasDetails)
-                {
-                    message.Append(':');
-                    hasDetails = true;
-                }
-                var lineNumber = detail.LineNumber?.ToString() ?? "?";
-                message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
-                if (!string.IsNullOrEmpty(detail.OriginalLine))
-                    message.Append($" ({detail.OriginalLine})");
+                message.Append(':');
+                hasDetails = true;
             }
+            var lineNumber = detail.LineNumber?.ToString() ?? "?";
+            message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
+            if (!string.IsNullOrEmpty(detail.OriginalLine))
+                message.Append($" ({detail.OriginalLine})");
         }
         return message.ToString();
     }
