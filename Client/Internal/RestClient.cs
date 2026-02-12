@@ -84,34 +84,8 @@ internal class RestClient
         {
             string? message = null;
             var body = await result.Content.ReadAsStringAsync().ConfigureAwait(true);
-            // error message in body
-            if (!string.IsNullOrEmpty(body))
-            {
-                using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-                try
-                {
-                    if (new DataContractJsonSerializer(typeof(ErrorBody)).ReadObject(memoryStream) is ErrorBody
-                        errorBody)
-                    {
-                        if (!string.IsNullOrEmpty(errorBody.Message)) // Cloud
-                        {
-                            message = errorBody.Message;
-                        }
-                        else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) // Edge
-                        {
-                            message = errorBody.Data.ErrorMessage;
-                        }
-                        else if (!string.IsNullOrEmpty(errorBody.Error)) // Edge
-                        {
-                            message = errorBody.Error;
-                        }
-                    }
-                }
-                catch (SerializationException se)
-                {
-                    Debug.WriteLine($"Cannot parse error response as JSON: {body}. {se}");
-                }
-            }
+            var contentType = result.Content?.Headers?.ContentType?.ToString();
+            message = FormatErrorMessage(body, contentType);
 
             // from header
             if (string.IsNullOrEmpty(message))
@@ -139,6 +113,91 @@ internal class RestClient
 
         return result;
     }
+
+    private static string? FormatErrorMessage(string body, string? contentType)
+    {
+        if (string.IsNullOrEmpty(body))
+        {
+            return null;
+        }
+        if (!string.IsNullOrEmpty(contentType) &&
+            !contentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        string? message = null;
+        try
+        {
+            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+            if (new DataContractJsonSerializer(typeof(ErrorBody)).ReadObject(memoryStream) is ErrorBody errorBody)
+            {
+                if (!string.IsNullOrEmpty(errorBody.Message)) // Cloud
+                {
+                    message = errorBody.Message;
+                }
+                else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) // v3/Core/Enterprise (legacy object form)
+                {
+                    message = errorBody.Data.ErrorMessage;
+                }
+                else if (!string.IsNullOrEmpty(errorBody.Error)) // v3/Core/Enterprise
+                {
+                    message = errorBody.Error;
+                }
+            }
+        }
+        catch (SerializationException se)
+        {
+            Debug.WriteLine($"Cannot parse error response as legacy JSON format: {body}. {se}");
+        }
+
+        try
+        {
+            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
+            if (new DataContractJsonSerializer(typeof(V3ErrorBody)).ReadObject(memoryStream) is V3ErrorBody v3ErrorBody)
+            {
+                var v3Message = BuildV3ErrorMessage(v3ErrorBody);
+                var hasV3Details = v3ErrorBody.Data?.Any(detail => !string.IsNullOrEmpty(detail.ErrorMessage)) == true;
+                if (!string.IsNullOrEmpty(v3Message) && (string.IsNullOrEmpty(message) || hasV3Details))
+                {
+                    message = v3Message;
+                }
+            }
+        }
+        catch (SerializationException se)
+        {
+            Debug.WriteLine($"Cannot parse error response as v3 JSON format: {body}. {se}");
+        }
+
+        return message;
+    }
+
+    private static string? BuildV3ErrorMessage(V3ErrorBody v3ErrorBody)
+    {
+        if (string.IsNullOrEmpty(v3ErrorBody.Error))
+        {
+            return null;
+        }
+
+        var message = new StringBuilder(v3ErrorBody.Error);
+        var hasDetails = false;
+        foreach (var detail in v3ErrorBody.Data ?? new List<V3ErrorBody.V3ErrorData>())
+        {
+            if (!string.IsNullOrEmpty(detail.ErrorMessage))
+            {
+                if (!hasDetails)
+                {
+                    message.Append(':');
+                    hasDetails = true;
+                }
+                var lineNumber = detail.LineNumber?.ToString() ?? "?";
+                message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
+                if (!string.IsNullOrEmpty(detail.OriginalLine))
+                    message.Append($" ({detail.OriginalLine})");
+            }
+        }
+        return message.ToString();
+    }
 }
 
 [DataContract]
@@ -158,6 +217,29 @@ internal class ErrorBody
     {
         [DataMember(Name = "error_message")]
         public string? ErrorMessage { get; set; }
+    }
+}
+
+[DataContract]
+internal class V3ErrorBody
+{
+    [DataMember(Name = "error")]
+    public string? Error { get; set; }
+
+    [DataMember(Name = "data")]
+    public List<V3ErrorData>? Data { get; set; }
+
+    [DataContract]
+    internal class V3ErrorData
+    {
+        [DataMember(Name = "error_message")]
+        public string? ErrorMessage { get; set; }
+
+        [DataMember(Name = "line_number")]
+        public int? LineNumber { get; set; }
+
+        [DataMember(Name = "original_line")]
+        public string? OriginalLine { get; set; }
     }
 }
 

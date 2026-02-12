@@ -167,6 +167,7 @@ public class RestClientTest : MockServerTest
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
                 .WithHeader("X-Influx-Error", "not used")
                 .WithBody("{\"message\":\"token does not have sufficient permissions\"}")
                 .WithStatusCode(401));
@@ -185,7 +186,7 @@ public class RestClientTest : MockServerTest
     }
 
     [Test]
-    public void ErrorJsonBodyEdgeWithData()
+    public void ErrorJsonBodyIgnoredForNonJsonContentType()
     {
         CreateAndConfigureRestClient(new ClientConfig
         {
@@ -195,6 +196,35 @@ public class RestClientTest : MockServerTest
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "text/plain")
+                .WithBody("{\"message\":\"token does not have sufficient permissions\"}")
+                .WithStatusCode(401));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("{\"message\":\"token does not have sufficient permissions\"}"));
+        });
+    }
+
+    [Test]
+    public void ErrorJsonBodyV3WithDataObject()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
                 .WithHeader("X-Influx-Error", "not used")
                 .WithBody("{\"error\":\"parsing failed\", \"data\":{\"error_message\":\"invalid field value in line protocol for field 'value' on line 0\"}}")
                 .WithStatusCode(401));
@@ -213,7 +243,7 @@ public class RestClientTest : MockServerTest
     }
 
     [Test]
-    public void ErrorJsonBodyEdgeWithoutData()
+    public void ErrorJsonBodyV3WithoutData()
     {
         CreateAndConfigureRestClient(new ClientConfig
         {
@@ -223,6 +253,7 @@ public class RestClientTest : MockServerTest
         MockServer
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
                 .WithHeader("X-Influx-Error", "not used")
                 .WithBody("{\"error\":\"token does not have sufficient permissions\"}")
                 .WithStatusCode(401));
@@ -237,6 +268,35 @@ public class RestClientTest : MockServerTest
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
             Assert.That(ae.Message, Is.EqualTo("token does not have sufficient permissions"));
+        });
+    }
+
+    [Test]
+    public void ErrorJsonBodyV3WithDataArray()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
+                .WithHeader("X-Influx-Error", "not used")
+                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float\",\"line_number\":2,\"original_line\":\"testa6a3ad v=1 17702\"}]}")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tline 2: invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float (testa6a3ad v=1 17702)"));
         });
     }
 
