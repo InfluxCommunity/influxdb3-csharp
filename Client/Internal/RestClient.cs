@@ -192,7 +192,9 @@ internal class RestClient
             var lineNumber = detail.LineNumber?.ToString() ?? "?";
             message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
             if (!string.IsNullOrEmpty(detail.OriginalLine))
+            {
                 message.Append($" ({detail.OriginalLine})");
+            }
         }
         return message.ToString();
     }
