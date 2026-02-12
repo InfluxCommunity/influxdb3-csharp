@@ -1,5 +1,9 @@
 ## 1.7.0 [unreleased]
 
+### Features
+
+1. [#220](https://github.com/InfluxCommunity/influxdb3-csharp/pull/220): Add InfluxDB 3 Core/Enterprise structured errors handling.
+
 ### CI
 
 1. [#213](https://github.com/InfluxCommunity/influxdb3-csharp/pull/213): Turn off deploy workflow for Nighly builds.
