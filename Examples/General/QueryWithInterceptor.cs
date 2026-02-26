@@ -1,0 +1,45 @@
+using System.Net.Http.Headers;
+using InfluxDB3.Client;
+using InfluxDB3.Client.Config;
+
+namespace InfluxDB3.Examples.General;
+
+public class QueryWithInterceptor
+{
+    static async Task Main(string[] args)
+    {
+        var headerInterceptor = new HeaderInterceptorHandler();
+        var httpClient = new HttpClient(headerInterceptor);
+        httpClient.Timeout = TimeSpan.FromSeconds(10);
+
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Environment.GetEnvironmentVariable("INFLUXDB_URL") ??
+                   "https://us-east-1-1.aws.cloud2.influxdata.com",
+            Token = Environment.GetEnvironmentVariable("INFLUXDB_TOKEN") ?? "my-token",
+            Database = Environment.GetEnvironmentVariable("INFLUXDB_DATABASE") ?? "my-database",
+            HttpClient = httpClient,
+        });
+
+        await client.WriteRecordAsync("weather,type=test value=42.0");
+    }
+
+    public static async Task Run()
+    {
+        await Main(Array.Empty<string>());
+    }
+}
+
+internal class HeaderInterceptorHandler() : DelegatingHandler(new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+})
+{
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
+    {
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "Token is set by this interceptor");
+        var response = await base.SendAsync(request, cancellationToken);
+        return response;
+    }
+}
