@@ -4,7 +4,7 @@ using InfluxDB3.Client.Config;
 
 namespace InfluxDB3.Examples.General;
 
-public class QueryWithInterceptor
+public class WriteWithInterceptor
 {
     static async Task Main(string[] args)
     {
