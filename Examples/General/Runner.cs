@@ -20,7 +20,8 @@ public class Runner
         {"DownSampling", DownsamplingExample.Run},
         {"HttpErrorHandled", HttpErrorHandled.Run},
         {"IOx", IOxExample.Run},
-        {"CustomSslCerts", CustomSslCertsExample.Run}
+        {"CustomSslCerts", CustomSslCertsExample.Run},
+        {"QueryWithInterceptor", QueryWithInterceptor.Run}
     };
     private static void Help()
     {
