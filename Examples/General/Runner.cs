@@ -1,6 +1,6 @@
+using InfluxDB3.Examples.CustomSslCerts;
 using InfluxDB3.Examples.Downsampling;
 using InfluxDB3.Examples.IOx;
-using InfluxDB3.Examples.CustomSslCerts;
 
 namespace InfluxDB3.Examples.General;
 
@@ -21,7 +21,7 @@ public class Runner
         {"HttpErrorHandled", HttpErrorHandled.Run},
         {"IOx", IOxExample.Run},
         {"CustomSslCerts", CustomSslCertsExample.Run},
-        {"QueryWithInterceptor", QueryWithInterceptor.Run}
+        {"WriteWithInterceptor", WriteWithInterceptor.Run}
     };
     private static void Help()
     {

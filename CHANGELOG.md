@@ -1,5 +1,9 @@
 ## 1.8.0 [unreleased]
 
+### Features
+
+1. [#227](https://github.com/InfluxCommunity/influxdb3-csharp/pull/227): Add example for write with interceptors.
+
 ## 1.7.0 [2026-02-19]
 
 ### Features
