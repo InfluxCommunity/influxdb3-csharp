@@ -78,6 +78,23 @@ var point = PointData.Measurement("temperature")
 await client.WritePointAsync(point: point);
 
 //
+// Optional: define preferred tag order for line protocol serialization
+// (useful for first write to control physical column order in InfluxDB 3 Enterprise)
+//
+using var orderedClient = new InfluxDBClient(new ClientConfig
+{
+    Host = host,
+    Token = token,
+    Database = database,
+    WriteOptions = new WriteOptions
+    {
+        TagOrder = new[] { "region", "host" }
+    }
+});
+
+await orderedClient.WritePointAsync(point: point);
+
+//
 // Write by LineProtocol
 //
 const string record = "temperature,location=north value=60.0";

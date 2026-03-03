@@ -102,6 +102,18 @@ namespace InfluxDB3.Client.Test.Write
             Assert.That(point.ToLineProtocol(defaultTags: defaultTags), Is.EqualTo("h2o,a=b,tag1=default,tag2=val field=1i"));
             Assert.That(point.ToLineProtocol(defaultTags: null), Is.EqualTo("h2o,tag2=val field=1i"));
             Assert.That(point.ToLineProtocol(defaultTags: new Dictionary<string, string>()), Is.EqualTo("h2o,tag2=val field=1i"));
+            Assert.That(point.ToLineProtocol(defaultTags: defaultTags, tagOrder: new[] { "tag2", "tag1" }),
+                Is.EqualTo("h2o,tag2=val,tag1=default,a=b field=1i"));
+
+            var pointWithTags = PointData.Measurement("h2o")
+                .SetTag("host", "h1")
+                .SetTag("region", "us-east")
+                .SetTag("rack", "r1")
+                .SetField("field", 1);
+
+            Assert.That(pointWithTags.ToLineProtocol(), Is.EqualTo("h2o,host=h1,rack=r1,region=us-east field=1i"));
+            Assert.That(pointWithTags.ToLineProtocol(tagOrder: new[] { "region", "host" }),
+                Is.EqualTo("h2o,region=us-east,host=h1,rack=r1 field=1i"));
         }
 
         [Test]

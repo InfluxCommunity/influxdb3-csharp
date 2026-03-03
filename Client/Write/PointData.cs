@@ -436,13 +436,15 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="timeUnit">the timestamp precision</param>
         /// <param name="defaultTags">Tags added to point</param>
+        /// <param name="tagOrder">Preferred order for tag keys</param>
         /// <returns>Line Protocol</returns>
-        public string ToLineProtocol(WritePrecision? timeUnit = null, Dictionary<string, string>? defaultTags = null)
+        public string ToLineProtocol(WritePrecision? timeUnit = null, Dictionary<string, string>? defaultTags = null,
+            IEnumerable<string>? tagOrder = null)
         {
             var sb = new StringBuilder();
 
             EscapeKey(sb, _values.GetMeasurement()!, false);
-            AppendTags(sb, defaultTags);
+            AppendTags(sb, defaultTags, tagOrder);
             var appendedFields = AppendFields(sb);
             if (!appendedFields)
             {
@@ -459,24 +461,19 @@ namespace InfluxDB3.Client.Write
         /// </summary>
         /// <param name="writer">The writer.</param>
         /// <param name="defaultTags">Tags added to point</param>
-        private void AppendTags(StringBuilder writer, Dictionary<string, string>? defaultTags = null)
+        /// <param name="tagOrder">Preferred order for tag keys</param>
+        private void AppendTags(StringBuilder writer, Dictionary<string, string>? defaultTags = null,
+            IEnumerable<string>? tagOrder = null)
         {
-            var allNames = defaultTags == null
-                ? _values.GetTagNames()
-                : _values.GetTagNames().Concat(defaultTags.Keys).ToArray()
-                ;
-            Array.Sort(allNames);
-            var lastName = "" == allNames.FirstOrDefault() ? "_" : "";
-
-            foreach (var name in allNames)
+            foreach (var name in GetOrderedTagNames(defaultTags, tagOrder))
             {
-                if (name == lastName) continue;
-                lastName = name;
+                if (string.IsNullOrEmpty(name))
+                {
+                    continue;
+                }
 
-                var value = _values.GetTag(name)
-                    ?? defaultTags.First(kv => kv.Key == name).Value;
-
-                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
+                var value = GetTagValue(name, defaultTags);
+                if (string.IsNullOrEmpty(value))
                 {
                     continue;
                 }
@@ -484,10 +481,74 @@ namespace InfluxDB3.Client.Write
                 writer.Append(',');
                 EscapeKey(writer, name);
                 writer.Append('=');
-                EscapeKey(writer, value!);
+                EscapeKey(writer, value);
             }
 
             writer.Append(' ');
+        }
+
+        private IEnumerable<string> GetOrderedTagNames(Dictionary<string, string>? defaultTags, IEnumerable<string>? tagOrder)
+        {
+            if (defaultTags == null && tagOrder == null)
+            {
+                return _values.GetTagNames();
+            }
+
+            var tagNames = new HashSet<string>(_values.GetTagNames(), StringComparer.Ordinal);
+            if (defaultTags != null)
+            {
+                foreach (var key in defaultTags.Keys)
+                {
+                    tagNames.Add(key);
+                }
+            }
+
+            var sortedNames = tagNames.ToArray();
+            Array.Sort(sortedNames, StringComparer.Ordinal);
+
+            if (tagOrder == null)
+            {
+                return sortedNames;
+            }
+
+            var orderedNames = new List<string>(sortedNames.Length);
+            var seen = new HashSet<string>(StringComparer.Ordinal);
+
+            foreach (var tagName in tagOrder)
+            {
+                if (string.IsNullOrEmpty(tagName))
+                {
+                    continue;
+                }
+
+                if (!tagNames.Contains(tagName) || !seen.Add(tagName))
+                {
+                    continue;
+                }
+
+                orderedNames.Add(tagName);
+            }
+
+            foreach (var tagName in sortedNames)
+            {
+                if (seen.Add(tagName))
+                {
+                    orderedNames.Add(tagName);
+                }
+            }
+
+            return orderedNames;
+        }
+
+        private string? GetTagValue(string name, Dictionary<string, string>? defaultTags)
+        {
+            var value = _values.GetTag(name);
+            if (value != null)
+            {
+                return value;
+            }
+
+            return defaultTags != null && defaultTags.TryGetValue(name, out var defaultValue) ? defaultValue : null;
         }
 
         /// <summary>
