@@ -10,6 +10,7 @@ namespace InfluxDB3.Client.Config;
 /// You can configure following options:
 /// - Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call.
 /// - GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.
+/// - TagOrder: Preferred tag order for line protocol serialization.
 /// - NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.
 ///
 /// If you want create client with custom options, you can use the following code:
@@ -62,6 +63,13 @@ public class WriteOptions : ICloneable
     /// </example>
     /// </summary>
     public Dictionary<string, string>? DefaultTags { get; set; }
+
+    /// <summary>
+    /// Preferred order for tag keys when serializing points to line protocol.
+    /// Tags listed here are emitted first (in the provided order), then any remaining tags
+    /// are emitted in lexicographical order.
+    /// </summary>
+    public string[]? TagOrder { get; set; }
 
     /// <summary>
     /// The threshold in bytes for gzipping the body.
