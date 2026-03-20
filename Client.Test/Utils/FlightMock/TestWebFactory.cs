@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace InfluxDB3.Client.Test.Utils;
+namespace InfluxDB3.Client.Test.Utils.FlightMock;
 
 public class TestWebFactory : IDisposable
 {

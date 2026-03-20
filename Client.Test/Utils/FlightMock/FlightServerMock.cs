@@ -5,8 +5,12 @@ using Apache.Arrow.Flight;
 using Apache.Arrow.Flight.Server;
 using Grpc.Core;
 
-namespace InfluxDB3.Client.Test.Utils;
+namespace InfluxDB3.Client.Test.Utils.FlightMock;
 
+/// <summary>
+/// A mock Flight Server that returns data for testing. Must be used with the SimpleProducer class.
+/// Use SimpleProducer to inject data into this mock server.
+/// </summary>
 public class FlightServerMock : FlightServer
 {
     private readonly SimpleProducer _simpleProducer;

@@ -7,7 +7,7 @@ using Apache.Arrow.Types;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Query;
-using InfluxDB3.Client.Test.Utils;
+using InfluxDB3.Client.Test.Utils.FlightMock;
 using Moq;
 
 namespace InfluxDB3.Client.Test;
@@ -135,7 +135,7 @@ public class InfluxDBClientQueryTest : MockServerTest
     }
 
     [Test]
-    public async Task QueryNullField()
+    public async Task QuerySuccessWithNullField()
     {
         var stringField = new Field("measurement", StringType.Default, true);
         var stringArray = new StringArray.Builder().Append("host").Append("host").Build();
@@ -146,7 +146,7 @@ public class InfluxDBClientQueryTest : MockServerTest
         var schema = new Schema(new[] { stringField, stringField1 }, null);
         var recordBatch = new RecordBatch(schema, new[] { stringArray, stringArray1 }, 2);
 
-        var testWebFactory = new TestWebFactory(new SimpleProducer
+        using var testWebFactory = new TestWebFactory(new SimpleProducer
         {
             Schema = schema,
             RecordBatches = new List<RecordBatch> { recordBatch }
