@@ -135,7 +135,7 @@ public class InfluxDBClientQueryTest : MockServerTest
     }
 
     [Test]
-    public async Task QuerySuccessWithNullField()
+    public async Task QueryPointSuccessWithNullField()
     {
         var stringField = new Field("measurement", StringType.Default, true);
         var stringArray = new StringArray.Builder().Append("host").Append("host").Build();
@@ -168,6 +168,43 @@ public class InfluxDBClientQueryTest : MockServerTest
 
             Assert.That(points[1].GetMeasurement(), Is.EqualTo("host"));
             Assert.That(points[1].GetField("stringField1"), Is.EqualTo("normal string"));
+        }
+    }
+
+    [Test]
+    public async Task QuerySuccessWithNullField()
+    {
+        var stringField = new Field("measurement", StringType.Default, true);
+        var stringArray = new StringArray.Builder().Append("host").Append("host").Build();
+
+        var stringField1 = new Field("stringField1", StringType.Default, true);
+        var stringArray1 = new StringArray.Builder().AppendNull().Append("normal string").Build();
+
+        var schema = new Schema(new[] { stringField, stringField1 }, null);
+        var recordBatch = new RecordBatch(schema, new[] { stringArray, stringArray1 }, 2);
+
+        using var testWebFactory = new TestWebFactory(new SimpleProducer
+        {
+            Schema = schema,
+            RecordBatches = new List<RecordBatch> { recordBatch }
+        });
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = testWebFactory.GetAddress(),
+            Token = "token",
+            Database = "bucket0",
+        });
+
+        var results = await client.Query("Select * from table").ToListAsync();
+        Assert.That(results, Has.Count.EqualTo(2));
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(results[0][0], Is.EqualTo("host"));
+            Assert.That(results[0][1], Is.Null);
+
+            Assert.That(results[1][0], Is.EqualTo("host"));
+            Assert.That(results[1][1], Is.EqualTo("normal string"));
         }
     }
 }
