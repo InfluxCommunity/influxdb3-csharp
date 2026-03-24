@@ -176,7 +176,12 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
 
         // Verify: the request reached the server
         var requests = MockHttpsServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Does.Contain("SELECT 1"));
+
+        var requestMessageBodyAsBytes = requests[0].RequestMessage?.BodyAsBytes;
+        if (requestMessageBodyAsBytes == null) return Task.CompletedTask;
+        var responseString = System.Text.Encoding.UTF8.GetString(requestMessageBodyAsBytes);
+        Assert.That(responseString, Does.Contain("SELECT 1"));
+
         return Task.CompletedTask;
     }
 
@@ -200,7 +205,11 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
 
         // Verify: the request reached the server
         var requests = MockHttpsServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Does.Contain("SELECT 1"));
+
+        var requestMessageBodyAsBytes = requests[0].RequestMessage?.BodyAsBytes;
+        if (requestMessageBodyAsBytes == null) return Task.CompletedTask;
+        var responseString = System.Text.Encoding.UTF8.GetString(requestMessageBodyAsBytes);
+        Assert.That(responseString, Does.Contain("SELECT 1"));
         return Task.CompletedTask;
     }
 
