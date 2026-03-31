@@ -22,6 +22,7 @@ public class WriteWithInterceptor
         });
 
         await client.WriteRecordAsync("weather,type=test value=42.0");
+        httpClient.Dispose();
     }
 
     public static async Task Run()
@@ -30,10 +31,7 @@ public class WriteWithInterceptor
     }
 }
 
-internal class HeaderInterceptorHandler() : DelegatingHandler(new HttpClientHandler
-{
-    ServerCertificateCustomValidationCallback = (_, _, _, _) => true
-})
+internal class HeaderInterceptorHandler() : DelegatingHandler(new HttpClientHandler())
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
