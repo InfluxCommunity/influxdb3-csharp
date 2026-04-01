@@ -36,7 +36,9 @@ internal class HeaderInterceptorHandler() : DelegatingHandler(new HttpClientHand
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "Token is set by this interceptor");
+        var cacheControlHeaderValue = new CacheControlHeaderValue();
+        cacheControlHeaderValue.MaxAge = TimeSpan.FromSeconds(10);
+        request.Headers.CacheControl = cacheControlHeaderValue;
         var response = await base.SendAsync(request, cancellationToken);
         return response;
     }
