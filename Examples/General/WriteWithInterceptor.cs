@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using InfluxDB3.Client;
 using InfluxDB3.Client.Config;
 
@@ -36,9 +35,7 @@ internal class HeaderInterceptorHandler() : DelegatingHandler(new HttpClientHand
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        var cacheControlHeaderValue = new CacheControlHeaderValue();
-        cacheControlHeaderValue.MaxAge = TimeSpan.FromSeconds(10);
-        request.Headers.CacheControl = cacheControlHeaderValue;
+        request.Headers.Add("X-Client-ID", "my-client-id");
         var response = await base.SendAsync(request, cancellationToken);
         return response;
     }
