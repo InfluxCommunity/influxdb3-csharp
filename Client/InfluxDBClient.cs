@@ -668,6 +668,14 @@ namespace InfluxDB3.Client
 
         /// <summary>
         /// Write data to InfluxDB.
+        ///
+        /// <p>
+        /// Warning: If you write only with one Point, and that Point
+        /// contains null fields, those fields will not be written to InfluxDB.
+        /// If such fields are later queried explicitly, for example,
+        /// "SELECT field_with_value, field_with_null_value FROM my_table" an error will be thrown
+        /// </p>
+        ///
         /// </summary>
         ///
         /// <example>
@@ -698,7 +706,14 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Write data to InfluxDB.
         /// </summary>
-        ///
+        /// 
+        /// <p>
+        /// Warning: If you write only with one Point, and that Point
+        /// contains null fields, those fields will not be written to InfluxDB.
+        /// If such fields are later queried explicitly, for example,
+        /// "SELECT field_with_value, field_with_null_value FROM my_table" an error will be thrown
+        /// </p>
+        /// 
         /// <example>
         /// The following example shows how to write multiple points with custom headers:
         ///
