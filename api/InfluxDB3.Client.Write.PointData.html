@@ -1936,13 +1936,13 @@ If the field is not present, returns null.</p>
     </tbody>
   </table>
   <a id="InfluxDB3_Client_Write_PointData_ToLineProtocol_" data-uid="InfluxDB3.Client.Write.PointData.ToLineProtocol*"></a>
-  <h4 id="InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__" data-uid="InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String})">ToLineProtocol(WritePrecision?, Dictionary&lt;string, string&gt;?)</h4>
+  <h4 id="InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Collections_Generic_IEnumerable_System_String__" data-uid="InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.String})">ToLineProtocol(WritePrecision?, Dictionary&lt;string, string&gt;?, IEnumerable&lt;string&gt;?)</h4>
   <div class="markdown level1 summary"><p>Transform to Line Protocol.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string ToLineProtocol(WritePrecision? timeUnit = null, Dictionary&lt;string, string&gt;? defaultTags = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public string ToLineProtocol(WritePrecision? timeUnit = null, Dictionary&lt;string, string&gt;? defaultTags = null, IEnumerable&lt;string&gt;? tagOrder = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -1964,6 +1964,12 @@ If the field is not present, returns null.</p>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
         <td><span class="parametername">defaultTags</span></td>
         <td><p>Tags added to point</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">tagOrder</span></td>
+        <td><p>Preferred order for tag keys</p>
 </td>
       </tr>
     </tbody>

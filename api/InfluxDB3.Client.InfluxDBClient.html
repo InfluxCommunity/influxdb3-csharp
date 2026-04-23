@@ -712,6 +712,12 @@ var results = client.QueryPoints(
   <a id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointAsync*"></a>
   <h4 id="InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_" data-uid="InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)">WritePointAsync(PointData, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
+<p>
+Warning: If you write only with one Point, and that Point
+contains null fields, those fields will not be written to InfluxDB.
+If such fields are later queried explicitly, for example,
+"SELECT field_with_value, field_with_null_value FROM my_table" an error will be thrown
+</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>

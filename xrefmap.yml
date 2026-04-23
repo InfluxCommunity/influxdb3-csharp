@@ -432,6 +432,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.WriteOptions.Precision
   nameWithType: WriteOptions.Precision
+- uid: InfluxDB3.Client.Config.WriteOptions.TagOrder
+  name: TagOrder
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_TagOrder
+  commentId: P:InfluxDB3.Client.Config.WriteOptions.TagOrder
+  fullName: InfluxDB3.Client.Config.WriteOptions.TagOrder
+  nameWithType: WriteOptions.TagOrder
+- uid: InfluxDB3.Client.Config.WriteOptions.TagOrder*
+  name: TagOrder
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_TagOrder_
+  commentId: Overload:InfluxDB3.Client.Config.WriteOptions.TagOrder
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.WriteOptions.TagOrder
+  nameWithType: WriteOptions.TagOrder
 - uid: InfluxDB3.Client.IInfluxDBClient
   name: IInfluxDBClient
   href: api/InfluxDB3.Client.IInfluxDBClient.html
@@ -1421,15 +1434,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Write.PointData.SetUintegerField
   nameWithType: PointData.SetUintegerField
-- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String})
-  name: ToLineProtocol(WritePrecision?, Dictionary<string, string>?)
-  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: ToLineProtocol(WritePrecision?, Dictionary(Of String, String))
-  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol(InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?)
-  fullName.vb: InfluxDB3.Client.Write.PointData.ToLineProtocol(InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String))
-  nameWithType: PointData.ToLineProtocol(WritePrecision?, Dictionary<string, string>?)
-  nameWithType.vb: PointData.ToLineProtocol(WritePrecision?, Dictionary(Of String, String))
+- uid: InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.String})
+  name: ToLineProtocol(WritePrecision?, Dictionary<string, string>?, IEnumerable<string>?)
+  href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:InfluxDB3.Client.Write.PointData.ToLineProtocol(System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.String})
+  name.vb: ToLineProtocol(WritePrecision?, Dictionary(Of String, String), IEnumerable(Of String))
+  fullName: InfluxDB3.Client.Write.PointData.ToLineProtocol(InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Collections.Generic.IEnumerable<string>?)
+  fullName.vb: InfluxDB3.Client.Write.PointData.ToLineProtocol(InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Collections.Generic.IEnumerable(Of String))
+  nameWithType: PointData.ToLineProtocol(WritePrecision?, Dictionary<string, string>?, IEnumerable<string>?)
+  nameWithType.vb: PointData.ToLineProtocol(WritePrecision?, Dictionary(Of String, String), IEnumerable(Of String))
 - uid: InfluxDB3.Client.Write.PointData.ToLineProtocol*
   name: ToLineProtocol
   href: api/InfluxDB3.Client.Write.PointData.html#InfluxDB3_Client_Write_PointData_ToLineProtocol_
