@@ -238,7 +238,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("invalid field value in line protocol for field 'value' on line 0"));
+            Assert.That(ae.Message, Is.EqualTo("parsing failed"));
         });
     }
 
@@ -287,7 +287,7 @@ public class RestClientTest : MockServerTest
                 .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float\",\"line_number\":2,\"original_line\":\"testa6a3ad v=1 17702\"}]}")
                 .WithStatusCode(400));
 
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
         {
             await _client.Request("api", HttpMethod.Post);
         });
@@ -295,11 +295,99 @@ public class RestClientTest : MockServerTest
         Assert.Multiple(() =>
         {
             Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
+            Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(2));
+            Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float"));
+            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("testa6a3ad v=1 17702"));
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
             Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tline 2: invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float (testa6a3ad v=1 17702)"));
         });
     }
 
+    [Test]
+    public void ErrorJsonBodyV3WithDataArrayUntypedFallback()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
+                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[\"bad line\",true,3]}")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tbad line\n\ttrue\n\t3"));
+    }
+
+    [Test]
+    public void ErrorJsonBodyV3ParsingFailedWriteLpWithDataObject()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
+                .WithBody("{\"error\":\"parsing failed for write_lp endpoint\",\"data\":{\"error_message\":\"invalid field value\",\"line_number\":2,\"original_line\":\"m,t=a f=bad\"}}")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
+            Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(2));
+            Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid field value"));
+            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("m,t=a f=bad"));
+            Assert.That(ae.Message, Is.EqualTo("parsing failed for write_lp endpoint:\n\tline 2: invalid field value (m,t=a f=bad)"));
+        });
+    }
+
+    [Test]
+    public void ErrorJsonBodyV3PartialWriteWithDataObjectErrorMessageOnly()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
+                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":{\"error_message\":\"invalid field value\"}}")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
+            Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(0));
+            Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid field value"));
+            Assert.That(ae.LineErrors[0].OriginalLine, Is.Null);
+            Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tinvalid field value"));
+        });
+    }
 
     [Test]
     public void ErrorReason()

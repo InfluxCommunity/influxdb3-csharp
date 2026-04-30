@@ -35,7 +35,7 @@ public class InfluxDBApiExceptionTest : MockServerTest
         var requestId = Guid.NewGuid().ToString();
 
         MockServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
             .RespondWith(Response.Create()
                 .WithStatusCode(400)
                 .WithBody("{ \"message\": \"just testing\", \"statusCode\": \"bad request\" }")

@@ -242,7 +242,7 @@ public class InfluxDBClientHttpsTest : MockHttpsServerTest
     private async Task WriteData()
     {
         MockHttpsServer
-            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1");

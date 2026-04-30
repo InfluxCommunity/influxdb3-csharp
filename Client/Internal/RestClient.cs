@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -82,10 +81,11 @@ internal class RestClient
         var result = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!result.IsSuccessStatusCode)
         {
-            string? message = null;
             var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var contentType = result.Content?.Headers?.ContentType?.ToString();
-            message = FormatErrorMessage(body, contentType);
+            var parsed = ParseErrorMessage(body, contentType);
+            var message = parsed.Message;
+            var partialLineErrors = parsed.PartialLineErrors;
 
             // from header
             if (string.IsNullOrEmpty(message))
@@ -108,138 +108,243 @@ internal class RestClient
                 message = result.ReasonPhrase;
             }
 
+            if (partialLineErrors?.Count > 0)
+            {
+                throw new InfluxDBPartialWriteException(message ?? "Cannot write data to InfluxDB.", result, partialLineErrors);
+            }
+
             throw new InfluxDBApiException(message ?? "Cannot write data to InfluxDB.", result);
         }
 
         return result;
     }
 
-    private static string? FormatErrorMessage(string body, string? contentType)
+    private static ParsedErrorMessage ParseErrorMessage(string body, string? contentType)
     {
-        if (string.IsNullOrEmpty(body))
+        if (string.IsNullOrWhiteSpace(body))
         {
-            return null;
+            return ParsedErrorMessage.Empty;
         }
+
         if (!string.IsNullOrEmpty(contentType) &&
             !contentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
         {
-            return null;
-        }
-
-        string? message = null;
-        try
-        {
-            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-            if (new DataContractJsonSerializer(typeof(ErrorBody)).ReadObject(memoryStream) is ErrorBody errorBody)
-            {
-                if (!string.IsNullOrEmpty(errorBody.Message)) // Cloud
-                {
-                    message = errorBody.Message;
-                }
-                else if ((errorBody.Data is not null) && !string.IsNullOrEmpty(errorBody.Data.ErrorMessage)) // v3/Core/Enterprise (legacy object form)
-                {
-                    message = errorBody.Data.ErrorMessage;
-                }
-                else if (!string.IsNullOrEmpty(errorBody.Error)) // v3/Core/Enterprise
-                {
-                    message = errorBody.Error;
-                }
-            }
-        }
-        catch (SerializationException se)
-        {
-            Debug.WriteLine($"Cannot parse error response as legacy JSON format: {body}. {se}");
+            return ParsedErrorMessage.Empty;
         }
 
         try
         {
-            using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(body));
-            if (new DataContractJsonSerializer(typeof(V3ErrorBody)).ReadObject(memoryStream) is V3ErrorBody v3ErrorBody)
-            {
-                var v3Message = BuildV3ErrorMessage(v3ErrorBody);
-                var hasV3Details = v3ErrorBody.Data?.Any(detail => !string.IsNullOrEmpty(detail.ErrorMessage)) == true;
-                if (!string.IsNullOrEmpty(v3Message) && (string.IsNullOrEmpty(message) || hasV3Details))
-                {
-                    message = v3Message;
-                }
-            }
-        }
-        catch (SerializationException se)
-        {
-            Debug.WriteLine($"Cannot parse error response as v3 JSON format: {body}. {se}");
-        }
+            using var document = JsonDocument.Parse(body);
+            var root = document.RootElement;
 
-        return message;
+            var cloudMessage = GetStringProperty(root, "message");
+            var topLevelError = GetStringProperty(root, "error");
+            var data = GetProperty(root, "data");
+
+            var legacyDataMessage = GetLegacyDataErrorMessage(data);
+            var message = cloudMessage ?? topLevelError ?? legacyDataMessage;
+            var partial = ParsePartialWrite(topLevelError, data);
+            if (partial is not null)
+            {
+                return partial;
+            }
+
+            return new ParsedErrorMessage(message, null);
+        }
+        catch (JsonException se)
+        {
+            Debug.WriteLine($"Cannot parse error response as JSON format: {body}. {se}");
+            return ParsedErrorMessage.Empty;
+        }
     }
 
-    private static string? BuildV3ErrorMessage(V3ErrorBody v3ErrorBody)
+    private static ParsedErrorMessage? ParsePartialWrite(string? topLevelError, JsonElement? data)
     {
-        if (string.IsNullOrEmpty(v3ErrorBody.Error))
+        if (string.IsNullOrEmpty(topLevelError) || !IsPartialWriteError(topLevelError))
+        {
+            return null;
+        }
+        if (data is null)
         {
             return null;
         }
 
-        var message = new StringBuilder(v3ErrorBody.Error);
+        if (data.Value.ValueKind == JsonValueKind.Array)
+        {
+            if (TryParseTypedLineErrors(data.Value, out var lineErrors))
+            {
+                return new ParsedErrorMessage(BuildPartialWriteMessage(topLevelError, lineErrors), lineErrors);
+            }
+
+            var details = data.Value.EnumerateArray()
+                .Where(item => item.ValueKind != JsonValueKind.Null)
+                .Select(ToDetailString)
+                .Where(item => !string.IsNullOrEmpty(item))
+                .ToList();
+
+            if (details.Count > 0)
+            {
+                return new ParsedErrorMessage($"{topLevelError}:\n\t{string.Join("\n\t", details)}", null);
+            }
+
+            return null;
+        }
+
+        if (data.Value.ValueKind == JsonValueKind.Object)
+        {
+            if (TryParseTypedLineError(data.Value, out var lineError))
+            {
+                var lineErrors = new List<InfluxDBPartialWriteException.LineError> { lineError };
+                return new ParsedErrorMessage(BuildPartialWriteMessage(topLevelError, lineErrors), lineErrors);
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
+    private static string BuildPartialWriteMessage(
+        string baseMessage,
+        IEnumerable<InfluxDBPartialWriteException.LineError> lineErrors)
+    {
+        var message = new StringBuilder(baseMessage);
         var hasDetails = false;
-        foreach (var detail in (v3ErrorBody.Data ?? Enumerable.Empty<V3ErrorBody.V3ErrorData>())
-                     .Where(detail => !string.IsNullOrEmpty(detail.ErrorMessage)))
+        foreach (var detail in lineErrors)
         {
             if (!hasDetails)
             {
                 message.Append(':');
                 hasDetails = true;
             }
-            var lineNumber = detail.LineNumber?.ToString() ?? "?";
-            message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
-            if (!string.IsNullOrEmpty(detail.OriginalLine))
+            if (detail.LineNumber != 0 && !string.IsNullOrEmpty(detail.OriginalLine))
             {
-                message.Append($" ({detail.OriginalLine})");
+                message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage} ({detail.OriginalLine})");
+            }
+            else if (!string.IsNullOrEmpty(detail.ErrorMessage))
+            {
+                message.Append($"\n\t{detail.ErrorMessage}");
+            }
+            else
+            {
+                message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage}");
             }
         }
+
         return message.ToString();
     }
-}
 
-[DataContract]
-internal class ErrorBody
-{
-    [DataMember(Name = "message")]
-    public string? Message { get; set; }
-
-    [DataMember(Name = "error")]
-    public string? Error { get; set; }
-
-    [DataMember(Name = "data")]
-    public ErrorData? Data { get; set; }
-
-    [DataContract]
-    internal class ErrorData
+    private static bool IsPartialWriteError(string topLevelError)
     {
-        [DataMember(Name = "error_message")]
-        public string? ErrorMessage { get; set; }
+        return topLevelError.IndexOf("partial write of line protocol occurred", StringComparison.OrdinalIgnoreCase) >= 0 ||
+               topLevelError.IndexOf("parsing failed for write_lp endpoint", StringComparison.OrdinalIgnoreCase) >= 0;
     }
-}
 
-[DataContract]
-internal class V3ErrorBody
-{
-    [DataMember(Name = "error")]
-    public string? Error { get; set; }
-
-    [DataMember(Name = "data")]
-    public List<V3ErrorData>? Data { get; set; }
-
-    [DataContract]
-    internal class V3ErrorData
+    private static bool TryParseTypedLineErrors(
+        JsonElement data,
+        out List<InfluxDBPartialWriteException.LineError> lineErrors)
     {
-        [DataMember(Name = "error_message")]
-        public string? ErrorMessage { get; set; }
+        lineErrors = new List<InfluxDBPartialWriteException.LineError>();
+        if (data.ValueKind != JsonValueKind.Array)
+        {
+            return false;
+        }
 
-        [DataMember(Name = "line_number")]
-        public int? LineNumber { get; set; }
+        foreach (var item in data.EnumerateArray())
+        {
+            if (!TryParseTypedLineError(item, out var lineError))
+            {
+                lineErrors.Clear();
+                return false;
+            }
 
-        [DataMember(Name = "original_line")]
-        public string? OriginalLine { get; set; }
+            lineErrors.Add(lineError);
+        }
+
+        return lineErrors.Count > 0;
+    }
+
+    private static bool TryParseTypedLineError(JsonElement item, out InfluxDBPartialWriteException.LineError lineError)
+    {
+        lineError = null!;
+        if (item.ValueKind != JsonValueKind.Object)
+        {
+            return false;
+        }
+
+        var errorMessage = GetProperty(item, "error_message");
+        var lineNumber = GetProperty(item, "line_number");
+        var originalLine = GetProperty(item, "original_line");
+        if (errorMessage?.ValueKind != JsonValueKind.String || string.IsNullOrEmpty(errorMessage.Value.GetString()))
+        {
+            return false;
+        }
+
+        var number = 0;
+        if (lineNumber is not null)
+        {
+            if (lineNumber.Value.ValueKind != JsonValueKind.Number || !lineNumber.Value.TryGetInt32(out number))
+            {
+                return false;
+            }
+        }
+
+        string? original = null;
+        if (originalLine is not null)
+        {
+            if (originalLine.Value.ValueKind != JsonValueKind.String)
+            {
+                return false;
+            }
+
+            original = originalLine.Value.GetString();
+        }
+
+        lineError = new InfluxDBPartialWriteException.LineError(
+            number,
+            errorMessage.Value.GetString()!,
+            original);
+        return true;
+    }
+
+    private static JsonElement? GetProperty(JsonElement element, string propertyName)
+    {
+        return element.TryGetProperty(propertyName, out var value) ? value : null;
+    }
+
+    private static string? GetStringProperty(JsonElement element, string propertyName)
+    {
+        return GetProperty(element, propertyName) is { ValueKind: JsonValueKind.String } value ? value.GetString() : null;
+    }
+
+    private static string? GetLegacyDataErrorMessage(JsonElement? data)
+    {
+        if (data is null || data.Value.ValueKind != JsonValueKind.Object)
+        {
+            return null;
+        }
+
+        var errorMessage = GetProperty(data.Value, "error_message");
+        return errorMessage?.ValueKind == JsonValueKind.String ? errorMessage?.GetString() : null;
+    }
+
+    private static string ToDetailString(JsonElement element)
+    {
+        return element.ValueKind == JsonValueKind.String ? (element.GetString() ?? "") : element.GetRawText();
+    }
+
+    private sealed class ParsedErrorMessage
+    {
+        internal static readonly ParsedErrorMessage Empty = new(null, null);
+
+        internal ParsedErrorMessage(string? message, List<InfluxDBPartialWriteException.LineError>? partialLineErrors)
+        {
+            Message = message;
+            PartialLineErrors = partialLineErrors;
+        }
+
+        internal string? Message { get; }
+        internal List<InfluxDBPartialWriteException.LineError>? PartialLineErrors { get; }
     }
 }
 

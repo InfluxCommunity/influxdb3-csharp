@@ -12,6 +12,8 @@ namespace InfluxDB3.Client.Config;
 /// - GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.
 /// - TagOrder: Preferred tag order for line protocol serialization.
 /// - NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.
+/// - AcceptPartial: Allow partial writes on v3 write endpoint. The default value is true.
+/// - UseV2Api: Route writes to v2 compatibility endpoint (/api/v2/write). The default value is false.
 ///
 /// If you want create client with custom options, you can use the following code:
 /// <code>
@@ -88,9 +90,30 @@ public class WriteOptions : ICloneable
     /// </summary>
     public bool NoSync { get; set; }
 
+    /// <summary>
+    /// Controls partial-write behavior on the v3 write endpoint.
+    /// true (default): allow partial writes (server default behavior)
+    /// false: reject the full batch when any line fails.
+    /// </summary>
+    public bool AcceptPartial { get; set; } = true;
+
+    /// <summary>
+    /// Routes writes to the v2 compatibility endpoint (/api/v2/write).
+    /// Intended for InfluxDB Clustered/v2-compatible backends.
+    /// </summary>
+    public bool UseV2Api { get; set; } = false;
+
     public object Clone()
     {
         return this.MemberwiseClone();
+    }
+
+    internal void Validate()
+    {
+        if (UseV2Api && NoSync)
+        {
+            throw new InvalidOperationException("invalid write options: NoSync cannot be used in V2 API");
+        }
     }
 
     internal static readonly WriteOptions DefaultOptions = new()
@@ -98,5 +121,7 @@ public class WriteOptions : ICloneable
         Precision = WritePrecision.Ns,
         GzipThreshold = 1000,
         NoSync = false,
+        AcceptPartial = true,
+        UseV2Api = false,
     };
 }
