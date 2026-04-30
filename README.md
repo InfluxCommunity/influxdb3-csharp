@@ -65,7 +65,9 @@ public class IOxExample
 }
 ```
 
-to insert data, you can use code like this:
+### Write
+
+To write data, you can use code like this:
 
 ```csharp
 //
@@ -101,7 +103,60 @@ const string record = "temperature,location=north value=60.0";
 await client.WriteRecordAsync(record: record);
 ```
 
-to query your data, you can use code like this:
+#### Partial Writes
+
+Use `WriteOptions.AcceptPartial` to control whether a v3 write can partially succeed when some lines fail.
+Default is `true` (server default). When `false`, the full batch is rejected.
+
+```csharp
+using var client = new InfluxDBClient(new ClientConfig
+{
+    Host = host,
+    Token = token,
+    Database = database,
+    WriteOptions = new WriteOptions()
+});
+
+try
+{
+    await client.WriteRecordAsync(lp);
+}
+catch (InfluxDBPartialWriteException e)
+{
+    foreach (var lineErr in e.LineErrors)
+    {
+        Console.WriteLine(
+            $"line {lineErr.LineNumber} failed: {lineErr.ErrorMessage} ({lineErr.OriginalLine})");
+    }
+}
+catch (InfluxDBApiException e)
+{
+    Console.WriteLine(e.Message);
+}
+```
+
+See [Partial writes](https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/#partial-writes) for more.
+
+#### Use V2 API Compatibility Mode
+
+By default, writes use `/api/v3/write_lp`.
+For InfluxDB Clustered/v2-compatible backends, set `UseV2Api=true` to route writes to `/api/v2/write`.
+
+`UseV2Api` can be configured in three ways:
+
+1. `WriteOptions.UseV2Api`
+2. Connection string `writeUseV2Api`
+3. Environment variable `INFLUX_WRITE_USE_V2_API`
+
+`AcceptPartial` can be configured in three ways:
+
+1. `WriteOptions.AcceptPartial`
+2. Connection string `writeAcceptPartial`
+3. Environment variable `INFLUX_WRITE_ACCEPT_PARTIAL`
+
+### Query
+
+To query your data, you can use code like this:
 
 ```csharp
 //
