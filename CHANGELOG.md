@@ -1,5 +1,11 @@
 ## 1.9.0 [unreleased]
 
+### Breaking Changes
+
+1. [#258](https://github.com/InfluxCommunity/influxdb3-csharp/pull/258): Adds partial writes support and aligns write routing with v3 defaults.
+   See [Partial writes](https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/#partial-writes) for more.
+   For InfluxDB Clustered version, set `UseV2Api=true` for writing.
+
 ## 1.8.0 [2026-04-23]
 
 ### Features
