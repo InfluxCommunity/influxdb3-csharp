@@ -25,9 +25,8 @@ public class WriteTest : IntegrationTest
         }
         catch (Exception ex)
         {
-            if (ex is InfluxDBApiException)
+            if (ex is InfluxDBApiException iaex)
             {
-                var iaex = (InfluxDBApiException)ex;
                 Assert.Multiple(() =>
                 {
                     Assert.That(iaex.Message,
