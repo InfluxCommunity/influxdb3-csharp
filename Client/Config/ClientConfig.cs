@@ -70,6 +70,8 @@ public class ClientConfig
     internal const string EnvInfluxPrecision = "INFLUX_PRECISION";
     internal const string EnvInfluxGzipThreshold = "INFLUX_GZIP_THRESHOLD";
     internal const string EnvInfluxWriteNoSync = "INFLUX_WRITE_NO_SYNC";
+    internal const string EnvInfluxWriteAcceptPartial = "INFLUX_WRITE_ACCEPT_PARTIAL";
+    internal const string EnvInfluxWriteUseV2Api = "INFLUX_WRITE_USE_V2_API";
     internal const string EnvInfluxDisableGrpcCompression = "INFLUX_DISABLE_GRPC_COMPRESSION";
 
     private string _host = "";
@@ -98,6 +100,8 @@ public class ClientConfig
         ParsePrecision(values.Get("precision"));
         ParseGzipThreshold(values.Get("gzipThreshold"));
         ParseWriteNoSync(values.Get("writeNoSync"));
+        ParseWriteAcceptPartial(values.Get("writeAcceptPartial"));
+        ParseWriteUseV2Api(values.Get("writeUseV2Api"));
         ParseDisableGrpcCompression(values.Get("disableGrpcCompression"));
     }
 
@@ -115,6 +119,8 @@ public class ClientConfig
         ParsePrecision(env[EnvInfluxPrecision] as string);
         ParseGzipThreshold(env[EnvInfluxGzipThreshold] as string);
         ParseWriteNoSync(env[EnvInfluxWriteNoSync] as string);
+        ParseWriteAcceptPartial(env[EnvInfluxWriteAcceptPartial] as string);
+        ParseWriteUseV2Api(env[EnvInfluxWriteUseV2Api] as string);
         ParseDisableGrpcCompression(env[EnvInfluxDisableGrpcCompression] as string);
     }
 
@@ -243,6 +249,16 @@ public class ClientConfig
         get => (WriteOptions ?? WriteOptions.DefaultOptions).NoSync;
     }
 
+    internal bool WriteAcceptPartial
+    {
+        get => (WriteOptions ?? WriteOptions.DefaultOptions).AcceptPartial;
+    }
+
+    internal bool WriteUseV2Api
+    {
+        get => (WriteOptions ?? WriteOptions.DefaultOptions).UseV2Api;
+    }
+
     private void ParsePrecision(string? precision)
     {
         if (precision != null)
@@ -281,6 +297,26 @@ public class ClientConfig
             var noSync = bool.Parse(strVal);
             WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
             WriteOptions.NoSync = noSync;
+        }
+    }
+
+    private void ParseWriteAcceptPartial(string? strVal)
+    {
+        if (strVal != null)
+        {
+            var acceptPartial = bool.Parse(strVal);
+            WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
+            WriteOptions.AcceptPartial = acceptPartial;
+        }
+    }
+
+    private void ParseWriteUseV2Api(string? strVal)
+    {
+        if (strVal != null)
+        {
+            var useV2Api = bool.Parse(strVal);
+            WriteOptions ??= (WriteOptions)WriteOptions.DefaultOptions.Clone();
+            WriteOptions.UseV2Api = useV2Api;
         }
     }
 
