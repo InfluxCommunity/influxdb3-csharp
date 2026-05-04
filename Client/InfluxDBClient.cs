@@ -353,7 +353,11 @@ namespace InfluxDB3.Client
         /// </item>
         /// <item>
         /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>).</description>
+        /// </item>
+        /// <item>
         /// <description>writeAcceptPartial - allow partial writes on v3 write endpoint (default is <c>true</c>)</description>
+        /// </item>
+        /// <item>
         /// <description>writeUseV2Api - route writes to v2 compatibility endpoint (default is <c>false</c>)</description>
         /// </item>
         /// <item>
@@ -396,8 +400,12 @@ namespace InfluxDB3.Client
         /// <item>
         /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
         /// </item>
+        /// <item>
         /// <description>INFLUX_WRITE_ACCEPT_PARTIAL - allow partial writes on v3 write endpoint (default is <c>true</c>)</description>
+        /// </item>
+        /// <item>
         /// <description>INFLUX_WRITE_USE_V2_API - route writes to v2 compatibility endpoint (default is <c>false</c>)</description>
+        /// </item>
         /// <item>
         /// <description>INFLUX_WRITE_NO_SYNC - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
         /// </item>
