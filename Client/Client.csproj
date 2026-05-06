@@ -41,6 +41,7 @@
 
     <ItemGroup>
         <PackageReference Include="Apache.Arrow.Flight" Version="23.0.0" />
+        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     </ItemGroup>
 
     <ItemGroup>
