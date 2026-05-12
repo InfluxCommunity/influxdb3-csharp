@@ -62,12 +62,12 @@ public class QueryWriteTest : IntegrationTest
             Database = Database
         });
 
-        var ae = Assert.ThrowsAsync<RpcException>(async () =>
+        var ae = Assert.ThrowsAsync<RpcException>((Func<Task>)(async () =>
         {
             await foreach (var _ in client.Query("SELECT 1"))
             {
             }
-        });
+        }));
 
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae?.Message, Contains.Substring("Unauthenticated"));
@@ -227,12 +227,12 @@ public class QueryWriteTest : IntegrationTest
         await client.WriteRecordAsync($"integration_test,type=used value=1234.0,testId={testId}");
 
 
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        var ex = Assert.ThrowsAsync<RpcException>((Func<Task>)(async () =>
         {
             await foreach (var _ in client.Query("SELECT value FROM integration_test"))
             {
             }
-        });
+        }));
         Assert.That(ex?.StatusCode, Is.EqualTo(StatusCode.ResourceExhausted));
     }
 
@@ -298,34 +298,34 @@ public class QueryWriteTest : IntegrationTest
 
     private static void TestQuery(InfluxDBClient client, TimeSpan? timeout = null)
     {
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        var ex = Assert.ThrowsAsync<RpcException>((Func<Task>)(async () =>
         {
             await foreach (var _ in client.Query("SELECT * FROM mem", timeout: timeout))
             {
             }
-        });
+        }));
         Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
 
     private static void TestQueryBatches(InfluxDBClient client, TimeSpan? timeout = null)
     {
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        var ex = Assert.ThrowsAsync<RpcException>((Func<Task>)(async () =>
         {
             await foreach (var _ in client.QueryBatches("SELECT * FROM mem", timeout: timeout))
             {
             }
-        });
+        }));
         Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
 
     private static void TestQueryPoints(InfluxDBClient client, TimeSpan? timeout = null)
     {
-        var ex = Assert.ThrowsAsync<RpcException>(async () =>
+        var ex = Assert.ThrowsAsync<RpcException>((Func<Task>)(async () =>
         {
             await foreach (var _ in client.QueryPoints("SELECT * FROM mem", timeout: timeout))
             {
             }
-        });
+        }));
         Assert.That(ex.StatusCode, Is.EqualTo(StatusCode.DeadlineExceeded));
     }
 }

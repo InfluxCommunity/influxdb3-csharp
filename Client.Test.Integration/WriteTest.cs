@@ -28,7 +28,7 @@ public class WriteTest : IntegrationTest
             if (ex is InfluxDBApiException)
             {
                 var iaex = (InfluxDBApiException)ex;
-                Assert.Multiple(() =>
+                Assert.Multiple((Action)(() =>
                 {
                     Assert.That(iaex.Message,
                         Does.Contain("Found trailing content")
@@ -37,7 +37,7 @@ public class WriteTest : IntegrationTest
                     );
                     Assert.That(iaex.StatusCode.ToString(), Is.EqualTo("BadRequest"));
                     Assert.That(iaex.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-                });
+                }));
             }
             else
             {
