@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using NUnit.Framework;
+using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test.Integration;
 
@@ -42,6 +43,49 @@ public class WriteTest : IntegrationTest
             {
                 Assert.Fail($"Should catch InfluxDBApiException, but received {ex.GetType()}: {ex.Message}.");
             }
+        }
+    }
+
+    [TestCase(false, true, TestName = "WritePartialBatch_WithV3Api_ReturnsStructuredPartialWriteError")]
+    [TestCase(true, false, TestName = "WritePartialBatch_WithV2Api_ReturnsGenericApiError")]
+    public async Task WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError)
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteOptions = new WriteOptions
+            {
+                UseV2Api = useV2Api,
+                AcceptPartial = true
+            }
+        });
+
+        var testId = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var validLine = $"vehicle,id=vwbus vel=1.0,testId={testId}";
+        var invalidLine = $"vehicle,id=vwbus vel=,testId={testId}";
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await client.WriteRecordsAsync(new[] { validLine, invalidLine });
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+
+        if (expectStructuredPartialError)
+        {
+            Assert.That(ae, Is.InstanceOf<InfluxDBPartialWriteException>());
+            var pwe = (InfluxDBPartialWriteException)ae!;
+            Assert.That(pwe.LineErrors, Is.Not.Empty);
+            Assert.That(ae.Message,
+                Does.Contain("partial write of line protocol occurred")
+                    .Or.Contain("parsing failed for write_lp endpoint"));
+        }
+        else
+        {
+            Assert.That(ae, Is.Not.InstanceOf<InfluxDBPartialWriteException>());
         }
     }
 }
