@@ -46,9 +46,11 @@ public class WriteTest : IntegrationTest
         }
     }
 
-    [TestCase(false, true, TestName = "WritePartialBatch_WithV3Api_ReturnsStructuredPartialWriteError")]
-    [TestCase(true, false, TestName = "WritePartialBatch_WithV2Api_ReturnsGenericApiError")]
-    public void WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError)
+    [TestCase(false, true, true, TestName = "WritePartialBatch_WithV3Api_ReturnsStructuredPartialWriteError")]
+    [TestCase(true, false, true, TestName = "WritePartialBatch_WithV2Api_ReturnsGenericApiError")]
+    [TestCase(false, true, false, TestName = "WritePartialBatch_WithV3Api_AcceptPartialFalse_ReturnsStructuredPartialWriteError")]
+    [TestCase(true, false, false, TestName = "WritePartialBatch_WithV2Api_AcceptPartialFalse_ReturnsGenericApiError")]
+    public void WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError, bool acceptPartial)
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -58,7 +60,7 @@ public class WriteTest : IntegrationTest
             WriteOptions = new WriteOptions
             {
                 UseV2Api = useV2Api,
-                AcceptPartial = true
+                AcceptPartial = acceptPartial
             }
         });
 
