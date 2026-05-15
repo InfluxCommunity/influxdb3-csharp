@@ -114,7 +114,10 @@ using var client = new InfluxDBClient(new ClientConfig
     Host = host,
     Token = token,
     Database = database,
-    WriteOptions = new WriteOptions()
+    WriteOptions = new WriteOptions
+    {
+        UseV2Api = false
+    }
 });
 
 try

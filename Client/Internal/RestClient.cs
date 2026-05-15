@@ -142,7 +142,10 @@ internal class RestClient
             var data = GetProperty(root, "data");
 
             var legacyDataMessage = GetLegacyDataErrorMessage(data);
-            var message = cloudMessage ?? topLevelError ?? legacyDataMessage;
+            var message = cloudMessage ??
+                          CombineMessages(topLevelError, legacyDataMessage) ??
+                          topLevelError ??
+                          legacyDataMessage;
             var partial = ParsePartialWrite(topLevelError, data);
             if (partial is not null)
             {
@@ -217,9 +220,16 @@ internal class RestClient
                 message.Append(':');
                 hasDetails = true;
             }
-            if (detail.LineNumber != 0 && !string.IsNullOrEmpty(detail.OriginalLine))
+            if (detail.LineNumber != 0)
             {
-                message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage} ({detail.OriginalLine})");
+                if (!string.IsNullOrEmpty(detail.OriginalLine))
+                {
+                    message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage} ({detail.OriginalLine})");
+                }
+                else
+                {
+                    message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage}");
+                }
             }
             else if (!string.IsNullOrEmpty(detail.ErrorMessage))
             {
@@ -238,6 +248,21 @@ internal class RestClient
     {
         return topLevelError.IndexOf("partial write of line protocol occurred", StringComparison.OrdinalIgnoreCase) >= 0 ||
                topLevelError.IndexOf("parsing failed for write_lp endpoint", StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
+    private static string? CombineMessages(string? topLevelError, string? dataMessage)
+    {
+        if (string.IsNullOrEmpty(topLevelError) || string.IsNullOrEmpty(dataMessage))
+        {
+            return null;
+        }
+
+        if (string.Equals(topLevelError, dataMessage, StringComparison.Ordinal))
+        {
+            return topLevelError;
+        }
+
+        return $"{topLevelError}: {dataMessage}";
     }
 
     private static bool TryParseTypedLineErrors(
