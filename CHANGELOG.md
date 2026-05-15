@@ -2,7 +2,7 @@
 
 ### Features
 
-1. [#258](https://github.com/InfluxCommunity/influxdb3-csharp/pull/258): Add partial writes support and default writes to the V2 API endpoint.
+1. [#269](https://github.com/InfluxCommunity/influxdb3-csharp/pull/269): Add partial writes support and default writes to the V2 API endpoint.
    - `NoSync` requires `UseV2Api=false` and the V3 API endpoint.
    - `AcceptPartial` applies only when writes are sent to the V3 API endpoint and is ignored when using the V2 API endpoint.
 
