@@ -76,7 +76,7 @@ public class WriteOptions : ICloneable
     /// <summary>
     /// The threshold in bytes for gzipping the body.
     /// </summary>
-    public int GzipThreshold { get; set; }
+    public int GzipThreshold { get; set; } = 1000;
 
     /// <summary>
     /// Instructs the server whether to wait with the response until WAL persistence completes.
