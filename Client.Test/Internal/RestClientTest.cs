@@ -297,6 +297,31 @@ public class RestClientTest : MockServerTest
     }
 
     [Test]
+    public void ErrorJsonBodyWithNonObjectRootFallsBackToHeaders()
+    {
+        CreateAndConfigureRestClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+        });
+
+        MockServer
+            .Given(Request.Create().WithPath("/api").UsingPost())
+            .RespondWith(Response.Create()
+                .WithHeader("Content-Type", "application/json")
+                .WithHeader("X-Influx-Error", "fallback header message")
+                .WithBody("[1,2,3]")
+                .WithStatusCode(400));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        {
+            await _client.Request("api", HttpMethod.Post);
+        });
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.Message, Is.EqualTo("fallback header message"));
+    }
+
+    [Test]
     public void ErrorJsonBodyV3WithDataArray()
     {
         CreateAndConfigureRestClient(new ClientConfig
@@ -407,7 +432,7 @@ public class RestClientTest : MockServerTest
         {
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
-            Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(0));
+            Assert.That(ae.LineErrors[0].LineNumber, Is.Null);
             Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid field value"));
             Assert.That(ae.LineErrors[0].OriginalLine, Is.Null);
             Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tinvalid field value"));

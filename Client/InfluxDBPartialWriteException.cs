@@ -10,14 +10,14 @@ public class InfluxDBPartialWriteException : InfluxDBApiException
 {
     public sealed class LineError
     {
-        public LineError(int lineNumber, string errorMessage, string? originalLine)
+        public LineError(int? lineNumber, string errorMessage, string? originalLine)
         {
             LineNumber = lineNumber;
             ErrorMessage = errorMessage;
             OriginalLine = originalLine;
         }
 
-        public int LineNumber { get; }
+        public int? LineNumber { get; }
 
         public string ErrorMessage { get; }
 

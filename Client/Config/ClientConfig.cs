@@ -249,16 +249,6 @@ public class ClientConfig
         get => (WriteOptions ?? WriteOptions.DefaultOptions).NoSync;
     }
 
-    internal bool WriteAcceptPartial
-    {
-        get => (WriteOptions ?? WriteOptions.DefaultOptions).AcceptPartial;
-    }
-
-    internal bool WriteUseV2Api
-    {
-        get => (WriteOptions ?? WriteOptions.DefaultOptions).UseV2Api;
-    }
-
     private void ParsePrecision(string? precision)
     {
         if (precision != null)

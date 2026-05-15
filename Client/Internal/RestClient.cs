@@ -136,6 +136,10 @@ internal class RestClient
         {
             using var document = JsonDocument.Parse(body);
             var root = document.RootElement;
+            if (root.ValueKind != JsonValueKind.Object)
+            {
+                return ParsedErrorMessage.Empty;
+            }
 
             var cloudMessage = GetStringProperty(root, "message");
             var topLevelError = GetStringProperty(root, "error");
@@ -220,24 +224,21 @@ internal class RestClient
                 message.Append(':');
                 hasDetails = true;
             }
-            if (detail.LineNumber != 0)
+            if (detail.LineNumber.HasValue)
             {
+                var lineNumber = detail.LineNumber.Value;
                 if (!string.IsNullOrEmpty(detail.OriginalLine))
                 {
-                    message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage} ({detail.OriginalLine})");
+                    message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage} ({detail.OriginalLine})");
                 }
                 else
                 {
-                    message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage}");
+                    message.Append($"\n\tline {lineNumber}: {detail.ErrorMessage}");
                 }
             }
             else if (!string.IsNullOrEmpty(detail.ErrorMessage))
             {
                 message.Append($"\n\t{detail.ErrorMessage}");
-            }
-            else
-            {
-                message.Append($"\n\tline {detail.LineNumber}: {detail.ErrorMessage}");
             }
         }
 
@@ -305,13 +306,15 @@ internal class RestClient
             return false;
         }
 
-        var number = 0;
+        int? number = null;
         if (lineNumber is not null)
         {
-            if (lineNumber.Value.ValueKind != JsonValueKind.Number || !lineNumber.Value.TryGetInt32(out number))
+            if (lineNumber.Value.ValueKind != JsonValueKind.Number || !lineNumber.Value.TryGetInt32(out var parsedNumber))
             {
                 return false;
             }
+
+            number = parsedNumber;
         }
 
         string? original = null;
