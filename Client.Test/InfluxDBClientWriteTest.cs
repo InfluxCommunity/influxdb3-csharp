@@ -523,7 +523,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.Multiple(() =>
         {
             Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("invalid write options: NoSync requires UseV2Api=false"));
+            Assert.That(ae.Message, Is.EqualTo("Invalid write options: NoSync requires UseV2Api=false"));
         });
     }
 
@@ -570,7 +570,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae!.Message, Is.EqualTo(
-            "server doesn't support the V2 API endpoint (/api/v2/write) " +
+            "Server doesn't support the V2 API endpoint (/api/v2/write) " +
             "(set UseV2Api=false; write options: {UseV2Api:true,NoSync:false,AcceptPartial:true})"));
     }
 
@@ -591,7 +591,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae!.Message, Is.EqualTo(
-            "server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+            "Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
             "(set UseV2Api=true; write options: {UseV2Api:false,NoSync:false,AcceptPartial:true})"));
     }
 

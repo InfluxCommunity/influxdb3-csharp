@@ -835,7 +835,7 @@ namespace InfluxDB3.Client
                 if (writeOptions.UseV2Api && path == "api/v2/write")
                 {
                     throw new InfluxDBApiException(
-                        $"server doesn't support the V2 API endpoint (/api/v2/write) " +
+                        $"Server doesn't support the V2 API endpoint (/api/v2/write) " +
                         $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
@@ -843,7 +843,7 @@ namespace InfluxDB3.Client
                 if (!writeOptions.UseV2Api && path == "api/v3/write_lp")
                 {
                     throw new InfluxDBApiException(
-                        $"server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+                        $"Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
                         $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }

@@ -113,7 +113,7 @@ public class WriteOptions : ICloneable
     {
         if (UseV2Api && NoSync)
         {
-            throw new InvalidOperationException("invalid write options: NoSync requires UseV2Api=false");
+            throw new InvalidOperationException("Invalid write options: NoSync requires UseV2Api=false");
         }
     }
 
