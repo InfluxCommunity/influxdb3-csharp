@@ -66,7 +66,7 @@ public class WriteTest : IntegrationTest
         var validLine = $"vehicle,id=vwbus vel=1.0,testId={testId}";
         var invalidLine = $"vehicle,id=vwbus vel=,testId={testId}";
 
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>((Func<Task>)(async () =>
+        var ae = Assert.CatchAsync<InfluxDBApiException>((Func<Task>)(async () =>
         {
             await client.WriteRecordsAsync(new[] { validLine, invalidLine });
         }));
