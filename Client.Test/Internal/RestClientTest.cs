@@ -334,7 +334,7 @@ public class RestClientTest : MockServerTest
             .RespondWith(Response.Create()
                 .WithHeader("Content-Type", "application/json")
                 .WithHeader("X-Influx-Error", "not used")
-                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float\",\"line_number\":2,\"original_line\":\"testa6a3ad v=1 17702\"}]}")
+                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid column type for column 'temp', expected iox::column_type::field::float, got iox::column_type::field::string\",\"line_number\":2,\"original_line\":\"home,room=Sunroom temp=hi 1735549200\"}]}")
                 .WithStatusCode(400));
 
         var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
@@ -347,10 +347,10 @@ public class RestClientTest : MockServerTest
             Assert.That(ae, Is.Not.Null);
             Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
             Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(2));
-            Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float"));
-            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("testa6a3ad v=1 17702"));
+            Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid column type for column 'temp', expected iox::column_type::field::float, got iox::column_type::field::string"));
+            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("home,room=Sunroom temp=hi 1735549200"));
             Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tline 2: invalid column type for column 'v', expected iox::column_type::field::integer, got iox::column_type::field::float (testa6a3ad v=1 17702)"));
+            Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tline 2: invalid column type for column 'temp', expected iox::column_type::field::float, got iox::column_type::field::string (home,room=Sunroom temp=hi 1735549200)"));
         });
     }
 
@@ -389,7 +389,7 @@ public class RestClientTest : MockServerTest
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
                 .WithHeader("Content-Type", "application/json")
-                .WithBody("{\"error\":\"parsing failed for write_lp endpoint\",\"data\":{\"error_message\":\"invalid field value\",\"line_number\":2,\"original_line\":\"m,t=a f=bad\"}}")
+                .WithBody("{\"error\":\"parsing failed for write_lp endpoint\",\"data\":{\"error_message\":\"invalid field value\",\"line_number\":2,\"original_line\":\"home,room=Sunroom temp=hi 1735549200\"}}")
                 .WithStatusCode(400));
 
         var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
@@ -403,8 +403,8 @@ public class RestClientTest : MockServerTest
             Assert.That(ae.LineErrors, Has.Count.EqualTo(1));
             Assert.That(ae.LineErrors[0].LineNumber, Is.EqualTo(2));
             Assert.That(ae.LineErrors[0].ErrorMessage, Is.EqualTo("invalid field value"));
-            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("m,t=a f=bad"));
-            Assert.That(ae.Message, Is.EqualTo("parsing failed for write_lp endpoint:\n\tline 2: invalid field value (m,t=a f=bad)"));
+            Assert.That(ae.LineErrors[0].OriginalLine, Is.EqualTo("home,room=Sunroom temp=hi 1735549200"));
+            Assert.That(ae.Message, Is.EqualTo("parsing failed for write_lp endpoint:\n\tline 2: invalid field value (home,room=Sunroom temp=hi 1735549200)"));
         });
     }
 

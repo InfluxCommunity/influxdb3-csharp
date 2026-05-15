@@ -120,6 +120,10 @@ using var client = new InfluxDBClient(new ClientConfig
     }
 });
 
+var lp =
+    "home,room=Sunroom temp=96 1735545600\n" +
+    "home,room=Sunroom temp=\"hi\" 1735549200";
+
 try
 {
     await client.WriteRecordAsync(lp);

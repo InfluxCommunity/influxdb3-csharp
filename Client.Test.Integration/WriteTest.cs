@@ -64,9 +64,8 @@ public class WriteTest : IntegrationTest
             }
         });
 
-        var testId = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var validLine = $"vehicle,id=vwbus vel=1.0,testId={testId}";
-        var invalidLine = $"vehicle,id=vwbus vel=,testId={testId}";
+        const string validLine = "home,room=Sunroom temp=96 1735545600";
+        const string invalidLine = "home,room=Sunroom temp=\"hi\" 1735549200";
 
         var ae = Assert.CatchAsync<InfluxDBApiException>((Func<Task>)(async () =>
         {
