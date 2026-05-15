@@ -48,7 +48,7 @@ public class WriteTest : IntegrationTest
 
     [TestCase(false, true, TestName = "WritePartialBatch_WithV3Api_ReturnsStructuredPartialWriteError")]
     [TestCase(true, false, TestName = "WritePartialBatch_WithV2Api_ReturnsGenericApiError")]
-    public async Task WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError)
+    public void WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError)
     {
         using var client = new InfluxDBClient(new ClientConfig
         {
@@ -66,10 +66,10 @@ public class WriteTest : IntegrationTest
         var validLine = $"vehicle,id=vwbus vel=1.0,testId={testId}";
         var invalidLine = $"vehicle,id=vwbus vel=,testId={testId}";
 
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>((Func<Task>)(async () =>
         {
             await client.WriteRecordsAsync(new[] { validLine, invalidLine });
-        });
+        }));
 
         Assert.That(ae, Is.Not.Null);
         Assert.That(ae!.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));

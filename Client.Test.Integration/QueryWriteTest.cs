@@ -85,12 +85,12 @@ public class QueryWriteTest : IntegrationTest
             await Task.Delay(100);
         }
 
-        Assert.Multiple(() =>
+        Assert.Multiple((Action)(() =>
         {
             Assert.That(results, Has.Count.EqualTo(1), $"No rows returned for UseV2Api={useV2Api}");
             Assert.That(results[0], Has.Length.EqualTo(1));
             Assert.That(results[0][0], Is.EqualTo(321.0));
-        });
+        }));
     }
 
     [Test]
