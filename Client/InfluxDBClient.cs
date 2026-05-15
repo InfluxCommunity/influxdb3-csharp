@@ -355,10 +355,10 @@ namespace InfluxDB3.Client
         /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>).</description>
         /// </item>
         /// <item>
-        /// <description>writeAcceptPartial - allow partial writes on v3 write endpoint (default is <c>true</c>)</description>
+        /// <description>writeAcceptPartial - allow partial writes on V3 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
-        /// <description>writeUseV2Api - route writes to v2 compatibility endpoint (default is <c>false</c>)</description>
+        /// <description>writeUseV2Api - route writes to V2 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
         /// <description>writeNoSync - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
@@ -401,10 +401,10 @@ namespace InfluxDB3.Client
         /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
         /// </item>
         /// <item>
-        /// <description>INFLUX_WRITE_ACCEPT_PARTIAL - allow partial writes on v3 write endpoint (default is <c>true</c>)</description>
+        /// <description>INFLUX_WRITE_ACCEPT_PARTIAL - allow partial writes on V3 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
-        /// <description>INFLUX_WRITE_USE_V2_API - route writes to v2 compatibility endpoint (default is <c>false</c>)</description>
+        /// <description>INFLUX_WRITE_USE_V2_API - route writes to V2 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
         /// <description>INFLUX_WRITE_NO_SYNC - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
@@ -824,9 +824,32 @@ namespace InfluxDB3.Client
                 cancelToken = new CancellationTokenSource(_config.WriteTimeout.Value).Token;
             }
 
-            await _restClient
-                .Request(path, HttpMethod.Post, content, queryParams, headers, cancelToken)
-                .ConfigureAwait(false);
+            try
+            {
+                await _restClient
+                    .Request(path, HttpMethod.Post, content, queryParams, headers, cancelToken)
+                    .ConfigureAwait(false);
+            }
+            catch (InfluxDBApiException ex) when (ex.StatusCode == HttpStatusCode.MethodNotAllowed)
+            {
+                if (writeOptions.UseV2Api && path == "api/v2/write")
+                {
+                    throw new InfluxDBApiException(
+                        $"server doesn't support the V2 API endpoint (/api/v2/write) " +
+                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        ex.HttpResponseMessage!);
+                }
+
+                if (!writeOptions.UseV2Api && path == "api/v3/write_lp")
+                {
+                    throw new InfluxDBApiException(
+                        $"server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        ex.HttpResponseMessage!);
+                }
+
+                throw;
+            }
         }
 
         /// <summary>

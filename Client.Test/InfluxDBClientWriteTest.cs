@@ -39,7 +39,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task BodyConcat()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
@@ -55,7 +55,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task BodyPoint()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
@@ -70,7 +70,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task BodyNull()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
@@ -85,7 +85,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task BodyNonDefaultGzipped()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").WithHeader("Content-Encoding", "gzip").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", "gzip").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -109,7 +109,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task BodyDefaultNotGzipped()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").WithHeader("Content-Encoding", ".*", MatchBehaviour.RejectOnMatch).UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("Content-Encoding", ".*", MatchBehaviour.RejectOnMatch).UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
@@ -137,7 +137,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task NotSpecifiedOrg()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: null, database: "my-database");
@@ -151,7 +151,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task DefaultTags()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -185,7 +185,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public async Task TagOrder()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -222,13 +222,13 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1", database: "x-database");
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["db"].First(), Is.EqualTo("x-database"));
+        Assert.That(requests[0].RequestMessage.Query?["bucket"].First(), Is.EqualTo("x-database"));
     }
 
     [Test]
@@ -251,13 +251,13 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1", database: "my-database");
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("nanosecond"));
+        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("ns"));
     }
 
     [Test]
@@ -275,13 +275,13 @@ public class InfluxDBClientWriteTest : MockServerTest
             }
         });
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("millisecond"));
+        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("ms"));
     }
 
     [Test]
@@ -289,13 +289,13 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1", precision: WritePrecision.S);
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("second"));
+        Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("s"));
     }
 
     [Test]
@@ -303,7 +303,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
@@ -333,7 +333,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             }
         });
         MockProxy
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
@@ -362,7 +362,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             }
         });
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").WithHeader("X-device", "ab-01").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-device", "ab-01").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
@@ -392,7 +392,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             Database = "my-database"
         });
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").WithHeader("X-Tracing-ID", "123").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-Tracing-ID", "123").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
@@ -425,7 +425,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             }
         });
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").WithHeader("X-Client-ID", "456").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").WithHeader("X-Client-ID", "456").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         var point = PointData.Measurement("h2o")
@@ -446,7 +446,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     private async Task WriteData()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
 
         await _client.WriteRecordAsync("mem,tag=a field=1");
@@ -454,11 +454,11 @@ public class InfluxDBClientWriteTest : MockServerTest
 
     private static IEnumerable<TestCaseData> WriteV3OptionCases()
     {
-        yield return new TestCaseData(new WriteOptions { NoSync = false }, false, false)
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, NoSync = false }, false, false)
             .SetName("WriteToV3_NoSyncFalse_OmitsNoSyncAndAcceptPartial");
-        yield return new TestCaseData(new WriteOptions { AcceptPartial = false }, false, true)
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, AcceptPartial = false }, false, true)
             .SetName("WriteToV3_AcceptPartialFalse_AddsAcceptPartialQueryParam");
-        yield return new TestCaseData(new WriteOptions { NoSync = true }, true, false)
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, NoSync = true }, true, false)
             .SetName("WriteToV3_NoSyncTrue_AddsNoSyncQueryParam");
     }
 
@@ -523,7 +523,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         Assert.Multiple(() =>
         {
             Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("invalid write options: NoSync cannot be used in V2 API"));
+            Assert.That(ae.Message, Is.EqualTo("invalid write options: NoSync requires UseV2Api=false"));
         });
     }
 
@@ -560,10 +560,46 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [Test]
+    public async Task WriteDefaultV2ToV3OnlyBackendReturnsGuidance()
+    {
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", database: "my-database");
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(405));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.Message, Is.EqualTo(
+            "server doesn't support the V2 API endpoint (/api/v2/write) " +
+            "(set UseV2Api=false; write options: {UseV2Api:true,NoSync:false,AcceptPartial:true})"));
+    }
+
+    [Test]
+    public async Task WriteV3ToV2OnlyBackendReturnsGuidance()
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = new WriteOptions { UseV2Api = false }
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(405));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.Message, Is.EqualTo(
+            "server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+            "(set UseV2Api=true; write options: {UseV2Api:false,NoSync:false,AcceptPartial:true})"));
+    }
+
+    [Test]
     public void TimeoutExceededByTimeout()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -583,7 +619,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public void TimeoutExceededByWriteTimeout()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -606,7 +642,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     public void TimeoutExceededByToken()
     {
         MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204).WithDelay(TimeSpan.FromSeconds(2)));
 
         _client = new InfluxDBClient(new ClientConfig
@@ -647,6 +683,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         parameters.Add("org", org);
         parameters.Add("precision", precision);
         parameters.Add("writeNoSync", writeNoSync.ToString().ToLower());
+        parameters.Add("writeUseV2Api", "false");
         parameters.Add("gzipThreshold", gzipThreshold.ToString()); ;
         var uriBuilder = new UriBuilder(MockServerUrl);
         uriBuilder.Query = parameters.ToString()!;
@@ -701,6 +738,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             { ClientConfig.EnvInfluxPrecision, precision },
             { ClientConfig.EnvInfluxAuthScheme, authSchema },
             { ClientConfig.EnvInfluxWriteNoSync, writeNoSync.ToString().ToLower() },
+            { ClientConfig.EnvInfluxWriteUseV2Api, "false" },
             { ClientConfig.EnvInfluxGzipThreshold, gzipThreshold.ToString() }
         };
 

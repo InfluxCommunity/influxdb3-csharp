@@ -137,10 +137,9 @@ catch (InfluxDBApiException e)
 
 See [Partial writes](https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/#partial-writes) for more.
 
-#### Use V2 API Compatibility Mode
+#### Compatibility with InfluxDB Clustered and InfluxDB Cloud Dedicated/Serverless
 
-By default, writes use `/api/v3/write_lp`.
-For InfluxDB Clustered/v2-compatible backends, set `UseV2Api=true` to route writes to `/api/v2/write`.
+Writes use the V2 API endpoint by default, so no additional configuration is required for these products.
 
 `UseV2Api` can be configured in three ways:
 
@@ -153,6 +152,11 @@ For InfluxDB Clustered/v2-compatible backends, set `UseV2Api=true` to route writ
 1. `WriteOptions.AcceptPartial`
 2. Connection string `writeAcceptPartial`
 3. Environment variable `INFLUX_WRITE_ACCEPT_PARTIAL`
+
+`NoSync` requires the V3 API endpoint, which is available with InfluxDB 3 Core/Enterprise.
+`AcceptPartial` applies only when writes are sent to the V3 API endpoint and is ignored when using the V2 API endpoint.
+To use `NoSync`, set `UseV2Api=false` (or equivalent via connection string/env var).
+Note: when writes use the V2 API endpoint, `NoSync=true` returns a validation error.
 
 ### Query
 

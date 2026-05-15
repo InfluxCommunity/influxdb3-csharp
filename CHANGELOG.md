@@ -1,10 +1,10 @@
 ## 1.9.0 [unreleased]
 
-### Breaking Changes
+### Features
 
-1. [#258](https://github.com/InfluxCommunity/influxdb3-csharp/pull/258): Adds partial writes support and aligns write routing with v3 defaults.
-   See [Partial writes](https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/#partial-writes) for more.
-   For InfluxDB Clustered version, set `UseV2Api=true` for writing.
+1. [#258](https://github.com/InfluxCommunity/influxdb3-csharp/pull/258): Add partial writes support and default writes to the V2 API endpoint.
+   - `NoSync` requires `UseV2Api=false` and the V3 API endpoint.
+   - `AcceptPartial` applies only when writes are sent to the V3 API endpoint and is ignored when using the V2 API endpoint.
 
 ## 1.8.0 [2026-04-23]
 
