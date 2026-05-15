@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
 using NUnit.Framework;
+using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test.Integration;
 
@@ -25,9 +26,8 @@ public class WriteTest : IntegrationTest
         }
         catch (Exception ex)
         {
-            if (ex is InfluxDBApiException)
+            if (ex is InfluxDBApiException iaex)
             {
-                var iaex = (InfluxDBApiException)ex;
                 Assert.Multiple((Action)(() =>
                 {
                     Assert.That(iaex.Message,
@@ -43,6 +43,50 @@ public class WriteTest : IntegrationTest
             {
                 Assert.Fail($"Should catch InfluxDBApiException, but received {ex.GetType()}: {ex.Message}.");
             }
+        }
+    }
+
+    [TestCase(false, true, true, TestName = "WritePartialBatch_WithV3Api_ReturnsStructuredPartialWriteError")]
+    [TestCase(true, false, true, TestName = "WritePartialBatch_WithV2Api_ReturnsGenericApiError")]
+    [TestCase(false, true, false, TestName = "WritePartialBatch_WithV3Api_AcceptPartialFalse_ReturnsStructuredPartialWriteError")]
+    [TestCase(true, false, false, TestName = "WritePartialBatch_WithV2Api_AcceptPartialFalse_ReturnsGenericApiError")]
+    public void WritePartialBatchBehaviorByWriteApi(bool useV2Api, bool expectStructuredPartialError, bool acceptPartial)
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteOptions = new WriteOptions
+            {
+                UseV2Api = useV2Api,
+                AcceptPartial = acceptPartial
+            }
+        });
+
+        const string validLine = "home,room=Sunroom temp=96 1735545600";
+        const string invalidLine = "home,room=Sunroom temp=\"hi\" 1735549200";
+
+        var ae = Assert.CatchAsync<InfluxDBApiException>((Func<Task>)(async () =>
+        {
+            await client.WriteRecordsAsync(new[] { validLine, invalidLine });
+        }));
+
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+
+        if (expectStructuredPartialError)
+        {
+            Assert.That(ae, Is.InstanceOf<InfluxDBPartialWriteException>());
+            var pwe = (InfluxDBPartialWriteException)ae!;
+            Assert.That(pwe.LineErrors, Is.Not.Empty);
+            Assert.That(ae.Message,
+                Does.Contain("partial write of line protocol occurred")
+                    .Or.Contain("parsing failed for write_lp endpoint"));
+        }
+        else
+        {
+            Assert.That(ae, Is.Not.InstanceOf<InfluxDBPartialWriteException>());
         }
     }
 }

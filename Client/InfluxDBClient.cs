@@ -352,7 +352,13 @@ namespace InfluxDB3.Client
         /// <description>precision - timestamp precision when writing data (<c>ns</c> (default), <c>us</c>, <c>ms</c>, <c>s</c>)</description>
         /// </item>
         /// <item>
-        /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>)</description>
+        /// <description>gzipThreshold - threshold for gzip data when writing (default is <c>1000</c>).</description>
+        /// </item>
+        /// <item>
+        /// <description>writeAcceptPartial - allow partial writes on V3 API endpoint (default is <c>true</c>)</description>
+        /// </item>
+        /// <item>
+        /// <description>writeUseV2Api - route writes to V2 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
         /// <description>writeNoSync - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
@@ -393,6 +399,12 @@ namespace InfluxDB3.Client
         /// </item>
         /// <item>
         /// <description>INFLUX_GZIP_THRESHOLD - threshold for gzipping data when writing (default is <c>1000</c>)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_WRITE_ACCEPT_PARTIAL - allow partial writes on V3 API endpoint (default is <c>true</c>)</description>
+        /// </item>
+        /// <item>
+        /// <description>INFLUX_WRITE_USE_V2_API - route writes to V2 API endpoint (default is <c>true</c>)</description>
         /// </item>
         /// <item>
         /// <description>INFLUX_WRITE_NO_SYNC - bool value whether to skip waiting for WAL persistence on write (default is <c>false</c>)</description>
@@ -765,25 +777,15 @@ namespace InfluxDB3.Client
             var body = sb.ToString();
             var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
+            var writeOptions = _config.WriteOptions ?? WriteOptions.DefaultOptions;
+            writeOptions.Validate();
+
             string path;
             Dictionary<string, string?> queryParams;
             var databaseNotNull
                 = (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"));
-            if (_config.WriteNoSync)
+            if (writeOptions.UseV2Api)
             {
-                // Setting no_sync=true is supported only in the v3 API.
-                path = "api/v3/write_lp";
-                queryParams = new Dictionary<string, string?>()
-                {
-                    { "org", _config.Organization },
-                    { "db", databaseNotNull },
-                    { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
-                    { "no_sync", "true" }
-                };
-            }
-            else
-            {
-                // By default, use the v2 API.
                 path = "api/v2/write";
                 queryParams = new Dictionary<string, string?>()
                 {
@@ -791,6 +793,25 @@ namespace InfluxDB3.Client
                     { "bucket", databaseNotNull },
                     { "precision", WritePrecisionConverter.ToV2ApiString(precisionNotNull) },
                 };
+            }
+            else
+            {
+                path = "api/v3/write_lp";
+                queryParams = new Dictionary<string, string?>()
+                {
+                    { "org", _config.Organization },
+                    { "db", databaseNotNull },
+                    { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
+                };
+
+                if (writeOptions.NoSync)
+                {
+                    queryParams["no_sync"] = "true";
+                }
+                if (!writeOptions.AcceptPartial)
+                {
+                    queryParams["accept_partial"] = "false";
+                }
             }
 
             var cancelToken = new CancellationTokenSource(_config.Timeout).Token; // Just for compatibility with the old API
@@ -809,13 +830,24 @@ namespace InfluxDB3.Client
                     .Request(path, HttpMethod.Post, content, queryParams, headers, cancelToken)
                     .ConfigureAwait(false);
             }
-            catch (InfluxDBApiException e)
+            catch (InfluxDBApiException ex) when (ex.StatusCode == HttpStatusCode.MethodNotAllowed)
             {
-                if (_config.WriteNoSync && e.StatusCode == HttpStatusCode.MethodNotAllowed)
+                if (writeOptions.UseV2Api && path == "api/v2/write")
                 {
-                    // Server does not support the v3 write API, can't use the NoSync option.
-                    throw new InfluxDBApiException("Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only).", e.HttpResponseMessage!);
+                    throw new InfluxDBApiException(
+                        $"Server doesn't support the V2 API endpoint (/api/v2/write) " +
+                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        ex.HttpResponseMessage!);
                 }
+
+                if (!writeOptions.UseV2Api && path == "api/v3/write_lp")
+                {
+                    throw new InfluxDBApiException(
+                        $"Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        ex.HttpResponseMessage!);
+                }
+
                 throw;
             }
         }
