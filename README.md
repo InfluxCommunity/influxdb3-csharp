@@ -105,7 +105,7 @@ await client.WriteRecordAsync(record: record);
 
 #### Partial Writes
 
-Use `WriteOptions.AcceptPartial` to control whether a v3 write can partially succeed when some lines fail.
+Use `WriteOptions.AcceptPartial` to control whether a V3 write can partially succeed when some lines fail.
 Default is `true` (server default). When `false`, the full batch is rejected.
 
 ```csharp
