@@ -374,7 +374,7 @@ public class RestClientTest : MockServerTest
             await _client.Request("api", HttpMethod.Post);
         });
 
-        Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\tbad line\n\ttrue\n\t3"));
+        Assert.That(ae.Message, Is.EqualTo("partial write of line protocol occurred:\n\t\"bad line\"\n\ttrue\n\t3"));
     }
 
     [Test]

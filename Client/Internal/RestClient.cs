@@ -358,7 +358,7 @@ internal class RestClient
 
     private static string ToDetailString(JsonElement element)
     {
-        return element.ValueKind == JsonValueKind.String ? (element.GetString() ?? "") : element.GetRawText();
+        return element.GetRawText();
     }
 
     private sealed class ParsedErrorMessage
