@@ -65,7 +65,9 @@ public class IOxExample
 }
 ```
 
-to insert data, you can use code like this:
+### Write
+
+To write data, you can use code like this:
 
 ```csharp
 //
@@ -101,7 +103,71 @@ const string record = "temperature,location=north value=60.0";
 await client.WriteRecordAsync(record: record);
 ```
 
-to query your data, you can use code like this:
+#### Partial Writes
+
+Use `WriteOptions.AcceptPartial` to control whether a V3 write can partially succeed when some lines fail.
+Default is `true` (server default). When `false`, the full batch is rejected.
+
+```csharp
+using var client = new InfluxDBClient(new ClientConfig
+{
+    Host = host,
+    Token = token,
+    Database = database,
+    WriteOptions = new WriteOptions
+    {
+        UseV2Api = false
+    }
+});
+
+var lp =
+    "home,room=Sunroom temp=96 1735545600\n" +
+    "home,room=Sunroom temp=\"hi\" 1735549200";
+
+try
+{
+    await client.WriteRecordAsync(lp);
+}
+catch (InfluxDBPartialWriteException e)
+{
+    foreach (var lineErr in e.LineErrors)
+    {
+        Console.WriteLine(
+            $"line {lineErr.LineNumber} failed: {lineErr.ErrorMessage} ({lineErr.OriginalLine})");
+    }
+}
+catch (InfluxDBApiException e)
+{
+    Console.WriteLine(e.Message);
+}
+```
+
+See [Partial writes](https://docs.influxdata.com/influxdb3/core/write-data/http-api/v3-write-lp/#partial-writes) for more.
+
+#### Compatibility with InfluxDB Clustered and InfluxDB Cloud Dedicated/Serverless
+
+Writes use the V2 API endpoint by default, so no additional configuration is required for these products.
+
+`UseV2Api` can be configured in three ways:
+
+1. `WriteOptions.UseV2Api`
+2. Connection string `writeUseV2Api`
+3. Environment variable `INFLUX_WRITE_USE_V2_API`
+
+`AcceptPartial` can be configured in three ways:
+
+1. `WriteOptions.AcceptPartial`
+2. Connection string `writeAcceptPartial`
+3. Environment variable `INFLUX_WRITE_ACCEPT_PARTIAL`
+
+`NoSync` requires the V3 API endpoint, which is available with InfluxDB 3 Core/Enterprise.
+`AcceptPartial` applies only when writes are sent to the V3 API endpoint and is ignored when using the V2 API endpoint.
+To use `NoSync`, set `UseV2Api=false` (or equivalent via connection string/env var).
+Note: when writes use the V2 API endpoint, `NoSync=true` returns a validation error.
+
+### Query
+
+To query your data, you can use code like this:
 
 ```csharp
 //

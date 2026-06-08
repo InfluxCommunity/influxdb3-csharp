@@ -53,6 +53,46 @@ public class QueryWriteTest : IntegrationTest
         Assert.That(points.First().GetTag("type"), Is.EqualTo("used"));
     }
 
+    [TestCase(true, TestName = "QueryWriteWithUseV2Api_True")]
+    [TestCase(false, TestName = "QueryWriteWithUseV2Api_False")]
+    public async Task QueryWriteWithUseV2Api(bool useV2Api)
+    {
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteOptions = new WriteOptions
+            {
+                UseV2Api = useV2Api
+            }
+        });
+
+        const string measurement = "integration_test_write_api";
+        var testId = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        await client.WriteRecordAsync($"{measurement},type=used value=321.0,testId={testId}");
+
+        var sql = $"SELECT value FROM {measurement} where \"testId\" = {testId}";
+        List<object?[]> results = new();
+        for (var i = 0; i < 50; i++)
+        {
+            results = await client.Query(sql).ToListAsync();
+            if (results.Count > 0)
+            {
+                break;
+            }
+
+            await Task.Delay(100);
+        }
+
+        Assert.Multiple((Action)(() =>
+        {
+            Assert.That(results, Has.Count.EqualTo(1), $"No rows returned for UseV2Api={useV2Api}");
+            Assert.That(results[0], Has.Length.EqualTo(1));
+            Assert.That(results[0][0], Is.EqualTo(321.0));
+        }));
+    }
+
     [Test]
     public void QueryNotAuthorized()
     {

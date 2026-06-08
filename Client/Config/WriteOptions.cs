@@ -12,6 +12,8 @@ namespace InfluxDB3.Client.Config;
 /// - GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.
 /// - TagOrder: Preferred tag order for line protocol serialization.
 /// - NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.
+/// - AcceptPartial: Allow partial writes on the V3 API endpoint. The default value is true.
+/// - UseV2Api: Route writes to the V2 API endpoint (/api/v2/write). The default value is true.
 ///
 /// If you want create client with custom options, you can use the following code:
 /// <code>
@@ -74,23 +76,45 @@ public class WriteOptions : ICloneable
     /// <summary>
     /// The threshold in bytes for gzipping the body.
     /// </summary>
-    public int GzipThreshold { get; set; }
+    public int GzipThreshold { get; set; } = 1000;
 
     /// <summary>
     /// Instructs the server whether to wait with the response until WAL persistence completes.
     /// NoSync=true means faster write but without the confirmation that the data was persisted.
     ///
     /// Note: This option is supported by InfluxDB 3 Core and Enterprise servers only.
-    /// For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Clould Serverless/Dedicated)
+    /// For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Cloud Dedicated/Serverless)
     /// the write operation will fail with an error.
     ///
     /// Default value: false.
     /// </summary>
     public bool NoSync { get; set; }
 
+    /// <summary>
+    /// Controls partial-write behavior on the V3 API endpoint.
+    /// true (default): allow partial writes (server default behavior)
+    /// false: reject the full batch when any line fails.
+    /// This option is ignored for writes sent to the V2 API endpoint (UseV2Api=true).
+    /// </summary>
+    public bool AcceptPartial { get; set; } = true;
+
+    /// <summary>
+    /// Routes writes to the V2 API endpoint (/api/v2/write).
+    /// Default value: true.
+    /// </summary>
+    public bool UseV2Api { get; set; } = true;
+
     public object Clone()
     {
         return this.MemberwiseClone();
+    }
+
+    internal void Validate()
+    {
+        if (UseV2Api && NoSync)
+        {
+            throw new InvalidOperationException("Invalid write options: NoSync requires UseV2Api=false");
+        }
     }
 
     internal static readonly WriteOptions DefaultOptions = new()
@@ -98,5 +122,7 @@ public class WriteOptions : ICloneable
         Precision = WritePrecision.Ns,
         GzipThreshold = 1000,
         NoSync = false,
+        AcceptPartial = true,
+        UseV2Api = true,
     };
 }

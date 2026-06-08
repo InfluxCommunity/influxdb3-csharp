@@ -69,7 +69,7 @@ public class ClientConfigTest
     [Test]
     public void CreateFromConnectionStringWithWriteOptions()
     {
-        var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database&precision=s&gzipThreshold=64&writeNoSync=true");
+        var cfg = new ClientConfig("http://localhost:8086?token=my-token&org=my-org&database=my-database&precision=s&gzipThreshold=64&writeNoSync=true&writeAcceptPartial=false&writeUseV2Api=true");
         Assert.That(cfg, Is.Not.Null);
         cfg.Validate();
         Assert.Multiple(() =>
@@ -82,6 +82,8 @@ public class ClientConfigTest
             Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WritePrecision.S));
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(64));
             Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
+            Assert.That(cfg.WriteOptions.AcceptPartial, Is.EqualTo(false));
+            Assert.That(cfg.WriteOptions.UseV2Api, Is.EqualTo(true));
         });
     }
 
@@ -221,6 +223,8 @@ public class ClientConfigTest
             {"INFLUX_PRECISION", "s"},
             {"INFLUX_GZIP_THRESHOLD", "64"},
             {"INFLUX_WRITE_NO_SYNC", "true"},
+            {"INFLUX_WRITE_ACCEPT_PARTIAL", "false"},
+            {"INFLUX_WRITE_USE_V2_API", "true"},
         };
         TestUtils.SetEnv(env);
         var cfg = new ClientConfig(env);
@@ -236,6 +240,8 @@ public class ClientConfigTest
             Assert.That(cfg.WriteOptions.Precision, Is.EqualTo(WritePrecision.S));
             Assert.That(cfg.WriteOptions.GzipThreshold, Is.EqualTo(64));
             Assert.That(cfg.WriteOptions.NoSync, Is.EqualTo(true));
+            Assert.That(cfg.WriteOptions.AcceptPartial, Is.EqualTo(false));
+            Assert.That(cfg.WriteOptions.UseV2Api, Is.EqualTo(true));
         });
     }
 

@@ -452,8 +452,56 @@ public class InfluxDBClientWriteTest : MockServerTest
         await _client.WriteRecordAsync("mem,tag=a field=1");
     }
 
+    private static IEnumerable<TestCaseData> WriteV3OptionCases()
+    {
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, NoSync = false }, false, false)
+            .SetName("WriteToV3_NoSyncFalse_OmitsNoSyncAndAcceptPartial");
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, AcceptPartial = false }, false, true)
+            .SetName("WriteToV3_AcceptPartialFalse_AddsAcceptPartialQueryParam");
+        yield return new TestCaseData(new WriteOptions { UseV2Api = false, NoSync = true }, true, false)
+            .SetName("WriteToV3_NoSyncTrue_AddsNoSyncQueryParam");
+    }
+
+    [TestCaseSource(nameof(WriteV3OptionCases))]
+    public async Task WriteToV3OptionCases(WriteOptions writeOptions, bool expectNoSync, bool expectAcceptPartialFalse)
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = writeOptions
+        });
+        MockServer
+            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        await _client.WriteRecordAsync("mem,tag=a field=1");
+        var requests = MockServer.LogEntries.ToList();
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(requests[0].RequestMessage.Path, Is.EqualTo("/api/v3/write_lp"));
+            if (expectNoSync)
+            {
+                Assert.That(requests[0].RequestMessage.Query?["no_sync"].First(), Is.EqualTo("true"));
+            }
+            else
+            {
+                Assert.That(requests[0].RequestMessage.Query, Does.Not.ContainKey("no_sync"));
+            }
+            if (expectAcceptPartialFalse)
+            {
+                Assert.That(requests[0].RequestMessage.Query?["accept_partial"].First(), Is.EqualTo("false"));
+            }
+            else
+            {
+                Assert.That(requests[0].RequestMessage.Query, Does.Not.ContainKey("accept_partial"));
+            }
+        }
+    }
+
     [Test]
-    public async Task WriteNoSyncFalse()
+    public void WriteNoSyncTrueWithUseV2ApiValidationError()
     {
         _client = new InfluxDBClient(new ClientConfig
         {
@@ -462,7 +510,36 @@ public class InfluxDBClientWriteTest : MockServerTest
             Database = "my-database",
             WriteOptions = new WriteOptions
             {
-                NoSync = false
+                NoSync = true,
+                UseV2Api = true
+            }
+        });
+
+        var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _client.WriteRecordAsync("mem,tag=a field=1");
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Invalid write options: NoSync requires UseV2Api=false"));
+        });
+    }
+
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task WriteUseV2ApiRoutesToV2AndIgnoresAcceptPartial(bool acceptPartial)
+    {
+        _client = new InfluxDBClient(new ClientConfig
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-database",
+            WriteOptions = new WriteOptions
+            {
+                UseV2Api = true,
+                AcceptPartial = acceptPartial
             }
         });
         MockServer
@@ -472,63 +549,50 @@ public class InfluxDBClientWriteTest : MockServerTest
         await _client.WriteRecordAsync("mem,tag=a field=1");
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Path, Is.EqualTo("/api/v2/write"));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(requests[0].RequestMessage.Path, Is.EqualTo("/api/v2/write"));
+            Assert.That(requests[0].RequestMessage.Query?["bucket"].First(), Is.EqualTo("my-database"));
+            Assert.That(requests[0].RequestMessage.Query?["precision"].First(), Is.EqualTo("ns"));
+            Assert.That(requests[0].RequestMessage.Query, Does.Not.ContainKey("accept_partial"));
+            Assert.That(requests[0].RequestMessage.Query, Does.Not.ContainKey("no_sync"));
+        }
     }
 
     [Test]
-    public async Task WriteNoSyncTrueSupported()
+    public async Task WriteDefaultV2ToV3OnlyBackendReturnsGuidance()
+    {
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", database: "my-database");
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(405));
+
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.Message, Is.EqualTo(
+            "Server doesn't support the V2 API endpoint (/api/v2/write) " +
+            "(set UseV2Api=false; write options: {UseV2Api:true,NoSync:false,AcceptPartial:true})"));
+    }
+
+    [Test]
+    public async Task WriteV3ToV2OnlyBackendReturnsGuidance()
     {
         _client = new InfluxDBClient(new ClientConfig
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-database",
-            WriteOptions = new WriteOptions
-            {
-                NoSync = true
-            }
+            WriteOptions = new WriteOptions { UseV2Api = false }
         });
         MockServer
             .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(204));
+            .RespondWith(Response.Create().WithStatusCode(405));
 
-        await _client.WriteRecordAsync("mem,tag=a field=1");
-
-        var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.Query?["no_sync"].First(), Is.EqualTo("true"));
-    }
-
-    [Test]
-    public void WriteNoSyncTrueNotSupported()
-    {
-        _client = new InfluxDBClient(new ClientConfig
-        {
-            Host = MockServerUrl,
-            Token = "my-token",
-            Database = "my-database",
-            WriteOptions = new WriteOptions
-            {
-                NoSync = true
-            }
-        });
-        MockServer
-            .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
-            .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.MethodNotAllowed));
-
-
-        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
-        {
-            await _client.WriteRecordAsync("mem,tag=a field=1");
-        });
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.HttpResponseMessage, Is.Not.Null);
-            Assert.That(ae.Message,
-                Does.Contain(
-                    "Server doesn't support write with NoSync=true (supported by InfluxDB 3 Core/Enterprise servers only)."));
-        });
+        var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () => { await _client.WriteRecordAsync("mem,tag=a field=1"); });
+        Assert.That(ae, Is.Not.Null);
+        Assert.That(ae!.Message, Is.EqualTo(
+            "Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
+            "(set UseV2Api=true; write options: {UseV2Api:false,NoSync:false,AcceptPartial:true})"));
     }
 
     [Test]
@@ -619,6 +683,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         parameters.Add("org", org);
         parameters.Add("precision", precision);
         parameters.Add("writeNoSync", writeNoSync.ToString().ToLower());
+        parameters.Add("writeUseV2Api", "false");
         parameters.Add("gzipThreshold", gzipThreshold.ToString()); ;
         var uriBuilder = new UriBuilder(MockServerUrl);
         uriBuilder.Query = parameters.ToString()!;
@@ -673,6 +738,7 @@ public class InfluxDBClientWriteTest : MockServerTest
             { ClientConfig.EnvInfluxPrecision, precision },
             { ClientConfig.EnvInfluxAuthScheme, authSchema },
             { ClientConfig.EnvInfluxWriteNoSync, writeNoSync.ToString().ToLower() },
+            { ClientConfig.EnvInfluxWriteUseV2Api, "false" },
             { ClientConfig.EnvInfluxGzipThreshold, gzipThreshold.ToString() }
         };
 
