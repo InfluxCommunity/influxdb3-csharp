@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>Namespace InfluxDB3.Client.Write </title>
+      <title>Class InfluxDBPartialWriteException </title>
       <meta name="viewport" content="width=device-width">
-      <meta name="title" content="Namespace InfluxDB3.Client.Write ">
+      <meta name="title" content="Class InfluxDBPartialWriteException ">
     
-    
+    <meta name="description" content="API exception with structured per-line details for v3 partial-write errors.">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -91,8 +91,8 @@
                           <li class="">
                             <a href="InfluxDB3.Client.InfluxDBClient.html" title="InfluxDBClient" class="">InfluxDBClient</a>
                           </li>
-                          <li class="">
-                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.html" title="InfluxDBPartialWriteException" class="">InfluxDBPartialWriteException</a>
+                          <li class="active">
+                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.html" title="InfluxDBPartialWriteException" class="active">InfluxDBPartialWriteException</a>
                           </li>
                           <li class="">
                             <a href="InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html" title="InfluxDBPartialWriteException.LineError" class="">InfluxDBPartialWriteException.LineError</a>
@@ -135,9 +135,9 @@
                           </li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li class="">
                       <span class="expand-stub"></span>
-                      <a href="InfluxDB3.Client.Write.html" title="InfluxDB3.Client.Write" class="active">InfluxDB3.Client.Write</a>
+                      <a href="InfluxDB3.Client.Write.html" title="InfluxDB3.Client.Write" class="">InfluxDB3.Client.Write</a>
 
                         <ul class="nav level2">
                           <li class="">
@@ -162,32 +162,127 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.Write">
+            <article class="content wrap" id="_content" data-uid="InfluxDB3.Client.InfluxDBPartialWriteException">
 
-  <h1 id="InfluxDB3_Client_Write" data-uid="InfluxDB3.Client.Write" class="text-break">Namespace InfluxDB3.Client.Write</h1>
-  <div class="markdown level0 summary"></div>
+
+
+  <h1 id="InfluxDB3_Client_InfluxDBPartialWriteException" data-uid="InfluxDB3.Client.InfluxDBPartialWriteException" class="text-break">Class InfluxDBPartialWriteException</h1>
+  <div class="markdown level0 summary"><p>API exception with structured per-line details for v3 partial-write errors.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">
-Classes
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></div>
+    <div class="level2"><a class="xref" href="InfluxDB3.Client.InfluxDBApiException.html">InfluxDBApiException</a></div>
+    <div class="level3"><span class="xref">InfluxDBPartialWriteException</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_HttpResponseMessage">InfluxDBApiException.HttpResponseMessage</a>
+    </div>
+    <div>
+      <a class="xref" href="InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_Headers">InfluxDBApiException.Headers</a>
+    </div>
+    <div>
+      <a class="xref" href="InfluxDB3.Client.InfluxDBApiException.html#InfluxDB3_Client_InfluxDBApiException_StatusCode">InfluxDBApiException.StatusCode</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.getbaseexception">Exception.GetBaseException()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.getobjectdata">Exception.GetObjectData(SerializationInfo, StreamingContext)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.gettype">Exception.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.tostring">Exception.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.data">Exception.Data</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.helplink">Exception.HelpLink</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.hresult">Exception.HResult</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.innerexception">Exception.InnerException</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.message">Exception.Message</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.source">Exception.Source</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.stacktrace">Exception.StackTrace</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.targetsite">Exception.TargetSite</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception.serializeobjectstate">Exception.SerializeObjectState</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="InfluxDB3.html">InfluxDB3</a>.<a class="xref" href="InfluxDB3.Client.html">Client</a></h6>
+  <h6><strong>Assembly</strong>: InfluxDB3.Client.dll</h6>
+  <h5 id="InfluxDB3_Client_InfluxDBPartialWriteException_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class InfluxDBPartialWriteException : InfluxDBApiException, ISerializable</code></pre>
+  </div>
+  <h3 id="properties">Properties
 </h3>
-      <h4><a class="xref" href="InfluxDB3.Client.Write.PointData.html">PointData</a></h4>
-      <section><p>Point defines the values that will be written to the database.
-<a href="http://bit.ly/influxdata-point">See Go Implementation</a>.</p>
-</section>
-      <h4><a class="xref" href="InfluxDB3.Client.Write.PointDataValues.html">PointDataValues</a></h4>
-      <section><p>Point defines the values that will be written to the database.
-<a href="http://bit.ly/influxdata-point">See Go Implementation</a>.</p>
-</section>
-      <h4><a class="xref" href="InfluxDB3.Client.Write.WritePrecisionConverter.html">WritePrecisionConverter</a></h4>
-      <section></section>
-    <h3 id="enums">
-Enums
-</h3>
-      <h4><a class="xref" href="InfluxDB3.Client.Write.WritePrecision.html">WritePrecision</a></h4>
-      <section><p>Defines WritePrecision</p>
-</section>
-
+  <a id="InfluxDB3_Client_InfluxDBPartialWriteException_LineErrors_" data-uid="InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors*"></a>
+  <h4 id="InfluxDB3_Client_InfluxDBPartialWriteException_LineErrors" data-uid="InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors">LineErrors</h4>
+  <div class="markdown level1 summary"><p>Structured line-level errors returned by the v3 write endpoint.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;InfluxDBPartialWriteException.LineError&gt; LineErrors { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="InfluxDB3.Client.InfluxDBPartialWriteException.html">InfluxDBPartialWriteException</a>.<a class="xref" href="InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html">LineError</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a>
+  </div>
 
 </article>
           </div>

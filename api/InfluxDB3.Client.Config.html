@@ -91,6 +91,12 @@
                           <li class="">
                             <a href="InfluxDB3.Client.InfluxDBClient.html" title="InfluxDBClient" class="">InfluxDBClient</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.html" title="InfluxDBPartialWriteException" class="">InfluxDBPartialWriteException</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html" title="InfluxDBPartialWriteException.LineError" class="">InfluxDBPartialWriteException.LineError</a>
+                          </li>
                         </ul>
                     </li>
                     <li class="active">
@@ -205,6 +211,8 @@ Classes
 <li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
 <li>TagOrder: Preferred tag order for line protocol serialization.</li>
 <li>NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.</li>
+<li>AcceptPartial: Allow partial writes on the V3 API endpoint. The default value is true.</li>
+<li>UseV2Api: Route writes to the V2 API endpoint (/api/v2/write). The default value is true.</li>
 </ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig

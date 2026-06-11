@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width">
       <meta name="title" content="Class WriteOptions ">
     
-    <meta name="description" content="The WriteOptions class holds the configuration for writing data to InfluxDB. You can configure following options:  Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call. GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000. TagOrder: Preferred tag order for line protocol serialization. NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.  If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig {     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     WriteOptions = new WriteOptions     {         Precision = WritePrecision.S,         GzipThreshold = 4096,         NoSync = false     } });">
+    <meta name="description" content="The WriteOptions class holds the configuration for writing data to InfluxDB. You can configure following options:  Precision: The default precision to use for the timestamp of points if no precision is specified in the write API call. GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000. TagOrder: Preferred tag order for line protocol serialization. NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false. AcceptPartial: Allow partial writes on the V3 API endpoint. The default value is true. UseV2Api: Route writes to the V2 API endpoint (/api/v2/write). The default value is true.  If you want create client with custom options, you can use the following code: using var client = new InfluxDBClient(new ClientConfig {     Host = &quot;https://us-east-1-1.aws.cloud2.influxdata.com&quot;,     Token = &quot;my-token&quot;,     Organization = &quot;my-org&quot;,     Database = &quot;my-database&quot;,     WriteOptions = new WriteOptions     {         Precision = WritePrecision.S,         GzipThreshold = 4096,         NoSync = false     } });">
       <link rel="shortcut icon" href="../favicon.ico">
       <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
       <link rel="stylesheet" href="../styles/docfx.css">
@@ -91,6 +91,12 @@
                           <li class="">
                             <a href="InfluxDB3.Client.InfluxDBClient.html" title="InfluxDBClient" class="">InfluxDBClient</a>
                           </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.html" title="InfluxDBPartialWriteException" class="">InfluxDBPartialWriteException</a>
+                          </li>
+                          <li class="">
+                            <a href="InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html" title="InfluxDBPartialWriteException.LineError" class="">InfluxDBPartialWriteException.LineError</a>
+                          </li>
                         </ul>
                     </li>
                     <li class="">
@@ -168,6 +174,8 @@
 <li>GzipThreshold: The threshold in bytes for gzipping the body. The default value is 1000.</li>
 <li>TagOrder: Preferred tag order for line protocol serialization.</li>
 <li>NoSync: Bool value whether to skip waiting for WAL persistence on write. The default value is false.</li>
+<li>AcceptPartial: Allow partial writes on the V3 API endpoint. The default value is true.</li>
+<li>UseV2Api: Route writes to the V2 API endpoint (/api/v2/write). The default value is true.</li>
 </ul>
 <p>If you want create client with custom options, you can use the following code:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(new ClientConfig
@@ -226,6 +234,33 @@
   </div>
   <h3 id="properties">Properties
 </h3>
+  <a id="InfluxDB3_Client_Config_WriteOptions_AcceptPartial_" data-uid="InfluxDB3.Client.Config.WriteOptions.AcceptPartial*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_AcceptPartial" data-uid="InfluxDB3.Client.Config.WriteOptions.AcceptPartial">AcceptPartial</h4>
+  <div class="markdown level1 summary"><p>Controls partial-write behavior on the V3 API endpoint.
+true (default): allow partial writes (server default behavior)
+false: reject the full batch when any line fails.
+This option is ignored for writes sent to the V2 API endpoint (UseV2Api=true).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AcceptPartial { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="InfluxDB3_Client_Config_WriteOptions_DefaultTags_" data-uid="InfluxDB3.Client.Config.WriteOptions.DefaultTags*"></a>
   <h4 id="InfluxDB3_Client_Config_WriteOptions_DefaultTags" data-uid="InfluxDB3.Client.Config.WriteOptions.DefaultTags">DefaultTags</h4>
   <div class="markdown level1 summary"><p>Tags added to each point during writing. If a point already has a tag with the same key, it is left unchanged.
@@ -296,7 +331,7 @@ DefaultTags = new Dictionary &amp;lt;string, string ()
   <div class="markdown level1 summary"><p>Instructs the server whether to wait with the response until WAL persistence completes.
 NoSync=true means faster write but without the confirmation that the data was persisted.</p>
 <p>Note: This option is supported by InfluxDB 3 Core and Enterprise servers only.
-For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Clould Serverless/Dedicated)
+For other InfluxDB 3 server types (InfluxDB Clustered, InfluxDB Cloud Dedicated/Serverless)
 the write operation will fail with an error.</p>
 <p>Default value: false.</p>
 </div>
@@ -366,6 +401,31 @@ are emitted in lexicographical order.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="InfluxDB3_Client_Config_WriteOptions_UseV2Api_" data-uid="InfluxDB3.Client.Config.WriteOptions.UseV2Api*"></a>
+  <h4 id="InfluxDB3_Client_Config_WriteOptions_UseV2Api" data-uid="InfluxDB3.Client.Config.WriteOptions.UseV2Api">UseV2Api</h4>
+  <div class="markdown level1 summary"><p>Routes writes to the V2 API endpoint (/api/v2/write).
+Default value: true.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UseV2Api { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td></td>
       </tr>
     </tbody>

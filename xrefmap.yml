@@ -367,6 +367,19 @@ references:
   commentId: T:InfluxDB3.Client.Config.WriteOptions
   fullName: InfluxDB3.Client.Config.WriteOptions
   nameWithType: WriteOptions
+- uid: InfluxDB3.Client.Config.WriteOptions.AcceptPartial
+  name: AcceptPartial
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_AcceptPartial
+  commentId: P:InfluxDB3.Client.Config.WriteOptions.AcceptPartial
+  fullName: InfluxDB3.Client.Config.WriteOptions.AcceptPartial
+  nameWithType: WriteOptions.AcceptPartial
+- uid: InfluxDB3.Client.Config.WriteOptions.AcceptPartial*
+  name: AcceptPartial
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_AcceptPartial_
+  commentId: Overload:InfluxDB3.Client.Config.WriteOptions.AcceptPartial
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.WriteOptions.AcceptPartial
+  nameWithType: WriteOptions.AcceptPartial
 - uid: InfluxDB3.Client.Config.WriteOptions.Clone
   name: Clone()
   href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_Clone
@@ -445,6 +458,19 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.Config.WriteOptions.TagOrder
   nameWithType: WriteOptions.TagOrder
+- uid: InfluxDB3.Client.Config.WriteOptions.UseV2Api
+  name: UseV2Api
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_UseV2Api
+  commentId: P:InfluxDB3.Client.Config.WriteOptions.UseV2Api
+  fullName: InfluxDB3.Client.Config.WriteOptions.UseV2Api
+  nameWithType: WriteOptions.UseV2Api
+- uid: InfluxDB3.Client.Config.WriteOptions.UseV2Api*
+  name: UseV2Api
+  href: api/InfluxDB3.Client.Config.WriteOptions.html#InfluxDB3_Client_Config_WriteOptions_UseV2Api_
+  commentId: Overload:InfluxDB3.Client.Config.WriteOptions.UseV2Api
+  isSpec: "True"
+  fullName: InfluxDB3.Client.Config.WriteOptions.UseV2Api
+  nameWithType: WriteOptions.UseV2Api
 - uid: InfluxDB3.Client.IInfluxDBClient
   name: IInfluxDBClient
   href: api/InfluxDB3.Client.IInfluxDBClient.html
@@ -795,6 +821,89 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync
   nameWithType: InfluxDBClient.WriteRecordsAsync
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException
+  name: InfluxDBPartialWriteException
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.html
+  commentId: T:InfluxDB3.Client.InfluxDBPartialWriteException
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException
+  nameWithType: InfluxDBPartialWriteException
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError
+  name: InfluxDBPartialWriteException.LineError
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html
+  commentId: T:InfluxDB3.Client.InfluxDBPartialWriteException.LineError
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError
+  nameWithType: InfluxDBPartialWriteException.LineError
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.#ctor(System.Nullable{System.Int32},System.String,System.String)
+  name: LineError(int?, string, string?)
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError__ctor_System_Nullable_System_Int32__System_String_System_String_
+  commentId: M:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.#ctor(System.Nullable{System.Int32},System.String,System.String)
+  name.vb: New(Integer?, String, String)
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineError(int?, string, string?)
+  fullName.vb: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.New(Integer?, String, String)
+  nameWithType: InfluxDBPartialWriteException.LineError.LineError(int?, string, string?)
+  nameWithType.vb: InfluxDBPartialWriteException.LineError.New(Integer?, String, String)
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.#ctor*
+  name: LineError
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError__ctor_
+  commentId: Overload:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineError
+  fullName.vb: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.New
+  nameWithType: InfluxDBPartialWriteException.LineError.LineError
+  nameWithType.vb: InfluxDBPartialWriteException.LineError.New
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage
+  name: ErrorMessage
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_ErrorMessage
+  commentId: P:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage
+  nameWithType: InfluxDBPartialWriteException.LineError.ErrorMessage
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage*
+  name: ErrorMessage
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_ErrorMessage_
+  commentId: Overload:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.ErrorMessage
+  nameWithType: InfluxDBPartialWriteException.LineError.ErrorMessage
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber
+  name: LineNumber
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_LineNumber
+  commentId: P:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber
+  nameWithType: InfluxDBPartialWriteException.LineError.LineNumber
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber*
+  name: LineNumber
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_LineNumber_
+  commentId: Overload:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.LineNumber
+  nameWithType: InfluxDBPartialWriteException.LineError.LineNumber
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine
+  name: OriginalLine
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_OriginalLine
+  commentId: P:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine
+  nameWithType: InfluxDBPartialWriteException.LineError.OriginalLine
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine*
+  name: OriginalLine
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.LineError.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineError_OriginalLine_
+  commentId: Overload:InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineError.OriginalLine
+  nameWithType: InfluxDBPartialWriteException.LineError.OriginalLine
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors
+  name: LineErrors
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineErrors
+  commentId: P:InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors
+  nameWithType: InfluxDBPartialWriteException.LineErrors
+- uid: InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors*
+  name: LineErrors
+  href: api/InfluxDB3.Client.InfluxDBPartialWriteException.html#InfluxDB3_Client_InfluxDBPartialWriteException_LineErrors_
+  commentId: Overload:InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors
+  isSpec: "True"
+  fullName: InfluxDB3.Client.InfluxDBPartialWriteException.LineErrors
+  nameWithType: InfluxDBPartialWriteException.LineErrors
 - uid: InfluxDB3.Client.Internal
   name: InfluxDB3.Client.Internal
   href: api/InfluxDB3.Client.Internal.html
