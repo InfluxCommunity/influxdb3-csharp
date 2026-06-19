@@ -82,7 +82,8 @@ public class WriteTest : IntegrationTest
             Assert.That(pwe.LineErrors, Is.Not.Empty);
             Assert.That(ae.Message,
                 Does.Contain("partial write of line protocol occurred")
-                    .Or.Contain("parsing failed for write_lp endpoint"));
+                    .Or.Contain("parsing failed for write_lp endpoint")
+                    .Or.Contain("line protocol parsing error"));
         }
         else
         {

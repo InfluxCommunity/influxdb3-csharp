@@ -248,7 +248,8 @@ internal class RestClient
     private static bool IsPartialWriteError(string topLevelError)
     {
         return topLevelError.IndexOf("partial write of line protocol occurred", StringComparison.OrdinalIgnoreCase) >= 0 ||
-               topLevelError.IndexOf("parsing failed for write_lp endpoint", StringComparison.OrdinalIgnoreCase) >= 0;
+               topLevelError.IndexOf("parsing failed for write_lp endpoint", StringComparison.OrdinalIgnoreCase) >= 0 ||
+               topLevelError.IndexOf("line protocol parsing error", StringComparison.OrdinalIgnoreCase) >= 0;
     }
 
     private static string? CombineMessages(string? topLevelError, string? dataMessage)
