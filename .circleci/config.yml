@@ -8,10 +8,24 @@ commands:
       exe:
         type: executor
         default: docker-amd64-image
+      dotnet-image:
+        type: string
     steps:
       - run:
           name: Install Dependencies
           command: |
+            dotnet_version=$(printf '%s\n' "<< parameters.dotnet-image >>" | sed -E 's/.*:([0-9]+\.[0-9]+).*/\1/')
+            if [[ -z "$dotnet_version" || "$dotnet_version" == "<< parameters.dotnet-image >>" ]]; then
+              echo "Unable to derive the .NET version from << parameters.dotnet-image >>" >&2
+              exit 1
+            fi
+            target_framework="net${dotnet_version}"
+            project_file="<< parameters.project >>/<< parameters.project >>.csproj"
+            sed -i -E "s#(<TargetFramework>)[^<]+(</TargetFramework>)#\1${target_framework}\2#" "$project_file"
+            grep -q "<TargetFramework>${target_framework}</TargetFramework>" "$project_file" || {
+              echo "Unable to set $project_file target framework to $target_framework" >&2
+              exit 1
+            }
             dotnet restore
             dotnet build --no-restore
       - run:
@@ -121,6 +135,7 @@ jobs:
       - client-test:
           exe: << parameters.exe >>
           project: "Client.Test"
+          dotnet-image: << parameters.dotnet-image >>
   tests-integration:
     working_directory: ~/repo
     parameters:
@@ -147,6 +162,7 @@ jobs:
               --export-token-as TESTING_INFLUXDB_TOKEN
       - client-test:
           project: "Client.Test.Integration"
+          dotnet-image: << parameters.dotnet-image >>
 
   check-compilation-warnings:
     docker:
