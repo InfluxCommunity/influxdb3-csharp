@@ -13,7 +13,7 @@ namespace InfluxDB3.Client.Config;
 ///
 /// <para>You can configure following options:</para>
 /// <list type="bulleted">
-/// <item>- Host: The URL of the InfluxDB server.</item>
+/// <item>- Host: The URL of the InfluxDB server. NOTE: IPv6 must be wrapped inside square brackets, .e.g: http://[2001:db8::1].</item>
 /// <item>- Token: The authentication token for accessing the InfluxDB server.</item>
 /// <item>- AuthScheme: Token authentication scheme. Default is 'null' for Cloud access. Set to 'Bearer' for Edge access.</item>
 /// <item>- Organization: The organization to be used for operations.</item>
@@ -125,7 +125,8 @@ public class ClientConfig
     }
 
     /// <summary>
-    /// The URL of the InfluxDB server.
+    /// The URL of the InfluxDB server.<br/>
+    /// NOTE: IPv6 must be wrapped inside square brackets, .e.g: http://[2001:db8::1].
     /// </summary>
     public string Host
     {
