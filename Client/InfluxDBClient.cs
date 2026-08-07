@@ -191,9 +191,13 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, WriteOptions? writeOptions = null,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -217,9 +221,13 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, WriteOptions? writeOptions = null,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -247,9 +255,13 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, WriteOptions? writeOptions = null,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves the server version of the connected InfluxDB instance.
@@ -641,11 +653,14 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
+            Dictionary<string, string>? headers = null, WriteOptions? writeOptions = null, CancellationToken cancellationToken = default)
         {
-            return WriteRecordsAsync(new[] { record }, database, precision, headers, cancellationToken);
+            return WriteRecordsAsync(new[] { record }, database, precision, headers, writeOptions, cancellationToken);
         }
 
         /// <summary>
@@ -671,12 +686,15 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            WriteOptions? writeOptions = null, CancellationToken cancellationToken = default)
         {
-            return WriteData(records, database, precision, headers, cancellationToken);
+            return WriteData(records, database, precision, headers, writeOptions, cancellationToken);
         }
 
         /// <summary>
@@ -709,11 +727,15 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
+            Dictionary<string, string>? headers = null, WriteOptions? writeOptions = null,
+            CancellationToken cancellationToken = default)
         {
-            return WritePointsAsync(new[] { point }, database, precision, headers, cancellationToken);
+            return WritePointsAsync(new[] { point }, database, precision, headers, writeOptions, cancellationToken);
         }
 
         /// <summary>
@@ -749,17 +771,20 @@ namespace InfluxDB3.Client
         ///     The headers to be added to write request. The headers specified here are preferred over
         ///     the headers specified in the client configuration.
         /// </param>
+        /// <param name="writeOptions">
+        ///    Additional write options modified for a specific call.
+        /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         public Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            WriteOptions? writeOptions = null, CancellationToken cancellationToken = default)
         {
-            return WriteData(points, database, precision, headers, cancellationToken);
+            return WriteData(points, database, precision, headers, writeOptions, cancellationToken);
         }
 
         private async Task WriteData(IEnumerable<object> data, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            WriteOptions? writeOptions = null, CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
@@ -778,14 +803,14 @@ namespace InfluxDB3.Client
             var body = sb.ToString();
             var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
-            var writeOptions = _config.WriteOptions ?? WriteOptions.DefaultOptions;
-            writeOptions.Validate();
+            var _writeOptions = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
+            _writeOptions.Validate();
 
             string path;
             Dictionary<string, string?> queryParams;
             var databaseNotNull
                 = (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"));
-            if (writeOptions.UseV2Api)
+            if (_writeOptions.UseV2Api)
             {
                 path = "api/v2/write";
                 queryParams = new Dictionary<string, string?>()
@@ -805,11 +830,11 @@ namespace InfluxDB3.Client
                     { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
                 };
 
-                if (writeOptions.NoSync)
+                if (_writeOptions.NoSync)
                 {
                     queryParams["no_sync"] = "true";
                 }
-                if (!writeOptions.AcceptPartial)
+                if (!_writeOptions.AcceptPartial)
                 {
                     queryParams["accept_partial"] = "false";
                 }
@@ -833,19 +858,19 @@ namespace InfluxDB3.Client
             }
             catch (InfluxDBApiException ex) when (ex.StatusCode == HttpStatusCode.MethodNotAllowed)
             {
-                if (writeOptions.UseV2Api && path == "api/v2/write")
+                if (_writeOptions.UseV2Api && path == "api/v2/write")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V2 API endpoint (/api/v2/write) " +
-                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{_writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{_writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
-                if (!writeOptions.UseV2Api && path == "api/v3/write_lp")
+                if (!_writeOptions.UseV2Api && path == "api/v3/write_lp")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
-                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{_writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{_writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
