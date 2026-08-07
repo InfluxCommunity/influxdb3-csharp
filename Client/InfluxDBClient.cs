@@ -278,7 +278,8 @@ namespace InfluxDB3.Client
         /// <summary>
         /// Initializes a new instance of the client with provided configuration options.
         /// </summary>
-        /// <param name="host">The URL of the InfluxDB server.</param>
+        /// <param name="host">The URL of the InfluxDB server.<br/>
+        /// NOTE: IPv6 must be wrapped inside square brackets, e.g. http://[2001:db8::1].</param>
         /// <param name="token">The authentication token for accessing the InfluxDB server.</param>
         /// <param name="organization">The organization name to be used for operations.</param>
         /// <param name="database">The database to be used for InfluxDB operations.</param>
@@ -366,7 +367,7 @@ namespace InfluxDB3.Client
         /// </list>
         /// </para>
         /// </summary>
-        /// <param name="connectionString">Connection string in URL format.</param>
+        /// <param name="connectionString">Connection string in URL format. NOTE: IPv6 must be wrapped inside square brackets, e.g. http://[2001:db8::1].</param>
         /// <example>
         /// using var client = new InfluxDBClient(host: "https://us-east-1-1.aws.cloud2.influxdata.com?token=my-token&amp;database=my-db");
         /// </example>
