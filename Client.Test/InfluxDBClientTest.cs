@@ -52,7 +52,8 @@ public class InfluxDBClientTest
         correctUrls.Add("http://[2001:db8:a0b:12f0::1]:80/index.html");
         correctUrls.Add("https://[2001:db8:a0b:12f0::1%25eth0]:15000/");
         correctUrls.Add("http://[2607:f8b0:4005:802::1007]/");
-
+        correctUrls.Add("https://[fe80::1%25eth%250]:15000");
+        correctUrls.Add("https://[fe80::1%25eth%200]");
         foreach (var url in correctUrls)
         {
             using var client = new InfluxDBClient(
