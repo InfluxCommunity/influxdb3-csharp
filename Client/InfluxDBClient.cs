@@ -790,9 +790,14 @@ namespace InfluxDB3.Client
             {
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
+            
+            var defaultTags = writeOptions != null 
+                ? writeOptions.GetDefaultTagsSafe(_config.WriteOptions) 
+                : _config.WriteOptions?.DefaultTags;
 
-            var precisionNotNull = precision ?? _config.WritePrecision;
-            var sb = ToLineProtocolBody(data, precisionNotNull, _config.WriteOptions?.DefaultTags,
+            var tagOrder = writeOptions?.TagOrder ?? _config.WriteOptions?.TagOrder ?? defaultTags?.Keys.ToArray();
+            var precisionNotNull = precision ?? writeOptions?.Precision ?? _config.WritePrecision;
+            var sb = ToLineProtocolBody(data, precisionNotNull, defaultTags, 
                 _config.WriteOptions?.TagOrder);
             if (sb.Length == 0)
             {
@@ -801,7 +806,13 @@ namespace InfluxDB3.Client
             }
 
             var body = sb.ToString();
-            var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
+            var gzipHandler = _gzipHandler;
+            if (writeOptions != null && writeOptions?.GzipThreshold != _config.WriteOptions?.GzipThreshold)
+            {
+                gzipHandler = new GzipHandler(writeOptions.GzipThreshold);
+            }
+
+            var content = gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
             var _writeOptions = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
             _writeOptions.Validate();
