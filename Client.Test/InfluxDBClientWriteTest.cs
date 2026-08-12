@@ -818,11 +818,10 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
     }
 
-    public static void AssertAcceptPartial(WriteOptions writeOptions, 
-        IDictionary<string,WireMockList<string>> options)
+    public static void AssertAcceptPartial(WriteOptions writeOptions,
+        IDictionary<string, WireMockList<string>> options)
     {
-
-        if (writeOptions.AcceptPartial || writeOptions.UseV2Api )
+        if (writeOptions.AcceptPartial || writeOptions.UseV2Api)
         {
             // Console.WriteLine("DEBUG acceptPartial true");
             Assert.That(options, Does.Not.ContainKey("accept_partial"));
@@ -831,90 +830,101 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             // Console.WriteLine("DEBUG acceptPartial false");
             Assert.That(options["accept_partial"].First(), Is.EqualTo("false"));
-        }        
+        }
     }
 
-    
-    
+
     public static IEnumerable<TestCaseData> TestCaseWriteOptions
     {
         get
         {
             yield return new TestCaseData<WriteOptions>(new WriteOptions()).SetName("DefaultsBaseline");
-            yield return new TestCaseData<WriteOptions>(new WriteOptions{Precision=WritePrecision.S}).SetName("OverridePrecisionSeconds"); 
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{GzipThreshold = 1}).SetName("OverrideGzipThreshold");
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{UseV2Api = false}).SetName("OverrideUseV2Api");
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{UseV2Api = false, NoSync = true}).SetName("OverrideNoSync");
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{UseV2Api = false, AcceptPartial = false}).SetName("OverrideAcceptPartial");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { Precision = WritePrecision.S }).SetName(
+                "OverridePrecisionSeconds");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { GzipThreshold = 1 }).SetName(
+                "OverrideGzipThreshold");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false }).SetName(
+                "OverrideUseV2Api");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false, NoSync = true }).SetName(
+                "OverrideNoSync");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false, AcceptPartial = false })
+                .SetName("OverrideAcceptPartial");
             // N.B. applies only to Write Points
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{DefaultTags = new Dictionary<string,string>()
+            yield return new TestCaseData<WriteOptions>(new WriteOptions
             {
-                {"area", "51"},
-                {"model", "R2D2"},
-                {"zap", "ABC123"}
-            }}).SetName("OverrideDefaultTags");
-            yield return new TestCaseData<WriteOptions>( new WriteOptions{DefaultTags = new Dictionary<string,string>()
+                DefaultTags = new Dictionary<string, string>()
+                {
+                    { "area", "51" },
+                    { "model", "R2D2" },
+                    { "zap", "ABC123" }
+                }
+            }).SetName("OverrideDefaultTags");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions
             {
-                {"area", "51"},
-                {"model", "R2D2"},
-                {"zap", "ABC123"}
-            }, TagOrder = new string[]{"zap", "model", "area"}}).SetName("OverrideTagOrder"); 
+                DefaultTags = new Dictionary<string, string>()
+                {
+                    { "area", "51" },
+                    { "model", "R2D2" },
+                    { "zap", "ABC123" }
+                },
+                TagOrder = new string[] { "zap", "model", "area" }
+            }).SetName("OverrideTagOrder");
         }
     }
 
     private static void WriteOptionsAsserts(WriteOptions writeOptions, ILogEntry logEntry)
     {
-            /* Console.WriteLine($"DEBUG logEntry.RequestMessage.Body {logEntry?.RequestMessage?.Body}");
-            Console.WriteLine($"DEBUG logEntry.ResponseMessage.Path {logEntry?.RequestMessage?.Path}");
-            Console.WriteLine($"DEBUG logEntry.ResponseMessage.Query {logEntry?.RequestMessage?.Query}");
-            foreach (var queryPart in logEntry?.RequestMessage?.Query)
-            {
-                Console.WriteLine($"    DEBUG logEntry.RequestMessage.Query {queryPart}");
-            }
-            Console.WriteLine($"DEBUG logEntry.RequestMessage.Headers");
-            foreach (var reqHeader in logEntry.RequestMessage.Headers)
-            {
-                Console.WriteLine($"    DEBUG logEntry.RequestMessage.Headers {reqHeader.Key}:  {reqHeader.Value}");
-            }
+        /* Console.WriteLine($"DEBUG logEntry.RequestMessage.Body {logEntry?.RequestMessage?.Body}");
+        Console.WriteLine($"DEBUG logEntry.ResponseMessage.Path {logEntry?.RequestMessage?.Path}");
+        Console.WriteLine($"DEBUG logEntry.ResponseMessage.Query {logEntry?.RequestMessage?.Query}");
+        foreach (var queryPart in logEntry?.RequestMessage?.Query)
+        {
+            Console.WriteLine($"    DEBUG logEntry.RequestMessage.Query {queryPart}");
+        }
+        Console.WriteLine($"DEBUG logEntry.RequestMessage.Headers");
+        foreach (var reqHeader in logEntry.RequestMessage.Headers)
+        {
+            Console.WriteLine($"    DEBUG logEntry.RequestMessage.Headers {reqHeader.Key}:  {reqHeader.Value}");
+        }
 
-            Console.WriteLine("DEBUG  logEntry.ResponseMessage.Header"); */
-            foreach (var logHeader in logEntry.ResponseMessage.Headers)
-            {
-                Console.WriteLine($"   DEBUG logHeader.Key {logHeader.Key}: {logHeader.Value}");
-            }
-            // Assert.That(true);
-            AssertAcceptPartial(writeOptions, logEntry?.RequestMessage?.Query);
-            if (writeOptions.Precision.HasValue)
-            {
-                Assert.That(writeOptions.Precision.ToString().ToLower(), Is.EqualTo(logEntry?.RequestMessage?.Query["precision"].First().ToLower()));
-            }
+        Console.WriteLine("DEBUG  logEntry.ResponseMessage.Header"); */
+        foreach (var logHeader in logEntry.ResponseMessage.Headers)
+        {
+            Console.WriteLine($"   DEBUG logHeader.Key {logHeader.Key}: {logHeader.Value}");
+        }
 
-            if (writeOptions.GzipThreshold != WriteOptions.DefaultOptions.GzipThreshold &&
-                writeOptions.GzipThreshold < logEntry?.RequestMessage?.Body?.Length)
-            {
-                Assert.That(logEntry?.RequestMessage?.Headers["Content-Encoding"].First(), Is.EqualTo("gzip"));
-            }
-            
-            if (!writeOptions.UseV2Api)
-            {
-                Assert.That(logEntry?.RequestMessage?.Path, Is.EqualTo("/api/v3/write_lp"));
-                
-            }
+        // Assert.That(true);
+        AssertAcceptPartial(writeOptions, logEntry?.RequestMessage?.Query);
+        if (writeOptions.Precision.HasValue)
+        {
+            Assert.That(writeOptions.Precision.ToString().ToLower(),
+                Is.EqualTo(logEntry?.RequestMessage?.Query["precision"].First().ToLower()));
+        }
 
-            if (writeOptions.NoSync && !writeOptions.UseV2Api)
-            {
-                Assert.That(logEntry?.RequestMessage?.Query?["no_sync"].First(), Is.EqualTo("true"));
-            }
-            
-            if (writeOptions.DefaultTags != null)
-            {
-                // TODO asserts for DefaultTags
-                if (writeOptions.TagOrder != null)
-                {
-                    // TODO asserts for TagOrder
-                }
-            }
+        if (writeOptions.GzipThreshold != WriteOptions.DefaultOptions.GzipThreshold &&
+            writeOptions.GzipThreshold < logEntry?.RequestMessage?.Body?.Length)
+        {
+            Assert.That(logEntry?.RequestMessage?.Headers["Content-Encoding"].First(), Is.EqualTo("gzip"));
+        }
 
+        if (!writeOptions.UseV2Api)
+        {
+            Assert.That(logEntry?.RequestMessage?.Path, Is.EqualTo("/api/v3/write_lp"));
+        }
+
+        if (writeOptions.NoSync && !writeOptions.UseV2Api)
+        {
+            Assert.That(logEntry?.RequestMessage?.Query?["no_sync"].First(), Is.EqualTo("true"));
+        }
+
+        if (writeOptions.DefaultTags != null)
+        {
+            // TODO asserts for DefaultTags
+            if (writeOptions.TagOrder != null)
+            {
+                // TODO asserts for TagOrder
+            }
+        }
     }
 
     [TestCaseSource(nameof(TestCaseWriteOptions))]
@@ -944,11 +954,10 @@ public class InfluxDBClientWriteTest : MockServerTest
 
     public void OverrideWriteOptionsOnWriteRecordsAsync(WriteOptions writeOptions)
     {
-    
     }
 
     public void OverrideWriteOptionsOnWritePointAsync(WriteOptions writeOptions)
     {
     }
-    
+
 }

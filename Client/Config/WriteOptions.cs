@@ -112,43 +112,19 @@ public class WriteOptions : ICloneable
 
     public Dictionary<string, string>? GetDefaultTagsSafe(WriteOptions? otherOptions)
     {
-        if (otherOptions?.DefaultTags == null)
+        if (this.DefaultTags == null)
         {
-            if (this.DefaultTags == null)
+            if (otherOptions?.DefaultTags == null)
             {
                 return null;
             }
 
-            return this.DefaultTags;
+            return otherOptions?.DefaultTags;
         }
 
-        Dictionary<string,string> resultTags = otherOptions?.DefaultTags ?? new Dictionary<string, string>();
-        var confDefaultTags =  otherOptions?.DefaultTags;
-        if (this.DefaultTags != null && this.DefaultTags?.Count > 0)
-        {
-            if (resultTags.Count > 0)
-            {
-                foreach (var tag in DefaultTags)
-                {
-                    if (confDefaultTags.ContainsKey(tag.Key))
-                    {
-                        confDefaultTags[tag.Key] = tag.Value;
-                    }
-                    else
-                    {
-                        confDefaultTags.Add(tag.Key, tag.Value);
-                    }
-                }
-            } 
-            else
-            {
-                    resultTags = DefaultTags;
-            }
-        }
-
-        return resultTags;
+        return this.DefaultTags;
     }
-    
+
     internal void Validate()
     {
         if (UseV2Api && NoSync)
