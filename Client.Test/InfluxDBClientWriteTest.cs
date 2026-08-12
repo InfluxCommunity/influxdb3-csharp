@@ -823,12 +823,10 @@ public class InfluxDBClientWriteTest : MockServerTest
     {
         if (writeOptions.AcceptPartial || writeOptions.UseV2Api)
         {
-            // Console.WriteLine("DEBUG acceptPartial true");
             Assert.That(options, Does.Not.ContainKey("accept_partial"));
         }
         else
         {
-            // Console.WriteLine("DEBUG acceptPartial false");
             Assert.That(options["accept_partial"].First(), Is.EqualTo("false"));
         }
     }
@@ -867,33 +865,31 @@ public class InfluxDBClientWriteTest : MockServerTest
                     { "model", "R2D2" },
                     { "zap", "ABC123" }
                 },
-                TagOrder = new string[] { "zap", "model", "area" }
+                TagOrder = new string[] { "zap", "model", "area", "key01", "key02" }
             }).SetName("OverrideTagOrder");
         }
     }
 
+    private static Dictionary<string, string> ParseTagsFromLogEntry(ILogEntry logEntry)
+    {
+        var lp = logEntry?.RequestMessage?.Body;
+        if (lp == null)
+        {
+            Assert.Fail("Request Body must contain lineprotocol");
+        }
+
+        var tagChunks = new List<String>(lp.Split(" ")[0].Split(","));
+        tagChunks.RemoveAt(0); // Remove measurement part
+        var tags = new Dictionary<string, string>();
+        tagChunks.Select(item => item.Split("="))
+            .ToList()
+            .ForEach(item => tags.Add(item[0], item[1]));
+
+        return tags;
+    }
+
     private static void WriteOptionsAsserts(WriteOptions writeOptions, ILogEntry logEntry)
     {
-        /* Console.WriteLine($"DEBUG logEntry.RequestMessage.Body {logEntry?.RequestMessage?.Body}");
-        Console.WriteLine($"DEBUG logEntry.ResponseMessage.Path {logEntry?.RequestMessage?.Path}");
-        Console.WriteLine($"DEBUG logEntry.ResponseMessage.Query {logEntry?.RequestMessage?.Query}");
-        foreach (var queryPart in logEntry?.RequestMessage?.Query)
-        {
-            Console.WriteLine($"    DEBUG logEntry.RequestMessage.Query {queryPart}");
-        }
-        Console.WriteLine($"DEBUG logEntry.RequestMessage.Headers");
-        foreach (var reqHeader in logEntry.RequestMessage.Headers)
-        {
-            Console.WriteLine($"    DEBUG logEntry.RequestMessage.Headers {reqHeader.Key}:  {reqHeader.Value}");
-        }
-
-        Console.WriteLine("DEBUG  logEntry.ResponseMessage.Header"); */
-        foreach (var logHeader in logEntry.ResponseMessage.Headers)
-        {
-            Console.WriteLine($"   DEBUG logHeader.Key {logHeader.Key}: {logHeader.Value}");
-        }
-
-        // Assert.That(true);
         AssertAcceptPartial(writeOptions, logEntry?.RequestMessage?.Query);
         if (writeOptions.Precision.HasValue)
         {
@@ -919,10 +915,23 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         if (writeOptions.DefaultTags != null)
         {
-            // TODO asserts for DefaultTags
-            if (writeOptions.TagOrder != null)
+            var tags = ParseTagsFromLogEntry(logEntry);
+
+            foreach (var tag in writeOptions.DefaultTags)
             {
-                // TODO asserts for TagOrder
+                Assert.That(tags, Contains.Key(tag.Key));
+                Assert.That(tags, Contains.Value(tag.Value));
+            }
+        }
+
+        if (writeOptions.TagOrder != null)
+        {
+            var tags = ParseTagsFromLogEntry(logEntry);
+
+            foreach (var item in writeOptions?.TagOrder.Select((value, i) => new { value, i }))
+            {
+                Assert.That(tags.Keys.ElementAt(item.i), Is.EqualTo(item.value));
+                Assert.That(tags.Values.ElementAt(item.i), Is.EqualTo(tags[item.value]));
             }
         }
     }
@@ -945,19 +954,90 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
         await _client.WriteRecordAsync(record: lp, writeOptions: writeOptions);
-        // Console.WriteLine($"DEBUG entries {MockServer.LogEntries.Count}");
         foreach (var logEntry in MockServer.LogEntries)
         {
             WriteOptionsAsserts(writeOptions, logEntry);
         }
     }
 
-    public void OverrideWriteOptionsOnWriteRecordsAsync(WriteOptions writeOptions)
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWriteRecordsAsync(WriteOptions writeOptions)
     {
+        if (writeOptions.DefaultTags != null)
+        {
+            Assert.Inconclusive("Default Tags are not used with WriteRecords API");
+            return;
+        }
+
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var lps = new string[]
+        {
+            "sensor,id=thx1138 fVal=3.14,iVal=42",
+            "sensor,id=thx1138 fVal=2.71,iVal=21"
+        };
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WriteRecordsAsync(records: lps, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
     }
 
-    public void OverrideWriteOptionsOnWritePointAsync(WriteOptions writeOptions)
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWritePointAsync(WriteOptions writeOptions)
     {
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var point = PointData.Measurement("sensor")
+            .SetTag("key01", "valueA")
+            .SetTag("key02", "valueB")
+            .SetDoubleField("fVal", 3.14)
+            .SetDoubleField("iVal", 42);
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WritePointAsync(point: point, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
+    }
+
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWritePointsAsync(WriteOptions writeOptions)
+    {
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var points = new[]
+        {
+            PointData.Measurement("sensor")
+                .SetTag("key01", "valueA")
+                .SetTag("key02", "valueB")
+                .SetDoubleField("fVal", 3.14)
+                .SetDoubleField("iVal", 42),
+            PointData.Measurement("sensor")
+                .SetTag("key01", "valueA")
+                .SetTag("key02", "valueB")
+                .SetDoubleField("fVal", 2.71)
+                .SetDoubleField("iVal", 21),
+        };
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WritePointsAsync(points: points, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
     }
 
 }

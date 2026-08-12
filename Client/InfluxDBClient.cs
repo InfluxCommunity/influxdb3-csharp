@@ -795,10 +795,10 @@ namespace InfluxDB3.Client
                         ? writeOptions.DefaultTags ?? _config.WriteOptions?.DefaultTags
                         : _config.WriteOptions?.DefaultTags;
 
-            var tagOrder = writeOptions?.TagOrder ?? _config.WriteOptions?.TagOrder ?? defaultTags?.Keys.ToArray();
+            var tagOrder = writeOptions?.TagOrder ?? _config.WriteOptions?.TagOrder;
             var precisionNotNull = precision ?? writeOptions?.Precision ?? _config.WritePrecision;
-            var sb = ToLineProtocolBody(data, precisionNotNull, defaultTags,
-                        _config.WriteOptions?.TagOrder);
+            var sb = ToLineProtocolBody(data, precisionNotNull, defaultTags, tagOrder);
+
             if (sb.Length == 0)
             {
                 Trace.WriteLine($"The writes: {data} doesn't contains any Line Protocol, skipping");
