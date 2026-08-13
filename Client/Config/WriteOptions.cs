@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Write;
 
 namespace InfluxDB3.Client.Config;
@@ -110,6 +109,16 @@ public class WriteOptions : ICloneable
         return this.MemberwiseClone();
     }
 
+    /// <summary>
+    ///  When mixing DefaultTags from another WriteOptions source, ensures that other options
+    /// will be used, when DefaultTags for this WriteOptions object are null or undefined, and
+    /// that when DefaultTags for this WriteOptions object are defined, then they will be preferred
+    /// to those in the other WriteOptions object.
+    /// </summary>
+    /// <param name="otherOptions">a candidate WriteOptions source for DefaultTags
+    /// if this object has DefaultTags set to null.</param>
+    /// <returns>the preferred DefaultTags to be used
+    /// or null if both WriteOptions objects have DefaultTags still set to null.</returns>
     public Dictionary<string, string>? GetDefaultTagsSafe(WriteOptions? otherOptions)
     {
         if (this.DefaultTags == null)

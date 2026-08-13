@@ -8,8 +8,6 @@ using System.Web;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
-using Microsoft.Extensions.Hosting;
-using Namotion.Reflection;
 using WireMock.Logging;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
