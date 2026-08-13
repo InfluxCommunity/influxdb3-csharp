@@ -8,6 +8,7 @@ using System.Web;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
+using Microsoft.Extensions.Hosting;
 using Namotion.Reflection;
 using WireMock.Logging;
 using WireMock.Matchers;
@@ -1038,6 +1039,42 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             WriteOptionsAsserts(writeOptions, logEntry);
         }
+    }
+
+    [Test]
+    public async Task MixOfNoSyncOptionWithV2Api()
+    {
+        var lp = "sensor,id=thx1138 fVal=3.14,iVal=42";
+
+        ClientConfig config = new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-db",
+            WriteOptions = new WriteOptions()
+            {
+                UseV2Api = true
+            }
+        };
+
+        _client = new InfluxDBClient(config);
+
+        WriteOptions writeOptions = new WriteOptions()
+        {
+            NoSync = true
+        };
+
+        var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _client.WriteRecordAsync(record: lp, writeOptions: writeOptions);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Invalid write options: NoSync requires UseV2Api=false"));
+        });
     }
 
 }

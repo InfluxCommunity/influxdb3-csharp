@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Write;
 using NUnit.Framework;
 using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
@@ -89,5 +92,96 @@ public class WriteTest : IntegrationTest
         {
             Assert.That(ae, Is.Not.InstanceOf<InfluxDBPartialWriteException>());
         }
+    }
+
+    [Test]
+    public async Task WriteOptionsWithDefaultTagsAsWriteDataArgument()
+    {
+        var measurement1 = $"sensor{DateTime.Now.Ticks % 10000}01";
+        var measurement2 = $"sensor{DateTime.Now.Ticks % 10000}02";
+        WriteOptions writeOptions = new WriteOptions()
+        {
+            DefaultTags = new Dictionary<string, string>()
+            {
+                { "model", "HAL2001" },
+                { "manu", "clarke and kubrick" },
+            },
+            AcceptPartial = true
+        };
+
+        PointData p1 = PointData.Measurement(measurement1)
+            .SetTag("location", "hallA")
+            .SetDoubleField("fVal", 3.14)
+            .SetIntegerField("iVal", 42);
+
+        PointData p2 = PointData.Measurement(measurement2)
+            .SetTag("location", "lab09")
+            .SetDoubleField("fVal", 6.28)
+            .SetIntegerField("iVal", 21);
+
+        using var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteOptions = new WriteOptions
+            {
+                UseV2Api = false,
+                DefaultTags = new Dictionary<string, string>()
+                {
+                    { "model", "Generic" },
+                    { "licensee", "SinclairZX80" }
+                }
+            }
+        });
+
+        await client.WritePointAsync(p1);
+        await client.WritePointAsync(p2, writeOptions: writeOptions);
+
+        var query01 = $"SELECT * FROM {measurement1} ORDER BY time DESC";
+        var query02 = $"SELECT * FROM {measurement2} ORDER BY time DESC";
+
+        var result1 = await client.QueryPoints(query01).ToListAsync();
+
+        Assert.That(result1.Count, Is.EqualTo(1));
+        Assert.That(result1.First().GetTag("location"), Is.EqualTo("hallA"));
+        Assert.That(result1.First().GetTag("licensee"), Is.EqualTo("SinclairZX80"));
+        Assert.That(result1.First().GetTag("model"), Is.EqualTo("Generic"));
+        Assert.That(result1.First().GetTag("manu"), Is.Null);
+
+        var result2 = await client.QueryPoints(query02).ToListAsync();
+
+        Assert.That(result2.Count, Is.EqualTo(1));
+        Assert.That(result2.First().GetTag("location"), Is.EqualTo("lab09"));
+        Assert.That(result2.First().GetTag("licensee"), Is.Null);
+        Assert.That(result2.First().GetTag("model"), Is.EqualTo("HAL2001"));
+        Assert.That(result2.First().GetTag("manu"), Is.EqualTo("clarke and kubrick"));
+    }
+
+    [Test]
+    public void WriteOptionsAsArgumentInvalidateWrite()
+    {
+        var measurement = $"sensor{DateTime.Now.Ticks % 10000}";
+
+        WriteOptions writeOptions = new WriteOptions()
+        {
+            NoSync = true
+        };
+
+        var client = new InfluxDBClient(new ClientConfig
+        {
+            Host = Host,
+            Token = Token,
+            Database = Database,
+            WriteOptions = new WriteOptions()
+            {
+                UseV2Api = true,
+            }
+        });
+
+        var ae = Assert.ThrowsAsync<InvalidOperationException>((Func<Task>)(async () =>
+            await client.WriteRecordAsync(record: measurement, writeOptions: writeOptions)));
+
+        Assert.That(ae.Message, Contains.Substring("NoSync requires UseV2Api=false"));
     }
 }
