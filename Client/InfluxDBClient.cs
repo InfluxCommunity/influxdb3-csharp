@@ -193,7 +193,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -223,7 +224,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -257,7 +259,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -655,7 +658,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -689,7 +693,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         public Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -730,7 +735,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
             Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
@@ -774,7 +780,8 @@ namespace InfluxDB3.Client
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
         /// <param name="writeOptions">
-        ///    Additional write options modified for a specific call.
+        ///    Replacement write options used for a specific call.  Note: This fully replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfiguration</c>, including any fields with changed default values.
         /// </param>
         public Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,

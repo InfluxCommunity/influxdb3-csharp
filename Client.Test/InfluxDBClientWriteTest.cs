@@ -936,7 +936,7 @@ public class InfluxDBClientWriteTest : MockServerTest
     }
 
     [TestCaseSource(nameof(TestCaseWriteOptions))]
-    public async Task OverrideWriteOptionsOnWriteRecordAsync<TWriteOptions>(WriteOptions writeOptions)
+    public async Task OverrideWriteOptionsOnWriteRecordAsync(WriteOptions writeOptions)
     {
         if (writeOptions.DefaultTags != null)
         {
