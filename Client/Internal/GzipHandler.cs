@@ -11,6 +11,11 @@ internal class GzipHandler
 {
     private readonly int _threshold;
 
+    public int GetThreshold()
+    {
+        return _threshold;
+    }
+
     public GzipHandler(int threshold)
     {
         _threshold = threshold;

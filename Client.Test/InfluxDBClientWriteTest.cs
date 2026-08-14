@@ -34,7 +34,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         await WriteData();
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
+        Assert.That(requests[0]?.RequestMessage?.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
     [Test]
@@ -892,14 +892,14 @@ public class InfluxDBClientWriteTest : MockServerTest
         AssertAcceptPartial(writeOptions, logEntry?.RequestMessage?.Query);
         if (writeOptions.Precision.HasValue)
         {
-            Assert.That(writeOptions.Precision.ToString().ToLower(),
-                Is.EqualTo(logEntry?.RequestMessage?.Query["precision"].First().ToLower()));
+            Assert.That(writeOptions?.Precision?.ToString().ToLower(),
+                Is.EqualTo(logEntry?.RequestMessage?.Query?["precision"].First().ToLower()));
         }
 
         if (writeOptions.GzipThreshold != WriteOptions.DefaultOptions.GzipThreshold &&
             writeOptions.GzipThreshold < logEntry?.RequestMessage?.Body?.Length)
         {
-            Assert.That(logEntry?.RequestMessage?.Headers["Content-Encoding"].First(), Is.EqualTo("gzip"));
+            Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
         }
 
         if (!writeOptions.UseV2Api)

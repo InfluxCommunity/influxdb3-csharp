@@ -791,13 +791,12 @@ namespace InfluxDB3.Client
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
-            var defaultTags = writeOptions != null
-                        ? writeOptions.DefaultTags ?? _config.WriteOptions?.DefaultTags
-                        : _config.WriteOptions?.DefaultTags;
+            var writeOptionsFinal = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
+            writeOptionsFinal.Validate();
 
-            var tagOrder = writeOptions?.TagOrder ?? _config.WriteOptions?.TagOrder;
-            var precisionNotNull = precision ?? writeOptions?.Precision ?? _config.WritePrecision;
-            var sb = ToLineProtocolBody(data, precisionNotNull, defaultTags, tagOrder);
+            var precisionNotNull = precision ?? writeOptionsFinal.Precision ?? _config.WritePrecision;
+            var sb = ToLineProtocolBody(data, precisionNotNull, writeOptionsFinal.DefaultTags,
+                writeOptionsFinal.TagOrder);
 
             if (sb.Length == 0)
             {
@@ -807,21 +806,18 @@ namespace InfluxDB3.Client
 
             var body = sb.ToString();
             var gzipHandler = _gzipHandler;
-            if (writeOptions != null && writeOptions?.GzipThreshold != _config.WriteOptions?.GzipThreshold)
+            if (writeOptionsFinal.GzipThreshold != _gzipHandler.GetThreshold())
             {
-                gzipHandler = new GzipHandler(writeOptions.GzipThreshold);
+                gzipHandler = new GzipHandler(writeOptionsFinal.GzipThreshold);
             }
 
             var content = gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
-
-            var _writeOptions = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
-            _writeOptions.Validate();
 
             string path;
             Dictionary<string, string?> queryParams;
             var databaseNotNull
                 = (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"));
-            if (_writeOptions.UseV2Api)
+            if (writeOptionsFinal.UseV2Api)
             {
                 path = "api/v2/write";
                 queryParams = new Dictionary<string, string?>()
@@ -841,11 +837,11 @@ namespace InfluxDB3.Client
                     { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
                 };
 
-                if (_writeOptions.NoSync)
+                if (writeOptionsFinal.NoSync)
                 {
                     queryParams["no_sync"] = "true";
                 }
-                if (!_writeOptions.AcceptPartial)
+                if (!writeOptionsFinal.AcceptPartial)
                 {
                     queryParams["accept_partial"] = "false";
                 }
@@ -869,19 +865,19 @@ namespace InfluxDB3.Client
             }
             catch (InfluxDBApiException ex) when (ex.StatusCode == HttpStatusCode.MethodNotAllowed)
             {
-                if (_writeOptions.UseV2Api && path == "api/v2/write")
+                if (writeOptionsFinal.UseV2Api && path == "api/v2/write")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V2 API endpoint (/api/v2/write) " +
-                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{_writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{_writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptionsFinal.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptionsFinal.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
-                if (!_writeOptions.UseV2Api && path == "api/v3/write_lp")
+                if (!writeOptionsFinal.UseV2Api && path == "api/v3/write_lp")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
-                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{_writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{_writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptionsFinal.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptionsFinal.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
