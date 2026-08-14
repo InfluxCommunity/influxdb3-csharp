@@ -1075,4 +1075,28 @@ public class InfluxDBClientWriteTest : MockServerTest
         });
     }
 
+    [Test]
+    public async Task GzipThresholdWithConfigAndOptionsNull()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+        var client = new InfluxDBClient(new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-db",
+        });
+
+        await client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i");
+
+        Console.WriteLine($"DEBUG LogEntries count {MockServer.LogEntries.Count}");
+
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            Console.WriteLine($"DEBUG: {logEntry?.RequestMessage?.Headers?["Content-Encoding"].First()}");
+            Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
+        }
+    }
+
 }

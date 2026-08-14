@@ -925,11 +925,12 @@ namespace InfluxDB3.Client
             }
 
             var writeOptionsFinal = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
+
             writeOptionsFinal.Validate();
 
             var precisionNotNull = precision ?? writeOptionsFinal.Precision ?? _config.WritePrecision;
-            var sb = ToLineProtocolBody(data, precisionNotNull, writeOptionsFinal.DefaultTags,
-                writeOptionsFinal.TagOrder);
+            var sb = ToLineProtocolBody(data, precisionNotNull, writeOptionsFinal?.DefaultTags,
+                writeOptionsFinal?.TagOrder);
 
             if (sb.Length == 0)
             {
@@ -938,11 +939,11 @@ namespace InfluxDB3.Client
             }
 
             var body = sb.ToString();
-            var gzipHandler = _gzipHandler;
-            if (writeOptionsFinal.GzipThreshold != _gzipHandler.GetThreshold())
-            {
-                gzipHandler = new GzipHandler(writeOptionsFinal.GzipThreshold);
-            }
+            var gzipHandler = writeOptions == null && _config.WriteOptions == null
+                ? _gzipHandler
+                : writeOptionsFinal?.GzipThreshold != _gzipHandler.GetThreshold()
+                    ? new GzipHandler(writeOptionsFinal.GzipThreshold)
+                    : _gzipHandler;
 
             var content = gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
