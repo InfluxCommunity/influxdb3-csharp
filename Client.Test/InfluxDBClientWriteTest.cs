@@ -6,10 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using InfluxDB3.Client.Config;
-using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
-using Namotion.Reflection;
 using WireMock.Logging;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
@@ -1133,10 +1131,7 @@ public class InfluxDBClientWriteTest : MockServerTest
                 }
                 else
                 {
-                    Assert.Throws<KeyNotFoundException>(() =>
-                    {
-                        var encoding = logEntry?.RequestMessage?.Headers?["Content-Encoding"];
-                    });
+                    Assert.That(logEntry?.RequestMessage?.Headers.ContainsKey("Content-Encoding"), Is.False);
                 }
 
                 MockServer.DeleteLogEntry(logEntry.Guid);

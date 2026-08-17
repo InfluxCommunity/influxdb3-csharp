@@ -1,5 +1,10 @@
 ## 1.10.0 [unreleased]
 
+### Features
+
+1. [#308](https://github.com/InfluxCommunity/influxdb3-csharp/pull/308): Add `writeOptions` argument to write async methods.
+   - __Breaking change__: Note this changes the `IInfluxDBClient` interface in that write methods now have an additional optional argument `writeOptions`.  The CLR signature for this part of the library is now changed.
+
 ## 1.9.0 [2026-06-11]
 
 ### Features
