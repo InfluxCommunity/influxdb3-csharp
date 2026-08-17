@@ -821,11 +821,13 @@ namespace InfluxDB3.Client
             }
 
             var body = sb.ToString();
-            var gzipHandler = writeOptions == null && _config.WriteOptions == null
-                ? _gzipHandler
-                : writeOptionsFinal?.GzipThreshold != _gzipHandler.GetThreshold()
-                    ? new GzipHandler(writeOptionsFinal.GzipThreshold)
-                    : _gzipHandler;
+
+            var gzipHandler = _gzipHandler;
+
+            if (writeOptions != null)
+            {
+                gzipHandler = new GzipHandler(writeOptions.GzipThreshold);
+            }
 
             var content = gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 

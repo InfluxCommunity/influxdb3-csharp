@@ -6,8 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using InfluxDB3.Client.Config;
+using InfluxDB3.Client.Internal;
 using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
+using Namotion.Reflection;
 using WireMock.Logging;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
@@ -1096,4 +1098,49 @@ public class InfluxDBClientWriteTest : MockServerTest
         }
     }
 
+    [Test]
+    public async Task ChangeGzipThresholdWithWriteOptions()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var lp = "sensor,location=boiler fVal=3.14,iVal=42i";
+
+        // With no write options supplied GzipThreshold implementation defaults to threshold of 0
+        var client = new InfluxDBClient(new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-db",
+        });
+
+        List<WriteOptions> optionsList = new List<WriteOptions>()
+        {
+            new(), // switches to default 1000 - no gzip
+            new() { GzipThreshold = 2048 }, // uses high value - no gzip
+            new() { GzipThreshold = lp.Length / 2 } // uses low value - should zip
+        };
+
+        foreach (var writeOptions in optionsList)
+        {
+            await client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i", writeOptions: writeOptions);
+            foreach (var logEntry in MockServer.LogEntries)
+            {
+                if (writeOptions.GzipThreshold < lp.Length)
+                {
+                    Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
+                }
+                else
+                {
+                    Assert.Throws<KeyNotFoundException>(() =>
+                    {
+                        var encoding = logEntry?.RequestMessage?.Headers?["Content-Encoding"];
+                    });
+                }
+
+                MockServer.DeleteLogEntry(logEntry.Guid);
+            }
+        }
+    }
 }
