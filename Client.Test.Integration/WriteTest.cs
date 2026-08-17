@@ -168,7 +168,7 @@ public class WriteTest : IntegrationTest
             NoSync = true
         };
 
-        var client = new InfluxDBClient(new ClientConfig
+        using InfluxDBClient client = new InfluxDBClient(new ClientConfig
         {
             Host = Host,
             Token = Token,
@@ -180,8 +180,9 @@ public class WriteTest : IntegrationTest
         });
 
         var ae = Assert.ThrowsAsync<InvalidOperationException>((Func<Task>)(async () =>
-            await client.WriteRecordAsync(record: measurement, writeOptions: writeOptions)));
+        await client.WriteRecordAsync(record: measurement, writeOptions: writeOptions)));
 
         Assert.That(ae.Message, Contains.Substring("NoSync requires UseV2Api=false"));
+
     }
 }

@@ -1090,11 +1090,8 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         await client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i");
 
-        Console.WriteLine($"DEBUG LogEntries count {MockServer.LogEntries.Count}");
-
         foreach (var logEntry in MockServer.LogEntries)
         {
-            Console.WriteLine($"DEBUG: {logEntry?.RequestMessage?.Headers?["Content-Encoding"].First()}");
             Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
         }
     }
