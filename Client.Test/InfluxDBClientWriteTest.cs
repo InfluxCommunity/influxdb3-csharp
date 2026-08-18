@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -1081,14 +1082,34 @@ public class InfluxDBClientWriteTest : MockServerTest
         MockServer
             .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(204));
-        var client = new InfluxDBClient(new ClientConfig()
+        _client = new InfluxDBClient(new ClientConfig()
         {
             Host = MockServerUrl,
             Token = "my-token",
             Database = "my-db",
         });
 
-        await client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i");
+        await _client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i");
+
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            Assert.That(logEntry?.RequestMessage?.Headers.ContainsKey("Content-Encoding"), Is.False);
+            MockServer.DeleteLogEntry(logEntry.Guid);
+        }
+
+        // Set records to trigger default zip threshold
+        string lp = "sensor,location=boiler fVal=3.14,iVal=42";
+        List<String> records = new List<String>();
+        Int64 timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var utf8 = new UTF8Encoding();
+        while (utf8.GetBytes(string.Join('\n', records.ToArray()))
+                   .Length < WriteOptions.DefaultOptions.GzipThreshold)
+        {
+            records.Add(lp + " " + timestamp);
+            timestamp -= 60000;
+        }
+
+        await _client.WriteRecordsAsync(records);
 
         foreach (var logEntry in MockServer.LogEntries)
         {
@@ -1106,7 +1127,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         var lp = "sensor,location=boiler fVal=3.14,iVal=42i";
 
         // With no write options supplied GzipThreshold implementation defaults to threshold of 0
-        var client = new InfluxDBClient(new ClientConfig()
+        _client = new InfluxDBClient(new ClientConfig()
         {
             Host = MockServerUrl,
             Token = "my-token",
@@ -1122,7 +1143,7 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         foreach (var writeOptions in optionsList)
         {
-            await client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i", writeOptions: writeOptions);
+            await _client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i", writeOptions: writeOptions);
             foreach (var logEntry in MockServer.LogEntries)
             {
                 if (writeOptions.GzipThreshold < lp.Length)
