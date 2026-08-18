@@ -897,7 +897,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         }
 
         if (writeOptions.GzipThreshold != WriteOptions.DefaultOptions.GzipThreshold &&
-            writeOptions.GzipThreshold < logEntry?.RequestMessage?.Body?.Length)
+            writeOptions.GzipThreshold < (logEntry?.RequestMessage?.Body?.Length ?? 0))
         {
             Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
         }
