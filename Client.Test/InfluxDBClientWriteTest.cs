@@ -1126,7 +1126,6 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         var lp = "sensor,location=boiler fVal=3.14,iVal=42i";
 
-        // With no write options supplied GzipThreshold implementation defaults to threshold of 0
         _client = new InfluxDBClient(new ClientConfig()
         {
             Host = MockServerUrl,
