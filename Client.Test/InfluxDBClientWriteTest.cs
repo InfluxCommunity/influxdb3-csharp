@@ -1126,6 +1126,8 @@ public class InfluxDBClientWriteTest : MockServerTest
 
         var lp = "sensor,location=boiler fVal=3.14,iVal=42i";
 
+        // With no GzipThreshold explicitly supplied in writeOptions argument
+        // writeOptions.GzipThreshold will use the internal default value: 1000
         _client = new InfluxDBClient(new ClientConfig()
         {
             Host = MockServerUrl,
@@ -1137,7 +1139,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         {
             new(), // switches to default 1000 - no gzip
             new() { GzipThreshold = 2048 }, // uses high value - no gzip
-            new() { GzipThreshold = lp.Length / 2 } // uses low value - should zip
+            new() { GzipThreshold = lp.Length / 2 } // uses low value - should gzip
         };
 
         foreach (var writeOptions in optionsList)
