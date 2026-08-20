@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using InfluxDB3.Client.Config;
 using InfluxDB3.Client.Test.Utils;
 using InfluxDB3.Client.Write;
+using WireMock.Logging;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
+using WireMock.Types;
 using WriteOptions = InfluxDB3.Client.Config.WriteOptions;
 
 namespace InfluxDB3.Client.Test;
@@ -32,7 +35,7 @@ public class InfluxDBClientWriteTest : MockServerTest
         await WriteData();
 
         var requests = MockServer.LogEntries.ToList();
-        Assert.That(requests[0].RequestMessage.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
+        Assert.That(requests[0]?.RequestMessage?.BodyData?.BodyAsString, Is.EqualTo("mem,tag=a field=1"));
     }
 
     [Test]
@@ -813,5 +816,348 @@ public class InfluxDBClientWriteTest : MockServerTest
                 cancellationToken: cancellationToken ?? CancellationToken.None
             );
         });
+    }
+
+    public static void AssertAcceptPartial(WriteOptions writeOptions,
+        IDictionary<string, WireMockList<string>> options)
+    {
+        if (writeOptions.AcceptPartial || writeOptions.UseV2Api)
+        {
+            Assert.That(options, Does.Not.ContainKey("accept_partial"));
+        }
+        else
+        {
+            Assert.That(options["accept_partial"].First(), Is.EqualTo("false"));
+        }
+    }
+
+
+    public static IEnumerable<TestCaseData> TestCaseWriteOptions
+    {
+        get
+        {
+            yield return new TestCaseData<WriteOptions>(new WriteOptions()).SetName("DefaultsBaseline");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { Precision = WritePrecision.S }).SetName(
+                "OverridePrecisionSeconds");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { GzipThreshold = 1 }).SetName(
+                "OverrideGzipThreshold");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false }).SetName(
+                "OverrideUseV2Api");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false, NoSync = true }).SetName(
+                "OverrideNoSync");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions { UseV2Api = false, AcceptPartial = false })
+                .SetName("OverrideAcceptPartial");
+            // N.B. applies only to Write Points
+            yield return new TestCaseData<WriteOptions>(new WriteOptions
+            {
+                DefaultTags = new Dictionary<string, string>()
+                {
+                    { "area", "51" },
+                    { "model", "R2D2" },
+                    { "zap", "ABC123" }
+                }
+            }).SetName("OverrideDefaultTags");
+            yield return new TestCaseData<WriteOptions>(new WriteOptions
+            {
+                DefaultTags = new Dictionary<string, string>()
+                {
+                    { "area", "51" },
+                    { "model", "R2D2" },
+                    { "zap", "ABC123" }
+                },
+                TagOrder = new string[] { "zap", "model", "area", "key01", "key02" }
+            }).SetName("OverrideTagOrder");
+        }
+    }
+
+    private static Dictionary<string, string> ParseTagsFromLogEntry(ILogEntry logEntry)
+    {
+        var lp = logEntry?.RequestMessage?.Body;
+        if (lp == null)
+        {
+            Assert.Fail("Request Body must contain lineprotocol");
+        }
+
+        var tagChunks = new List<String>(lp.Split(" ")[0].Split(","));
+        tagChunks.RemoveAt(0); // Remove measurement part
+        var tags = new Dictionary<string, string>();
+        tagChunks.Select(item => item.Split("="))
+            .ToList()
+            .ForEach(item => tags.Add(item[0], item[1]));
+
+        return tags;
+    }
+
+    private static void WriteOptionsAsserts(WriteOptions writeOptions, ILogEntry logEntry)
+    {
+        AssertAcceptPartial(writeOptions, logEntry?.RequestMessage?.Query);
+        if (writeOptions.Precision.HasValue)
+        {
+            Assert.That(writeOptions?.Precision?.ToString().ToLower(),
+                Is.EqualTo(logEntry?.RequestMessage?.Query?["precision"].First().ToLower()));
+        }
+
+        if (writeOptions.GzipThreshold != WriteOptions.DefaultOptions.GzipThreshold &&
+            writeOptions.GzipThreshold < (logEntry?.RequestMessage?.Body?.Length ?? 0))
+        {
+            Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
+        }
+
+        if (!writeOptions.UseV2Api)
+        {
+            Assert.That(logEntry?.RequestMessage?.Path, Is.EqualTo("/api/v3/write_lp"));
+        }
+
+        if (writeOptions.NoSync && !writeOptions.UseV2Api)
+        {
+            Assert.That(logEntry?.RequestMessage?.Query?["no_sync"].First(), Is.EqualTo("true"));
+        }
+
+        if (writeOptions.DefaultTags != null)
+        {
+            var tags = ParseTagsFromLogEntry(logEntry);
+
+            foreach (var tag in writeOptions.DefaultTags)
+            {
+                Assert.That(tags, Contains.Key(tag.Key));
+                Assert.That(tags, Contains.Value(tag.Value));
+            }
+        }
+
+        if (writeOptions.TagOrder != null)
+        {
+            var tags = ParseTagsFromLogEntry(logEntry);
+
+            foreach (var item in writeOptions?.TagOrder.Select((value, i) => new { value, i }))
+            {
+                Assert.That(tags.Keys.ElementAt(item.i), Is.EqualTo(item.value));
+                Assert.That(tags.Values.ElementAt(item.i), Is.EqualTo(tags[item.value]));
+            }
+        }
+    }
+
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWriteRecordAsync(WriteOptions writeOptions)
+    {
+        if (writeOptions.DefaultTags != null)
+        {
+            Assert.Inconclusive("Default Tags are not used with WriteRecord API");
+            return;
+        }
+
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var lp = "sensor,id=thx1138 fVal=3.14,iVal=42";
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WriteRecordAsync(record: lp, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
+    }
+
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWriteRecordsAsync(WriteOptions writeOptions)
+    {
+        if (writeOptions.DefaultTags != null)
+        {
+            Assert.Inconclusive("Default Tags are not used with WriteRecords API");
+            return;
+        }
+
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var lps = new string[]
+        {
+            "sensor,id=thx1138 fVal=3.14,iVal=42",
+            "sensor,id=thx1138 fVal=2.71,iVal=21"
+        };
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WriteRecordsAsync(records: lps, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
+    }
+
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWritePointAsync(WriteOptions writeOptions)
+    {
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var point = PointData.Measurement("sensor")
+            .SetTag("key01", "valueA")
+            .SetTag("key02", "valueB")
+            .SetDoubleField("fVal", 3.14)
+            .SetDoubleField("iVal", 42);
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WritePointAsync(point: point, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
+    }
+
+    [TestCaseSource(nameof(TestCaseWriteOptions))]
+    public async Task OverrideWriteOptionsOnWritePointsAsync(WriteOptions writeOptions)
+    {
+        var writeCtx = writeOptions.UseV2Api ? "/api/v2/write" : "/api/v3/write_lp";
+        var points = new[]
+        {
+            PointData.Measurement("sensor")
+                .SetTag("key01", "valueA")
+                .SetTag("key02", "valueB")
+                .SetDoubleField("fVal", 3.14)
+                .SetDoubleField("iVal", 42),
+            PointData.Measurement("sensor")
+                .SetTag("key01", "valueA")
+                .SetTag("key02", "valueB")
+                .SetDoubleField("fVal", 2.71)
+                .SetDoubleField("iVal", 21),
+        };
+
+        MockServer
+            .Given(Request.Create().WithPath(writeCtx).UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        _client = new InfluxDBClient(MockServerUrl, token: "my-token", organization: "my-org", database: "my-database");
+        await _client.WritePointsAsync(points: points, writeOptions: writeOptions);
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            WriteOptionsAsserts(writeOptions, logEntry);
+        }
+    }
+
+    [Test]
+    public async Task MixOfNoSyncOptionWithV2Api()
+    {
+        var lp = "sensor,id=thx1138 fVal=3.14,iVal=42";
+
+        ClientConfig config = new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Organization = "my-org",
+            Database = "my-db",
+            WriteOptions = new WriteOptions()
+            {
+                UseV2Api = true
+            }
+        };
+
+        _client = new InfluxDBClient(config);
+
+        WriteOptions writeOptions = new WriteOptions()
+        {
+            NoSync = true
+        };
+
+        var ae = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await _client.WriteRecordAsync(record: lp, writeOptions: writeOptions);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(ae, Is.Not.Null);
+            Assert.That(ae.Message, Is.EqualTo("Invalid write options: NoSync requires UseV2Api=false"));
+        });
+    }
+
+    [Test]
+    public async Task GzipThresholdWithConfigAndOptionsNull()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+        _client = new InfluxDBClient(new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-db",
+        });
+
+        await _client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i");
+
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            Assert.That(logEntry?.RequestMessage?.Headers.ContainsKey("Content-Encoding"), Is.False);
+            MockServer.DeleteLogEntry(logEntry.Guid);
+        }
+
+        // Set records to trigger default zip threshold
+        string lp = "sensor,location=boiler fVal=3.14,iVal=42";
+        List<String> records = new List<String>();
+        Int64 timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var utf8 = new UTF8Encoding();
+        while (utf8.GetBytes(string.Join('\n', records.ToArray()))
+                   .Length < WriteOptions.DefaultOptions.GzipThreshold)
+        {
+            records.Add(lp + " " + timestamp);
+            timestamp -= 60000;
+        }
+
+        await _client.WriteRecordsAsync(records);
+
+        foreach (var logEntry in MockServer.LogEntries)
+        {
+            Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
+        }
+    }
+
+    [Test]
+    public async Task ChangeGzipThresholdWithWriteOptions()
+    {
+        MockServer
+            .Given(Request.Create().WithPath("/api/v2/write").UsingPost())
+            .RespondWith(Response.Create().WithStatusCode(204));
+
+        var lp = "sensor,location=boiler fVal=3.14,iVal=42i";
+
+        // With no GzipThreshold explicitly supplied in writeOptions argument
+        // writeOptions.GzipThreshold will use the internal default value: 1000
+        _client = new InfluxDBClient(new ClientConfig()
+        {
+            Host = MockServerUrl,
+            Token = "my-token",
+            Database = "my-db",
+        });
+
+        List<WriteOptions> optionsList = new List<WriteOptions>()
+        {
+            new(), // switches to default 1000 - no gzip
+            new() { GzipThreshold = 2048 }, // uses high value - no gzip
+            new() { GzipThreshold = lp.Length / 2 } // uses low value - should gzip
+        };
+
+        foreach (var writeOptions in optionsList)
+        {
+            await _client.WriteRecordAsync("sensor,location=boiler fVal=3.14,iVal=42i", writeOptions: writeOptions);
+            foreach (var logEntry in MockServer.LogEntries)
+            {
+                if (writeOptions.GzipThreshold < lp.Length)
+                {
+                    Assert.That(logEntry?.RequestMessage?.Headers?["Content-Encoding"].First(), Is.EqualTo("gzip"));
+                }
+                else
+                {
+                    Assert.That(logEntry?.RequestMessage?.Headers.ContainsKey("Content-Encoding"), Is.False);
+                }
+
+                MockServer.DeleteLogEntry(logEntry.Guid);
+            }
+        }
     }
 }

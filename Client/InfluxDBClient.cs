@@ -192,8 +192,16 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
+            WriteOptions? writeOptions = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -218,8 +226,16 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
+            WriteOptions? writeOptions = null);
 
         /// <summary>
         /// Write data to InfluxDB.
@@ -248,8 +264,16 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         Task WritePointsAsync(IEnumerable<PointData> points, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
+            WriteOptions? writeOptions = null);
 
         /// <summary>
         /// Retrieves the server version of the connected InfluxDB instance.
@@ -642,10 +666,18 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         public Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
+            WriteOptions? writeOptions = null)
         {
-            return WriteRecordsAsync(new[] { record }, database, precision, headers, cancellationToken);
+            return WriteRecordsAsync(new[] { record }, database, precision, headers, cancellationToken, writeOptions);
         }
 
         /// <summary>
@@ -672,11 +704,18 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         public Task WriteRecordsAsync(IEnumerable<string> records, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)
         {
-            return WriteData(records, database, precision, headers, cancellationToken);
+            return WriteData(records, database, precision, headers, cancellationToken, writeOptions);
         }
 
         /// <summary>
@@ -710,10 +749,18 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         public Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null,
-            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
+            Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default,
+            WriteOptions? writeOptions = null)
         {
-            return WritePointsAsync(new[] { point }, database, precision, headers, cancellationToken);
+            return WritePointsAsync(new[] { point }, database, precision, headers, cancellationToken, writeOptions);
         }
 
         /// <summary>
@@ -750,25 +797,37 @@ namespace InfluxDB3.Client
         ///     the headers specified in the client configuration.
         /// </param>
         /// <param name="cancellationToken">specifies the token to monitor for cancellation requests.</param>
+        /// <param name="writeOptions">
+        ///    Replacement write options used for a specific call.  Note: This replaces any <c>WriteOptions</c>
+        /// specified in <c>ClientConfig</c>, including any fields with changed default values. For example,
+        /// if <c>GzipThreshold</c> is not respecified when using this argument to change other options, then the
+        /// default value <c>1000</c> will be used. <c>WritePrecision</c> values may still be taken from
+        /// <c>ClientConfig</c> if not defined in this argument.
+        /// </param>
         public Task WritePointsAsync(IEnumerable<PointData> points, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)
         {
-            return WriteData(points, database, precision, headers, cancellationToken);
+            return WriteData(points, database, precision, headers, cancellationToken, writeOptions);
         }
 
         private async Task WriteData(IEnumerable<object> data, string? database = null,
             WritePrecision? precision = null, Dictionary<string, string>? headers = null,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)
         {
             if (_disposed)
             {
                 throw new ObjectDisposedException(nameof(InfluxDBClient));
             }
 
-            var precisionNotNull = precision ?? _config.WritePrecision;
-            var sb = ToLineProtocolBody(data, precisionNotNull, _config.WriteOptions?.DefaultTags,
-                _config.WriteOptions?.TagOrder);
+            var writeOptionsFinal = writeOptions ?? _config.WriteOptions ?? WriteOptions.DefaultOptions;
+
+            writeOptionsFinal.Validate();
+
+            var precisionNotNull = precision ?? writeOptionsFinal.Precision ?? _config.WritePrecision;
+            var sb = ToLineProtocolBody(data, precisionNotNull, writeOptionsFinal?.DefaultTags,
+                writeOptionsFinal?.TagOrder);
+
             if (sb.Length == 0)
             {
                 Trace.WriteLine($"The writes: {data} doesn't contains any Line Protocol, skipping");
@@ -776,16 +835,21 @@ namespace InfluxDB3.Client
             }
 
             var body = sb.ToString();
-            var content = _gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
-            var writeOptions = _config.WriteOptions ?? WriteOptions.DefaultOptions;
-            writeOptions.Validate();
+            var gzipHandler = _gzipHandler;
+
+            if (writeOptionsFinal?.GzipThreshold != gzipHandler.GetThreshold())
+            {
+                gzipHandler = new GzipHandler(writeOptionsFinal.GzipThreshold);
+            }
+
+            var content = gzipHandler.Process(body) ?? new StringContent(body, Encoding.UTF8, "text/plain");
 
             string path;
             Dictionary<string, string?> queryParams;
             var databaseNotNull
                 = (database ?? _config.Database) ?? throw new InvalidOperationException(OptionMessage("database"));
-            if (writeOptions.UseV2Api)
+            if (writeOptionsFinal.UseV2Api)
             {
                 path = "api/v2/write";
                 queryParams = new Dictionary<string, string?>()
@@ -805,11 +869,11 @@ namespace InfluxDB3.Client
                     { "precision", WritePrecisionConverter.ToV3ApiString(precisionNotNull) },
                 };
 
-                if (writeOptions.NoSync)
+                if (writeOptionsFinal.NoSync)
                 {
                     queryParams["no_sync"] = "true";
                 }
-                if (!writeOptions.AcceptPartial)
+                if (!writeOptionsFinal.AcceptPartial)
                 {
                     queryParams["accept_partial"] = "false";
                 }
@@ -833,19 +897,19 @@ namespace InfluxDB3.Client
             }
             catch (InfluxDBApiException ex) when (ex.StatusCode == HttpStatusCode.MethodNotAllowed)
             {
-                if (writeOptions.UseV2Api && path == "api/v2/write")
+                if (writeOptionsFinal.UseV2Api && path == "api/v2/write")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V2 API endpoint (/api/v2/write) " +
-                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=false; write options: {{UseV2Api:true,NoSync:{writeOptionsFinal.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptionsFinal.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
-                if (!writeOptions.UseV2Api && path == "api/v3/write_lp")
+                if (!writeOptionsFinal.UseV2Api && path == "api/v3/write_lp")
                 {
                     throw new InfluxDBApiException(
                         $"Server doesn't support the V3 API endpoint (/api/v3/write_lp) " +
-                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptions.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptions.AcceptPartial.ToString().ToLowerInvariant()}}})",
+                        $"(set UseV2Api=true; write options: {{UseV2Api:false,NoSync:{writeOptionsFinal.NoSync.ToString().ToLowerInvariant()},AcceptPartial:{writeOptionsFinal.AcceptPartial.ToString().ToLowerInvariant()}}})",
                         ex.HttpResponseMessage!);
                 }
 
