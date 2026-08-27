@@ -537,13 +537,13 @@ var results = client.QueryPoints(
     </tbody>
   </table>
   <a id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)">WritePointAsync(PointData, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)">WritePointAsync(PointData, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken, WriteOptions?)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WritePointAsync(PointData point, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -586,6 +586,16 @@ the headers specified in the client configuration.</p>
         <td><p>specifies the token to monitor for cancellation requests.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></td>
+        <td><span class="parametername">writeOptions</span></td>
+        <td><p>Replacement write options used for a specific call.  Note: This replaces any <code>WriteOptions</code>
+specified in <code>ClientConfig</code>, including any fields with changed default values. For example,
+if <code>GzipThreshold</code> is not respecified when using this argument to change other options, then the
+default value <code>1000</code> will be used. <code>WritePrecision</code> values may still be taken from
+<code>ClientConfig</code> if not defined in this argument.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -603,7 +613,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken__examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions__examples">Examples</h5>
   <p>The following example shows how to write a single point with custom headers:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 
@@ -613,13 +623,13 @@ await client.WritePointAsync(
 );</code></pre>
 
   <a id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)">WritePointsAsync(IEnumerable&lt;PointData&gt;, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_" data-uid="InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)">WritePointsAsync(IEnumerable&lt;PointData&gt;, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken, WriteOptions?)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WritePointsAsync(IEnumerable&lt;PointData&gt; points, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -662,6 +672,16 @@ the headers specified in the client configuration.</p>
         <td><p>specifies the token to monitor for cancellation requests.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></td>
+        <td><span class="parametername">writeOptions</span></td>
+        <td><p>Replacement write options used for a specific call.  Note: This replaces any <code>WriteOptions</code>
+specified in <code>ClientConfig</code>, including any fields with changed default values. For example,
+if <code>GzipThreshold</code> is not respecified when using this argument to change other options, then the
+default value <code>1000</code> will be used. <code>WritePrecision</code> values may still be taken from
+<code>ClientConfig</code> if not defined in this argument.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -679,7 +699,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken__examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions__examples">Examples</h5>
   <p>The following example shows how to write multiple points with custom headers:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 
@@ -692,13 +712,13 @@ await client.WritePointsAsync(
 );</code></pre>
 
   <a id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync*"></a>
-  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)">WriteRecordAsync(string, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken)</h4>
+  <h4 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_" data-uid="InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)">WriteRecordAsync(string, string?, WritePrecision?, Dictionary&lt;string, string&gt;?, CancellationToken, WriteOptions?)</h4>
   <div class="markdown level1 summary"><p>Write data to InfluxDB.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default)</code></pre>
+    <pre><code class="lang-csharp hljs">Task WriteRecordAsync(string record, string? database = null, WritePrecision? precision = null, Dictionary&lt;string, string&gt;? headers = null, CancellationToken cancellationToken = default, WriteOptions? writeOptions = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -741,6 +761,16 @@ the headers specified in the client configuration.</p>
         <td><p>specifies the token to monitor for cancellation requests.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="InfluxDB3.Client.Config.WriteOptions.html">WriteOptions</a></td>
+        <td><span class="parametername">writeOptions</span></td>
+        <td><p>Replacement write options used for a specific call.  Note: This replaces any <code>WriteOptions</code>
+specified in <code>ClientConfig</code>, including any fields with changed default values. For example,
+if <code>GzipThreshold</code> is not respecified when using this argument to change other options, then the
+default value <code>1000</code> will be used. <code>WritePrecision</code> values may still be taken from
+<code>ClientConfig</code> if not defined in this argument.</p>
+</td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -758,7 +788,7 @@ the headers specified in the client configuration.</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken__examples">Examples</h5>
+  <h5 id="InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions__examples">Examples</h5>
   <p>The following example shows how to write a single record with custom headers:</p>
 <pre><code class="lang-csharp">using var client = new InfluxDBClient(host: "http://localhost:8086", token: "my-token", organization: "my-org", database: "my-database");
 

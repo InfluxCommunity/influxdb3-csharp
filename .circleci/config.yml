@@ -8,10 +8,24 @@ commands:
       exe:
         type: executor
         default: docker-amd64-image
+      dotnet-image:
+        type: string
     steps:
       - run:
           name: Install Dependencies
           command: |
+            dotnet_version=$(printf '%s\n' "<< parameters.dotnet-image >>" | sed -E 's/.*:([0-9]+\.[0-9]+).*/\1/')
+            if [[ -z "$dotnet_version" || "$dotnet_version" == "<< parameters.dotnet-image >>" ]]; then
+              echo "Unable to derive the .NET version from << parameters.dotnet-image >>" >&2
+              exit 1
+            fi
+            target_framework="net${dotnet_version}"
+            project_file="<< parameters.project >>/<< parameters.project >>.csproj"
+            sed -i -E "s#(<TargetFramework>)[^<]+(</TargetFramework>)#\1${target_framework}\2#" "$project_file"
+            grep -q "<TargetFramework>${target_framework}</TargetFramework>" "$project_file" || {
+              echo "Unable to set $project_file target framework to $target_framework" >&2
+              exit 1
+            }
             dotnet restore
             dotnet build --no-restore
       - run:
@@ -52,7 +66,7 @@ commands:
             curl -Os https://uploader.codecov.io/latest/linux/codecov
             curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
             curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
-            curl -s https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+            curl -fsSL https://uploader.codecov.io/verification.gpg | gpg --no-default-keyring --keyring trustedkeys.gpg --import
             gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
             shasum -a 256 -c codecov.SHA256SUM
             chmod +x ./codecov
@@ -62,13 +76,14 @@ commands:
       - run:
           name: Collecting coverage reports
           command: |
-            curl -k https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
             curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov
             curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov.SHA256SUM
             curl -Os https://uploader.codecov.io/v0.8.0/aarch64/codecov.SHA256SUM.sig
+            curl -k https://uploader.codecov.io/verification.gpg | gpg --no-default-keyring --keyring trustedkeys.gpg --import
             gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
             shasum -a 256 -c codecov.SHA256SUM
             sudo chmod +x codecov
+            ./codecov
 
 parameters:
   default-dotnet-image:
@@ -120,6 +135,7 @@ jobs:
       - client-test:
           exe: << parameters.exe >>
           project: "Client.Test"
+          dotnet-image: << parameters.dotnet-image >>
   tests-integration:
     working_directory: ~/repo
     parameters:
@@ -146,6 +162,7 @@ jobs:
               --export-token-as TESTING_INFLUXDB_TOKEN
       - client-test:
           project: "Client.Test.Integration"
+          dotnet-image: << parameters.dotnet-image >>
 
   check-compilation-warnings:
     docker:

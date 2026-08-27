@@ -538,15 +538,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.QueryPoints
   nameWithType: IInfluxDBClient.QueryPoints
-- uid: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: IInfluxDBClient.WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: IInfluxDBClient.WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: IInfluxDBClient.WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: IInfluxDBClient.WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.IInfluxDBClient.WritePointAsync*
   name: WritePointAsync
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointAsync_
@@ -554,15 +554,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.WritePointAsync
   nameWithType: IInfluxDBClient.WritePointAsync
-- uid: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable<InfluxDB3.Client.Write.PointData>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable(Of InfluxDB3.Client.Write.PointData), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: IInfluxDBClient.WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: IInfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable<InfluxDB3.Client.Write.PointData>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable(Of InfluxDB3.Client.Write.PointData), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: IInfluxDBClient.WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: IInfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync*
   name: WritePointsAsync
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WritePointsAsync_
@@ -570,15 +570,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.IInfluxDBClient.WritePointsAsync
   nameWithType: IInfluxDBClient.WritePointsAsync
-- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(string, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(String, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: IInfluxDBClient.WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: IInfluxDBClient.WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(string, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync(String, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: IInfluxDBClient.WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: IInfluxDBClient.WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.IInfluxDBClient.WriteRecordAsync*
   name: WriteRecordAsync
   href: api/InfluxDB3.Client.IInfluxDBClient.html#InfluxDB3_Client_IInfluxDBClient_WriteRecordAsync_
@@ -757,15 +757,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.QueryPoints
   nameWithType: InfluxDBClient.QueryPoints
-- uid: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: InfluxDBClient.WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: InfluxDBClient.WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointAsync_InfluxDB3_Client_Write_PointData_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointAsync(InfluxDB3.Client.Write.PointData, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: InfluxDBClient.WritePointAsync(PointData, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: InfluxDBClient.WritePointAsync(PointData, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.InfluxDBClient.WritePointAsync*
   name: WritePointAsync
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointAsync_
@@ -773,15 +773,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.WritePointAsync
   nameWithType: InfluxDBClient.WritePointAsync
-- uid: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable<InfluxDB3.Client.Write.PointData>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable(Of InfluxDB3.Client.Write.PointData), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: InfluxDBClient.WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: InfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointsAsync_System_Collections_Generic_IEnumerable_InfluxDB3_Client_Write_PointData__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable{InfluxDB3.Client.Write.PointData},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable<InfluxDB3.Client.Write.PointData>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WritePointsAsync(System.Collections.Generic.IEnumerable(Of InfluxDB3.Client.Write.PointData), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: InfluxDBClient.WritePointsAsync(IEnumerable<PointData>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: InfluxDBClient.WritePointsAsync(IEnumerable(Of PointData), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.InfluxDBClient.WritePointsAsync*
   name: WritePointsAsync
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WritePointsAsync_
@@ -789,15 +789,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.WritePointsAsync
   nameWithType: InfluxDBClient.WritePointsAsync
-- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(string, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(String, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: InfluxDBClient.WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: InfluxDBClient.WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_System_String_System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(System.String,System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(string, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync(String, String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: InfluxDBClient.WriteRecordAsync(string, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: InfluxDBClient.WriteRecordAsync(String, String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync*
   name: WriteRecordAsync
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordAsync_
@@ -805,15 +805,15 @@ references:
   isSpec: "True"
   fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordAsync
   nameWithType: InfluxDBClient.WriteRecordAsync
-- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name: WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_System_Collections_Generic_IEnumerable_System_String__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_
-  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken)
-  name.vb: WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
-  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable<string>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken)
-  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable(Of String), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken)
-  nameWithType: InfluxDBClient.WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken)
-  nameWithType.vb: InfluxDBClient.WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken)
+- uid: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name: WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_System_Collections_Generic_IEnumerable_System_String__System_String_System_Nullable_InfluxDB3_Client_Write_WritePrecision__System_Collections_Generic_Dictionary_System_String_System_String__System_Threading_CancellationToken_InfluxDB3_Client_Config_WriteOptions_
+  commentId: M:InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{InfluxDB3.Client.Write.WritePrecision},System.Collections.Generic.Dictionary{System.String,System.String},System.Threading.CancellationToken,InfluxDB3.Client.Config.WriteOptions)
+  name.vb: WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
+  fullName: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable<string>, string?, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary<string, string>?, System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions?)
+  fullName.vb: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync(System.Collections.Generic.IEnumerable(Of String), String, InfluxDB3.Client.Write.WritePrecision?, System.Collections.Generic.Dictionary(Of String, String), System.Threading.CancellationToken, InfluxDB3.Client.Config.WriteOptions)
+  nameWithType: InfluxDBClient.WriteRecordsAsync(IEnumerable<string>, string?, WritePrecision?, Dictionary<string, string>?, CancellationToken, WriteOptions?)
+  nameWithType.vb: InfluxDBClient.WriteRecordsAsync(IEnumerable(Of String), String, WritePrecision?, Dictionary(Of String, String), CancellationToken, WriteOptions)
 - uid: InfluxDB3.Client.InfluxDBClient.WriteRecordsAsync*
   name: WriteRecordsAsync
   href: api/InfluxDB3.Client.InfluxDBClient.html#InfluxDB3_Client_InfluxDBClient_WriteRecordsAsync_
