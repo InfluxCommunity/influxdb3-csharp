@@ -396,7 +396,8 @@ public class RestClientTest : MockServerTest
             .Given(Request.Create().WithPath("/api").UsingPost())
             .RespondWith(Response.Create()
                 .WithHeader("Content-Type", "application/json")
-                .WithBody("{\"error\":\"parsing failed for write_lp endpoint\",\"data\":{\"error_message\":\"invalid field value\",\"line_number\":2,\"original_line\":\"home,room=Sunroom temp=hi 1735549200\"}}")
+                .WithBody(
+                    "{\"error\":\"parsing failed for write_lp endpoint\",\"data\":{\"error_message\":\"invalid field value\",\"line_number\":2,\"original_line\":\"home,room=Sunroom temp=hi 1735549200\"}}")
                 .WithStatusCode(400));
 
         var ae = Assert.ThrowsAsync<InfluxDBApiException>(async () =>
@@ -407,7 +408,9 @@ public class RestClientTest : MockServerTest
         Assert.Multiple(() =>
         {
             Assert.That(ae, Is.Not.Null);
-            Assert.That(ae.Message, Is.EqualTo("parsing failed for write_lp endpoint:\n\tline 2: invalid field value (home,room=Sunroom temp=hi 1735549200)"));
+            Assert.That(ae.Message,
+                Is.EqualTo(
+                    "parsing failed for write_lp endpoint:\n\tline 2: invalid field value (home,room=Sunroom temp=hi 1735549200)"));
         });
     }
 
@@ -438,7 +441,7 @@ public class RestClientTest : MockServerTest
             Assert.That(ae.Message, Is.EqualTo("parsing failed for write_lp endpoint:\n\tinvalid field value"));
         });
     }
-    
+
     [Test]
     public void ErrorJsonBodyV3PartialWriteWithDataObjectErrorMessageOnly()
     {
@@ -451,7 +454,8 @@ public class RestClientTest : MockServerTest
             .Given(Request.Create().WithPath("/api/v3/write_lp").UsingPost())
             .RespondWith(Response.Create()
                 .WithHeader("Content-Type", "application/json")
-                .WithBody("{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid field value\"}]}")
+                .WithBody(
+                    "{\"error\":\"partial write of line protocol occurred\",\"data\":[{\"error_message\":\"invalid field value\"}]}")
                 .WithStatusCode(400));
 
         var ae = Assert.ThrowsAsync<InfluxDBPartialWriteException>(async () =>
