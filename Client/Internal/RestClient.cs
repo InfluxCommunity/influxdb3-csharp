@@ -83,7 +83,9 @@ internal class RestClient
         {
             var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
             var contentType = result.Content?.Headers?.ContentType?.ToString();
-            var parsed = ParseErrorMessage(body, contentType);
+            var acceptPartial = queryParams?.TryGetValue("accept_partial", out var value) != true ||
+                                !string.Equals(value, "false", StringComparison.OrdinalIgnoreCase);
+            var parsed = ParseErrorMessage(body, contentType, (int)result.StatusCode, path, acceptPartial);
             var message = parsed.Message;
             var partialLineErrors = parsed.PartialLineErrors;
 
@@ -108,7 +110,7 @@ internal class RestClient
                 message = result.ReasonPhrase;
             }
 
-            if (partialLineErrors?.Count > 0)
+            if (partialLineErrors != null)
             {
                 throw new InfluxDBPartialWriteException(message ?? "Cannot write data to InfluxDB.", result, partialLineErrors);
             }
@@ -119,7 +121,9 @@ internal class RestClient
         return result;
     }
 
-    private static ParsedErrorMessage ParseErrorMessage(string body, string? contentType)
+    private static ParsedErrorMessage ParseErrorMessage(
+        string body, string? contentType, int statusCode, string path, bool acceptPartial
+    )
     {
         if (string.IsNullOrWhiteSpace(body))
         {
@@ -145,16 +149,18 @@ internal class RestClient
             var topLevelError = GetStringProperty(root, "error");
             var data = GetProperty(root, "data");
 
-            var legacyDataMessage = GetLegacyDataErrorMessage(data);
-            var message = cloudMessage ??
-                          CombineMessages(topLevelError, legacyDataMessage) ??
-                          topLevelError ??
-                          legacyDataMessage;
-            var partial = ParsePartialWrite(topLevelError, data);
-            if (partial is not null)
+            if (IsPartialWriteError(statusCode, path, acceptPartial, root))
             {
+                var partial = ParsePartialWrite(topLevelError, data);
                 return partial;
             }
+
+            var legacyDataMessage = GetLegacyDataErrorMessage(data);
+            var message = cloudMessage ??
+                          topLevelError ??
+                          legacyDataMessage;
+
+            message = FormatObjectDataError(data, message);
 
             return new ParsedErrorMessage(message, null);
         }
@@ -165,50 +171,57 @@ internal class RestClient
         }
     }
 
-    private static ParsedErrorMessage? ParsePartialWrite(string? topLevelError, JsonElement? data)
+    private static string? FormatObjectDataError(JsonElement? data, string? error)
     {
-        if (string.IsNullOrEmpty(topLevelError) || !IsPartialWriteError(topLevelError))
+        if (data is not { ValueKind: JsonValueKind.Object } dataObject)
         {
-            return null;
-        }
-        if (data is null)
-        {
-            return null;
+            return error;
         }
 
-        if (data.Value.ValueKind == JsonValueKind.Array)
+        var errorMessage = GetStringProperty(dataObject, "error_message");
+        if (string.IsNullOrEmpty(errorMessage))
         {
-            if (TryParseTypedLineErrors(data.Value, out var lineErrors))
-            {
-                return new ParsedErrorMessage(BuildPartialWriteMessage(topLevelError, lineErrors), lineErrors);
-            }
-
-            var details = data.Value.EnumerateArray()
-                .Where(item => item.ValueKind != JsonValueKind.Null)
-                .Select(ToDetailString)
-                .Where(item => !string.IsNullOrEmpty(item))
-                .ToList();
-
-            if (details.Count > 0)
-            {
-                return new ParsedErrorMessage($"{topLevelError}:\n\t{string.Join("\n\t", details)}", null);
-            }
-
-            return null;
+            return error;
         }
 
-        if (data.Value.ValueKind == JsonValueKind.Object)
+        if (string.IsNullOrEmpty(error) || string.Equals(error, errorMessage, StringComparison.Ordinal))
         {
-            if (TryParseTypedLineError(data.Value, out var lineError))
-            {
-                var lineErrors = new List<InfluxDBPartialWriteException.LineError> { lineError };
-                return new ParsedErrorMessage(BuildPartialWriteMessage(topLevelError, lineErrors), lineErrors);
-            }
-
-            return null;
+            return errorMessage;
         }
 
-        return null;
+        var lineNumber = GetProperty(dataObject, "line_number");
+        var hasValidLine = lineNumber is not null && int.TryParse(lineNumber.ToString(), out _);
+
+        if (!hasValidLine)
+        {
+            return $"{error}:\n\t{errorMessage}";
+        }
+
+        var originalLine = GetStringProperty(dataObject, "original_line");
+        var lineDetail = string.IsNullOrEmpty(originalLine)
+            ? $"line {lineNumber}: {errorMessage}"
+            : $"line {lineNumber}: {errorMessage} ({originalLine})";
+
+        return $"{error}:\n\t{lineDetail}";
+    }
+
+    private static ParsedErrorMessage ParsePartialWrite(string? topLevelError, JsonElement? data)
+    {
+        if (TryParseTypedLineErrors(data.Value, out var lineErrors))
+        {
+            return new ParsedErrorMessage(BuildPartialWriteMessage(topLevelError, lineErrors), lineErrors);
+        }
+
+        var details = data.Value.EnumerateArray()
+            .Where(item => item.ValueKind != JsonValueKind.Null)
+            .Select(ToDetailString)
+            .Where(item => !string.IsNullOrEmpty(item))
+            .ToList();
+
+        return new ParsedErrorMessage(
+            $"{topLevelError}:\n\t{string.Join("\n\t", details)}",
+            lineErrors
+        );
     }
 
     private static string BuildPartialWriteMessage(
@@ -245,32 +258,25 @@ internal class RestClient
         return message.ToString();
     }
 
-    private static bool IsPartialWriteError(string topLevelError)
+    private static bool IsPartialWriteError(int statusCode, string path, bool acceptPartial, JsonElement root)
     {
-        return topLevelError.IndexOf("partial write of line protocol occurred", StringComparison.OrdinalIgnoreCase) >= 0 ||
-               topLevelError.IndexOf("parsing failed for write_lp endpoint", StringComparison.OrdinalIgnoreCase) >= 0 ||
-               topLevelError.IndexOf("line protocol parsing error", StringComparison.OrdinalIgnoreCase) >= 0;
+        return statusCode == 400 && acceptPartial && path.Equals("api/v3/write_lp", StringComparison.Ordinal) &&
+               IsPartialWriteErrorShape(root);
     }
 
-    private static string? CombineMessages(string? topLevelError, string? dataMessage)
+    private static bool IsPartialWriteErrorShape(JsonElement root)
     {
-        if (string.IsNullOrEmpty(topLevelError) || string.IsNullOrEmpty(dataMessage))
-        {
-            return null;
-        }
-
-        if (string.Equals(topLevelError, dataMessage, StringComparison.Ordinal))
-        {
-            return topLevelError;
-        }
-
-        return $"{topLevelError}: {dataMessage}";
+        return (root.ValueKind == JsonValueKind.Object &&
+                GetStringProperty(root, "error") != null &&
+                GetProperty(root, "data")?.ValueKind == JsonValueKind.Array &&
+                GetProperty(root, "data")?.EnumerateArray().Any() == true);
     }
 
     private static bool TryParseTypedLineErrors(
         JsonElement data,
         out List<InfluxDBPartialWriteException.LineError> lineErrors)
     {
+        var isTyped = true;
         lineErrors = new List<InfluxDBPartialWriteException.LineError>();
         if (data.ValueKind != JsonValueKind.Array)
         {
@@ -281,14 +287,13 @@ internal class RestClient
         {
             if (!TryParseTypedLineError(item, out var lineError))
             {
-                lineErrors.Clear();
-                return false;
+                isTyped = false;
+                continue;
             }
-
             lineErrors.Add(lineError);
         }
 
-        return lineErrors.Count > 0;
+        return isTyped;
     }
 
     private static bool TryParseTypedLineError(JsonElement item, out InfluxDBPartialWriteException.LineError lineError)
