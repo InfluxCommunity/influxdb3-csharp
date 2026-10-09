@@ -664,7 +664,7 @@ public class RestClientTest : MockServerTest
                 Host = MockServerUrl,
             });
 
-            var path = useV2Api ? "api/v2/write_lp" : "api/v3/write_lp";
+            var path = useV2Api ? "api/v2/write" : "api/v3/write_lp";
             var response = Response.Create()
                 .WithStatusCode(statusCode)
                 .WithBody(responseBody);
