@@ -81,44 +81,49 @@ internal class RestClient
         var result = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!result.IsSuccessStatusCode)
         {
-            var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var contentType = result.Content?.Headers?.ContentType?.ToString();
-            var acceptPartial = queryParams?.TryGetValue("accept_partial", out var value) != true ||
-                                !string.Equals(value, "false", StringComparison.OrdinalIgnoreCase);
-            var parsed = ParseErrorMessage(body, contentType ?? "", (int)result.StatusCode, path, acceptPartial);
-            var message = parsed.Message;
-            var partialLineErrors = parsed.PartialLineErrors;
-
-            // from header
-            if (string.IsNullOrEmpty(message))
-            {
-                message = result.Headers?
-                    .Where(header => ErrorHeaders.Contains(header.Key, StringComparer.OrdinalIgnoreCase))
-                    .Select(header => header.Value.FirstOrDefault()?.ToString())
-                    .FirstOrDefault();
-            }
-
-            // whole body
-            if (string.IsNullOrEmpty(message))
-            {
-                message = body;
-            }
-
-            // reason
-            if (string.IsNullOrEmpty(message))
-            {
-                message = result.ReasonPhrase;
-            }
-
-            if (partialLineErrors != null)
-            {
-                throw new InfluxDBPartialWriteException(message ?? "Cannot write data to InfluxDB.", result, partialLineErrors);
-            }
-
-            throw new InfluxDBApiException(message ?? "Cannot write data to InfluxDB.", result);
+            await ClassifyException(path, queryParams, result);
         }
 
         return result;
+    }
+
+    private static async Task ClassifyException(string path, Dictionary<string, string?>? queryParams, HttpResponseMessage result)
+    {
+        var body = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var contentType = result.Content?.Headers?.ContentType?.ToString();
+        var acceptPartial = queryParams?.TryGetValue("accept_partial", out var value) != true ||
+                            !string.Equals(value, "false", StringComparison.OrdinalIgnoreCase);
+        var parsed = ParseErrorMessage(body, contentType ?? "", (int)result.StatusCode, path, acceptPartial);
+        var message = parsed.Message;
+        var partialLineErrors = parsed.PartialLineErrors;
+
+        // from header
+        if (string.IsNullOrEmpty(message))
+        {
+            message = result.Headers?
+                .Where(header => ErrorHeaders.Contains(header.Key, StringComparer.OrdinalIgnoreCase))
+                .Select(header => header.Value.FirstOrDefault()?.ToString())
+                .FirstOrDefault();
+        }
+
+        // whole body
+        if (string.IsNullOrEmpty(message))
+        {
+            message = body;
+        }
+
+        // reason
+        if (string.IsNullOrEmpty(message))
+        {
+            message = result.ReasonPhrase;
+        }
+
+        if (partialLineErrors != null)
+        {
+            throw new InfluxDBPartialWriteException(message ?? "Cannot write data to InfluxDB.", result, partialLineErrors);
+        }
+
+        throw new InfluxDBApiException(message ?? "Cannot write data to InfluxDB.", result);
     }
 
     private static ParsedErrorMessage ParseErrorMessage(
