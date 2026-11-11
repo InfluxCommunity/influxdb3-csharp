@@ -35,7 +35,13 @@ commands:
             mkdir test-results
       - run:
           name: Run tests
-          command: dotnet test << parameters.project >> --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
+          command: |
+            # VSTest uses incorrect Linux ARM64 open flags when verifying artifact directories.
+            if [ "$(uname -m)" = "aarch64" ]; then
+              umask 077
+              export VSTEST_DISABLE_ARTIFACTS_DIRECTORY_VERIFICATION=1
+            fi
+            dotnet test << parameters.project >> --collect "Xplat Code Coverage" --logger "junit;LogFilePath=../test-results/test-result.xml"
       - run:
           name: Coverage Report
           command: |
