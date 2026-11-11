@@ -15,7 +15,7 @@
     <ItemGroup>
         <PackageReference Include="Apache.Arrow.Flight.AspNetCore" Version="23.0.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.85.0" />
-        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.14" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.34" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
         <PackageReference Include="NUnit" Version="4.5.1" />
         <PackageReference Include="NUnit3TestAdapter" Version="6.3.1" />
